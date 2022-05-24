@@ -1,39 +1,49 @@
 // React Imports
-import React, { Fragment } from "react";
+import React, { forwardRef, ForwardRefRenderFunction } from "react";
 
 // Chakra Imports
-import { Input as InputChakra, InputProps, FormControl, FormLabel, FormErrorMessage } from "@chakra-ui/react";
+import {
+  Input as InputChakra,
+  InputProps as InputPropsChakra,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+} from "@chakra-ui/react";
 
 // Another Imports
+import { FieldError } from "react-hook-form";
 
 // Typings[TypeScript]
-interface IInputComponent extends InputProps {
-  name: string;
+interface IInputComponentProps extends InputPropsChakra {
+  id: string;
   label?: string;
-  errorInput?: string;
+  errorInput?: FieldError;
 }
 
-const InputComponent: React.FC<IInputComponent> = ({ name, label, errorInput = null, ...props }) => {
+const Input: ForwardRefRenderFunction<HTMLInputElement, IInputComponentProps> = (
+  { id, label, errorInput = null, ...props },
+  ref
+) => {
   return (
     <FormControl isInvalid={!!errorInput}>
-      {label && (
+      {!!label && (
         <FormLabel htmlFor={label} fontSize="lg" padding="0" marginY="2" fontWeight="medium">
           {label}
         </FormLabel>
       )}
       <InputChakra
         {...props}
-        id={name}
-        name={name}
+        id={id}
+        ref={ref}
         variant="filled"
         borderColor="gray.700"
         backgroundColor="transparent"
         focusBorderColor="green.500"
         _hover={{ backgroundColor: "transparent" }}
       />
-      {errorInput && <FormErrorMessage>{errorInput}</FormErrorMessage>}
+      {errorInput && <FormErrorMessage>{errorInput?.message}</FormErrorMessage>}
     </FormControl>
   );
 };
 
-export default InputComponent;
+export const InputComponent = forwardRef(Input);

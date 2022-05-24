@@ -10,12 +10,39 @@ import NextLink from "next/link";
 import { Box, Button, Flex, HStack, IconButton, Text, VStack } from "@chakra-ui/react";
 
 // Components Imports
-import InputComponent from "../components/Form/Input";
+import { InputComponent } from "../components/Form/Input";
 
 // Another Imports
 import { RiGithubLine, RiGoogleFill } from "react-icons/ri";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+// Typings[TypeScript]
+type FormLoginData = {
+  // VERIFICAR O POR QUE É NECESSÁRIO EXISTIR UMA KEY NA TIPAGEM DO OBJETO ONDE ESTÃO OS TIPOS DE DADOS DO FORMULÁRIO
+  [key: string]: {
+    email: string;
+    password: string;
+  };
+};
+
+const validationSubmitSignInForm = yup.object().shape({
+  email: yup.string().required("O endereço de e-mail é obrigatório.").email("E-mail inválido!"),
+  password: yup.string().required("A senha é obrigatória.").min(8, "O mínimo de caracteres é 8."),
+});
 
 const HomePage: NextPage = () => {
+  const { register, handleSubmit, formState } = useForm({
+    resolver: yupResolver(validationSubmitSignInForm),
+  });
+
+  const { errors, isSubmitting } = formState;
+
+  const handlerSubmitSignInForm: SubmitHandler<FormLoginData> = (data) => {
+    console.log(JSON.stringify(data, null, 2));
+  };
+
   return (
     <Fragment>
       <Head>
@@ -24,7 +51,6 @@ const HomePage: NextPage = () => {
 
       <Flex width="100vw" height="100vh" alignItems="center" justifyContent="center" flexDirection="column">
         <Flex
-          as="form"
           width="100%"
           maxWidth={480}
           backgroundColor="gray.800"
@@ -68,25 +94,40 @@ const HomePage: NextPage = () => {
             </HStack>
           </Flex>
 
-          <VStack spacing="4">
-            <InputComponent name="email" type="email" placeholder="E-mail" size="lg" />
+          <VStack spacing="4" as="form" onSubmit={handleSubmit(handlerSubmitSignInForm)}>
+            <InputComponent
+              id="email"
+              type="email"
+              placeholder="E-mail"
+              size="lg"
+              {...register("email")}
+              errorInput={errors.email}
+            />
 
-            <InputComponent name="password" type="password" placeholder="Senha" size="lg" />
+            <InputComponent
+              id="password"
+              type="password"
+              placeholder="Senha"
+              size="lg"
+              {...register("password")}
+              errorInput={errors.password}
+            />
+
+            <Button
+              type="submit"
+              width="100%"
+              padding="6"
+              marginTop="6"
+              fontSize="18"
+              fontWeight="medium"
+              colorScheme="green"
+              backgroundColor="green.500"
+              _hover={{ backgroundColor: "green.600" }}
+              isLoading={isSubmitting}
+            >
+              ENTRAR
+            </Button>
           </VStack>
-
-          <Button
-            type="submit"
-            width="100%"
-            padding="6"
-            marginTop="6"
-            fontSize="18"
-            fontWeight="medium"
-            colorScheme="green"
-            backgroundColor="green.500"
-            _hover={{ backgroundColor: "green.600" }}
-          >
-            ENTRAR
-          </Button>
         </Flex>
 
         <Box as="footer" marginY="2" padding="2">

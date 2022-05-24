@@ -19,7 +19,7 @@ const HomePage: NextPage = () => {
   return (
     <Fragment>
       <Head>
-        <title>my.finances - Controle financeiro pessoal</title>
+        <title>my.finances | Controle financeiro pessoal</title>
       </Head>
 
       <Flex width="100vw" height="100vh" alignItems="center" justifyContent="center" flexDirection="column">
@@ -38,7 +38,7 @@ const HomePage: NextPage = () => {
             </Text>
 
             <HStack spacing="2">
-              <NextLink passHref href="/">
+              <NextLink passHref href="/dashboard">
                 <IconButton
                   as="a"
                   size="md"
@@ -52,7 +52,7 @@ const HomePage: NextPage = () => {
                 />
               </NextLink>
 
-              <NextLink passHref href="/">
+              <NextLink passHref href="/dashboard">
                 <IconButton
                   as="a"
                   size="md"

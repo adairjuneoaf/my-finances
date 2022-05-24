@@ -46,7 +46,7 @@ const HomePage: NextPage = () => {
   return (
     <Fragment>
       <Head>
-        <title>my.finances | Controle financeiro pessoal</title>
+        <title>my.finance$ | Controle financeiro pessoal</title>
       </Head>
 
       <Flex width="100vw" height="100vh" alignItems="center" justifyContent="center" flexDirection="column">

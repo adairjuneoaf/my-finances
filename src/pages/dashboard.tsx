@@ -14,12 +14,20 @@ import LogoComponent from "../components/Logo";
 import CardComponent from "../components/Card";
 import ProfileComponent from "../components/Profile";
 import ActionBarComponent from "../components/ActionBar";
-import TableEntriesComponent from "../components/TableEntries";
+import TableTransactionsComponent from "../components/TableTransactions";
 
 // Another Imports
 import { RiAddFill } from "react-icons/ri";
 import { FiList } from "react-icons/fi";
 import { FiDollarSign, FiArrowUp, FiArrowDown } from "react-icons/fi";
+
+let valuesTest: any = [
+  { id: "0001", description: "Teste de lançamento 1", type: 1, value: 2000 },
+  { id: "0002", description: "Teste de lançamento 2", type: 0, value: -1000 },
+  { id: "0003", description: "Teste de lançamento 3", type: 1, value: 1500 },
+  { id: "0004", description: "Teste de lançamento 4", type: 1, value: 5000 },
+  { id: "0005", description: "Teste de lançamento 5", type: 0, value: -3000 },
+];
 
 const DashboardPage: NextPage = () => {
   return (
@@ -89,7 +97,7 @@ const DashboardPage: NextPage = () => {
         </HStack>
 
         <Flex width="68vw" height="100%" padding="8" margin="auto">
-          <TableEntriesComponent />
+          <TableTransactionsComponent transactions={valuesTest} />
         </Flex>
       </Flex>
     </Fragment>

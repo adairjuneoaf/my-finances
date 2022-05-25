@@ -1,0 +1,51 @@
+// Imports React
+import React, { Fragment } from "react";
+
+// Components Imports
+import PopoverSubMenuComponent from "./PopoverSubMenu";
+
+// Chakra Imports
+import { Badge, Th, Tr } from "@chakra-ui/react";
+
+// Typings[TypeScript]
+type TableTransactionsData = {
+  id?: string;
+  type?: number;
+  description?: string;
+  value?: number;
+};
+
+const TableBody: React.FC<TableTransactionsData> = ({ id, type, description, value }) => {
+  return (
+    <Fragment>
+      <Tr>
+        <Th fontSize="16px" color="gray.100">
+          {id}
+        </Th>
+        <Th fontSize="16px" color="gray.100">
+          {type === 1 && (
+            <Badge variant="solid" colorScheme="green" padding="1">
+              ENTRADA
+            </Badge>
+          )}
+          {type === 0 && (
+            <Badge variant="solid" colorScheme="red" padding="1">
+              SAÍDA
+            </Badge>
+          )}
+        </Th>
+        <Th fontSize="16px" color="gray.100" textTransform="initial">
+          {description}
+        </Th>
+        <Th isNumeric fontSize="16px" color="gray.100">
+          {value}
+        </Th>
+        <Th fontSize="16px" color="gray.100">
+          <PopoverSubMenuComponent />
+        </Th>
+      </Tr>
+    </Fragment>
+  );
+};
+
+export default TableBody;

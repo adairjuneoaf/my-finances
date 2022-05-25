@@ -20,7 +20,16 @@ type CardComponentProps = {
 
 const CardComponent: React.FC<CardComponentProps> = ({ title, value, icon }) => {
   return (
-    <Box padding="4" gap="3" display="flex" flexDirection="column" width="100%" height="auto">
+    <Box
+      padding="8"
+      gap="3"
+      display="flex"
+      flexDirection="column"
+      width="100%"
+      height="auto"
+      borderRadius="10"
+      backgroundColor="gray.800"
+    >
       <HStack flexDirection="row" justifyContent="flex-start" alignItems="center">
         {!!icon && icon}
         <Text as="h2" fontSize="24" fontWeight="medium">

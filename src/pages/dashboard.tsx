@@ -14,6 +14,7 @@ import LogoComponent from "../components/Logo";
 import CardComponent from "../components/Card";
 import ProfileComponent from "../components/Profile";
 import ActionBarComponent from "../components/ActionBar";
+import DrawerComponentComponent from "../components/Drawer";
 import TableTransactionsComponent from "../components/TableTransactions";
 
 // Another Imports
@@ -35,6 +36,7 @@ const DashboardPage: NextPage = () => {
         <title>my.finance$ | Dashboard</title>
       </NextHead>
       <Flex width="100vw" height="auto" flexDirection="column">
+        <DrawerComponentComponent />
         <Flex width="100vw" maxHeight="88px" backgroundColor="gray.800">
           <Box
             as="header"

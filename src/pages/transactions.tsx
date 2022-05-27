@@ -24,6 +24,7 @@ import {
 import LogoComponent from "../components/Logo";
 import ProfileComponent from "../components/Profile";
 import ActionBarComponent from "../components/ActionBar";
+import DrawerComponentComponent from "../components/Drawer";
 import TableTransactionsComponent from "../components/TableTransactions";
 
 // Another Imports
@@ -56,6 +57,7 @@ const TransactionsPage: NextPage = () => {
         <title>my.finance$ | Lançamentos</title>
       </NextHead>
       <Flex width="100vw" height="auto" flexDirection="column">
+        <DrawerComponentComponent />
         <Flex width="100vw" maxHeight="88px" backgroundColor="gray.800">
           <Box
             as="header"

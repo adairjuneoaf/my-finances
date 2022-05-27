@@ -39,7 +39,7 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, IInputComponentProps> = 
         borderColor="gray.700"
         backgroundColor="transparent"
         focusBorderColor="green.500"
-        _hover={{ backgroundColor: "transparent" }}
+        _hover={{ backgroundColor: "transparent", borderColor: "gray.600" }}
       />
       {errorInput && <FormErrorMessage>{errorInput?.message}</FormErrorMessage>}
     </FormControl>

@@ -4,26 +4,13 @@ import React from "react";
 // Imports Next
 
 // Chakra Imports
-import {
-  Text,
-  Flex,
-  Button,
-  Drawer,
-  HStack,
-  Divider,
-  DrawerBody,
-  DrawerHeader,
-  DrawerFooter,
-  DrawerContent,
-  DrawerOverlay,
-} from "@chakra-ui/react";
+import { Text, Flex, Drawer, DrawerHeader, DrawerContent, DrawerOverlay } from "@chakra-ui/react";
 
 // Components Imports
 import NewTransactionBody from "./newTransaction";
 import EditTransactionBody from "./editTransaction";
 
 // Another Imports
-import { FiX, FiSave } from "react-icons/fi";
 
 // Typings[TypeScript]
 type DrawerComponentProps = {

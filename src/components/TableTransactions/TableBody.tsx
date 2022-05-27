@@ -12,7 +12,7 @@ type TableTransactionsData = {
   id?: string;
   type?: number;
   description?: string;
-  value?: number;
+  value?: string;
 };
 
 const TableBody: React.FC<TableTransactionsData> = ({ id, type, description, value }) => {

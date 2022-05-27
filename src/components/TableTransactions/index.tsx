@@ -1,8 +1,11 @@
 // Imports React
 import React from "react";
 
+// Imports Next
+import { useRouter } from "next/router";
+
 // Chakra Imports
-import { Table, TableContainer, Tbody, Thead, Text, Tr, Th, Tfoot } from "@chakra-ui/react";
+import { Table, Text, Tbody, Thead, Tr, Th, Tfoot, TableContainer, HStack, Spinner } from "@chakra-ui/react";
 
 // Components Imports
 import TableHead from "./TableHead";
@@ -17,12 +20,15 @@ type TableTransactionsData = {
       id?: string;
       type?: number;
       description?: string;
-      value?: number;
+      value?: string;
     }
   ];
+  isLoading?: boolean;
 };
 
-const TableTransactionsComponent: React.FC<TableTransactionsData> = ({ transactions }) => {
+const TableTransactionsComponent: React.FC<TableTransactionsData> = ({ transactions, isLoading }) => {
+  const { asPath } = useRouter();
+
   return (
     <TableContainer width="100%" backgroundColor="gray.800" padding="8" borderRadius="10">
       <Table colorScheme="whiteAlpha" variant="simple">
@@ -49,13 +55,27 @@ const TableTransactionsComponent: React.FC<TableTransactionsData> = ({ transacti
             })
           )}
         </Tbody>
-        <Tfoot>
-          <Tr>
-            <Th colSpan={5} textTransform="none" color="gray.300">
-              ** Apenas os últimos 5 lançamentos são exibidos, veja todos clicando no botão "Ver todos" acima da tabela.
-            </Th>
-          </Tr>
-        </Tfoot>
+        {isLoading && (
+          <Tfoot>
+            <Tr>
+              <Th colSpan={5} textTransform="none" color="gray.300">
+                <HStack spacing="4" marginTop="6" alignItems="center" justifyContent="center">
+                  <Spinner color="green.500" size="md" thickness="4px" speed="0.5s" />
+                </HStack>
+              </Th>
+            </Tr>
+          </Tfoot>
+        )}
+        {asPath === "/dashboard" && (
+          <Tfoot>
+            <Tr>
+              <Th colSpan={5} textTransform="none" color="gray.300">
+                ** Apenas os últimos 5 lançamentos são exibidos, veja todos clicando no botão "Ver todos" acima da
+                tabela.
+              </Th>
+            </Tr>
+          </Tfoot>
+        )}
       </Table>
     </TableContainer>
   );

@@ -19,11 +19,13 @@ import { FiEdit, FiTrash, FiEye, FiMoreVertical } from "react-icons/fi";
 const PopoverSubMenuComponent: React.FC = () => {
   return (
     <Popover>
-      <PopoverTrigger>
-        <Button backgroundColor="transparent" _hover={{ backgroundColor: "gray.900" }}>
-          <FiMoreVertical fontSize="24" color="white" />
-        </Button>
-      </PopoverTrigger>
+      <Tooltip hasArrow label="Ações" shouldWrapChildren marginTop="3">
+        <PopoverTrigger>
+          <Button backgroundColor="transparent" _hover={{ backgroundColor: "gray.900" }}>
+            <FiMoreVertical fontSize="24" color="white" />
+          </Button>
+        </PopoverTrigger>
+      </Tooltip>
       <PopoverContent backgroundColor="gray.800" width="fit-content">
         <PopoverBody>
           <HStack>

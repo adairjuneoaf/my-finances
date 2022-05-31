@@ -3,8 +3,8 @@ import React, { forwardRef, ForwardRefRenderFunction } from "react";
 
 // Chakra Imports
 import {
-  Input as InputChakra,
-  InputProps as InputPropsChakra,
+  Textarea as TextareaChakra,
+  TextareaProps as TextareaPropsChakra,
   FormControl,
   FormLabel,
   FormErrorMessage,
@@ -14,14 +14,14 @@ import {
 import { FieldError } from "react-hook-form";
 
 // Typings[TypeScript]
-interface IInputComponentProps extends InputPropsChakra {
+interface IInputComponentProps extends TextareaPropsChakra {
   id: string;
   label?: string;
   isRequired?: boolean;
   errorInput?: FieldError;
 }
 
-const Input: ForwardRefRenderFunction<HTMLInputElement, IInputComponentProps> = (
+const InputTextArea: ForwardRefRenderFunction<HTMLTextAreaElement, IInputComponentProps> = (
   { id, label, errorInput = null, isRequired = false, ...props },
   ref
 ) => {
@@ -32,11 +32,13 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, IInputComponentProps> = 
           {label}
         </FormLabel>
       )}
-      <InputChakra
+      <TextareaChakra
         {...props}
         id={id}
         ref={ref}
+        minHeight="32"
         variant="filled"
+        resize="vertical"
         borderColor="gray.700"
         backgroundColor="transparent"
         focusBorderColor="green.500"
@@ -47,4 +49,4 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, IInputComponentProps> = 
   );
 };
 
-export const InputComponent = forwardRef(Input);
+export const InputTextAreaComponent = forwardRef(InputTextArea);

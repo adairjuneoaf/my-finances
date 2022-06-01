@@ -50,8 +50,8 @@ const TableTransactionsComponent: React.FC<TableTransactionsData> = ({ transacti
               </Th>
             </Tr>
           ) : (
-            transactions?.map((data) => {
-              return <TableBody {...data} />;
+            transactions?.map((data, idx) => {
+              return <TableBody key={idx} {...data} />;
             })
           )}
         </Tbody>

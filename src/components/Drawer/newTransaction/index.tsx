@@ -1,5 +1,5 @@
 // Imports React
-import React from "react";
+import React, { useContext } from "react";
 
 // Chakra Imports
 import { Flex, Text, Radio, HStack, VStack, Button, DrawerBody, RadioGroup, DrawerFooter } from "@chakra-ui/react";
@@ -12,6 +12,9 @@ import { FiSave, FiX } from "react-icons/fi";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { SubmitHandler, useForm } from "react-hook-form";
+
+// Context Imports
+import { ContextDrawer } from "../../../contexts/contextDrawer";
 
 // Typings[TypeScript]
 import { TransactionData } from "../types";
@@ -42,14 +45,21 @@ const validationNewTransactionForm = yup.object().shape({
 });
 
 const NewTransactionBody: React.FC = () => {
-  const { handleSubmit, register, formState } = useForm({
+  const { handleSubmit, register, formState, reset } = useForm({
     resolver: yupResolver(validationNewTransactionForm),
   });
 
+  const { onClose } = useContext(ContextDrawer);
+
   const { errors } = formState;
 
-  const submitNewTransaction: SubmitHandler<TransactionData> = (data) => {
+  const submitNewTransaction: SubmitHandler<any> = (data) => {
     console.log(data);
+  };
+
+  const cancelSubmitTransaction = () => {
+    onClose();
+    reset();
   };
 
   return (
@@ -118,7 +128,6 @@ const NewTransactionBody: React.FC = () => {
         <VStack alignItems="flex-start" spacing="3">
           <InputValueComponent
             id="valueTransaction"
-            type="number"
             isRequired
             label="Valor do lançamento"
             {...register("valueTransaction")}
@@ -135,7 +144,7 @@ const NewTransactionBody: React.FC = () => {
       </DrawerBody>
       <DrawerFooter>
         <HStack>
-          <Button type="reset" leftIcon={<FiX fontSize="18" />} colorScheme="red">
+          <Button type="button" leftIcon={<FiX fontSize="18" />} colorScheme="red" onClick={cancelSubmitTransaction}>
             Cancelar
           </Button>
           <Button type="submit" leftIcon={<FiSave fontSize="18" />} colorScheme="green">

@@ -6,12 +6,15 @@ import { ChakraProvider } from "@chakra-ui/react";
 
 // Another Imports
 import { theme } from "../styles/theme";
+import { ContextDrawerProvider } from "../contexts/contextDrawer";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider theme={theme}>
-      <Component {...pageProps} />
-    </ChakraProvider>
+    <ContextDrawerProvider>
+      <ChakraProvider theme={theme}>
+        <Component {...pageProps} />
+      </ChakraProvider>
+    </ContextDrawerProvider>
   );
 }
 

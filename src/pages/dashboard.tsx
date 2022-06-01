@@ -1,5 +1,5 @@
 // Imports React
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 
 // Imports Next
 import NextHead from "next/head";
@@ -17,6 +17,9 @@ import ActionBarComponent from "../components/ActionBar";
 import DrawerComponentComponent from "../components/Drawer";
 import TableTransactionsComponent from "../components/TableTransactions";
 
+// Contexts Imports
+import { ContextDrawer, ContextDrawerProvider } from "../contexts/contextDrawer";
+
 // Another Imports
 import { RiAddFill } from "react-icons/ri";
 import { FiList, FiDollarSign, FiArrowUp, FiArrowDown } from "react-icons/fi";
@@ -30,6 +33,8 @@ let valuesTest: any = [
 ];
 
 const DashboardPage: NextPage = () => {
+  const { onOpen } = useContext(ContextDrawer);
+
   return (
     <Fragment>
       <NextHead>
@@ -70,7 +75,7 @@ const DashboardPage: NextPage = () => {
             </Text>
             <Spinner color="green.500" size="md" thickness="4px" speed="0.5s" />
           </HStack>
-          <Button type="button" colorScheme="green" leftIcon={<RiAddFill fontSize="24" />}>
+          <Button type="button" colorScheme="green" leftIcon={<RiAddFill fontSize="24" />} onClick={onOpen}>
             Novo lançamento
           </Button>
         </HStack>

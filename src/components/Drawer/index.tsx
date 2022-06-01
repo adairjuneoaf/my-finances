@@ -1,16 +1,17 @@
 // Imports React
-import React from "react";
+import React, { useContext } from "react";
 
 // Imports Next
 
 // Chakra Imports
-import { Text, Flex, Drawer, DrawerHeader, DrawerContent, DrawerOverlay } from "@chakra-ui/react";
+import { Text, Flex, Drawer, DrawerHeader, DrawerContent, DrawerOverlay, DrawerCloseButton } from "@chakra-ui/react";
 
 // Components Imports
 import NewTransactionBody from "./newTransaction";
 import EditTransactionBody from "./editTransaction";
 
-// Another Imports
+// ContextImports Imports
+import { ContextDrawer } from "../../contexts/contextDrawer";
 
 // Typings[TypeScript]
 type DrawerComponentProps = {
@@ -18,10 +19,21 @@ type DrawerComponentProps = {
 };
 
 const DrawerComponentComponent: React.FC<DrawerComponentProps> = ({ type = "new-transaction" }) => {
+  const { onClose, isOpen } = useContext(ContextDrawer);
+
   return (
-    <Drawer isOpen={true} onClose={() => {}} placement="right" size="sm" colorScheme="gray">
+    <Drawer
+      isOpen={isOpen}
+      onClose={onClose}
+      placement="right"
+      size="sm"
+      colorScheme="gray"
+      closeOnEsc={false}
+      closeOnOverlayClick={false}
+    >
       <DrawerOverlay />
       <DrawerContent backgroundColor="gray.800">
+        <DrawerCloseButton />
         <DrawerHeader>
           {type === "default" && <Text as="h2">Drawer padrão</Text>}
           {type === "new-transaction" && (

@@ -37,6 +37,7 @@ const InputTextArea: ForwardRefRenderFunction<HTMLTextAreaElement, IInputCompone
         id={id}
         ref={ref}
         minHeight="32"
+        maxHeight="48"
         variant="filled"
         resize="vertical"
         borderColor="gray.700"

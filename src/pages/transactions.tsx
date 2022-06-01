@@ -1,5 +1,5 @@
 // Imports React
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 
 // Imports Next
 import NextHead from "next/head";
@@ -27,6 +27,9 @@ import ActionBarComponent from "../components/ActionBar";
 import DrawerComponentComponent from "../components/Drawer";
 import TableTransactionsComponent from "../components/TableTransactions";
 
+// Contexts Imports
+import { ContextDrawer } from "../contexts/contextDrawer";
+
 // Another Imports
 import { FiSearch } from "react-icons/fi";
 import { RiAddFill } from "react-icons/ri";
@@ -51,6 +54,8 @@ let valuesTest: any = [
 ];
 
 const TransactionsPage: NextPage = () => {
+  const { onOpen } = useContext(ContextDrawer);
+
   return (
     <Fragment>
       <NextHead>
@@ -91,7 +96,7 @@ const TransactionsPage: NextPage = () => {
             </Text>
             <Spinner color="green.500" size="md" thickness="4px" speed="0.5s" />
           </HStack>
-          <Button type="button" colorScheme="green" leftIcon={<RiAddFill fontSize="24" />}>
+          <Button type="button" colorScheme="green" leftIcon={<RiAddFill fontSize="24" />} onClick={onOpen}>
             Novo lançamento
           </Button>
         </HStack>

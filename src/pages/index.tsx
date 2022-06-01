@@ -20,11 +20,8 @@ import * as yup from "yup";
 
 // Typings[TypeScript]
 type FormLoginData = {
-  // VERIFICAR O POR QUE É NECESSÁRIO EXISTIR UMA KEY NA TIPAGEM DO OBJETO ONDE ESTÃO OS TIPOS DE DADOS DO FORMULÁRIO
-  [key: string]: {
-    email: string;
-    password: string;
-  };
+  email: string;
+  password: string;
 };
 
 const validationSubmitSignInForm = yup.object().shape({
@@ -33,7 +30,7 @@ const validationSubmitSignInForm = yup.object().shape({
 });
 
 const HomePage: NextPage = () => {
-  const { register, handleSubmit, formState } = useForm({
+  const { register, handleSubmit, formState } = useForm<FormLoginData>({
     resolver: yupResolver(validationSubmitSignInForm),
   });
 

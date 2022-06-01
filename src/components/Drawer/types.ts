@@ -1,11 +1,10 @@
-export type TransactionData = {
-  [key: string]: {
-    id: string;
-    title: string;
-    description: string;
-    details?: string;
-    value: number;
-    type: string;
-    payment_data?: string;
-  };
+export type NewTransactionData = {
+  id: string;
+  type: number;
+  title: string;
+  description: string;
+  valueTransaction: number;
+  dateDueTransaction: number;
+  anotherInformation: string;
+  dateEntriesTransaction: number;
 };

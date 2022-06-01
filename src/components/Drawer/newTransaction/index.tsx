@@ -6,20 +6,21 @@ import { Flex, Text, Radio, HStack, VStack, Button, DrawerBody, RadioGroup, Draw
 
 // Component Imports
 import { InputComponent } from "../../Form/Input";
+import { InputValueComponent } from "../../Form/InputValue";
+import { InputTextAreaComponent } from "../../Form/InputTextArea";
 
 // Another Imports
 import { FiSave, FiX } from "react-icons/fi";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { v4 as uuid } from "uuid";
 
 // Context Imports
 import { ContextDrawer } from "../../../contexts/contextDrawer";
 
 // Typings[TypeScript]
-import { TransactionData } from "../types";
-import { InputValueComponent } from "../../Form/InputValue";
-import { InputTextAreaComponent } from "../../Form/InputTextArea";
+import { NewTransactionData } from "../types";
 
 const validationNewTransactionForm = yup.object().shape({
   id: yup.string().uuid(),
@@ -45,16 +46,21 @@ const validationNewTransactionForm = yup.object().shape({
 });
 
 const NewTransactionBody: React.FC = () => {
-  const { handleSubmit, register, formState, reset } = useForm({
+  const { handleSubmit, register, formState, reset } = useForm<NewTransactionData>({
     resolver: yupResolver(validationNewTransactionForm),
   });
 
   const { onClose } = useContext(ContextDrawer);
 
-  const { errors } = formState;
+  const { errors, isSubmitting } = formState;
 
-  const submitNewTransaction: SubmitHandler<any> = (data) => {
-    console.log(data);
+  const submitNewTransaction: SubmitHandler<NewTransactionData> = async ({ id, ...data }) => {
+    await new Promise((resolve) => {
+      setTimeout(() => {
+        console.log({ id: uuid(), ...data });
+        resolve(data);
+      }, 3000);
+    });
   };
 
   const cancelSubmitTransaction = () => {
@@ -136,7 +142,7 @@ const NewTransactionBody: React.FC = () => {
           <InputTextAreaComponent
             id="anotherInformation"
             label="Outras informações"
-            placeholder="Outras informações sobre o lançamento..."
+            placeholder="Outras informações relevantes sobre o lançamento..."
             {...register("anotherInformation")}
             errorInput={errors.anotherInformation}
           />
@@ -144,10 +150,16 @@ const NewTransactionBody: React.FC = () => {
       </DrawerBody>
       <DrawerFooter>
         <HStack>
-          <Button type="button" leftIcon={<FiX fontSize="18" />} colorScheme="red" onClick={cancelSubmitTransaction}>
+          <Button
+            type="button"
+            leftIcon={<FiX fontSize="18" />}
+            colorScheme="red"
+            onClick={cancelSubmitTransaction}
+            disabled={isSubmitting}
+          >
             Cancelar
           </Button>
-          <Button type="submit" leftIcon={<FiSave fontSize="18" />} colorScheme="green">
+          <Button type="submit" leftIcon={<FiSave fontSize="18" />} colorScheme="green" isLoading={isSubmitting}>
             Salvar
           </Button>
         </HStack>

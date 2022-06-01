@@ -7,7 +7,7 @@ import { NextPage } from "next";
 import NextLink from "next/link";
 
 // Chakra Imports
-import { Box, Button, Flex, HStack, IconButton, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, Flex, HStack, IconButton, Link, Text, VStack } from "@chakra-ui/react";
 
 // Components Imports
 import { InputComponent } from "../components/Form/Input";
@@ -129,7 +129,15 @@ const HomePage: NextPage = () => {
 
         <Box as="footer" marginY="2" padding="2">
           <Text as="h4" fontSize="small" color="gray.600">
-            my.finances - Prisma Systems all rights reserved
+            my.finances -&nbsp;
+            <Link
+              href="https://portfolio-adairjuneo.vercel.app/"
+              isExternal
+              _hover={{ color: "gray.300", textDecoration: "underline" }}
+            >
+              Adair Juneo
+            </Link>
+            &nbsp;all rights reserved
           </Text>
         </Box>
       </Flex>

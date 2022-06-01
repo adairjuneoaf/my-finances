@@ -15,10 +15,11 @@ import CardComponent from "../components/Card";
 import ProfileComponent from "../components/Profile";
 import ActionBarComponent from "../components/ActionBar";
 import DrawerComponentComponent from "../components/Drawer";
+import MenuRecordsComponent from "../components/Menu/records";
 import TableTransactionsComponent from "../components/TableTransactions";
 
 // Contexts Imports
-import { ContextDrawer, ContextDrawerProvider } from "../contexts/contextDrawer";
+import { ContextDrawer } from "../contexts/contextDrawer";
 
 // Another Imports
 import { RiAddFill } from "react-icons/ri";
@@ -75,9 +76,12 @@ const DashboardPage: NextPage = () => {
             </Text>
             <Spinner color="green.500" size="md" thickness="4px" speed="0.5s" />
           </HStack>
-          <Button type="button" colorScheme="green" leftIcon={<RiAddFill fontSize="24" />} onClick={onOpen}>
-            Novo lançamento
-          </Button>
+          <HStack spacing="4">
+            <MenuRecordsComponent />
+            <Button type="button" colorScheme="green" leftIcon={<RiAddFill fontSize="24" />} onClick={onOpen}>
+              Novo lançamento
+            </Button>
+          </HStack>
         </HStack>
 
         <Flex as="section" width="68vw" height="100%" padding="8" margin="auto">

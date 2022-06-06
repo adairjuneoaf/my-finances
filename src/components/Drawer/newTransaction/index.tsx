@@ -21,12 +21,14 @@ import { ContextDrawer } from "../../../contexts/contextDrawer";
 
 // Typings[TypeScript]
 import { NewTransactionData } from "../types";
+import { SelectComponent } from "../../Form/Select";
 
 const validationNewTransactionForm = yup.object().shape({
   id: yup.string().uuid(),
+  type: yup.number(),
+  status: yup.number(),
   title: yup.string().required("O título é obrigatório!").min(8, "O mínimo de caracteres é 8."),
   description: yup.string().required("A descrição é obrigatória!").min(12, "O mínimo de caracteres é 12."),
-  type: yup.number(),
   valueTransaction: yup.number().required("O valor da transação é obrigatório!").min(0.01, "O valor mínimo é R$ 0.01"),
   dateEntriesTransaction: yup
     .number()
@@ -44,6 +46,29 @@ const validationNewTransactionForm = yup.object().shape({
     .required("A data de vencimento é obrigatória!"),
   anotherInformation: yup.string(),
 });
+
+let Options = [
+  {
+    id: "001",
+    title: "Empresa 01",
+    value: "empresa_00001",
+  },
+  {
+    id: "002",
+    title: "Empresa 02",
+    value: "empresa_00002",
+  },
+  {
+    id: "003",
+    title: "Empresa 03",
+    value: "empresa_00003",
+  },
+  {
+    id: "004",
+    title: "Empresa 04",
+    value: "empresa_00004",
+  },
+];
 
 const NewTransactionBody: React.FC = () => {
   const { handleSubmit, register, formState, reset } = useForm<NewTransactionData>({
@@ -115,20 +140,47 @@ const NewTransactionBody: React.FC = () => {
           />
         </HStack>
 
+        <HStack alignItems="flex-start" justifyContent="space-between" spacing="3">
+          <VStack alignItems="flex-start" spacing="3">
+            <Text as="label" fontSize="lg" padding="0" marginY="2" fontWeight="medium">
+              Tipo de lançamento
+            </Text>
+            <RadioGroup defaultValue={"0"}>
+              <HStack spacing="4">
+                <Radio value={"0"} size="md" colorScheme="red" {...register("type")}>
+                  Saída
+                </Radio>
+                <Radio value={"1"} size="md" colorScheme="green" {...register("type")}>
+                  Entrada
+                </Radio>
+              </HStack>
+            </RadioGroup>
+          </VStack>
+          <VStack alignItems="flex-start" spacing="3">
+            <Text as="label" fontSize="lg" padding="0" marginY="2" fontWeight="medium">
+              Status do lançamento
+            </Text>
+            <RadioGroup defaultValue={"0"}>
+              <HStack spacing="4">
+                <Radio value={"0"} size="md" colorScheme="yellow" {...register("status")}>
+                  Em aberto
+                </Radio>
+                <Radio value={"1"} size="md" colorScheme="green" {...register("status")}>
+                  Concluído
+                </Radio>
+              </HStack>
+            </RadioGroup>
+          </VStack>
+        </HStack>
+
         <VStack alignItems="flex-start" spacing="3">
-          <Text as="label" fontSize="lg" padding="0" marginY="2" fontWeight="medium">
-            Tipo de lançamento
-          </Text>
-          <RadioGroup defaultValue={"0"}>
-            <HStack spacing="6">
-              <Radio value={"0"} size="md" colorScheme="red" {...register("type")}>
-                Saída
-              </Radio>
-              <Radio value={"1"} size="md" colorScheme="green" {...register("type")}>
-                Entrada
-              </Radio>
-            </HStack>
-          </RadioGroup>
+          <SelectComponent
+            isRequired
+            options={Options}
+            label="Credor/Devedor"
+            placeholder="Selecionar credor ou devedor..."
+            {...register("creditorDebtor")}
+          />
         </VStack>
 
         <VStack alignItems="flex-start" spacing="3">

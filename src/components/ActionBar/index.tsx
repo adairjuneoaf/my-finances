@@ -4,7 +4,7 @@ import React from "react";
 // Imports Next
 
 // Chakra Imports
-import { Avatar, IconButton, Text, Wrap, WrapItem, Flex, Tooltip } from "@chakra-ui/react";
+import { IconButton, Flex, Tooltip } from "@chakra-ui/react";
 
 // Components Imports
 

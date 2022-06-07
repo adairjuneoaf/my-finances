@@ -4,6 +4,8 @@ export type NewTransactionData = {
   title: string;
   status: number;
   description: string;
+  paymentMethod: string;
+  dataForPayment: string;
   creditorDebtor: string;
   valueTransaction: number;
   dateDueTransaction: number;

@@ -1,5 +1,5 @@
 // Imports React
-import React, { useContext } from "react";
+import React, { Fragment, useContext } from "react";
 
 // Chakra Imports
 import { Flex, Text, Radio, HStack, VStack, Button, DrawerBody, RadioGroup, DrawerFooter } from "@chakra-ui/react";
@@ -43,6 +43,7 @@ const validationNewTransactionForm = yup.object().shape({
       return date ? new Date(date).getTime() : 0;
     })
     .min(1, "Informe a data de vencimento")
+    .min(yup.ref("dateEntriesTransaction"), "A data de vencimento não pode ser inferior ao lançamento.")
     .required("A data de vencimento é obrigatória!"),
   anotherInformation: yup.string(),
 });
@@ -51,22 +52,45 @@ let Options = [
   {
     id: "001",
     title: "Empresa 01",
-    value: "empresa_00001",
+    value: uuid(),
   },
   {
     id: "002",
     title: "Empresa 02",
-    value: "empresa_00002",
+    value: uuid(),
   },
   {
     id: "003",
     title: "Empresa 03",
-    value: "empresa_00003",
+    value: uuid(),
   },
   {
     id: "004",
     title: "Empresa 04",
-    value: "empresa_00004",
+    value: uuid(),
+  },
+];
+
+let OptionsPayment = [
+  {
+    id: "001",
+    title: "Boleto",
+    value: uuid(),
+  },
+  {
+    id: "002",
+    title: "PIX",
+    value: uuid(),
+  },
+  {
+    id: "003",
+    title: "Cartão de Crédito",
+    value: uuid(),
+  },
+  {
+    id: "004",
+    title: "Débito em conta",
+    value: uuid(),
   },
 ];
 
@@ -94,15 +118,24 @@ const NewTransactionBody: React.FC = () => {
   };
 
   return (
-    <Flex
-      as="form"
-      height="100%"
-      width="100%"
-      onSubmit={handleSubmit(submitNewTransaction)}
-      flexDirection="column"
-      justifyContent="flex-start"
-    >
-      <DrawerBody display="flex" flexDirection="column" justifyContent="flex-start" gap="3">
+    <Fragment>
+      <DrawerBody
+        as="form"
+        width="100%"
+        height="auto"
+        gap="3"
+        display="flex"
+        flexDirection="column"
+        justifyContent="flex-start"
+        css={{
+          "&::-webkit-scrollbar": {
+            width: "8px",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            background: "#353646",
+          },
+        }}
+      >
         <VStack spacing="3">
           <InputComponent
             id="title"
@@ -179,7 +212,26 @@ const NewTransactionBody: React.FC = () => {
             options={Options}
             label="Credor/Devedor"
             placeholder="Selecionar credor ou devedor..."
+            errorSelectOption={errors.creditorDebtor}
             {...register("creditorDebtor")}
+          />
+        </VStack>
+
+        <VStack alignItems="flex-start" spacing="1">
+          <SelectComponent
+            options={OptionsPayment}
+            label="Método de pagamento"
+            errorSelectOption={errors.paymentMethod}
+            {...register("paymentMethod")}
+          />
+          <InputComponent
+            id="dataForPayment"
+            label="Dados para pagamento"
+            placeholder="Nº do boleto, código pix, dados do cartão de crédito..."
+            _placeholder={{ fontSize: "14px" }}
+            type="text"
+            {...register("dataForPayment")}
+            errorInput={errors.dataForPayment}
           />
         </VStack>
 
@@ -200,7 +252,7 @@ const NewTransactionBody: React.FC = () => {
           />
         </VStack>
       </DrawerBody>
-      <DrawerFooter>
+      <DrawerFooter borderTop="2px" borderColor="gray.700">
         <HStack>
           <Button
             type="button"
@@ -211,12 +263,18 @@ const NewTransactionBody: React.FC = () => {
           >
             Cancelar
           </Button>
-          <Button type="submit" leftIcon={<FiSave fontSize="18" />} colorScheme="green" isLoading={isSubmitting}>
+          <Button
+            type="submit"
+            colorScheme="green"
+            isLoading={isSubmitting}
+            leftIcon={<FiSave fontSize="18" />}
+            onClick={handleSubmit(submitNewTransaction)}
+          >
             Salvar
           </Button>
         </HStack>
       </DrawerFooter>
-    </Flex>
+    </Fragment>
   );
 };
 

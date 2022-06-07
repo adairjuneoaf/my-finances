@@ -34,7 +34,7 @@ const DrawerComponentComponent: React.FC<DrawerComponentProps> = ({ type = "new-
       <DrawerOverlay />
       <DrawerContent backgroundColor="gray.800">
         <DrawerCloseButton />
-        <DrawerHeader>
+        <DrawerHeader borderBottom="2px" borderColor="gray.700">
           {type === "default" && <Text as="h2">Drawer padrão</Text>}
           {type === "new-transaction" && (
             <Text as="h2" fontSize="24px">

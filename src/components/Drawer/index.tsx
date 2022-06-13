@@ -14,12 +14,11 @@ import EditTransactionBody from "./editTransaction";
 import { ContextDrawer } from "../../contexts/contextDrawer";
 
 // Typings[TypeScript]
-type DrawerComponentProps = {
-  type?: "default" | "new-transaction" | "edit-transaction";
-};
 
-const DrawerComponentComponent: React.FC<DrawerComponentProps> = ({ type = "new-transaction" }) => {
-  const { onClose, isOpen } = useContext(ContextDrawer);
+const DrawerComponent: React.FC = () => {
+  const { disclosure, drawerType } = useContext(ContextDrawer);
+
+  const { onClose, isOpen } = disclosure;
 
   return (
     <Drawer
@@ -35,21 +34,45 @@ const DrawerComponentComponent: React.FC<DrawerComponentProps> = ({ type = "new-
       <DrawerContent backgroundColor="gray.800">
         <DrawerCloseButton />
         <DrawerHeader borderBottom="2px" borderColor="gray.700">
-          {type === "default" && <Text as="h2">Drawer padrão</Text>}
-          {type === "new-transaction" && (
+          {drawerType === "default" && (
+            <Text as="h2" fontSize="24px">
+              Drawer padrão
+            </Text>
+          )}
+
+          {drawerType === "new-transaction" && (
             <Text as="h2" fontSize="24px">
               Novo lançamento
             </Text>
           )}
-          {type === "edit-transaction" && <Text as="h2">Editar lançamento</Text>}
+
+          {drawerType === "edit-transaction" && (
+            <Text as="h2" fontSize="24px">
+              Editar lançamento
+            </Text>
+          )}
         </DrawerHeader>
 
-        {type === "default" && <Flex>Drawer padrão do app...</Flex>}
-        {type === "new-transaction" && <NewTransactionBody />}
-        {type === "edit-transaction" && <EditTransactionBody />}
+        {drawerType === "default" && (
+          <Flex
+            width="100%"
+            height="auto"
+            paddingY={"2"}
+            paddingX={"6"}
+            display="flex"
+            flexDirection="column"
+            justifyContent="flex-start"
+          >
+            Drawer padrão do app...
+          </Flex>
+        )}
+
+        {drawerType === "new-transaction" && <NewTransactionBody />}
+
+        {drawerType === "edit-transaction" && <EditTransactionBody />}
       </DrawerContent>
     </Drawer>
   );
 };
 
-export default DrawerComponentComponent;
+export default DrawerComponent;

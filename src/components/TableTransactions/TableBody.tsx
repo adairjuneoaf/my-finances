@@ -9,10 +9,10 @@ import { Badge, Th, Tr } from "@chakra-ui/react";
 
 // Typings[TypeScript]
 type TableTransactionsData = {
-  id?: string;
-  type?: number;
-  description?: string;
-  value?: string;
+  id: string;
+  type: number;
+  description: string;
+  value: string;
 };
 
 const TableBody: React.FC<TableTransactionsData> = ({ id, type, description, value }) => {
@@ -41,7 +41,7 @@ const TableBody: React.FC<TableTransactionsData> = ({ id, type, description, val
           {value}
         </Th>
         <Th fontSize="16px" color="gray.100">
-          <PopoverSubMenuComponent />
+          <PopoverSubMenuComponent transactionID={id} />
         </Th>
       </Tr>
     </Fragment>

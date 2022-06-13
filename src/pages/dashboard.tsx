@@ -34,7 +34,7 @@ let valuesTest: any = [
 ];
 
 const DashboardPage: NextPage = () => {
-  const { onOpen } = useContext(ContextDrawer);
+  const { handleDrawerNewTransaction } = useContext(ContextDrawer);
 
   return (
     <Fragment>
@@ -78,7 +78,12 @@ const DashboardPage: NextPage = () => {
           </HStack>
           <HStack spacing="4">
             <MenuRecordsComponent />
-            <Button type="button" colorScheme="green" leftIcon={<RiAddFill fontSize="24" />} onClick={onOpen}>
+            <Button
+              type="button"
+              colorScheme="green"
+              leftIcon={<RiAddFill fontSize="24" />}
+              onClick={handleDrawerNewTransaction}
+            >
               Novo lançamento
             </Button>
           </HStack>

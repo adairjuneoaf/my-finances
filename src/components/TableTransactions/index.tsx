@@ -5,7 +5,7 @@ import React from "react";
 import { useRouter } from "next/router";
 
 // Chakra Imports
-import { Table, Text, Tbody, Thead, Tr, Th, Tfoot, TableContainer, HStack, Spinner } from "@chakra-ui/react";
+import { Table, Tbody, Thead, Tr, Th, Tfoot, TableContainer, HStack, Spinner } from "@chakra-ui/react";
 
 // Components Imports
 import TableHead from "./TableHead";
@@ -15,12 +15,12 @@ import TableBody from "./TableBody";
 
 // Typings[TypeScript]
 type TableTransactionsData = {
-  transactions?: [
+  transactions: [
     {
-      id?: string;
-      type?: number;
-      description?: string;
-      value?: string;
+      id: string;
+      type: number;
+      description: string;
+      value: string;
     }
   ];
   isLoading?: boolean;

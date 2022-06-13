@@ -1,5 +1,5 @@
 // Imports React
-import React from "react";
+import React, { useContext } from "react";
 
 // Chakra Imports
 import {
@@ -13,10 +13,18 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 
+//Contexts Imports
+import { ContextDrawer } from "../../../contexts/contextDrawer";
+
 // Another Imports
 import { FiEdit, FiTrash, FiEye, FiMoreVertical } from "react-icons/fi";
 
-const PopoverSubMenuComponent: React.FC = () => {
+// Typings[TypeScript]
+import { IPopoverSubMenu } from "./types";
+
+const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ transactionID }) => {
+  const { handleDrawerEditTransaction } = useContext(ContextDrawer);
+
   return (
     <Popover>
       <Tooltip hasArrow label="Ações" shouldWrapChildren marginTop="3">
@@ -43,6 +51,9 @@ const PopoverSubMenuComponent: React.FC = () => {
                 icon={<FiEdit fontSize="24" color="white" />}
                 backgroundColor="green.500"
                 colorScheme="green"
+                onClick={() => {
+                  handleDrawerEditTransaction(transactionID);
+                }}
               />
             </Tooltip>
             <Tooltip hasArrow label="Excluir">

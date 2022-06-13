@@ -16,7 +16,7 @@ import validationNewTransactionForm from "./formValidationTransactions";
 import { ContextDrawer } from "../../contexts/contextDrawer";
 
 // Typings[TypeScript]
-import { NewTransactionData } from "./types";
+import { TransactionDataType } from "../../@types/TransactionDataType";
 
 // Another Imports
 import { FiSave, FiX } from "react-icons/fi";
@@ -70,23 +70,8 @@ let OptionsPayment = [
   },
 ];
 
-let ValuesTests: NewTransactionData = {
-  id: "f1a687b1-98d9-49a0-84e5-896b7fed0533",
-  type: 0,
-  status: 1,
-  valueTransaction: 49.99,
-  dateDueTransaction: 1655251200000,
-  dateEntriesTransaction: 1654992000000,
-  title: "Lançamento para testes",
-  description: "Lançamento sendo efetuado para testes com o Drawer",
-  paymentMethod: "5b2f1d03-22fb-4a04-a5fa-3d0cd062b951",
-  creditorDebtor: "Empresa 01",
-  dataForPayment: "01926642635",
-  anotherInformation: "Pagamento foi efetuado antes da data de lançamento.",
-};
-
-export const getFormFieldsTransaction = (transactionID?: string) => {
-  const { handleSubmit, register, setValue, formState, reset } = useForm<NewTransactionData>({
+export const getFormFieldsTransaction = () => {
+  const { handleSubmit, register, formState, reset } = useForm<TransactionDataType>({
     resolver: yupResolver(validationNewTransactionForm),
   });
 
@@ -96,11 +81,7 @@ export const getFormFieldsTransaction = (transactionID?: string) => {
 
   const { errors, isSubmitting } = formState;
 
-  const setDefaultValue = () => {
-    setValue("title", ValuesTests.title);
-  };
-
-  const submitTransaction: SubmitHandler<NewTransactionData> = async ({ id, ...data }) => {
+  const submitTransaction: SubmitHandler<TransactionDataType> = async ({ id, ...data }) => {
     await new Promise((resolve) => {
       setTimeout(() => {
         console.log({ id: uuid(), ...data });
@@ -250,15 +231,6 @@ export const getFormFieldsTransaction = (transactionID?: string) => {
       </DrawerBody>
       <DrawerFooter borderTop="2px" borderColor="gray.700">
         <HStack>
-          <Button
-            type="button"
-            leftIcon={<FiX fontSize="18" />}
-            colorScheme="yellow"
-            onClick={setDefaultValue}
-            disabled={isSubmitting}
-          >
-            Default Values
-          </Button>
           <Button
             type="button"
             leftIcon={<FiX fontSize="18" />}

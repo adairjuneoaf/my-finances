@@ -1,18 +1,11 @@
 // Imports React
-import React, { Fragment, useContext } from "react";
+import React, { Fragment } from "react";
 
-// Chakra Imports
+// Components Imports
 import { getFormFieldsTransaction } from "../formFieldsTransactions";
 
-// Contexts Imports
-import { ContextDrawer } from "../../../contexts/contextDrawer";
-
-// Another Imports
-
 const EditTransactionBody: React.FC = () => {
-  const { transactionID } = useContext(ContextDrawer);
-
-  return <Fragment>{getFormFieldsTransaction(transactionID)}</Fragment>;
+  return <Fragment>{getFormFieldsTransaction()}</Fragment>;
 };
 
 export default EditTransactionBody;

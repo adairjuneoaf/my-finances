@@ -1,4 +1,4 @@
-export type NewTransactionData = {
+export type TransactionDataType = {
   id: string;
   type: number;
   title: string;

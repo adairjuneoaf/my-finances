@@ -21,6 +21,12 @@ import TableTransactionsComponent from "../components/TableTransactions";
 // Contexts Imports
 import { ContextDrawer } from "../contexts/contextDrawer";
 
+// React-Query Imports
+import { useQuery } from "react-query";
+
+// API Imports
+import { getAllTransactions } from "../services/api";
+
 // Another Imports
 import { RiAddFill } from "react-icons/ri";
 import { FiList, FiDollarSign, FiArrowUp, FiArrowDown } from "react-icons/fi";
@@ -35,6 +41,14 @@ let valuesTest: any = [
 
 const DashboardPage: NextPage = () => {
   const { handleDrawerNewTransaction } = useContext(ContextDrawer);
+
+  const transactionsData = useQuery("transactions", getAllTransactions, {
+    cacheTime: 1000 * 60 * 1, // 1 Minute
+    staleTime: 1000 * 60 * 1, // 1 Minute
+    refetchInterval: 1000 * 60 * 1, // 1 Minute
+    refetchOnWindowFocus: true,
+    retry: false,
+  });
 
   return (
     <Fragment>

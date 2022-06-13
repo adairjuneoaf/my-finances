@@ -2,16 +2,22 @@
 import { useQuery } from "react-query";
 
 // API Imports
-import { getAllTransactions } from "../services/api";
+import { getAllCreditorsDebtors, getAllPaymentMethods, getAllTransactions } from "../services/api";
+
+const configReactQuery = {
+  cacheTime: 1000 * 60 * 1, // 1 Minute
+  staleTime: 1000 * 60 * 1, // 1 Minute
+  refetchInterval: 1000 * 60 * 1, // 1 Minute
+  refetchOnWindowFocus: true,
+  retry: false,
+};
 
 export const useReactQuery = () => {
-  const { data, isLoading, isFetching } = useQuery("transactions", getAllTransactions, {
-    cacheTime: 1000 * 60 * 1, // 1 Minute
-    staleTime: 1000 * 60 * 1, // 1 Minute
-    refetchInterval: 1000 * 60 * 1, // 1 Minute
-    refetchOnWindowFocus: true,
-    retry: false,
-  });
+  const transactionsList = useQuery("transactions", getAllTransactions, configReactQuery);
 
-  return { data, isLoading, isFetching };
+  const paymentMethods = useQuery("payment_methods", getAllPaymentMethods, configReactQuery);
+
+  const creditorsDebtors = useQuery("creditors_debtors", getAllCreditorsDebtors, configReactQuery);
+
+  return { transactionsList, paymentMethods, creditorsDebtors };
 };

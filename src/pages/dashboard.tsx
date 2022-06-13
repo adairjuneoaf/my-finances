@@ -31,9 +31,11 @@ import { FiList, FiDollarSign, FiArrowUp, FiArrowDown } from "react-icons/fi";
 const DashboardPage: NextPage = () => {
   const { handleDrawerNewTransaction } = useContext(ContextDrawer);
 
-  const { data, isLoading, isFetching } = useReactQuery();
+  const { transactionsList } = useReactQuery();
 
-  const transactionsList = data?.slice(0, 5);
+  const { data, isFetching, isLoading } = transactionsList;
+
+  const transactions = data?.slice(0, 5);
 
   return (
     <Fragment>
@@ -110,7 +112,7 @@ const DashboardPage: NextPage = () => {
         </HStack>
 
         <Flex width="68vw" height="100%" padding="8" margin="auto">
-          <TableTransactionsComponent transactions={transactionsList} isLoading={isLoading} />
+          <TableTransactionsComponent transactions={transactions} isLoading={isLoading} />
         </Flex>
       </Flex>
     </Fragment>

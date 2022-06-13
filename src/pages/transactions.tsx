@@ -41,7 +41,9 @@ import { RiAddFill } from "react-icons/ri";
 const TransactionsPage: NextPage = () => {
   const { handleDrawerNewTransaction } = useContext(ContextDrawer);
 
-  const { data, isFetching, isLoading } = useReactQuery();
+  const { transactionsList } = useReactQuery();
+
+  const { data, isFetching, isLoading } = transactionsList;
 
   return (
     <Fragment>

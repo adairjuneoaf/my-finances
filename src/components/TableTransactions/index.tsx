@@ -14,15 +14,9 @@ import TableBody from "./TableBody";
 // Another Imports
 
 // Typings[TypeScript]
+import { TransactionDataType } from "../../@types/TransactionDataType";
 type TableTransactionsData = {
-  transactions: [
-    {
-      id: string;
-      type: number;
-      description: string;
-      value: string;
-    }
-  ];
+  transactions?: Array<TransactionDataType>;
   isLoading?: boolean;
 };
 
@@ -51,7 +45,7 @@ const TableTransactionsComponent: React.FC<TableTransactionsData> = ({ transacti
             </Tr>
           ) : (
             transactions?.map((data, idx) => {
-              return <TableBody key={idx} {...data} />;
+              return <TableBody key={data.id} {...data} index={idx + 1} />;
             })
           )}
         </Tbody>

@@ -21,34 +21,19 @@ import TableTransactionsComponent from "../components/TableTransactions";
 // Contexts Imports
 import { ContextDrawer } from "../contexts/contextDrawer";
 
-// React-Query Imports
-import { useQuery } from "react-query";
-
-// API Imports
-import { getAllTransactions } from "../services/api";
+// Hooks Imports
+import { useReactQuery } from "../hooks/useReactQuery";
 
 // Another Imports
 import { RiAddFill } from "react-icons/ri";
 import { FiList, FiDollarSign, FiArrowUp, FiArrowDown } from "react-icons/fi";
 
-let valuesTest: any = [
-  { id: "0001", description: "Teste de lançamento 1", type: 1, value: "R$ 2000" },
-  { id: "0002", description: "Teste de lançamento 2", type: 0, value: "R$ -1000" },
-  { id: "0003", description: "Teste de lançamento 3", type: 1, value: "R$ 1500" },
-  { id: "0004", description: "Teste de lançamento 4", type: 1, value: "R$ 5000" },
-  { id: "0005", description: "Teste de lançamento 5", type: 0, value: "R$ -3000" },
-];
-
 const DashboardPage: NextPage = () => {
   const { handleDrawerNewTransaction } = useContext(ContextDrawer);
 
-  const transactionsData = useQuery("transactions", getAllTransactions, {
-    cacheTime: 1000 * 60 * 1, // 1 Minute
-    staleTime: 1000 * 60 * 1, // 1 Minute
-    refetchInterval: 1000 * 60 * 1, // 1 Minute
-    refetchOnWindowFocus: true,
-    retry: false,
-  });
+  const { data, isLoading, isFetching } = useReactQuery();
+
+  const transactionsList = data?.slice(0, 5);
 
   return (
     <Fragment>
@@ -88,7 +73,7 @@ const DashboardPage: NextPage = () => {
             <Text as="h1" fontSize="3xl" fontWeight="extrabold">
               Dashboard
             </Text>
-            <Spinner color="green.500" size="md" thickness="4px" speed="0.5s" />
+            {isFetching && !isLoading && <Spinner color="green.500" size="md" thickness="4px" speed="0.5s" />}
           </HStack>
           <HStack spacing="4">
             <MenuRecordsComponent />
@@ -125,7 +110,7 @@ const DashboardPage: NextPage = () => {
         </HStack>
 
         <Flex width="68vw" height="100%" padding="8" margin="auto">
-          <TableTransactionsComponent transactions={valuesTest} />
+          <TableTransactionsComponent transactions={transactionsList} isLoading={isLoading} />
         </Flex>
       </Flex>
     </Fragment>

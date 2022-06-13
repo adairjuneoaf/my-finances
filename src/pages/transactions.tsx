@@ -31,31 +31,17 @@ import TableTransactionsComponent from "../components/TableTransactions";
 // Contexts Imports
 import { ContextDrawer } from "../contexts/contextDrawer";
 
+// Hooks Imports
+import { useReactQuery } from "../hooks/useReactQuery";
+
 // Another Imports
 import { FiSearch } from "react-icons/fi";
 import { RiAddFill } from "react-icons/ri";
 
-let valuesTest: any = [
-  { id: "0001", description: "Teste de lançamento 1", type: 1, value: "R$ 2000" },
-  { id: "0002", description: "Teste de lançamento 2", type: 0, value: "R$ -1000" },
-  { id: "0003", description: "Teste de lançamento 3", type: 1, value: "R$ 1500" },
-  { id: "0005", description: "Teste de lançamento 5", type: 0, value: "R$ -3000" },
-  { id: "0004", description: "Teste de lançamento 4", type: 1, value: "R$ 5000" },
-  { id: "0005", description: "Teste de lançamento 5", type: 0, value: "R$ -3000" },
-  { id: "0004", description: "Teste de lançamento 4", type: 1, value: "R$ 5000" },
-  { id: "0002", description: "Teste de lançamento 2", type: 0, value: "R$ -1000" },
-  { id: "0003", description: "Teste de lançamento 3", type: 1, value: "R$ 1500" },
-  { id: "0001", description: "Teste de lançamento 1", type: 1, value: "R$ 2000" },
-  { id: "0003", description: "Teste de lançamento 3", type: 1, value: "R$ 1500" },
-  { id: "0005", description: "Teste de lançamento 5", type: 0, value: "R$ -3000" },
-  { id: "0004", description: "Teste de lançamento 4", type: 1, value: "R$ 5000" },
-  { id: "0001", description: "Teste de lançamento 1", type: 1, value: "R$ 2000" },
-  { id: "0002", description: "Teste de lançamento 2", type: 0, value: "R$ -1000" },
-  { id: "0004", description: "Teste de lançamento 4", type: 1, value: "R$ 5000" },
-];
-
 const TransactionsPage: NextPage = () => {
   const { handleDrawerNewTransaction } = useContext(ContextDrawer);
+
+  const { data, isFetching, isLoading } = useReactQuery();
 
   return (
     <Fragment>
@@ -95,7 +81,7 @@ const TransactionsPage: NextPage = () => {
             <Text as="h1" fontSize="3xl" fontWeight="extrabold">
               Lançamentos
             </Text>
-            <Spinner color="green.500" size="md" thickness="4px" speed="0.5s" />
+            {isFetching && !isLoading && <Spinner color="green.500" size="md" thickness="4px" speed="0.5s" />}
           </HStack>
           <HStack spacing="4">
             <MenuRecordsComponent />
@@ -135,7 +121,7 @@ const TransactionsPage: NextPage = () => {
         </Flex>
 
         <Flex width="68vw" height="100%" padding="8" margin="auto">
-          <TableTransactionsComponent transactions={valuesTest} isLoading={false} />
+          <TableTransactionsComponent transactions={data} isLoading={isLoading} />
         </Flex>
       </Flex>
     </Fragment>

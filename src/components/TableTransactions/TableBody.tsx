@@ -8,19 +8,17 @@ import PopoverSubMenuComponent from "./PopoverSubMenu";
 import { Badge, Th, Tr } from "@chakra-ui/react";
 
 // Typings[TypeScript]
-type TableTransactionsData = {
-  id: string;
-  type: number;
-  description: string;
-  value: string;
-};
+import { TransactionDataType } from "../../@types/TransactionDataType";
+interface TableBodyProps extends TransactionDataType {
+  index: number;
+}
 
-const TableBody: React.FC<TableTransactionsData> = ({ id, type, description, value }) => {
+const TableBody: React.FC<TableBodyProps> = ({ index, id, type, description, valueTransaction }) => {
   return (
     <Fragment>
       <Tr>
         <Th fontSize="16px" color="gray.100">
-          {id}
+          {index}
         </Th>
         <Th fontSize="16px" color="gray.100">
           {type === 1 && (
@@ -38,7 +36,7 @@ const TableBody: React.FC<TableTransactionsData> = ({ id, type, description, val
           {description}
         </Th>
         <Th isNumeric fontSize="16px" color="gray.100">
-          {value}
+          {valueTransaction}
         </Th>
         <Th fontSize="16px" color="gray.100">
           <PopoverSubMenuComponent transactionID={id} />

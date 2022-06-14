@@ -21,24 +21,24 @@ const TableBody: React.FC<TableBodyProps> = ({ index, id, type, status, descript
           {index}
         </Th>
         <Th fontSize="16px" color="gray.100">
-          {type === 1 && (
+          {type === "1" && (
             <Badge variant="solid" colorScheme="green" padding="1">
               ENTRADA
             </Badge>
           )}
-          {type === 0 && (
+          {type === "0" && (
             <Badge variant="solid" colorScheme="red" padding="1">
               SAÍDA
             </Badge>
           )}
         </Th>
         <Th fontSize="16px" color="gray.100">
-          {status === 1 && (
+          {status === "1" && (
             <Badge variant="solid" colorScheme="green" padding="1">
               CONCLUÍDO
             </Badge>
           )}
-          {status === 0 && (
+          {status === "0" && (
             <Badge variant="solid" colorScheme="yellow" padding="1">
               EM ABERTO
             </Badge>

@@ -2,8 +2,8 @@
   "transactions": [
     {
       "id": "aca04f2e-eb42-11ec-8fea-0242ac120002",
-      "type": 0,
-      "status": 1,
+      "type": "0",
+      "status": "1",
       "valueTransaction": 49.99,
       "dateDueTransaction": 1655251200000,
       "dateEntriesTransaction": 1654992000000,
@@ -16,8 +16,8 @@
     },
     {
       "id": "f1a687b1-98d9-49a0-84e5-896b7fed0533",
-      "type": 0,
-      "status": 0,
+      "type": "0",
+      "status": "0",
       "valueTransaction": 152.48,
       "dateDueTransaction": 1655251200000,
       "dateEntriesTransaction": 1654992000000,
@@ -30,8 +30,8 @@
     },
     {
       "id": "be808b96-eb42-11ec-8fea-0242ac120002",
-      "type": 1,
-      "status": 1,
+      "type": "1",
+      "status": "1",
       "valueTransaction": 2500.0,
       "dateDueTransaction": 1655251200000,
       "dateEntriesTransaction": 1654992000000,
@@ -44,8 +44,8 @@
     },
     {
       "id": "5dacc67a-eb44-11ec-8ea0-0242ac120002",
-      "type": 0,
-      "status": 0,
+      "type": "0",
+      "status": "0",
       "valueTransaction": 289.25,
       "dateDueTransaction": 1655251200000,
       "dateEntriesTransaction": 1654992000000,
@@ -58,8 +58,8 @@
     },
     {
       "id": "e2393c86-eb51-11ec-8ea0-0242ac120002",
-      "type": 0,
-      "status": 1,
+      "type": "0",
+      "status": "1",
       "valueTransaction": 459.99,
       "dateDueTransaction": 1655251200000,
       "dateEntriesTransaction": 1654992000000,
@@ -72,8 +72,8 @@
     },
     {
       "id": "720ff154-eb45-11ec-8ea0-0242ac120002",
-      "type": 0,
-      "status": 0,
+      "type": "0",
+      "status": "0",
       "valueTransaction": 385.2,
       "dateDueTransaction": 1655251200000,
       "dateEntriesTransaction": 1654992000000,

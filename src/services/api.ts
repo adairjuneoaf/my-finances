@@ -1,6 +1,9 @@
 // AXIOS Imports
 import { api } from "./axios";
 
+// Utils Imports
+import { formatDate } from "../utils/formatDate";
+
 // Typings[TypeScript]
 import { TransactionDataType } from "./../@types/TransactionDataType";
 
@@ -41,7 +44,11 @@ export const getUniqueTransaction = async (id: string) => {
       return console.error("Error", error.message);
     });
 
-  return data;
+  return {
+    ...data,
+    dateDueTransaction: formatDate(data.dateDueTransaction),
+    dateEntriesTransaction: formatDate(data.dateEntriesTransaction),
+  };
 };
 
 export const getAllPaymentMethods = async () => {

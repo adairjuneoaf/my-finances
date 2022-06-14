@@ -1,14 +1,14 @@
 export type TransactionDataType = {
   id: string;
-  type: number;
+  type: string;
   title: string;
-  status: number;
+  status: string;
   description: string;
   paymentMethod: string;
   dataForPayment: string;
   creditorDebtor: string;
   valueTransaction: number;
-  dateDueTransaction: number;
+  dateDueTransaction: Date;
   anotherInformation: string;
-  dateEntriesTransaction: number;
+  dateEntriesTransaction: Date;
 };

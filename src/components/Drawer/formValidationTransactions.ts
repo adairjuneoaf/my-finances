@@ -2,8 +2,8 @@ import * as yup from "yup";
 
 const validationNewTransactionForm = yup.object().shape({
   id: yup.string().uuid(),
-  type: yup.number(),
-  status: yup.number(),
+  type: yup.string(),
+  status: yup.string(),
   title: yup.string().required("O título é obrigatório!").min(8, "O mínimo de caracteres é 8."),
   description: yup.string().required("A descrição é obrigatória!").min(12, "O mínimo de caracteres é 12."),
   valueTransaction: yup.number().required("O valor da transação é obrigatório!").min(0.01, "O valor mínimo é R$ 0.01"),

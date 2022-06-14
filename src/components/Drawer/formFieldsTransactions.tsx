@@ -26,8 +26,8 @@ import { TransactionDataType } from "../../@types/TransactionDataType";
 import { FiSave, FiX } from "react-icons/fi";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { v4 as uuid } from "uuid";
 import validationNewTransactionForm from "./formValidationTransactions";
+import { RadioComponent } from "../Form/Radio";
 
 export const getFormFieldsTransaction = () => {
   const { handleSubmit, register, formState, reset, setValue } = useForm<TransactionDataType>({
@@ -55,7 +55,7 @@ export const getFormFieldsTransaction = () => {
   const submitTransaction: SubmitHandler<TransactionDataType> = async ({ id, ...data }) => {
     await new Promise((resolve) => {
       setTimeout(() => {
-        console.log({ id: uuid(), ...data });
+        console.log({ ...data });
         resolve(data);
       }, 3000);
     }).then(() => {
@@ -78,6 +78,7 @@ export const getFormFieldsTransaction = () => {
       getUniqueTransaction(transactionID)
         .then((response) => {
           Object.entries(response).forEach(([name, value]) => setValue(name as keyof TransactionDataType, value));
+          console.log(response);
         })
         .catch((error) => {
           console.log("Error", error);
@@ -160,36 +161,26 @@ export const getFormFieldsTransaction = () => {
           />
         </HStack>
 
-        <HStack alignItems="flex-start" justifyContent="space-between" spacing="3">
-          <VStack alignItems="flex-start" spacing="3">
+        <HStack alignItems="flex-start">
+          <VStack alignItems="flex-start" spacing="3" flex="1">
             <Text as="label" fontSize="lg" padding="0" marginY="2" fontWeight="medium">
               Tipo de lançamento
             </Text>
-            <RadioGroup defaultValue={"0"}>
-              <HStack spacing="4">
-                <Radio value={"0"} size="md" colorScheme="red" {...register("type")}>
-                  Saída
-                </Radio>
-                <Radio value={"1"} size="md" colorScheme="green" {...register("type")}>
-                  Entrada
-                </Radio>
-              </HStack>
-            </RadioGroup>
+
+            <HStack spacing="3">
+              <RadioComponent id="type" label="Saída" value={"0"} {...register("type")} />
+              <RadioComponent id="type" label="Entrada" value={"1"} {...register("type")} />
+            </HStack>
           </VStack>
-          <VStack alignItems="flex-start" spacing="3">
+          <VStack alignItems="flex-start" spacing="3" flex="1">
             <Text as="label" fontSize="lg" padding="0" marginY="2" fontWeight="medium">
               Status do lançamento
             </Text>
-            <RadioGroup defaultValue={"0"}>
-              <HStack spacing="4">
-                <Radio value={"0"} size="md" colorScheme="yellow" {...register("status")}>
-                  Em aberto
-                </Radio>
-                <Radio value={"1"} size="md" colorScheme="green" {...register("status")}>
-                  Concluído
-                </Radio>
-              </HStack>
-            </RadioGroup>
+
+            <HStack spacing="3">
+              <RadioComponent id="type" label="Em aberto" value={"0"} {...register("status")} />
+              <RadioComponent id="type" label="Concluído" value={"1"} {...register("status")} />
+            </HStack>
           </VStack>
         </HStack>
 

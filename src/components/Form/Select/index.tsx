@@ -17,7 +17,7 @@ interface SelectOptionsProps extends SelectProps {
   label?: string;
   isRequired?: boolean;
   errorSelectOption?: FieldError;
-  options: Array<Option>;
+  options?: Array<Option>;
 }
 
 const SelectOptionsComponent: ForwardRefRenderFunction<HTMLSelectElement, SelectOptionsProps> = (
@@ -41,9 +41,11 @@ const SelectOptionsComponent: ForwardRefRenderFunction<HTMLSelectElement, Select
         focusBorderColor="green.500"
         _hover={{ backgroundColor: "transparent", borderColor: "gray.600" }}
       >
-        {options.map((data: Option) => {
-          return <OptionSelectComponent key={data.id} {...data} />;
-        })}
+        {options &&
+          options?.map((data: Option) => {
+            return <OptionSelectComponent key={data.id} {...data} />;
+          })}
+        {!options && <option>Não existem opções...</option>}
       </Select>
       {errorSelectOption && <FormErrorMessage>{errorSelectOption?.message}</FormErrorMessage>}
     </FormControl>

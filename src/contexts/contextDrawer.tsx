@@ -15,8 +15,10 @@ const ContextDrawer = createContext({} as ContextDrawerValuesProps);
 
 const ContextDrawerProvider = ({ children }: ContextDrawerProviderProps) => {
   const disclosure = useDisclosure();
+  const [isEditing, setIsEditing] = useState(false);
   const [drawerType, setDrawerType] = useState<DrawerTypes>("default");
-  const [transactionID, setTransactionID] = useState("");
+  const [transactionID, setTransactionID] = useState<string | null>(null);
+  const [isLoadingDataForEdit, setIsLoadingDataForEdit] = useState(false);
 
   const { route } = useRouter();
 
@@ -32,17 +34,32 @@ const ContextDrawerProvider = ({ children }: ContextDrawerProviderProps) => {
   };
 
   const handleDrawerEditTransaction = (transactionID: string) => {
+    setIsEditing(true);
+    setIsLoadingDataForEdit(true);
     setTransactionID(transactionID);
     setDrawerType("edit-transaction");
     disclosure.onOpen();
   };
 
+  const handleResetTransactionID = () => {
+    setTransactionID(null);
+    setIsEditing(false);
+  };
+
+  const handleIsLoadingDataForEdit = () => {
+    setIsLoadingDataForEdit(false);
+  };
+
   return (
     <ContextDrawer.Provider
       value={{
+        isEditing,
         disclosure,
         drawerType,
         transactionID,
+        isLoadingDataForEdit,
+        handleResetTransactionID,
+        handleIsLoadingDataForEdit,
         handleDrawerNewTransaction,
         handleDrawerEditTransaction,
       }}

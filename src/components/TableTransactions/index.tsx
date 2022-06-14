@@ -25,12 +25,12 @@ const TableTransactionsComponent: React.FC<TableTransactionsData> = ({ transacti
 
   return (
     <TableContainer width="100%" backgroundColor="gray.800" padding="8" borderRadius="10">
-      <Table colorScheme="whiteAlpha" variant="simple">
+      <Table colorScheme="whiteAlpha" variant="simple" whiteSpace="normal">
         <Thead>
           <TableHead />
         </Thead>
         <Tbody>
-          {!transactions ? (
+          {!transactions && !isLoading && (
             <Tr>
               <Th
                 colSpan={5}
@@ -43,29 +43,38 @@ const TableTransactionsComponent: React.FC<TableTransactionsData> = ({ transacti
                 Não existem dados...
               </Th>
             </Tr>
-          ) : (
+          )}
+          {!isLoading &&
+            transactions &&
             transactions?.map((data, idx) => {
               return <TableBody key={data.id} {...data} index={idx + 1} />;
-            })
-          )}
-        </Tbody>
-        {isLoading && (
-          <Tfoot>
+            })}
+          {isLoading && !transactions && (
             <Tr>
               <Th colSpan={5} textTransform="none" color="gray.300">
-                <HStack spacing="4" marginTop="6" alignItems="center" justifyContent="center">
+                <HStack spacing="4" marginY="6" alignItems="center" justifyContent="center">
                   <Spinner color="green.500" size="md" thickness="4px" speed="0.5s" />
                 </HStack>
               </Th>
             </Tr>
-          </Tfoot>
-        )}
+          )}
+        </Tbody>
         {asPath === "/dashboard" && (
           <Tfoot>
             <Tr>
-              <Th colSpan={5} textTransform="none" color="gray.300">
+              <Th colSpan={5} paddingTop="6" textTransform="none" color="gray.300">
                 ** Apenas os últimos 5 lançamentos são exibidos, veja todos clicando no botão "Ver todos" acima da
                 tabela.
+              </Th>
+            </Tr>
+          </Tfoot>
+        )}
+        {asPath === "/transactions" && (
+          <Tfoot>
+            <Tr>
+              <Th colSpan={5} paddingTop="6" textTransform="none" color="gray.300">
+                ** Essa página conta com a funcionalidade de scroll infinito, efetue a rolagem para baixo exibindo assim
+                outros registros, caso existam mais.
               </Th>
             </Tr>
           </Tfoot>

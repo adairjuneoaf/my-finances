@@ -4,9 +4,9 @@ import React from "react";
 // Typings[TypeScript]
 import { Option } from "./types";
 
-const OptionSelectComponent: React.FC<Option> = ({ id, title, value }) => {
+const OptionSelectComponent: React.FC<Option> = ({ id, title, status }) => {
   return (
-    <option id={id} value={value} style={{ backgroundColor: "#353646" }}>
+    <option id={id} value={id} disabled={status === 0} style={{ backgroundColor: "#353646" }}>
       {title}
     </option>
   );

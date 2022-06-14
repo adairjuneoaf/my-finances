@@ -31,6 +31,19 @@ export const getAllTransactions = async () => {
   return data;
 };
 
+export const getUniqueTransaction = async (id: string) => {
+  const data: TransactionDataType = await api
+    .get(`/transactions/${id}`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return console.error("Error", error.message);
+    });
+
+  return data;
+};
+
 export const getAllPaymentMethods = async () => {
   const data: Array<DataPaymentsMethodAPI> = await api
     .get("/payment_method")

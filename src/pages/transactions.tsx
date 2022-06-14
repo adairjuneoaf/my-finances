@@ -43,7 +43,7 @@ const TransactionsPage: NextPage = () => {
 
   const { transactionsList } = useReactQuery();
 
-  const { data, isFetching, isLoading } = transactionsList;
+  const { data: transactions, isFetching, isLoading } = transactionsList;
 
   return (
     <Fragment>
@@ -123,7 +123,7 @@ const TransactionsPage: NextPage = () => {
         </Flex>
 
         <Flex width="68vw" height="100%" padding="8" margin="auto">
-          <TableTransactionsComponent transactions={data} isLoading={isLoading} />
+          <TableTransactionsComponent transactions={transactions} isLoading={isLoading} />
         </Flex>
       </Flex>
     </Fragment>

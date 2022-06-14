@@ -1,8 +1,8 @@
 // React Imports
-import { Fragment, useContext } from "react";
+import { Fragment, useContext, useEffect } from "react";
 
 // Chakra Imports
-import { Text, Radio, HStack, VStack, Button, DrawerBody, RadioGroup, DrawerFooter } from "@chakra-ui/react";
+import { Text, Radio, HStack, VStack, Button, DrawerBody, RadioGroup, DrawerFooter, Spinner } from "@chakra-ui/react";
 
 // Component Imports
 import { InputComponent } from "../Form/Input";
@@ -10,10 +10,14 @@ import { SelectComponent } from "../Form/Select";
 import { InputValueComponent } from "../Form/InputValue";
 import { InputTextAreaComponent } from "../Form/InputTextArea";
 
-import validationNewTransactionForm from "./formValidationTransactions";
-
 // Context Imports
 import { ContextDrawer } from "../../contexts/contextDrawer";
+
+// Hook Imports
+import { useReactQuery } from "../../hooks/useReactQuery";
+
+// API Services
+import { getUniqueTransaction } from "../../services/api";
 
 // Typings[TypeScript]
 import { TransactionDataType } from "../../@types/TransactionDataType";
@@ -23,63 +27,30 @@ import { FiSave, FiX } from "react-icons/fi";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { v4 as uuid } from "uuid";
-
-let Options = [
-  {
-    id: "001",
-    title: "Empresa 01",
-    value: uuid(),
-  },
-  {
-    id: "002",
-    title: "Empresa 02",
-    value: uuid(),
-  },
-  {
-    id: "003",
-    title: "Empresa 03",
-    value: uuid(),
-  },
-  {
-    id: "004",
-    title: "Empresa 04",
-    value: uuid(),
-  },
-];
-
-let OptionsPayment = [
-  {
-    id: "001",
-    title: "Boleto",
-    value: uuid(),
-  },
-  {
-    id: "002",
-    title: "PIX",
-    value: uuid(),
-  },
-  {
-    id: "003",
-    title: "Cartão de Crédito",
-    value: uuid(),
-  },
-  {
-    id: "004",
-    title: "Débito em conta",
-    value: uuid(),
-  },
-];
+import validationNewTransactionForm from "./formValidationTransactions";
 
 export const getFormFieldsTransaction = () => {
-  const { handleSubmit, register, formState, reset } = useForm<TransactionDataType>({
+  const { handleSubmit, register, formState, reset, setValue } = useForm<TransactionDataType>({
     resolver: yupResolver(validationNewTransactionForm),
   });
 
-  const { disclosure } = useContext(ContextDrawer);
+  const {
+    isEditing,
+    disclosure,
+    transactionID,
+    isLoadingDataForEdit,
+    handleResetTransactionID,
+    handleIsLoadingDataForEdit,
+  } = useContext(ContextDrawer);
 
   const { onClose } = disclosure;
 
   const { errors, isSubmitting } = formState;
+
+  const { creditorsDebtors, paymentMethods } = useReactQuery();
+
+  const { data: creditorsDebtorsList } = creditorsDebtors;
+  const { data: paymentMethodsList } = paymentMethods;
 
   const submitTransaction: SubmitHandler<TransactionDataType> = async ({ id, ...data }) => {
     await new Promise((resolve) => {
@@ -87,13 +58,52 @@ export const getFormFieldsTransaction = () => {
         console.log({ id: uuid(), ...data });
         resolve(data);
       }, 3000);
+    }).then(() => {
+      reset();
+      handleResetTransactionID();
     });
   };
 
   const cancelSubmitTransaction = () => {
     onClose();
     reset();
+
+    if (isEditing) {
+      handleResetTransactionID();
+    }
   };
+
+  useEffect(() => {
+    if (transactionID !== null) {
+      getUniqueTransaction(transactionID)
+        .then((response) => {
+          Object.entries(response).forEach(([name, value]) => setValue(name as keyof TransactionDataType, value));
+        })
+        .catch((error) => {
+          console.log("Error", error);
+        })
+        .finally(() => {
+          handleIsLoadingDataForEdit();
+        });
+    }
+  }, [isEditing]);
+
+  if (isLoadingDataForEdit) {
+    return (
+      <DrawerBody
+        as="div"
+        width="100%"
+        height="100%"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Spinner color="green.500" size="md" thickness="4px" speed="0.5s" />
+      </DrawerBody>
+    );
+  }
+
   return (
     <Fragment>
       <DrawerBody
@@ -186,7 +196,7 @@ export const getFormFieldsTransaction = () => {
         <VStack alignItems="flex-start" spacing="3">
           <SelectComponent
             isRequired
-            options={Options}
+            options={creditorsDebtorsList}
             label="Credor/Devedor"
             placeholder="Selecionar credor ou devedor..."
             errorSelectOption={errors.creditorDebtor}
@@ -196,7 +206,7 @@ export const getFormFieldsTransaction = () => {
 
         <VStack alignItems="flex-start" spacing="1">
           <SelectComponent
-            options={OptionsPayment}
+            options={paymentMethodsList}
             label="Método de pagamento"
             errorSelectOption={errors.paymentMethod}
             {...register("paymentMethod")}

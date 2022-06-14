@@ -12,9 +12,13 @@ export interface ContextDrawerProviderProps {
 }
 
 export interface ContextDrawerValuesProps {
+  isEditing: boolean;
   disclosure: UseDisclosureReturn;
   drawerType: DrawerTypes;
-  transactionID: string;
+  transactionID: string | null;
+  isLoadingDataForEdit: boolean;
+  handleResetTransactionID: () => void;
+  handleIsLoadingDataForEdit: () => void;
   handleDrawerNewTransaction: () => void;
   handleDrawerEditTransaction: (transactionID: string) => void;
 }

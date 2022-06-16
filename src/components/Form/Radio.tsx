@@ -1,8 +1,19 @@
 // React Imports
-import React, { CSSProperties, forwardRef, ForwardRefRenderFunction, ReactNode } from "react";
+import React, {
+  CSSProperties,
+  forwardRef,
+  ForwardRefRenderFunction,
+  ReactNode,
+} from "react";
 
 // Chakra Imports
-import { FormControl, FormLabel, FormErrorMessage } from "@chakra-ui/react";
+import {
+  Radio as RadioChakra,
+  RadioProps as RadioPropsChakra,
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+} from "@chakra-ui/react";
 
 // Another Imports
 import { FieldError } from "react-hook-form";
@@ -17,22 +28,22 @@ const stylesRadio: CSSProperties = {
 };
 
 // Typings[TypeScript]
-interface IRadioComponentProps {
-  id: string;
-  value: string | number;
-  label?: string;
+interface IRadioComponentProps extends RadioPropsChakra {
+  // id: string;
+  // value: string | number;
+  // label?: string;
   children?: ReactNode;
   isRequired?: boolean;
   errorRadio?: FieldError;
 }
 
-const Radio: ForwardRefRenderFunction<HTMLInputElement, IRadioComponentProps> = (
-  { id, value, label, errorRadio = null, isRequired = false, children, ...props },
-  ref
-) => {
+const Radio: ForwardRefRenderFunction<
+  HTMLInputElement,
+  IRadioComponentProps
+> = ({ errorRadio = null, isRequired = false, children, ...props }, ref) => {
   return (
     <FormControl isInvalid={!!errorRadio} isRequired={isRequired}>
-      <HStack spacing="2">
+      {/* <HStack spacing="2">
         <input {...props} id={id} ref={ref} type="radio" value={value} style={stylesRadio} />
         {!!label && (
           <FormLabel
@@ -47,7 +58,10 @@ const Radio: ForwardRefRenderFunction<HTMLInputElement, IRadioComponentProps> = 
             {label}
           </FormLabel>
         )}
-      </HStack>
+      </HStack> */}
+      <RadioChakra ref={ref} {...props}>
+        {children}
+      </RadioChakra>
       {errorRadio && <FormErrorMessage>{errorRadio?.message}</FormErrorMessage>}
     </FormControl>
   );

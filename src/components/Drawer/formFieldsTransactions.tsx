@@ -2,10 +2,21 @@
 import { Fragment, useContext, useEffect } from "react";
 
 // Chakra Imports
-import { Text, Radio, HStack, VStack, Button, DrawerBody, RadioGroup, DrawerFooter, Spinner } from "@chakra-ui/react";
+import {
+  Text,
+  Radio,
+  HStack,
+  VStack,
+  Button,
+  Spinner,
+  DrawerBody,
+  RadioGroup,
+  DrawerFooter,
+} from "@chakra-ui/react";
 
 // Component Imports
 import { InputComponent } from "../Form/Input";
+import { RadioComponent } from "../Form/Radio";
 import { SelectComponent } from "../Form/Select";
 import { InputValueComponent } from "../Form/InputValue";
 import { InputTextAreaComponent } from "../Form/InputTextArea";
@@ -25,14 +36,14 @@ import { TransactionDataType } from "../../@types/TransactionDataType";
 // Another Imports
 import { FiSave, FiX } from "react-icons/fi";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import validationNewTransactionForm from "./formValidationTransactions";
-import { RadioComponent } from "../Form/Radio";
 
 export const getFormFieldsTransaction = () => {
-  const { handleSubmit, register, formState, reset, setValue } = useForm<TransactionDataType>({
-    resolver: yupResolver(validationNewTransactionForm),
-  });
+  const { handleSubmit, register, formState, reset, setValue, control } =
+    useForm<TransactionDataType>({
+      resolver: yupResolver(validationNewTransactionForm),
+    });
 
   const {
     isEditing,
@@ -52,7 +63,10 @@ export const getFormFieldsTransaction = () => {
   const { data: creditorsDebtorsList } = creditorsDebtors;
   const { data: paymentMethodsList } = paymentMethods;
 
-  const submitTransaction: SubmitHandler<TransactionDataType> = async ({ id, ...data }) => {
+  const submitTransaction: SubmitHandler<TransactionDataType> = async ({
+    id,
+    ...data
+  }) => {
     await new Promise((resolve) => {
       setTimeout(() => {
         console.log({ ...data });
@@ -77,7 +91,9 @@ export const getFormFieldsTransaction = () => {
     if (transactionID !== null) {
       getUniqueTransaction(transactionID)
         .then((response) => {
-          Object.entries(response).forEach(([name, value]) => setValue(name as keyof TransactionDataType, value));
+          Object.entries(response).forEach(([name, value]) =>
+            setValue(name as keyof TransactionDataType, value)
+          );
           console.log(response);
         })
         .catch((error) => {
@@ -163,24 +179,60 @@ export const getFormFieldsTransaction = () => {
 
         <HStack alignItems="flex-start">
           <VStack alignItems="flex-start" spacing="3" flex="1">
-            <Text as="label" fontSize="lg" padding="0" marginY="2" fontWeight="medium">
+            <Text
+              as="label"
+              fontSize="lg"
+              padding="0"
+              marginY="2"
+              fontWeight="medium"
+            >
               Tipo de lançamento
             </Text>
 
-            <HStack spacing="3">
-              <RadioComponent id="type" label="Saída" value={"0"} {...register("type")} />
-              <RadioComponent id="type" label="Entrada" value={"1"} {...register("type")} />
-            </HStack>
+            <Controller
+              name="type"
+              control={control}
+              render={({ field: { value, onChange } }) => (
+                <RadioGroup defaultValue="0" value={value} onChange={onChange}>
+                  <HStack spacing="3">
+                    <Radio value="0" colorScheme="red">
+                      Saída
+                    </Radio>
+                    <Radio value="1" colorScheme="green">
+                      Entrada
+                    </Radio>
+                  </HStack>
+                </RadioGroup>
+              )}
+            />
           </VStack>
           <VStack alignItems="flex-start" spacing="3" flex="1">
-            <Text as="label" fontSize="lg" padding="0" marginY="2" fontWeight="medium">
+            <Text
+              as="label"
+              fontSize="lg"
+              padding="0"
+              marginY="2"
+              fontWeight="medium"
+            >
               Status do lançamento
             </Text>
 
-            <HStack spacing="3">
-              <RadioComponent id="type" label="Em aberto" value={"0"} {...register("status")} />
-              <RadioComponent id="type" label="Concluído" value={"1"} {...register("status")} />
-            </HStack>
+            <Controller
+              name="status"
+              control={control}
+              render={({ field: { value, onChange } }) => (
+                <RadioGroup defaultValue="0" value={value} onChange={onChange}>
+                  <HStack spacing="3">
+                    <Radio value="0" colorScheme="yellow">
+                      Em aberto
+                    </Radio>
+                    <Radio value="1" colorScheme="green">
+                      Concluído
+                    </Radio>
+                  </HStack>
+                </RadioGroup>
+              )}
+            />
           </VStack>
         </HStack>
 

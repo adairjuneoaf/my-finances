@@ -21,4 +21,5 @@ export interface ContextDrawerValuesProps {
   handleIsLoadingDataForEdit: () => void;
   handleDrawerNewTransaction: () => void;
   handleDrawerEditTransaction: (transactionID: string) => void;
+  handleDrawerNewPaymentMethod: () => void;
 }

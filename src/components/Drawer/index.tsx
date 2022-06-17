@@ -4,19 +4,15 @@ import React, { useContext } from "react";
 // Imports Next
 
 // Chakra Imports
-import {
-  Text,
-  Flex,
-  Drawer,
-  DrawerHeader,
-  DrawerContent,
-  DrawerOverlay,
-  DrawerCloseButton,
-} from "@chakra-ui/react";
+import { Text, Flex, Drawer, DrawerHeader, DrawerContent, DrawerOverlay, DrawerCloseButton } from "@chakra-ui/react";
 
 // Components Imports
 import NewTransactionBody from "./newTransaction";
 import EditTransactionBody from "./editTransaction";
+import NewPaymentMethod from "./newPaymentMethod";
+import EditPaymentMethod from "./editPaymentMethod";
+import NewCreditorDebtor from "./newCreditorDebtor";
+import EditCreditorDebtor from "./editCreditorDebtor";
 
 // ContextImports Imports
 import { ContextDrawer } from "../../contexts/contextDrawer";
@@ -59,6 +55,30 @@ const DrawerComponent: React.FC = () => {
               Editar lançamento
             </Text>
           )}
+
+          {drawerType === "new-payment-method" && (
+            <Text as="h2" fontSize="24px">
+              Novo método de pagamento
+            </Text>
+          )}
+
+          {drawerType === "edit-payment-method" && (
+            <Text as="h2" fontSize="24px">
+              Editar método de pagamento
+            </Text>
+          )}
+
+          {drawerType === "new-creditor-debtor" && (
+            <Text as="h2" fontSize="24px">
+              Novo credor/devedor
+            </Text>
+          )}
+
+          {drawerType === "edit-creditor-debtor" && (
+            <Text as="h2" fontSize="24px">
+              Editar credor/devedor
+            </Text>
+          )}
         </DrawerHeader>
 
         {drawerType === "default" && (
@@ -76,8 +96,12 @@ const DrawerComponent: React.FC = () => {
         )}
 
         {drawerType === "new-transaction" && <NewTransactionBody />}
+        {drawerType === "new-payment-method" && <NewPaymentMethod />}
+        {drawerType === "new-creditor-debtor" && <NewCreditorDebtor />}
 
         {drawerType === "edit-transaction" && <EditTransactionBody />}
+        {drawerType === "edit-payment-method" && <EditPaymentMethod />}
+        {drawerType === "edit-creditor-debtor" && <EditCreditorDebtor />}
       </DrawerContent>
     </Drawer>
   );

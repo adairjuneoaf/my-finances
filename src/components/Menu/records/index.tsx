@@ -1,8 +1,11 @@
 // Imports React
-import React from "react";
+import React, { useContext } from "react";
 
 // Chakra Imports
 import { Button, Menu, MenuButton, MenuList } from "@chakra-ui/react";
+
+// Context Imports
+import { ContextDrawer } from "../../../contexts/contextDrawer";
 
 // Components Imports
 import MenuItem from "../menuItem";
@@ -11,6 +14,8 @@ import MenuItem from "../menuItem";
 import { FiCreditCard, FiSettings, FiUsers } from "react-icons/fi";
 
 const MenuRecordsComponent: React.FC = () => {
+  const { handleDrawerNewPaymentMethod } = useContext(ContextDrawer);
+
   return (
     <Menu>
       <MenuButton as={Button} leftIcon={<FiSettings fontSize={"18px"} />} colorScheme="blue">
@@ -18,7 +23,9 @@ const MenuRecordsComponent: React.FC = () => {
       </MenuButton>
 
       <MenuList backgroundColor="gray.800" borderColor="gray.700">
-        <MenuItem icon={<FiCreditCard fontSize={"16px"} />}>Formas de Pagamento</MenuItem>
+        <MenuItem icon={<FiCreditCard fontSize={"16px"} />} onClick={handleDrawerNewPaymentMethod}>
+          Formas de Pagamento
+        </MenuItem>
         <MenuItem icon={<FiUsers fontSize={"16px"} />}>Credores/Devedores</MenuItem>
       </MenuList>
     </Menu>

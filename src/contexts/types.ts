@@ -22,4 +22,5 @@ export interface ContextDrawerValuesProps {
   handleDrawerNewTransaction: () => void;
   handleDrawerEditTransaction: (transactionID: string) => void;
   handleDrawerNewPaymentMethod: () => void;
+  handleDrawerNewCreditorDebtor: () => void;
 }

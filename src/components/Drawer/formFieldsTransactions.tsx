@@ -170,8 +170,8 @@ export const getFormFieldsTransaction = () => {
             <Controller
               name="type"
               control={control}
-              render={({ field: { value, onChange } }) => (
-                <RadioGroup value={value} onChange={onChange}>
+              render={({ field }) => (
+                <RadioGroup {...field}>
                   <HStack spacing="3">
                     <Radio value="0" colorScheme="red">
                       Saída
@@ -192,8 +192,8 @@ export const getFormFieldsTransaction = () => {
             <Controller
               name="status"
               control={control}
-              render={({ field: { value, onChange } }) => (
-                <RadioGroup value={value} onChange={onChange}>
+              render={({ field }) => (
+                <RadioGroup {...field}>
                   <HStack spacing="3">
                     <Radio value="0" colorScheme="yellow">
                       Em aberto

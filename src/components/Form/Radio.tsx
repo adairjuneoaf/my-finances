@@ -1,10 +1,5 @@
 // React Imports
-import React, {
-  CSSProperties,
-  forwardRef,
-  ForwardRefRenderFunction,
-  ReactNode,
-} from "react";
+import React, { CSSProperties, forwardRef, ForwardRefRenderFunction, ReactNode } from "react";
 
 // Chakra Imports
 import {
@@ -20,27 +15,26 @@ import { FieldError } from "react-hook-form";
 import { HStack } from "@chakra-ui/react";
 
 // Styles In JS
-const stylesRadio: CSSProperties = {
-  cursor: "pointer",
+// const stylesRadio: CSSProperties = {
+//   cursor: "pointer",
 
-  width: "16px",
-  height: "16px",
-};
+//   width: "16px",
+//   height: "16px",
+// };
 
 // Typings[TypeScript]
 interface IRadioComponentProps extends RadioPropsChakra {
-  // id: string;
-  // value: string | number;
+  id: string;
   // label?: string;
   children?: ReactNode;
   isRequired?: boolean;
   errorRadio?: FieldError;
 }
 
-const Radio: ForwardRefRenderFunction<
-  HTMLInputElement,
-  IRadioComponentProps
-> = ({ errorRadio = null, isRequired = false, children, ...props }, ref) => {
+const Radio: ForwardRefRenderFunction<HTMLInputElement, IRadioComponentProps> = (
+  { id, errorRadio = null, isRequired = false, children, ...props },
+  ref
+) => {
   return (
     <FormControl isInvalid={!!errorRadio} isRequired={isRequired}>
       {/* <HStack spacing="2">

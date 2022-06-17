@@ -38,6 +38,11 @@ const ContextDrawerProvider = ({ children }: ContextDrawerProviderProps) => {
     disclosure.onOpen();
   };
 
+  const handleDrawerNewCreditorDebtor = () => {
+    setDrawerType("new-creditor-debtor");
+    disclosure.onOpen();
+  };
+
   const handleDrawerEditTransaction = (transactionID: string) => {
     setIsEditing(true);
     setIsLoadingDataForEdit(true);
@@ -68,6 +73,7 @@ const ContextDrawerProvider = ({ children }: ContextDrawerProviderProps) => {
         handleDrawerNewTransaction,
         handleDrawerEditTransaction,
         handleDrawerNewPaymentMethod,
+        handleDrawerNewCreditorDebtor,
       }}
     >
       {children}

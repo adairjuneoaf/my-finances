@@ -21,18 +21,18 @@ import { useReactQuery } from "../../hooks/useReactQuery";
 import { getUniqueTransaction } from "../../services/api";
 
 // Typings[TypeScript]
-import { PaymentMethodType } from "../../@types/PaymentMethodType";
+import { CreditorDebtorType } from "../../@types/CreditorDebtorType";
 
 // Another Imports
 import { v4 as uuid } from "uuid";
 import { FiSave, FiX } from "react-icons/fi";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import validationPaymentMethodForm from "./formValidationPaymentMethod";
+import validationCreditorDebtorForm from "./formValidationCreditorDebtor";
 
-export const getFormFieldsPaymentMethod = () => {
-  const { handleSubmit, register, formState, reset, control } = useForm<PaymentMethodType>({
-    resolver: yupResolver(validationPaymentMethodForm),
+export const getFormFieldsCreditorDebtor = () => {
+  const { handleSubmit, register, formState, reset, control } = useForm<CreditorDebtorType>({
+    resolver: yupResolver(validationCreditorDebtorForm),
   });
 
   const {
@@ -53,7 +53,7 @@ export const getFormFieldsPaymentMethod = () => {
   const { data: creditorsDebtorsList } = creditorsDebtors;
   const { data: paymentMethodsList } = paymentMethods;
 
-  const submitPaymentMethod: SubmitHandler<PaymentMethodType> = async ({ id, ...data }) => {
+  const submitCreditorDebtor: SubmitHandler<CreditorDebtorType> = async ({ id, ...data }) => {
     await new Promise((resolve) => {
       setTimeout(() => {
         console.log({ id: uuid(), ...data });
@@ -65,7 +65,7 @@ export const getFormFieldsPaymentMethod = () => {
     });
   };
 
-  const cancelSubmitPaymentMethod = () => {
+  const cancelSubmitCreditorDebtor = () => {
     onClose();
     reset();
 
@@ -131,7 +131,7 @@ export const getFormFieldsPaymentMethod = () => {
           <InputComponent
             id="title"
             type="text"
-            label="Título do método de pagamento"
+            label="Nome do Credor/Devedor"
             isRequired
             {...register("title")}
             errorInput={errors.title}
@@ -141,7 +141,7 @@ export const getFormFieldsPaymentMethod = () => {
         <HStack alignItems="flex-start">
           <VStack alignItems="flex-start" flex="1">
             <Text as="label" fontSize="lg" padding="0" marginY="2" fontWeight="medium">
-              Status do método de pagamento
+              Status do Credor/Devedor
             </Text>
 
             <Controller
@@ -167,7 +167,7 @@ export const getFormFieldsPaymentMethod = () => {
           <InputTextAreaComponent
             id="anotherInformation"
             label="Outras informações"
-            placeholder="Outras informações relevantes sobre o método de pagamento..."
+            placeholder="Outras informações relevantes sobre o Credor/Devedor..."
             {...register("anotherInformation")}
             errorInput={errors.anotherInformation}
           />
@@ -179,7 +179,7 @@ export const getFormFieldsPaymentMethod = () => {
             type="button"
             leftIcon={<FiX fontSize="18" />}
             colorScheme="red"
-            onClick={cancelSubmitPaymentMethod}
+            onClick={cancelSubmitCreditorDebtor}
             disabled={isSubmitting}
           >
             Cancelar
@@ -189,7 +189,7 @@ export const getFormFieldsPaymentMethod = () => {
             colorScheme="green"
             isLoading={isSubmitting}
             leftIcon={<FiSave fontSize="18" />}
-            onClick={handleSubmit(submitPaymentMethod)}
+            onClick={handleSubmit(submitCreditorDebtor)}
           >
             Salvar
           </Button>

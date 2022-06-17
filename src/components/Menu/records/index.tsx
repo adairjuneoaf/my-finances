@@ -14,7 +14,7 @@ import MenuItem from "../menuItem";
 import { FiCreditCard, FiSettings, FiUsers } from "react-icons/fi";
 
 const MenuRecordsComponent: React.FC = () => {
-  const { handleDrawerNewPaymentMethod } = useContext(ContextDrawer);
+  const { handleDrawerNewPaymentMethod, handleDrawerNewCreditorDebtor } = useContext(ContextDrawer);
 
   return (
     <Menu>
@@ -26,7 +26,9 @@ const MenuRecordsComponent: React.FC = () => {
         <MenuItem icon={<FiCreditCard fontSize={"16px"} />} onClick={handleDrawerNewPaymentMethod}>
           Formas de Pagamento
         </MenuItem>
-        <MenuItem icon={<FiUsers fontSize={"16px"} />}>Credores/Devedores</MenuItem>
+        <MenuItem icon={<FiUsers fontSize={"16px"} />} onClick={handleDrawerNewCreditorDebtor}>
+          Credores/Devedores
+        </MenuItem>
       </MenuList>
     </Menu>
   );

@@ -6,6 +6,7 @@ import { formatDate } from "../utils/formatDate";
 
 // Typings[TypeScript]
 import { TransactionDataType } from "./../@types/TransactionDataType";
+import { formatValueToMoney } from "../utils/formatValueToMoney";
 
 type DataPaymentsMethodAPI = {
   id: string;
@@ -21,8 +22,12 @@ type DataCreditorDebtorAPI = {
   anotherInformation: string;
 };
 
+interface AllTransactionsFormated extends TransactionDataType {
+  valueTransactionFormated: string;
+}
+
 export const getAllTransactions = async () => {
-  const data: Array<TransactionDataType> = await api
+  const listTransactions: Array<AllTransactionsFormated> = await api
     .get("/transactions")
     .then((response) => {
       return response.data;
@@ -30,6 +35,13 @@ export const getAllTransactions = async () => {
     .catch((error) => {
       return console.error("Error", error.message);
     });
+
+  const data = listTransactions.map((transaction) => ({
+    ...transaction,
+    valueTransactionFormated: formatValueToMoney(transaction.valueTransaction),
+  }))
+
+  console.log(data);
 
   return data;
 };

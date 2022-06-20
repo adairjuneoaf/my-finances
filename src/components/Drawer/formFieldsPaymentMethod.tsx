@@ -157,13 +157,13 @@ export const getFormFieldsPaymentMethod = () => {
                 name="status"
                 control={control}
                 render={({ field }) => (
-                  <RadioGroup {...field}>
+                  <RadioGroup {...field} defaultValue={"0"}>
                     <HStack spacing="3">
-                      <Radio value="0" colorScheme="yellow">
-                        Em aberto
+                      <Radio value="0" colorScheme="red">
+                        Inativo
                       </Radio>
                       <Radio value="1" colorScheme="green">
-                        Concluído
+                        Ativo
                       </Radio>
                     </HStack>
                   </RadioGroup>

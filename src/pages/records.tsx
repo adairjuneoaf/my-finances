@@ -40,7 +40,7 @@ import { useReactQuery } from "../hooks/useReactQuery";
 import { FiActivity, FiCreditCard, FiList, FiUser, FiUserPlus } from "react-icons/fi";
 
 const TransactionsPage: NextPage = () => {
-  const {} = useContext(ContextDrawer);
+  const { handleDrawerNewPaymentMethod, handleDrawerNewCreditorDebtor } = useContext(ContextDrawer);
 
   const { creditorsDebtors, paymentMethods } = useReactQuery();
 
@@ -132,6 +132,7 @@ const TransactionsPage: NextPage = () => {
                     fontSize="14"
                     fontWeight="medium"
                     leftIcon={<FiCreditCard fontSize="18" />}
+                    onClick={handleDrawerNewPaymentMethod}
                   >
                     Novo Método de pagamento
                   </Button>
@@ -161,6 +162,7 @@ const TransactionsPage: NextPage = () => {
                     fontSize="14"
                     fontWeight="medium"
                     leftIcon={<FiUserPlus fontSize="18" />}
+                    onClick={handleDrawerNewCreditorDebtor}
                   >
                     Novo Credor/Devedor
                   </Button>

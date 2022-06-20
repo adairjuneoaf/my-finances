@@ -3,6 +3,7 @@ import React, { Fragment, useContext } from "react";
 
 // Imports Next
 import NextHead from "next/head";
+import NextLink from "next/link";
 import { NextPage } from "next";
 
 // Chakra Imports
@@ -35,7 +36,7 @@ import { ContextDrawer } from "../contexts/contextDrawer";
 import { useReactQuery } from "../hooks/useReactQuery";
 
 // Another Imports
-import { FiSearch } from "react-icons/fi";
+import { FiActivity, FiSearch, FiSettings } from "react-icons/fi";
 import { RiAddFill } from "react-icons/ri";
 
 const TransactionsPage: NextPage = () => {
@@ -86,7 +87,16 @@ const TransactionsPage: NextPage = () => {
             {isFetching && !isLoading && <Spinner color="green.500" size="md" thickness="4px" speed="0.5s" />}
           </HStack>
           <HStack spacing="4">
-            <MenuRecordsComponent />
+            <NextLink passHref href="/dashboard">
+              <Button type="button" colorScheme="whiteAlpha" leftIcon={<FiActivity fontSize="18" />}>
+                Dashboard
+              </Button>
+            </NextLink>
+            <NextLink passHref href="/records">
+              <Button type="button" colorScheme="blue" leftIcon={<FiSettings fontSize="18" />}>
+                Cadastros
+              </Button>
+            </NextLink>
             <Button
               type="button"
               colorScheme="green"

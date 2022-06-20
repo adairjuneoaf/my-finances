@@ -38,7 +38,6 @@ const InputValue: ForwardRefRenderFunction<HTMLInputElement, IInputComponentProp
           {label}
         </FormLabel>
       )}
-      {/* CRIAR OPÇÕES DE PERSONALIZAÇÃO PARA O COMPONENTE DE INPUT VALUE(OPÇÕES COMO LEFT-ICON, BOTÃO DE INCREMENT/DECREMENT, ETC....) */}
       <InputGroup>
         <InputLeftAddon
           backgroundColor="gray.700"

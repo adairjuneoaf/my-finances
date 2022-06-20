@@ -1,14 +1,24 @@
 // React Imports
-import { Fragment, useContext, useEffect } from "react";
+import { Fragment, useContext } from "react";
 
 // Chakra Imports
-import { Text, Radio, HStack, VStack, Button, Spinner, DrawerBody, RadioGroup, DrawerFooter } from "@chakra-ui/react";
+import {
+  Text,
+  Radio,
+  HStack,
+  VStack,
+  Button,
+  Spinner,
+  DrawerBody,
+  RadioGroup,
+  FormControl,
+  DrawerFooter,
+  FormErrorMessage,
+  FormLabel,
+} from "@chakra-ui/react";
 
 // Component Imports
 import { InputComponent } from "../Form/Input";
-import { RadioComponent } from "../Form/Radio";
-import { SelectComponent } from "../Form/Select";
-import { InputValueComponent } from "../Form/InputValue";
 import { InputTextAreaComponent } from "../Form/InputTextArea";
 
 // Context Imports
@@ -18,7 +28,6 @@ import { ContextDrawer } from "../../contexts/contextDrawer";
 import { useReactQuery } from "../../hooks/useReactQuery";
 
 // API Services
-import { getUniqueTransaction } from "../../services/api";
 
 // Typings[TypeScript]
 import { CreditorDebtorType } from "../../@types/CreditorDebtorType";
@@ -140,26 +149,28 @@ export const getFormFieldsCreditorDebtor = () => {
 
         <HStack alignItems="flex-start">
           <VStack alignItems="flex-start" flex="1">
-            <Text as="label" fontSize="lg" padding="0" marginY="2" fontWeight="medium">
-              Status do Credor/Devedor
-            </Text>
-
-            <Controller
-              name="status"
-              control={control}
-              render={({ field }) => (
-                <RadioGroup {...field}>
-                  <HStack spacing="3">
-                    <Radio value="0" colorScheme="red">
-                      Inativo
-                    </Radio>
-                    <Radio value="1" colorScheme="green">
-                      Ativo
-                    </Radio>
-                  </HStack>
-                </RadioGroup>
-              )}
-            />
+            <FormControl isInvalid={!!errors.status} isRequired>
+              <FormLabel htmlFor="status" fontSize="lg" padding="0" marginY="2" fontWeight="medium">
+                Status do Credor/Devedor
+              </FormLabel>
+              <Controller
+                name="status"
+                control={control}
+                render={({ field }) => (
+                  <RadioGroup {...field}>
+                    <HStack spacing="3">
+                      <Radio value="0" colorScheme="yellow">
+                        Em aberto
+                      </Radio>
+                      <Radio value="1" colorScheme="green">
+                        Concluído
+                      </Radio>
+                    </HStack>
+                  </RadioGroup>
+                )}
+              />
+              {errors.status && <FormErrorMessage>{errors?.status.message}</FormErrorMessage>}
+            </FormControl>
           </VStack>
         </HStack>
 

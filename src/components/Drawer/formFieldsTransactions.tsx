@@ -2,11 +2,23 @@
 import { Fragment, useContext, useEffect } from "react";
 
 // Chakra Imports
-import { Text, Radio, HStack, VStack, Button, Spinner, DrawerBody, RadioGroup, DrawerFooter } from "@chakra-ui/react";
+import {
+  Text,
+  Radio,
+  HStack,
+  VStack,
+  Button,
+  Spinner,
+  DrawerBody,
+  RadioGroup,
+  DrawerFooter,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
+} from "@chakra-ui/react";
 
 // Component Imports
 import { InputComponent } from "../Form/Input";
-import { RadioComponent } from "../Form/Radio";
 import { SelectComponent } from "../Form/Select";
 import { InputValueComponent } from "../Form/InputValue";
 import { InputTextAreaComponent } from "../Form/InputTextArea";
@@ -30,13 +42,15 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import validationTransactionForm from "./formValidationTransactions";
 
 export const getFormFieldsTransaction = () => {
-  const { handleSubmit, register, formState, reset, setValue, control } = useForm<TransactionDataType>({
+  const { handleSubmit, register, formState, reset, setValue, control, resetField } = useForm<TransactionDataType>({
     resolver: yupResolver(validationTransactionForm),
+    mode: "onBlur",
   });
 
   const {
     isEditing,
     disclosure,
+    drawerType,
     transactionID,
     isLoadingDataForEdit,
     handleResetTransactionID,
@@ -60,6 +74,16 @@ export const getFormFieldsTransaction = () => {
       }, 3000);
     }).then(() => {
       reset();
+      resetField("type", {
+        defaultValue: "0",
+      });
+      resetField("status", {
+        defaultValue: "0",
+      });
+      resetField("valueTransaction", {
+        defaultValue: 0,
+      });
+
       handleResetTransactionID();
     });
   };
@@ -67,6 +91,15 @@ export const getFormFieldsTransaction = () => {
   const cancelSubmitTransaction = () => {
     onClose();
     reset();
+    resetField("type", {
+      defaultValue: "0",
+    });
+    resetField("status", {
+      defaultValue: "0",
+    });
+    resetField("valueTransaction", {
+      defaultValue: 0,
+    });
 
     if (isEditing) {
       handleResetTransactionID();
@@ -74,14 +107,14 @@ export const getFormFieldsTransaction = () => {
   };
 
   useEffect(() => {
-    if (transactionID !== null) {
+    if (transactionID !== null && drawerType === "edit-transaction") {
       getUniqueTransaction(transactionID)
         .then((response) => {
           Object.entries(response).forEach(([name, value]) => setValue(name as keyof TransactionDataType, value));
           console.log(response);
         })
         .catch((error) => {
-          console.log("Error", error);
+          console.error("Error", error);
         })
         .finally(() => {
           handleIsLoadingDataForEdit();
@@ -163,48 +196,52 @@ export const getFormFieldsTransaction = () => {
 
         <HStack alignItems="flex-start">
           <VStack alignItems="flex-start" spacing="3" flex="1">
-            <Text as="label" fontSize="lg" padding="0" marginY="2" fontWeight="medium">
-              Tipo de lançamento
-            </Text>
-
-            <Controller
-              name="type"
-              control={control}
-              render={({ field }) => (
-                <RadioGroup {...field}>
-                  <HStack spacing="3">
-                    <Radio value="0" colorScheme="red">
-                      Saída
-                    </Radio>
-                    <Radio value="1" colorScheme="green">
-                      Entrada
-                    </Radio>
-                  </HStack>
-                </RadioGroup>
-              )}
-            />
+            <FormControl isInvalid={!!errors.type} isRequired>
+              <FormLabel htmlFor="status" fontSize="lg" padding="0" marginY="2" fontWeight="medium">
+                Tipo de lançamento
+              </FormLabel>
+              <Controller
+                name="type"
+                control={control}
+                render={({ field }) => (
+                  <RadioGroup {...field}>
+                    <HStack spacing="3">
+                      <Radio value="0" colorScheme="red">
+                        Saída
+                      </Radio>
+                      <Radio value="1" colorScheme="green">
+                        Entrada
+                      </Radio>
+                    </HStack>
+                  </RadioGroup>
+                )}
+              />
+              {errors.type && <FormErrorMessage>{errors?.type.message}</FormErrorMessage>}
+            </FormControl>
           </VStack>
           <VStack alignItems="flex-start" spacing="3" flex="1">
-            <Text as="label" fontSize="lg" padding="0" marginY="2" fontWeight="medium">
-              Status do lançamento
-            </Text>
-
-            <Controller
-              name="status"
-              control={control}
-              render={({ field }) => (
-                <RadioGroup {...field}>
-                  <HStack spacing="3">
-                    <Radio value="0" colorScheme="yellow">
-                      Em aberto
-                    </Radio>
-                    <Radio value="1" colorScheme="green">
-                      Concluído
-                    </Radio>
-                  </HStack>
-                </RadioGroup>
-              )}
-            />
+            <FormControl isInvalid={!!errors.status} isRequired>
+              <FormLabel htmlFor="status" fontSize="lg" padding="0" marginY="2" fontWeight="medium">
+                Status do lançamento
+              </FormLabel>
+              <Controller
+                name="status"
+                control={control}
+                render={({ field }) => (
+                  <RadioGroup {...field}>
+                    <HStack spacing="3">
+                      <Radio value="0" colorScheme="yellow">
+                        Em aberto
+                      </Radio>
+                      <Radio value="1" colorScheme="green">
+                        Concluído
+                      </Radio>
+                    </HStack>
+                  </RadioGroup>
+                )}
+              />
+              {errors.status && <FormErrorMessage>{errors?.status.message}</FormErrorMessage>}
+            </FormControl>
           </VStack>
         </HStack>
 

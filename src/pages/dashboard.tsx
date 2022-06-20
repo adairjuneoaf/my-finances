@@ -26,7 +26,7 @@ import { useReactQuery } from "../hooks/useReactQuery";
 
 // Another Imports
 import { RiAddFill } from "react-icons/ri";
-import { FiList, FiDollarSign, FiArrowUp, FiArrowDown } from "react-icons/fi";
+import { FiList, FiDollarSign, FiArrowUp, FiArrowDown, FiSettings } from "react-icons/fi";
 
 const DashboardPage: NextPage = () => {
   const { handleDrawerNewTransaction } = useContext(ContextDrawer);
@@ -78,7 +78,11 @@ const DashboardPage: NextPage = () => {
             {isFetching && !isLoading && <Spinner color="green.500" size="md" thickness="4px" speed="0.5s" />}
           </HStack>
           <HStack spacing="4">
-            <MenuRecordsComponent />
+            <NextLink passHref href="/records">
+              <Button type="button" colorScheme="blue" leftIcon={<FiSettings fontSize="18" />}>
+                Cadastros
+              </Button>
+            </NextLink>
             <Button
               type="button"
               colorScheme="green"

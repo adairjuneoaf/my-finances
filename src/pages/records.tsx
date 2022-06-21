@@ -38,6 +38,7 @@ import { useReactQuery } from "../hooks/useReactQuery";
 
 // Another Imports
 import { FiActivity, FiCreditCard, FiList, FiUser, FiUserPlus } from "react-icons/fi";
+import TablePaymentMethodsComponent from "../components/TablePaymentMethods";
 
 const TransactionsPage: NextPage = () => {
   const { handleDrawerNewPaymentMethod, handleDrawerNewCreditorDebtor } = useContext(ContextDrawer);
@@ -138,9 +139,9 @@ const TransactionsPage: NextPage = () => {
                   </Button>
                 </HStack>
                 Segue abaixo uma tabela com todos os métodos de pagamento cadastros.
-                <Box as="div">
-                  <pre>{JSON.stringify(listPaymentMethods, null, 2)}</pre>
-                </Box>
+                <Flex width='100%' height="100%" paddingY="8" margin="auto">
+                  <TablePaymentMethodsComponent paymentMethods={listPaymentMethods} isLoading={isLoadingPaymentMethods} />
+                </Flex>
               </AccordionPanel>
             </AccordionItem>
 

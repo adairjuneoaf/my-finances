@@ -14,12 +14,13 @@ import TableBody from "./TableBody";
 
 // Typings[TypeScript]
 import { PaymentMethodType } from "../../@types/PaymentMethodType";
-type TableTransactionsData = {
+
+type TablePaymentMethodsData = {
   paymentMethods?: Array<PaymentMethodType>;
   isLoading?: boolean;
 };
 
-const TableTransactionsComponent: React.FC<TableTransactionsData> = ({ paymentMethods, isLoading }) => {
+const TablePaymentMethodsComponent: React.FC<TablePaymentMethodsData> = ({ paymentMethods, isLoading }) => {
 
   return (
     <TableContainer width="100%" backgroundColor="gray.800" padding="8" borderRadius="10">
@@ -57,10 +58,10 @@ const TableTransactionsComponent: React.FC<TableTransactionsData> = ({ paymentMe
             </Tr>
           )}
         </Tbody>
-        <Tfoot paddingY='4' />
+        <Tfoot height='4' />
       </Table>
     </TableContainer>
   );
 };
 
-export default TableTransactionsComponent;
+export default TablePaymentMethodsComponent;

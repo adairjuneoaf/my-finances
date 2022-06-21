@@ -89,31 +89,31 @@
     {
       "id": "a9f61e94-eb41-11ec-8fea-0242ac120002",
       "title": "MRV",
-      "status": 1,
+      "status": "1",
       "anotherInformation": "Empresa responsável pelo recebimento de débitos da entrada do apartamento."
     },
     {
       "id": "a9f62a10-eb41-11ec-8fea-0242ac120002",
       "title": "CAIXA",
-      "status": 1,
+      "status": "1",
       "anotherInformation": "Banco responsável pelo recebimento dos débitos de financiamento do apartamento."
     },
     {
       "id": "a9f62ba0-eb41-11ec-8fea-0242ac120002",
       "title": "Nubank",
-      "status": 1,
+      "status": "1",
       "anotherInformation": "Banco onde tenho cartão de crédito e conta digital."
     },
     {
       "id": "a9f62d30-eb41-11ec-8fea-0242ac120002",
       "title": "TIM",
-      "status": 1,
+      "status": "1",
       "anotherInformation": "Empresa telefônica responsável pelo plano do meu número."
     },
     {
       "id": "a9f62e0c-eb41-11ec-8fea-0242ac120002",
       "title": "Linear Sistemas",
-      "status": 1,
+      "status": "1",
       "anotherInformation": "Empresa responsável pelo pagamento do meu salário."
     }
   ],
@@ -121,31 +121,31 @@
     {
       "id": "68f3538a-eb41-11ec-8fea-0242ac120002",
       "title": "Boleto",
-      "status": 1,
+      "status": "1",
       "anotherInformation": ""
     },
     {
       "id": "68f35664-eb41-11ec-8fea-0242ac120002",
       "title": "PIX",
-      "status": 1,
+      "status": "1",
       "anotherInformation": ""
     },
     {
       "id": "68f35920-eb41-11ec-8fea-0242ac120002",
       "title": "Cartão de Crédito",
-      "status": 1,
+      "status": "0",
       "anotherInformation": ""
     },
     {
       "id": "68f35a6a-eb41-11ec-8fea-0242ac120002",
       "title": "Débito em conta",
-      "status": 1,
+      "status": "1",
       "anotherInformation": ""
     },
     {
       "id": "68f35bb4-eb41-11ec-8fea-0242ac120002",
       "title": "Dinheiro",
-      "status": 1,
+      "status": "1",
       "anotherInformation": ""
     }
   ]

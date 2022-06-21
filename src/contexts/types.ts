@@ -16,11 +16,17 @@ export interface ContextDrawerValuesProps {
   disclosure: UseDisclosureReturn;
   drawerType: DrawerTypes;
   transactionID: string | null;
+  paymentMethodID: string | null;
+  creditorDebtorID: string | null;
   isLoadingDataForEdit: boolean;
-  handleResetTransactionID: () => void;
   handleIsLoadingDataForEdit: () => void;
-  handleDrawerNewTransaction: () => void;
+  handleResetTransactionID: () => void;
+  handleResetPaymentMethodID: () => void;
+  handleResetCreditorDebtorID: () => void;
   handleDrawerEditTransaction: (transactionID: string) => void;
+  handleDrawerEditPaymentMethod: (paymentMethodID: string) => void;
+  handleDrawerEditCreditorDebtor: (creditorDebtorID: string) => void;
+  handleDrawerNewTransaction: () => void;
   handleDrawerNewPaymentMethod: () => void;
   handleDrawerNewCreditorDebtor: () => void;
 }

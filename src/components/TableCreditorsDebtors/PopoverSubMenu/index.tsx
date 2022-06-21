@@ -17,13 +17,13 @@ import {
 import { ContextDrawer } from "../../../contexts/contextDrawer";
 
 // Another Imports
-import { FiEdit, FiEye, FiMoreVertical, FiPower } from "react-icons/fi";
+import { FiEdit, FiTrash, FiEye, FiMoreVertical, FiPower } from "react-icons/fi";
 
 // Typings[TypeScript]
 import { IPopoverSubMenu } from "./types";
 
-const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ paymentMethodID, status }) => {
-  const { handleDrawerEditPaymentMethod } = useContext(ContextDrawer);
+const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ creditorDebtorID, status }) => {
+  const { handleDrawerEditCreditorDebtor } = useContext(ContextDrawer);
 
   return (
     <Popover>
@@ -39,7 +39,7 @@ const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ paymentMethodID, s
           <HStack>
             <Tooltip hasArrow label="Detalhes">
               <IconButton
-                aria-label="more-details-paymentMethod"
+                aria-label="more-details-creditorDebtor"
                 icon={<FiEye fontSize="24" color="white" />}
                 backgroundColor="blue.500"
                 colorScheme="blue"
@@ -47,19 +47,19 @@ const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ paymentMethodID, s
             </Tooltip>
             <Tooltip hasArrow label="Editar">
               <IconButton
-                aria-label="edit-paymentMethod"
+                aria-label="edit-creditorDebtor"
                 icon={<FiEdit fontSize="24" color="white" />}
                 backgroundColor="green.500"
                 colorScheme="green"
                 onClick={() => {
-                  handleDrawerEditPaymentMethod(paymentMethodID);
+                  handleDrawerEditCreditorDebtor(creditorDebtorID);
                 }}
               />
             </Tooltip>
             {status === "1" ? (
               <Tooltip hasArrow label="Inativar">
                 <IconButton
-                  aria-label="inactive-paymentMethod"
+                  aria-label="inactive-creditorDebtor"
                   icon={<FiPower fontSize="24" color="white" />}
                   backgroundColor="red.500"
                   colorScheme="red"
@@ -68,7 +68,7 @@ const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ paymentMethodID, s
             ) : (
               <Tooltip hasArrow label="Ativar">
                 <IconButton
-                  aria-label="active-paymentMethod"
+                  aria-label="active-creditorDebtor"
                   icon={<FiPower fontSize="24" color="white" />}
                   backgroundColor="green.500"
                   colorScheme="green"

@@ -39,6 +39,7 @@ import { useReactQuery } from "../hooks/useReactQuery";
 // Another Imports
 import { FiActivity, FiCreditCard, FiList, FiUser, FiUserPlus } from "react-icons/fi";
 import TablePaymentMethodsComponent from "../components/TablePaymentMethods";
+import TableCreditorsDebtorsComponent from "../components/TableCreditorsDebtors/index";
 
 const TransactionsPage: NextPage = () => {
   const { handleDrawerNewPaymentMethod, handleDrawerNewCreditorDebtor } = useContext(ContextDrawer);
@@ -46,9 +47,9 @@ const TransactionsPage: NextPage = () => {
   const { creditorsDebtors, paymentMethods } = useReactQuery();
 
   const {
-    data: listCreditorDebtors,
-    isFetching: isFetchingCreditorDebtors,
-    isLoading: isLoadingCreditorDebtors,
+    data: listCreditorsDebtors,
+    isFetching: isFetchingCreditorsDebtors,
+    isLoading: isLoadingCreditorsDebtors,
   } = creditorsDebtors;
   const {
     data: listPaymentMethods,
@@ -94,8 +95,8 @@ const TransactionsPage: NextPage = () => {
             <Text as="h1" fontSize="3xl" fontWeight="extrabold">
               Cadastros
             </Text>
-            {(isFetchingCreditorDebtors || isFetchingPaymentMethods) &&
-              (!isLoadingCreditorDebtors || !isLoadingPaymentMethods) && (
+            {(isFetchingCreditorsDebtors || isFetchingPaymentMethods) &&
+              (!isFetchingCreditorsDebtors || !isLoadingPaymentMethods) && (
                 <Spinner color="green.500" size="md" thickness="4px" speed="0.5s" />
               )}
           </HStack>
@@ -139,8 +140,11 @@ const TransactionsPage: NextPage = () => {
                   </Button>
                 </HStack>
                 Segue abaixo uma tabela com todos os métodos de pagamento cadastros.
-                <Flex width='100%' height="100%" paddingY="8" margin="auto">
-                  <TablePaymentMethodsComponent paymentMethods={listPaymentMethods} isLoading={isLoadingPaymentMethods} />
+                <Flex width="100%" height="100%" paddingY="8" margin="auto">
+                  <TablePaymentMethodsComponent
+                    paymentMethods={listPaymentMethods}
+                    isLoading={isLoadingPaymentMethods}
+                  />
                 </Flex>
               </AccordionPanel>
             </AccordionItem>
@@ -169,9 +173,12 @@ const TransactionsPage: NextPage = () => {
                   </Button>
                 </HStack>
                 Segue abaixo uma tabela com todos os credores/devedor cadastros.
-                <Box as="div">
-                  <pre>{JSON.stringify(listCreditorDebtors, null, 2)}</pre>
-                </Box>
+                <Flex width="100%" height="100%" paddingY="8" margin="auto">
+                  <TableCreditorsDebtorsComponent
+                    creditorsDebtors={listCreditorsDebtors}
+                    isLoading={isLoadingCreditorsDebtors}
+                  />
+                </Flex>
               </AccordionPanel>
             </AccordionItem>
           </Accordion>

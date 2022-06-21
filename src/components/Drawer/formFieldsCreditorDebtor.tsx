@@ -1,5 +1,5 @@
 // React Imports
-import { Fragment, useContext } from "react";
+import { Fragment, useContext, useEffect } from "react";
 
 // Chakra Imports
 import {
@@ -24,53 +24,45 @@ import { InputTextAreaComponent } from "../Form/InputTextArea";
 // Context Imports
 import { ContextDrawer } from "../../contexts/contextDrawer";
 
-// Hook Imports
-import { useReactQuery } from "../../hooks/useReactQuery";
-
 // API Services
+import { getUniqueCreditorDebtor } from "../../services/api";
 
 // Typings[TypeScript]
 import { CreditorDebtorType } from "../../@types/CreditorDebtorType";
 
 // Another Imports
-import { v4 as uuid } from "uuid";
 import { FiSave, FiX } from "react-icons/fi";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import validationCreditorDebtorForm from "./formValidationCreditorDebtor";
 
 export const getFormFieldsCreditorDebtor = () => {
-  const { handleSubmit, register, formState, reset, control } = useForm<CreditorDebtorType>({
+  const { handleSubmit, register, formState, reset, control, setValue } = useForm<CreditorDebtorType>({
     resolver: yupResolver(validationCreditorDebtorForm),
   });
 
   const {
-    // isEditing,
+    isEditing,
     disclosure,
-    // transactionID,
+    creditorDebtorID,
     isLoadingDataForEdit,
-    // handleResetTransactionID,
-    // handleIsLoadingDataForEdit,
+    handleResetCreditorDebtorID,
+    handleIsLoadingDataForEdit,
   } = useContext(ContextDrawer);
 
   const { onClose } = disclosure;
 
   const { errors, isSubmitting } = formState;
 
-  const { creditorsDebtors, paymentMethods } = useReactQuery();
-
-  const { data: creditorsDebtorsList } = creditorsDebtors;
-  const { data: paymentMethodsList } = paymentMethods;
-
   const submitCreditorDebtor: SubmitHandler<CreditorDebtorType> = async ({ id, ...data }) => {
     await new Promise((resolve) => {
       setTimeout(() => {
-        console.log({ id: uuid(), ...data });
-        resolve({ id, ...data });
+        console.log({ ...data });
+        resolve({ ...data });
       }, 3000);
     }).then(() => {
       reset();
-      // handleResetTransactionID();
+      handleResetCreditorDebtorID();
     });
   };
 
@@ -78,28 +70,26 @@ export const getFormFieldsCreditorDebtor = () => {
     onClose();
     reset();
 
-    // if (isEditing) {
-    //   handleResetTransactionID();
-    // }
+    if (isEditing) {
+      handleResetCreditorDebtorID();
+    }
   };
 
-  // useEffect(() => {
-  //   if (transactionID !== null) {
-  //     getUniqueTransaction(transactionID)
-  //       .then((response) => {
-  //         Object.entries(response).forEach(([name, value]) =>
-  //           setValue(name as keyof TransactionDataType, value)
-  //         );
-  //         console.log(response);
-  //       })
-  //       .catch((error) => {
-  //         console.log("Error", error);
-  //       })
-  //       .finally(() => {
-  //         handleIsLoadingDataForEdit();
-  //       });
-  //   }
-  // }, [isEditing]);
+  useEffect(() => {
+    if (creditorDebtorID !== null) {
+      getUniqueCreditorDebtor(creditorDebtorID)
+        .then((response) => {
+          Object.entries(response).forEach(([name, value]) => setValue(name as keyof CreditorDebtorType, value));
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log("Error", error);
+        })
+        .finally(() => {
+          handleIsLoadingDataForEdit();
+        });
+    }
+  }, [isEditing]);
 
   if (isLoadingDataForEdit) {
     return (
@@ -157,7 +147,7 @@ export const getFormFieldsCreditorDebtor = () => {
                 name="status"
                 control={control}
                 render={({ field }) => (
-                  <RadioGroup {...field} defaultValue={"0"}>
+                  <RadioGroup {...field}>
                     <HStack spacing="3">
                       <Radio value="0" colorScheme="red">
                         Inativo

@@ -1,9 +1,8 @@
 // React Imports
-import { Fragment, useContext } from "react";
+import { Fragment, useContext, useEffect } from "react";
 
 // Chakra Imports
 import {
-  Text,
   Radio,
   HStack,
   VStack,
@@ -24,53 +23,45 @@ import { InputTextAreaComponent } from "../Form/InputTextArea";
 // Context Imports
 import { ContextDrawer } from "../../contexts/contextDrawer";
 
-// Hook Imports
-import { useReactQuery } from "../../hooks/useReactQuery";
-
 // API Services
+import { getUniquePaymentMethod } from "../../services/api";
 
 // Typings[TypeScript]
 import { PaymentMethodType } from "../../@types/PaymentMethodType";
 
 // Another Imports
-import { v4 as uuid } from "uuid";
 import { FiSave, FiX } from "react-icons/fi";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import validationPaymentMethodForm from "./formValidationPaymentMethod";
 
 export const getFormFieldsPaymentMethod = () => {
-  const { handleSubmit, register, formState, reset, control } = useForm<PaymentMethodType>({
+  const { handleSubmit, register, formState, reset, control, setValue } = useForm<PaymentMethodType>({
     resolver: yupResolver(validationPaymentMethodForm),
   });
 
   const {
-    // isEditing,
+    isEditing,
     disclosure,
-    // transactionID,
+    paymentMethodID,
     isLoadingDataForEdit,
-    // handleResetTransactionID,
-    // handleIsLoadingDataForEdit,
+    handleResetPaymentMethodID,
+    handleIsLoadingDataForEdit,
   } = useContext(ContextDrawer);
 
   const { onClose } = disclosure;
 
   const { errors, isSubmitting } = formState;
 
-  const { creditorsDebtors, paymentMethods } = useReactQuery();
-
-  const { data: creditorsDebtorsList } = creditorsDebtors;
-  const { data: paymentMethodsList } = paymentMethods;
-
   const submitPaymentMethod: SubmitHandler<PaymentMethodType> = async ({ id, ...data }) => {
     await new Promise((resolve) => {
       setTimeout(() => {
-        console.log({ id: uuid(), ...data });
-        resolve({ id, ...data });
+        console.log({ ...data });
+        resolve({ ...data });
       }, 3000);
     }).then(() => {
       reset();
-      // handleResetTransactionID();
+      handleResetPaymentMethodID();
     });
   };
 
@@ -78,28 +69,26 @@ export const getFormFieldsPaymentMethod = () => {
     onClose();
     reset();
 
-    // if (isEditing) {
-    //   handleResetTransactionID();
-    // }
+    if (isEditing) {
+      handleResetPaymentMethodID();
+    }
   };
 
-  // useEffect(() => {
-  //   if (transactionID !== null) {
-  //     getUniqueTransaction(transactionID)
-  //       .then((response) => {
-  //         Object.entries(response).forEach(([name, value]) =>
-  //           setValue(name as keyof TransactionDataType, value)
-  //         );
-  //         console.log(response);
-  //       })
-  //       .catch((error) => {
-  //         console.log("Error", error);
-  //       })
-  //       .finally(() => {
-  //         handleIsLoadingDataForEdit();
-  //       });
-  //   }
-  // }, [isEditing]);
+  useEffect(() => {
+    if (paymentMethodID !== null) {
+      getUniquePaymentMethod(paymentMethodID)
+        .then((response) => {
+          Object.entries(response).forEach(([name, value]) => setValue(name as keyof PaymentMethodType, value));
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log("Error", error);
+        })
+        .finally(() => {
+          handleIsLoadingDataForEdit();
+        });
+    }
+  }, [isEditing]);
 
   if (isLoadingDataForEdit) {
     return (
@@ -157,7 +146,7 @@ export const getFormFieldsPaymentMethod = () => {
                 name="status"
                 control={control}
                 render={({ field }) => (
-                  <RadioGroup {...field} defaultValue={"0"}>
+                  <RadioGroup {...field}>
                     <HStack spacing="3">
                       <Radio value="0" colorScheme="red">
                         Inativo

@@ -2,14 +2,10 @@
 import React, { Fragment } from "react";
 
 // Components Imports
+import { getFormFieldsPaymentMethod } from "../formFieldsPaymentMethod";
 
 const EditPaymentMethod: React.FC = () => {
-  return (
-    <Fragment>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore facilis voluptatum in? Qui, soluta. Consequuntur
-      distinctio quidem quam amet. Aliquid consectetur quia, quae nemo aut voluptas velit obcaecati quisquam ex.
-    </Fragment>
-  );
+  return <Fragment>{getFormFieldsPaymentMethod()}</Fragment>;
 };
 
 export default EditPaymentMethod;

@@ -18,6 +18,8 @@ const ContextDrawerProvider = ({ children }: ContextDrawerProviderProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [drawerType, setDrawerType] = useState<DrawerTypes>("default");
   const [transactionID, setTransactionID] = useState<string | null>(null);
+  const [paymentMethodID, setPaymentMethodID] = useState<string | null>(null);
+  const [creditorDebtorID, setCreditorDebtorID] = useState<string | null>(null);
   const [isLoadingDataForEdit, setIsLoadingDataForEdit] = useState(false);
 
   const { route } = useRouter();
@@ -28,18 +30,11 @@ const ContextDrawerProvider = ({ children }: ContextDrawerProviderProps) => {
     }
   }, [route]);
 
+  /**
+   * Functions execute actions to Transactions
+   *  */
   const handleDrawerNewTransaction = () => {
     setDrawerType("new-transaction");
-    disclosure.onOpen();
-  };
-
-  const handleDrawerNewPaymentMethod = () => {
-    setDrawerType("new-payment-method");
-    disclosure.onOpen();
-  };
-
-  const handleDrawerNewCreditorDebtor = () => {
-    setDrawerType("new-creditor-debtor");
     disclosure.onOpen();
   };
 
@@ -56,6 +51,48 @@ const ContextDrawerProvider = ({ children }: ContextDrawerProviderProps) => {
     setIsEditing(false);
   };
 
+  /**
+   * Functions execute actions to Payment Methods
+   *  */
+  const handleDrawerNewPaymentMethod = () => {
+    setDrawerType("new-payment-method");
+    disclosure.onOpen();
+  };
+
+  const handleDrawerEditPaymentMethod = (paymentMethodID: string) => {
+    setIsEditing(true);
+    setIsLoadingDataForEdit(true);
+    setPaymentMethodID(paymentMethodID);
+    setDrawerType("edit-payment-method");
+    disclosure.onOpen();
+  };
+
+  const handleResetPaymentMethodID = () => {
+    setPaymentMethodID(null);
+    setIsEditing(false);
+  };
+
+  /**
+   * Functions execute actions to Creditors/Debtors
+   *  */
+  const handleDrawerNewCreditorDebtor = () => {
+    setDrawerType("new-creditor-debtor");
+    disclosure.onOpen();
+  };
+
+  const handleDrawerEditCreditorDebtor = (creditorDebtorID: string) => {
+    setIsEditing(true);
+    setIsLoadingDataForEdit(true);
+    setCreditorDebtorID(creditorDebtorID);
+    setDrawerType("edit-creditor-debtor");
+    disclosure.onOpen();
+  };
+
+  const handleResetCreditorDebtorID = () => {
+    setCreditorDebtorID(null);
+    setIsEditing(false);
+  };
+
   const handleIsLoadingDataForEdit = () => {
     setIsLoadingDataForEdit(false);
   };
@@ -67,11 +104,17 @@ const ContextDrawerProvider = ({ children }: ContextDrawerProviderProps) => {
         disclosure,
         drawerType,
         transactionID,
+        paymentMethodID,
+        creditorDebtorID,
         isLoadingDataForEdit,
         handleResetTransactionID,
+        handleResetPaymentMethodID,
+        handleResetCreditorDebtorID,
         handleIsLoadingDataForEdit,
         handleDrawerNewTransaction,
         handleDrawerEditTransaction,
+        handleDrawerEditPaymentMethod,
+        handleDrawerEditCreditorDebtor,
         handleDrawerNewPaymentMethod,
         handleDrawerNewCreditorDebtor,
       }}

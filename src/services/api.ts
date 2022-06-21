@@ -27,7 +27,7 @@ export const getAllTransactions = async () => {
   const data = listTransactions.map((transaction) => ({
     ...transaction,
     valueTransactionFormated: formatValueToMoney(transaction.valueTransaction),
-  }))
+  }));
 
   return data;
 };
@@ -62,9 +62,35 @@ export const getAllPaymentMethods = async () => {
   return data;
 };
 
+export const getUniquePaymentMethod = async (id: string) => {
+  const data: PaymentMethodType = await api
+    .get(`/payment_method/${id}`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return console.error("Error", error.message);
+    });
+
+  return data;
+};
+
 export const getAllCreditorsDebtors = async () => {
   const data: Array<CreditorDebtorType> = await api
     .get("/creditor_debtor")
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return console.error("Error", error.message);
+    });
+
+  return data;
+};
+
+export const getUniqueCreditorDebtor = async (id: string) => {
+  const data: CreditorDebtorType = await api
+    .get(`/creditor_debtor/${id}`)
     .then((response) => {
       return response.data;
     })

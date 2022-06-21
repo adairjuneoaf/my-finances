@@ -8,8 +8,8 @@ import PopoverSubMenuComponent from "./PopoverSubMenu";
 import { Badge, Th, Tr } from "@chakra-ui/react";
 
 // Typings[TypeScript]
-import { PaymentMethodType } from "../../@types/PaymentMethodType";
-interface TableBodyProps extends PaymentMethodType {
+import { CreditorDebtorType } from "../../@types/CreditorDebtorType";
+interface TableBodyProps extends CreditorDebtorType {
   index: number;
 }
 
@@ -36,7 +36,7 @@ const TableBody: React.FC<TableBodyProps> = ({ index, id, status, title }) => {
           {title}
         </Th>
         <Th fontSize="16px" color="gray.100">
-          <PopoverSubMenuComponent paymentMethodID={id} status={status} />
+          <PopoverSubMenuComponent creditorDebtorID={id} status={status} />
         </Th>
       </Tr>
     </Fragment>

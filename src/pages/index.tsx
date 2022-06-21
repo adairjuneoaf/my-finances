@@ -5,6 +5,7 @@ import React, { Fragment } from "react";
 import Head from "next/head";
 import { NextPage } from "next";
 import NextLink from "next/link";
+import { signIn } from "next-auth/react";
 
 // Chakra Imports
 import { Box, Button, Flex, HStack, IconButton, Link, Text, VStack } from "@chakra-ui/react";
@@ -61,19 +62,22 @@ const HomePage: NextPage = () => {
             </Text>
 
             <HStack spacing="2">
-              <NextLink passHref href="/dashboard">
-                <IconButton
-                  as="a"
-                  size="md"
-                  colorScheme="gray"
-                  aria-label="github-login"
-                  title="Login com GitHub"
-                  icon={<RiGithubLine fontSize="24" />}
-                  backgroundColor="transparent"
-                  _hover={{ backgroundColor: "gray.900" }}
-                  cursor="pointer"
-                />
-              </NextLink>
+              <IconButton
+                as="a"
+                size="md"
+                colorScheme="gray"
+                aria-label="github-login"
+                title="Login com GitHub"
+                icon={<RiGithubLine fontSize="24" />}
+                backgroundColor="transparent"
+                _hover={{ backgroundColor: "gray.900" }}
+                cursor="pointer"
+                onClick={() => {
+                  signIn("github", {
+                    callbackUrl: "/dashboard",
+                  });
+                }}
+              />
 
               <NextLink passHref href="/dashboard">
                 <IconButton

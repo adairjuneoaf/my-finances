@@ -29,9 +29,9 @@ import { FiList, FiSettings, FiTrendingDown, FiTrendingUp, FiActivity } from "re
 import { formatValueToMoney } from "../utils/formatValueToMoney";
 
 const DashboardPage: NextPage = () => {
-  const [totalInput, setTotalInput] = useState('R$ 0,00');
-  const [totalOutput, setTotalOutput] = useState('R$ 0,00');
-  const [totalBalance, setTotalBalance] = useState('R$ 0,00');
+  const [totalInput, setTotalInput] = useState("R$ 0,00");
+  const [totalOutput, setTotalOutput] = useState("R$ 0,00");
+  const [totalBalance, setTotalBalance] = useState("R$ 0,00");
 
   const { handleDrawerNewTransaction } = useContext(ContextDrawer);
 
@@ -47,28 +47,26 @@ const DashboardPage: NextPage = () => {
     let TotalBalance = 0;
 
     data?.reduce((total, data) => {
-      if (data.type === '0') {
-        return TotalOutput = total + data.valueTransaction
+      if (data.type === "0") {
+        return (TotalOutput = total + data.valueTransaction);
       }
 
       return 0;
     }, 0);
 
     data?.reduce((total, data) => {
-      if (data.type === '1') {
-        return TotalInput = total + data.valueTransaction
+      if (data.type === "1") {
+        return (TotalInput = total + data.valueTransaction);
       }
 
       return 0;
     }, 0);
 
-
-    TotalBalance = (TotalInput - TotalOutput);
+    TotalBalance = TotalInput - TotalOutput;
 
     setTotalInput(formatValueToMoney(TotalInput));
     setTotalOutput(formatValueToMoney(TotalOutput));
     setTotalBalance(formatValueToMoney(TotalBalance));
-
   }, [data]);
 
   return (

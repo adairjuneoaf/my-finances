@@ -11,7 +11,7 @@ import { Badge, Th, Tr } from "@chakra-ui/react";
 import { TransactionDataType } from "../../@types/TransactionDataType";
 interface TableBodyProps extends TransactionDataType {
   index: number;
-  valueTransactionFormated: string;
+  valueTransactionFormated?: string;
 }
 
 const TableBody: React.FC<TableBodyProps> = ({ index, id, type, status, title, valueTransactionFormated }) => {

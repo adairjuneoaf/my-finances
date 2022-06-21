@@ -1,5 +1,6 @@
 // Imports Next
 import type { AppProps } from "next/app";
+import { SessionProvider } from "next-auth/react";
 
 // React-Query Imports
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -18,16 +19,18 @@ const queryClient = new QueryClient();
 
 const isDevelopment = process.env.NODE_ENV === "development";
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ContextDrawerProvider>
-        <ChakraProvider theme={theme}>
-          <Component {...pageProps} />
-        </ChakraProvider>
-      </ContextDrawerProvider>
-      {isDevelopment && <ReactQueryDevtools />}
-    </QueryClientProvider>
+    <SessionProvider session={session}>
+      <QueryClientProvider client={queryClient}>
+        <ContextDrawerProvider>
+          <ChakraProvider theme={theme}>
+            <Component {...pageProps} />
+          </ChakraProvider>
+        </ContextDrawerProvider>
+        {isDevelopment && <ReactQueryDevtools />}
+      </QueryClientProvider>
+    </SessionProvider>
   );
 }
 

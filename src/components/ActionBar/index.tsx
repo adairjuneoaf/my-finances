@@ -2,6 +2,7 @@
 import React from "react";
 
 // Imports Next
+import { signOut } from "next-auth/react";
 
 // Chakra Imports
 import { IconButton, Flex, Tooltip } from "@chakra-ui/react";
@@ -30,6 +31,11 @@ const ActionBarComponent: React.FC = () => {
           colorScheme="gray"
           _hover={{ backgroundColor: "gray.900" }}
           icon={<FiLogOut color="gray.100" fontSize="22" />}
+          onClick={() => {
+            signOut({
+              callbackUrl: "/",
+            });
+          }}
         />
       </Tooltip>
     </Flex>

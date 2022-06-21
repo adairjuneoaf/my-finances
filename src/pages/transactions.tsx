@@ -42,9 +42,9 @@ import { RiAddFill } from "react-icons/ri";
 const TransactionsPage: NextPage = () => {
   const { handleDrawerNewTransaction } = useContext(ContextDrawer);
 
-  const { transactionsList } = useReactQuery();
+  const { transactions } = useReactQuery();
 
-  const { data: transactions, isFetching, isLoading } = transactionsList;
+  const { data: transactionsList, isFetching, isLoading } = transactions;
 
   return (
     <Fragment>
@@ -133,7 +133,7 @@ const TransactionsPage: NextPage = () => {
         </Flex>
 
         <Flex width="68vw" height="100%" padding="8" margin="auto">
-          <TableTransactionsComponent transactions={transactions} isLoading={isLoading} />
+          <TableTransactionsComponent transactions={transactionsList} isLoading={isLoading} />
         </Flex>
       </Flex>
     </Fragment>

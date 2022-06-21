@@ -3,24 +3,12 @@ import { api } from "./axios";
 
 // Utils Imports
 import { formatDate } from "../utils/formatDate";
+import { formatValueToMoney } from "../utils/formatValueToMoney";
 
 // Typings[TypeScript]
 import { TransactionDataType } from "./../@types/TransactionDataType";
-import { formatValueToMoney } from "../utils/formatValueToMoney";
-
-type DataPaymentsMethodAPI = {
-  id: string;
-  title: string;
-  status: number;
-  anotherInformation: string;
-};
-
-type DataCreditorDebtorAPI = {
-  id: string;
-  title: string;
-  status: number;
-  anotherInformation: string;
-};
+import { CreditorDebtorType } from "./../@types/CreditorDebtorType";
+import { PaymentMethodType } from "./../@types/PaymentMethodType";
 
 interface AllTransactionsFormated extends TransactionDataType {
   valueTransactionFormated: string;
@@ -40,8 +28,6 @@ export const getAllTransactions = async () => {
     ...transaction,
     valueTransactionFormated: formatValueToMoney(transaction.valueTransaction),
   }))
-
-  console.log(data);
 
   return data;
 };
@@ -64,7 +50,7 @@ export const getUniqueTransaction = async (id: string) => {
 };
 
 export const getAllPaymentMethods = async () => {
-  const data: Array<DataPaymentsMethodAPI> = await api
+  const data: Array<PaymentMethodType> = await api
     .get("/payment_method")
     .then((response) => {
       return response.data;
@@ -77,7 +63,7 @@ export const getAllPaymentMethods = async () => {
 };
 
 export const getAllCreditorsDebtors = async () => {
-  const data: Array<DataCreditorDebtorAPI> = await api
+  const data: Array<CreditorDebtorType> = await api
     .get("/creditor_debtor")
     .then((response) => {
       return response.data;

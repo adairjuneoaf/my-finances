@@ -1,5 +1,5 @@
 // Imports React
-import React, { Fragment, useContext } from "react";
+import React, { Fragment, useContext, useMemo, useState } from "react";
 
 // Imports Next
 import NextHead from "next/head";
@@ -15,7 +15,6 @@ import CardComponent from "../components/Card";
 import ProfileComponent from "../components/Profile";
 import ActionBarComponent from "../components/ActionBar";
 import DrawerComponentComponent from "../components/Drawer";
-import MenuRecordsComponent from "../components/Menu/records";
 import TableTransactionsComponent from "../components/TableTransactions";
 
 // Contexts Imports
@@ -26,16 +25,51 @@ import { useReactQuery } from "../hooks/useReactQuery";
 
 // Another Imports
 import { RiAddFill } from "react-icons/ri";
-import { FiList, FiDollarSign, FiArrowUp, FiArrowDown, FiSettings } from "react-icons/fi";
+import { FiList, FiSettings, FiTrendingDown, FiTrendingUp, FiActivity } from "react-icons/fi";
+import { formatValueToMoney } from "../utils/formatValueToMoney";
 
 const DashboardPage: NextPage = () => {
+  const [totalInput, setTotalInput] = useState('R$ 0,00');
+  const [totalOutput, setTotalOutput] = useState('R$ 0,00');
+  const [totalBalance, setTotalBalance] = useState('R$ 0,00');
+
   const { handleDrawerNewTransaction } = useContext(ContextDrawer);
 
-  const { transactionsList } = useReactQuery();
+  const { transactions } = useReactQuery();
 
-  const { data, isFetching, isLoading } = transactionsList;
+  const { data, isFetching, isLoading } = transactions;
 
-  const transactions = data?.slice(0, 5);
+  const transactionsList = data?.slice(0, 5);
+
+  useMemo(() => {
+    let TotalInput = 0;
+    let TotalOutput = 0;
+    let TotalBalance = 0;
+
+    data?.reduce((total, data) => {
+      if (data.type === '0') {
+        return TotalOutput = total + data.valueTransaction
+      }
+
+      return 0;
+    }, 0);
+
+    data?.reduce((total, data) => {
+      if (data.type === '1') {
+        return TotalInput = total + data.valueTransaction
+      }
+
+      return 0;
+    }, 0);
+
+
+    TotalBalance = (TotalInput - TotalOutput);
+
+    setTotalInput(formatValueToMoney(TotalInput));
+    setTotalOutput(formatValueToMoney(TotalOutput));
+    setTotalBalance(formatValueToMoney(TotalBalance));
+
+  }, [data]);
 
   return (
     <Fragment>
@@ -96,9 +130,9 @@ const DashboardPage: NextPage = () => {
 
         <Flex as="section" width="68vw" height="100%" padding="8" margin="auto">
           <SimpleGrid spacing="4" width="100%" height="auto" columns={3}>
-            <CardComponent title="Balanço" value="R$ 52.000,00" icon={<FiDollarSign fontSize="28" color="yellow" />} />
-            <CardComponent title="Entradas" value="R$ 100.000,00" icon={<FiArrowDown fontSize="28" color="green" />} />
-            <CardComponent title="Saídas" value="R$ -48.000,00" icon={<FiArrowUp fontSize="28" color="red" />} />
+            <CardComponent title="Balanço" value={totalBalance} icon={<FiActivity fontSize="28" color="yellow" />} />
+            <CardComponent title="Entradas" value={totalInput} icon={<FiTrendingDown fontSize="28" color="green" />} />
+            <CardComponent title="Saídas" value={totalOutput} icon={<FiTrendingUp fontSize="28" color="red" />} />
           </SimpleGrid>
         </Flex>
 
@@ -116,7 +150,7 @@ const DashboardPage: NextPage = () => {
         </HStack>
 
         <Flex width="68vw" height="100%" padding="8" margin="auto">
-          <TableTransactionsComponent transactions={transactions} isLoading={isLoading} />
+          <TableTransactionsComponent transactions={transactionsList} isLoading={isLoading} />
         </Flex>
       </Flex>
     </Fragment>

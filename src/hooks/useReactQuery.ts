@@ -16,31 +16,11 @@ const configReactQuery = {
 };
 
 export const useReactQuery = () => {
-  const transactionsList = useQuery("transactions", getAllTransactions, configReactQuery);
+  const transactions = useQuery("transactions", getAllTransactions, configReactQuery);
 
   const paymentMethods = useQuery("payment_methods", getAllPaymentMethods, configReactQuery);
 
   const creditorsDebtors = useQuery("creditors_debtors", getAllCreditorsDebtors, configReactQuery);
 
-  // const transactionsList = transactions.data?.map((transaction: TransactionDataType) => {
-  //   return {
-  //     id: transaction.id,
-  //     type: transaction.type,
-  //     title: transaction.title,
-  //     status: transaction.status,
-  //     description: transaction.description,
-  //     paymentMethod: transaction.paymentMethod,
-  //     dataForPayment: transaction.dataForPayment,
-  //     creditorDebtor: transaction.creditorDebtor,
-  //     valueTransaction: new Intl.NumberFormat("pt-BR", {
-  //       style: "currency",
-  //       currency: "BRL",
-  //     }).format(transaction.valueTransaction),
-  //     dateDueTransaction: transaction.dateDueTransaction,
-  //     anotherInformation: transaction.anotherInformation,
-  //     dateEntriesTransaction: transaction.dateEntriesTransaction,
-  //   };
-  // });
-
-  return { transactionsList, paymentMethods, creditorsDebtors };
+  return { transactions, paymentMethods, creditorsDebtors };
 };

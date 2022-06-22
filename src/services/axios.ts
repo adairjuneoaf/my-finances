@@ -6,3 +6,10 @@ export const api = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+export const apiRoute = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_ROUTE_URL,
+  headers: {
+    "Authorization": `${process.env.NEXT_PUBLIC_API_ROUTE_SECRET}`,
+  },
+});

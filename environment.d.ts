@@ -7,6 +7,8 @@ declare global {
       FAUNA_DB_ENDPOINT: string;
       GITHUB_CLIENT_SECRET: string;
       NEXT_PUBLIC_FAKE_API_URL: string;
+      NEXT_PUBLIC_API_ROUTE_URL: string;
+      NEXT_PUBLIC_API_ROUTE_SECRET: string;
     }
   }
 }

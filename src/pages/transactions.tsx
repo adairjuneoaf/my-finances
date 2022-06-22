@@ -26,7 +26,6 @@ import LogoComponent from "../components/Logo";
 import ProfileComponent from "../components/Profile";
 import ActionBarComponent from "../components/ActionBar";
 import DrawerComponentComponent from "../components/Drawer";
-import MenuRecordsComponent from "../components/Menu/records";
 import TableTransactionsComponent from "../components/TableTransactions";
 
 // Contexts Imports
@@ -38,6 +37,8 @@ import { useReactQuery } from "../hooks/useReactQuery";
 // Another Imports
 import { FiActivity, FiSearch, FiSettings } from "react-icons/fi";
 import { RiAddFill } from "react-icons/ri";
+
+import { getAllTransactionsAPIRoute } from "../services/api";
 
 const TransactionsPage: NextPage = () => {
   const { handleDrawerNewTransaction } = useContext(ContextDrawer);
@@ -97,6 +98,15 @@ const TransactionsPage: NextPage = () => {
                 Cadastros
               </Button>
             </NextLink>
+            <Button
+              type="button"
+              colorScheme="red"
+              onClick={() => {
+                getAllTransactionsAPIRoute();
+              }}
+            >
+              Teste API Route
+            </Button>
             <Button
               type="button"
               colorScheme="green"

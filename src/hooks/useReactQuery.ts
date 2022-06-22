@@ -4,14 +4,11 @@ import { useQuery } from "react-query";
 // API Imports
 import { getAllCreditorsDebtors, getAllPaymentMethods, getAllTransactions } from "../services/api";
 
-// Typings[TypeScript]
-import { TransactionDataType } from "../@types/TransactionDataType";
-
 const configReactQuery = {
   cacheTime: 1000 * 60 * 6, // 6 Minutes
   staleTime: 1000 * 60 * 6, // 6 Minutes
   refetchInterval: 1000 * 60 * 3, // 3 Minutes
-  refetchOnWindowFocus: false,
+  refetchOnWindowFocus: true,
   retry: false,
 };
 

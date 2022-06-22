@@ -1,5 +1,5 @@
 // AXIOS Imports
-import { api } from "./axios";
+import { api, apiRoute } from "./axios";
 
 // Utils Imports
 import { formatDate } from "../utils/formatDate";
@@ -14,6 +14,11 @@ interface AllTransactionsFormated extends TransactionDataType {
   valueTransactionFormated: string;
 }
 
+/**
+ *
+ * @returns Função de retorno dos dados de todas as transações armazenadas
+ * na API FAKE.
+ */
 export const getAllTransactions = async () => {
   const listTransactions: Array<AllTransactionsFormated> = await api
     .get("/transactions")
@@ -32,6 +37,36 @@ export const getAllTransactions = async () => {
   return data;
 };
 
+/**
+ *
+ * @returns Função de retorno dos dados de todas as transações armazenadas
+ * no FaunaDB.
+ */
+export const getAllTransactionsAPIRoute = async () => {
+  const listTransactions: Array<AllTransactionsFormated> = await apiRoute
+    .get("/transactions")
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return console.error("Error", error.message);
+    });
+
+  const data = listTransactions.map((transaction) => ({
+    ...transaction,
+    valueTransactionFormated: formatValueToMoney(transaction.valueTransaction),
+  }));
+
+  console.log(data);
+
+  return data;
+};
+
+/**
+ *
+ * @returns Função de retorno dos dados de UMA única transação armazenada
+ * na API FAKE.
+ */
 export const getUniqueTransaction = async (id: string) => {
   const data: TransactionDataType = await api
     .get(`/transactions/${id}`)

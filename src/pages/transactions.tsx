@@ -38,7 +38,7 @@ import { useReactQuery } from "../hooks/useReactQuery";
 import { FiActivity, FiSearch, FiSettings } from "react-icons/fi";
 import { RiAddFill } from "react-icons/ri";
 
-import { getAllTransactionsAPIRoute } from "../services/api";
+import { getUniqueTransactionAPIRoute } from "../services/api";
 
 const TransactionsPage: NextPage = () => {
   const { handleDrawerNewTransaction } = useContext(ContextDrawer);
@@ -98,15 +98,17 @@ const TransactionsPage: NextPage = () => {
                 Cadastros
               </Button>
             </NextLink>
+
             <Button
               type="button"
               colorScheme="red"
               onClick={() => {
-                getAllTransactionsAPIRoute();
+                getUniqueTransactionAPIRoute("be808b96-eb42-11ec-8fea-0242ac120002");
               }}
             >
               Teste API Route
             </Button>
+
             <Button
               type="button"
               colorScheme="green"

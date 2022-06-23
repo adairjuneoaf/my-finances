@@ -84,6 +84,28 @@ export const getUniqueTransaction = async (id: string) => {
   };
 };
 
+/**
+ *
+ * @returns Função de retorno dos dados de UMA única transação armazenada
+ * no FaunaDB.
+ */
+export const getUniqueTransactionAPIRoute = async (id: string) => {
+  const data: TransactionDataType = await apiRoute
+    .get(`/transactions/${id}`)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return console.error("Error", error.message);
+    });
+
+  return {
+    ...data,
+    dateDueTransaction: formatDate(data.dateDueTransaction),
+    dateEntriesTransaction: formatDate(data.dateEntriesTransaction),
+  };
+};
+
 export const getAllPaymentMethods = async () => {
   const data: Array<PaymentMethodType> = await api
     .get("/payment_method")

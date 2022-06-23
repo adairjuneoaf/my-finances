@@ -38,7 +38,11 @@ import { useReactQuery } from "../hooks/useReactQuery";
 import { FiActivity, FiSearch, FiSettings } from "react-icons/fi";
 import { RiAddFill } from "react-icons/ri";
 
-import { getUniqueTransactionAPIRoute } from "../services/api";
+import {
+  getUniqueCreditorDebtorAPIRoute,
+  getUniquePaymentMethodAPIRoute,
+  getUniqueTransactionAPIRoute,
+} from "../services/api";
 
 const TransactionsPage: NextPage = () => {
   const { handleDrawerNewTransaction } = useContext(ContextDrawer);
@@ -106,7 +110,27 @@ const TransactionsPage: NextPage = () => {
                 getUniqueTransactionAPIRoute("be808b96-eb42-11ec-8fea-0242ac120002");
               }}
             >
-              Teste API Route
+              Transactions
+            </Button>
+
+            <Button
+              type="button"
+              colorScheme="yellow"
+              onClick={() => {
+                getUniquePaymentMethodAPIRoute("68f35664-eb41-11ec-8fea-0242ac120002");
+              }}
+            >
+              PaymentMethod
+            </Button>
+
+            <Button
+              type="button"
+              colorScheme="purple"
+              onClick={() => {
+                getUniqueCreditorDebtorAPIRoute("a9f62ba0-eb41-11ec-8fea-0242ac120002");
+              }}
+            >
+              CreditorDebtor
             </Button>
 
             <Button

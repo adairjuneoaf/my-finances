@@ -23,7 +23,8 @@ const getAllTransactions = async (req: NextApiRequest, res: NextApiResponse<Data
       .query<Array<TransactionDataType>>(
         query.Select(
           ["data", "transactions"],
-          query.Get(query.Match(query.Index("user_by_email"), query.Casefold(String(session?.user?.email))))
+          query.Get(query.Match(query.Index("user_by_email"), query.Casefold(String(session?.user?.email)))),
+          [{}]
         )
       )
       .then((response) => {

@@ -39,9 +39,11 @@ import { FiActivity, FiSearch, FiSettings } from "react-icons/fi";
 import { RiAddFill } from "react-icons/ri";
 
 import {
+  getAllTransactionsAPIRoute,
   getUniqueCreditorDebtorAPIRoute,
   getUniquePaymentMethodAPIRoute,
   getUniqueTransactionAPIRoute,
+  postUniqueTransactionAPIRoute,
 } from "../services/api";
 
 const TransactionsPage: NextPage = () => {
@@ -107,7 +109,21 @@ const TransactionsPage: NextPage = () => {
               type="button"
               colorScheme="red"
               onClick={() => {
-                getUniqueTransactionAPIRoute("be808b96-eb42-11ec-8fea-0242ac120002");
+                // postUniqueTransactionAPIRoute({
+                //   id: "ee2fc04c-f343-11ec-b939-0242ac120002",
+                //   type: "0",
+                //   status: "1",
+                //   valueTransaction: 301,
+                //   dateDueTransaction: new Date(1655251200000),
+                //   dateEntriesTransaction: new Date(1654992000000),
+                //   title: "Financiamento apartamento CAIXA",
+                //   description: "Lançamento de saída para pagamento sendo efetuado para testes com o Drawer",
+                //   paymentMethod: "68f35a6a-eb41-11ec-8fea-0242ac120002",
+                //   creditorDebtor: "a9f62e0c-eb41-11ec-8fea-0242ac120002",
+                //   dataForPayment: "01926642635",
+                //   anotherInformation: "Recebimento já concretizado antes da data de vencimento.",
+                // });
+                getAllTransactionsAPIRoute();
               }}
             >
               Transactions

@@ -8,12 +8,22 @@ import { query } from "faunadb";
 
 // Typings[TypeScript]
 import { TransactionDataType } from "../../../@types/TransactionDataType";
+import { DefaultSession } from "next-auth";
 
 type DataResponseAPI = TransactionDataType | {} | void;
+type DataRequestBodyAPI = { transactionData: TransactionDataType };
 
 type ReqQuery = {
   transactionID: string;
 };
+
+interface SessionUser extends DefaultSession {
+  userRef: {
+    ref: {
+      id: string;
+    };
+  };
+}
 
 const uniqueTransaction = async (req: NextApiRequest, res: NextApiResponse<DataResponseAPI>) => {
   if (req.headers.authorization !== process.env.NEXT_PUBLIC_API_ROUTE_SECRET) {
@@ -22,6 +32,9 @@ const uniqueTransaction = async (req: NextApiRequest, res: NextApiResponse<DataR
 
   const session = await getSession({ req });
   const { transactionID } = req.query as ReqQuery;
+  const { transactionData } = req.body as DataRequestBodyAPI;
+
+  const { userRef } = session as SessionUser;
 
   switch (req.method) {
     case "GET":
@@ -41,9 +54,6 @@ const uniqueTransaction = async (req: NextApiRequest, res: NextApiResponse<DataR
         });
 
       return res.status(200).json(getUniqueTransactionByID);
-
-    case "POST":
-      return res.status(200).json({ method: "Allowed POST" });
 
     case "PUT":
       return res.status(200).json({ method: "Allowed PUT" });

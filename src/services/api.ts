@@ -113,6 +113,30 @@ export const getUniqueTransactionAPIRoute = async (id: string) => {
 };
 
 /**
+ * @returns Função de retorno dos dados de UMA única transação armazenada
+ * no FaunaDB.
+ *
+ * @transactionData Dados da transação para serem inseridos na collection de
+ * transactions do FaunaDB.
+ */
+export const postUniqueTransactionAPIRoute = async (transactionData: TransactionDataType) => {
+  const data = await apiRoute
+    .post("/transactions", {
+      transactionData: transactionData,
+    })
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      return console.error("Error", error.message);
+    });
+
+  console.log(data);
+
+  return data;
+};
+
+/**
  * @returns Função de retorno dos dados de todos os métodos de pagamento
  * armazenados na API FAKE.
  */

@@ -1,6 +1,5 @@
 // Imports Next-Auth/Next.js
 import type { NextApiRequest, NextApiResponse } from "next";
-import { DefaultSession } from "next-auth";
 import { getSession } from "next-auth/react";
 
 // Imports FaunaDB

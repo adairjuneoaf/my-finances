@@ -15,6 +15,7 @@ import {
   FormControl,
   FormErrorMessage,
   FormLabel,
+  Skeleton,
 } from "@chakra-ui/react";
 
 // Component Imports
@@ -40,6 +41,7 @@ import { FiSave, FiX } from "react-icons/fi";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import validationTransactionForm from "./formValidationTransactions";
+import SkeletonComponent from "../Skeleton";
 
 export const getFormFieldsTransaction = () => {
   const { handleSubmit, register, formState, reset, setValue, control, resetField } = useForm<TransactionDataType>({
@@ -122,22 +124,6 @@ export const getFormFieldsTransaction = () => {
     }
   }, [isEditing]);
 
-  if (isLoadingDataForEdit) {
-    return (
-      <DrawerBody
-        as="div"
-        width="100%"
-        height="100%"
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <Spinner color="green.500" size="md" thickness="4px" speed="0.5s" />
-      </DrawerBody>
-    );
-  }
-
   return (
     <Fragment>
       <DrawerBody
@@ -163,6 +149,7 @@ export const getFormFieldsTransaction = () => {
             type="text"
             label="Título do lançamento"
             isRequired
+            isLoadingValue={isLoadingDataForEdit}
             {...register("title")}
             errorInput={errors.title}
           />
@@ -170,6 +157,7 @@ export const getFormFieldsTransaction = () => {
             id="description"
             type="text"
             isRequired
+            isLoadingValue={isLoadingDataForEdit}
             label="Descrição do lançamento"
             {...register("description")}
             errorInput={errors.description}
@@ -181,6 +169,7 @@ export const getFormFieldsTransaction = () => {
             label="Data de lançamento"
             type="date"
             isRequired
+            isLoadingValue={isLoadingDataForEdit}
             {...register("dateEntriesTransaction")}
             errorInput={errors.dateEntriesTransaction}
           />
@@ -189,6 +178,7 @@ export const getFormFieldsTransaction = () => {
             label="Data de vencimento"
             type="date"
             isRequired
+            isLoadingValue={isLoadingDataForEdit}
             {...register("dateDueTransaction")}
             errorInput={errors.dateDueTransaction}
           />
@@ -204,16 +194,18 @@ export const getFormFieldsTransaction = () => {
                 name="type"
                 control={control}
                 render={({ field }) => (
-                  <RadioGroup {...field}>
-                    <HStack spacing="3">
-                      <Radio value="0" colorScheme="red">
-                        Saída
-                      </Radio>
-                      <Radio value="1" colorScheme="green">
-                        Entrada
-                      </Radio>
-                    </HStack>
-                  </RadioGroup>
+                  <SkeletonComponent isLoading={isLoadingDataForEdit}>
+                    <RadioGroup {...field}>
+                      <HStack spacing="3">
+                        <Radio value="0" colorScheme="red">
+                          Saída
+                        </Radio>
+                        <Radio value="1" colorScheme="green">
+                          Entrada
+                        </Radio>
+                      </HStack>
+                    </RadioGroup>
+                  </SkeletonComponent>
                 )}
               />
               {errors.type && <FormErrorMessage>{errors?.type.message}</FormErrorMessage>}
@@ -228,16 +220,18 @@ export const getFormFieldsTransaction = () => {
                 name="status"
                 control={control}
                 render={({ field }) => (
-                  <RadioGroup {...field}>
-                    <HStack spacing="3">
-                      <Radio value="0" colorScheme="yellow">
-                        Em aberto
-                      </Radio>
-                      <Radio value="1" colorScheme="green">
-                        Concluído
-                      </Radio>
-                    </HStack>
-                  </RadioGroup>
+                  <SkeletonComponent isLoading={isLoadingDataForEdit}>
+                    <RadioGroup {...field}>
+                      <HStack spacing="3">
+                        <Radio value="0" colorScheme="yellow">
+                          Em aberto
+                        </Radio>
+                        <Radio value="1" colorScheme="green">
+                          Concluído
+                        </Radio>
+                      </HStack>
+                    </RadioGroup>
+                  </SkeletonComponent>
                 )}
               />
               {errors.status && <FormErrorMessage>{errors?.status.message}</FormErrorMessage>}
@@ -248,6 +242,7 @@ export const getFormFieldsTransaction = () => {
         <VStack alignItems="flex-start" spacing="3">
           <SelectComponent
             isRequired
+            isLoadingValue={isLoadingDataForEdit}
             options={creditorsDebtorsList}
             label="Credor/Devedor"
             placeholder="Selecionar credor ou devedor..."
@@ -258,6 +253,7 @@ export const getFormFieldsTransaction = () => {
 
         <VStack alignItems="flex-start" spacing="1">
           <SelectComponent
+            isLoadingValue={isLoadingDataForEdit}
             options={paymentMethodsList}
             label="Método de pagamento"
             errorSelectOption={errors.paymentMethod}
@@ -269,8 +265,9 @@ export const getFormFieldsTransaction = () => {
             placeholder="Nº do boleto, código pix, dados do cartão de crédito..."
             _placeholder={{ fontSize: "14px" }}
             type="text"
-            {...register("dataForPayment")}
+            isLoadingValue={isLoadingDataForEdit}
             errorInput={errors.dataForPayment}
+            {...register("dataForPayment")}
           />
         </VStack>
 
@@ -279,15 +276,17 @@ export const getFormFieldsTransaction = () => {
             id="valueTransaction"
             isRequired
             label="Valor do lançamento"
-            {...register("valueTransaction")}
+            isLoadingValue={isLoadingDataForEdit}
             errorInput={errors.valueTransaction}
+            {...register("valueTransaction")}
           />
           <InputTextAreaComponent
             id="anotherInformation"
             label="Outras informações"
             placeholder="Outras informações relevantes sobre o lançamento..."
-            {...register("anotherInformation")}
+            isLoadingValue={isLoadingDataForEdit}
             errorInput={errors.anotherInformation}
+            {...register("anotherInformation")}
           />
         </VStack>
       </DrawerBody>
@@ -298,7 +297,7 @@ export const getFormFieldsTransaction = () => {
             leftIcon={<FiX fontSize="18" />}
             colorScheme="red"
             onClick={cancelSubmitTransaction}
-            disabled={isSubmitting}
+            disabled={isSubmitting || isLoadingDataForEdit}
           >
             Cancelar
           </Button>
@@ -308,6 +307,7 @@ export const getFormFieldsTransaction = () => {
             isLoading={isSubmitting}
             leftIcon={<FiSave fontSize="18" />}
             onClick={handleSubmit(submitTransaction)}
+            disabled={isSubmitting || isLoadingDataForEdit}
           >
             Salvar
           </Button>

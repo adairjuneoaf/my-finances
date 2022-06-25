@@ -10,6 +10,9 @@ import {
   FormErrorMessage,
 } from "@chakra-ui/react";
 
+// Components Imports
+import SkeletonComponent from "../Skeleton";
+
 // Another Imports
 import { FieldError } from "react-hook-form";
 
@@ -19,10 +22,11 @@ interface IInputComponentProps extends TextareaPropsChakra {
   label?: string;
   isRequired?: boolean;
   errorInput?: FieldError;
+  isLoadingValue?: boolean;
 }
 
 const InputTextArea: ForwardRefRenderFunction<HTMLTextAreaElement, IInputComponentProps> = (
-  { id, label, errorInput = null, isRequired = false, ...props },
+  { id, label, errorInput = null, isRequired = false, isLoadingValue = false, ...props },
   ref
 ) => {
   return (
@@ -32,19 +36,21 @@ const InputTextArea: ForwardRefRenderFunction<HTMLTextAreaElement, IInputCompone
           {label}
         </FormLabel>
       )}
-      <TextareaChakra
-        {...props}
-        id={id}
-        ref={ref}
-        minHeight="32"
-        maxHeight="48"
-        variant="filled"
-        resize="vertical"
-        borderColor="gray.700"
-        backgroundColor="transparent"
-        focusBorderColor="green.500"
-        _hover={{ backgroundColor: "transparent", borderColor: "gray.600" }}
-      />
+      <SkeletonComponent isLoading={isLoadingValue}>
+        <TextareaChakra
+          {...props}
+          id={id}
+          ref={ref}
+          minHeight="32"
+          maxHeight="48"
+          variant="filled"
+          resize="vertical"
+          borderColor="gray.700"
+          backgroundColor="transparent"
+          focusBorderColor="green.500"
+          _hover={{ backgroundColor: "transparent", borderColor: "gray.600" }}
+        />
+      </SkeletonComponent>
       {errorInput && <FormErrorMessage>{errorInput?.message}</FormErrorMessage>}
     </FormControl>
   );

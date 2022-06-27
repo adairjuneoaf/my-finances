@@ -55,6 +55,14 @@ const getUniqueTransaction = async (
             query.Lambda((x) => query.Get(x))
           )
         )
+        // .query(
+        //   query.Get(
+        //     query.Match(
+        //       query.Index("transaction_by_id"),
+        //       query.Casefold(String("f1a687b1-98d9-49a0-84e5-896b7fed0533"))
+        //     )
+        //   )
+        // )
         .then((response) => {
           const transaction = response.find(
             (value) => value.data.id === transactionID
@@ -69,10 +77,55 @@ const getUniqueTransaction = async (
       return res.status(200).json(getUniqueTransactionByID);
 
     case "PUT":
-      return res.status(200).json({ method: "Allowed PUT" });
+      const putUniqueTransactionByID = await fauna
+        .query(
+          query.Replace(
+            query.Select(
+              "ref",
+              query.Get(
+                query.Match(
+                  query.Index("transaction_by_id"),
+                  query.Casefold(String(transactionID))
+                )
+              )
+            ),
+            {
+              data: {
+                userId: sessionData?.userRef.id,
+                ...transactionData,
+              },
+            }
+          )
+        )
+        .then((response) => response)
+        .catch((err) => console.error("Error: ", err.message));
+
+      return res.status(200).json(putUniqueTransactionByID);
 
     case "PATCH":
-      return res.status(200).json({ method: "Allowed PATCH" });
+      const patchUniqueTransactionByID = await fauna
+        .query(
+          query.Update(
+            query.Select(
+              "ref",
+              query.Get(
+                query.Match(
+                  query.Index("transaction_by_id"),
+                  query.Casefold(String(transactionID))
+                )
+              )
+            ),
+            {
+              data: {
+                ...transactionData,
+              },
+            }
+          )
+        )
+        .then((response) => response)
+        .catch((err) => console.error("Error: ", err.message));
+
+      return res.status(200).json(patchUniqueTransactionByID);
 
     default:
       res.status(405).end("Method not allowed!");

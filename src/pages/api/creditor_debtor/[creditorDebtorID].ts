@@ -13,22 +13,30 @@ import { CreditorDebtorType } from "../../../@types/CreditorDebtorType";
 import { DataCollectionFaunaDB } from "../../../@types/DataCollectionFaunaDB";
 
 type DataResponseAPI = CreditorDebtorType | {} | void;
+type DataRequestBodyAPI = { creditorDebtorData: CreditorDebtorType };
 
 type ReqQuery = {
   creditorDebtorID: string;
 };
 
-const getUniqueCreditorDebtor = async (req: NextApiRequest, res: NextApiResponse<DataResponseAPI>) => {
+const getUniqueCreditorDebtor = async (
+  req: NextApiRequest,
+  res: NextApiResponse<DataResponseAPI>
+) => {
   const sessionData = (await getServerSession(
     { req: req, res: res },
     authOptions
   )) as SessionDataType | null;
 
-  if (!!sessionData && req.headers.authorization !== process.env.NEXT_PUBLIC_API_ROUTE_SECRET) {
+  if (
+    !!sessionData &&
+    req.headers.authorization !== process.env.NEXT_PUBLIC_API_ROUTE_SECRET
+  ) {
     res.status(401).end("You are not authorized to call this API!");
   }
 
   const { creditorDebtorID } = req.query as ReqQuery;
+  const { creditorDebtorData } = req.body as DataRequestBodyAPI;
 
   switch (req.method) {
     case "GET":
@@ -48,7 +56,9 @@ const getUniqueCreditorDebtor = async (req: NextApiRequest, res: NextApiResponse
           )
         )
         .then((response) => {
-          const paymentMethod = response.find((value) => value.data.id === creditorDebtorID);
+          const paymentMethod = response.find(
+            (value) => value.data.id === creditorDebtorID
+          );
           return paymentMethod?.data;
         })
         .catch((err) => {
@@ -58,10 +68,55 @@ const getUniqueCreditorDebtor = async (req: NextApiRequest, res: NextApiResponse
       return res.status(200).json(getUniqueCreditorDebtorByID);
 
     case "PUT":
-      return res.status(200).json({ method: "Allowed PUT" });
+      const putUniqueCreditorDebtorByID = await fauna
+        .query(
+          query.Replace(
+            query.Select(
+              "ref",
+              query.Get(
+                query.Match(
+                  query.Index("creditorDebtor_by_id"),
+                  query.Casefold(String(creditorDebtorID))
+                )
+              )
+            ),
+            {
+              data: {
+                userId: sessionData?.userRef.id,
+                ...creditorDebtorData,
+              },
+            }
+          )
+        )
+        .then((response) => response)
+        .catch((err) => console.error("Error: ", err.message));
+
+      return res.status(200).json(putUniqueCreditorDebtorByID);
 
     case "PATCH":
-      return res.status(200).json({ method: "Allowed PATCH" });
+      const patchUniqueCreditorDebtorByID = await fauna
+        .query(
+          query.Update(
+            query.Select(
+              "ref",
+              query.Get(
+                query.Match(
+                  query.Index("creditorDebtor_by_id"),
+                  query.Casefold(String(creditorDebtorID))
+                )
+              )
+            ),
+            {
+              data: {
+                ...creditorDebtorData,
+              },
+            }
+          )
+        )
+        .then((response) => response)
+        .catch((err) => console.error("Error: ", err.message));
+
+      return res.status(200).json(patchUniqueCreditorDebtorByID);
 
     default:
       res.status(405).end("Method not allowed!");

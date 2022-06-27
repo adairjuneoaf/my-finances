@@ -13,16 +13,25 @@ import { CreditorDebtorType } from "../../../@types/CreditorDebtorType";
 import { DataCollectionFaunaDB } from "../../../@types/DataCollectionFaunaDB";
 
 type DataResponseAPI = Array<CreditorDebtorType> | {} | void;
+type DataRequestBodyAPI = { creditorDebtorData: CreditorDebtorType };
 
-const getAllCreditorsDebtors = async (req: NextApiRequest, res: NextApiResponse<DataResponseAPI>) => {
+const getAllCreditorsDebtors = async (
+  req: NextApiRequest,
+  res: NextApiResponse<DataResponseAPI>
+) => {
   const sessionData = (await getServerSession(
     { req: req, res: res },
     authOptions
   )) as SessionDataType | null;
 
-  if (!!sessionData && req.headers.authorization !== process.env.NEXT_PUBLIC_API_ROUTE_SECRET) {
+  if (
+    !!sessionData &&
+    req.headers.authorization !== process.env.NEXT_PUBLIC_API_ROUTE_SECRET
+  ) {
     res.status(401).end("You are not authorized to call this API!");
   }
+
+  const { creditorDebtorData } = req.body as DataRequestBodyAPI;
 
   switch (req.method) {
     case "GET":
@@ -52,8 +61,23 @@ const getAllCreditorsDebtors = async (req: NextApiRequest, res: NextApiResponse<
       return res.status(200).json(getAllCreditorsDebtorsByUser);
 
     case "POST":
+      const postUniqueCreditorDebtorByUser = await fauna
+        .query(
+          query.Create("creditorsDebtors", {
+            data: {
+              userId: sessionData?.userRef.id,
+              ...creditorDebtorData,
+            },
+          })
+        )
+        .then((response) => {
+          return response;
+        })
+        .catch((err) => {
+          console.error(err.message);
+        });
 
-      return res.status(200).end("Method allowed, is development!");
+      return res.status(200).json({ ...postUniqueCreditorDebtorByUser });
     default:
       res.status(405).end("Method not allowed!");
   }

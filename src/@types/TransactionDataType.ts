@@ -8,7 +8,7 @@ export type TransactionDataType = {
   dataForPayment: string;
   creditorDebtor: string;
   valueTransaction: number;
-  dateDueTransaction: Date;
+  dateDueTransaction: number;
   anotherInformation: string;
-  dateEntriesTransaction: Date;
+  dateEntriesTransaction: number;
 };

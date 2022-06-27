@@ -43,6 +43,7 @@ import {
   getAllTransactionsAPIRoute,
   getUniqueCreditorDebtorAPIRoute,
   getUniquePaymentMethodAPIRoute,
+  getAllCreditorsDebtorsAPIRoute,
   getUniqueTransactionAPIRoute,
   postUniqueTransactionAPIRoute,
 } from "../services/api";
@@ -191,8 +192,9 @@ const TransactionsPage: NextPage = () => {
               colorScheme="purple"
               onClick={() => {
                 getUniqueCreditorDebtorAPIRoute(
-                  "a9f62ba0-eb41-11ec-8fea-0242ac120002"
+                  "a9f62d30-eb41-11ec-8fea-0242ac120002"
                 );
+                // getAllCreditorsDebtorsAPIRoute();
               }}
             >
               CreditorDebtor

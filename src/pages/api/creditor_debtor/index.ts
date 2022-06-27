@@ -1,40 +1,61 @@
 // Imports Next-Auth/Next.js
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getSession } from "next-auth/react";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "../auth/[...nextauth]";
 
 // Imports FaunaDB
 import fauna from "../../../services/fauna";
 import { query } from "faunadb";
 
 // Typings[TypeScript]
+import { SessionDataType } from "../../../@types/SessionDataType";
 import { CreditorDebtorType } from "../../../@types/CreditorDebtorType";
+import { DataCollectionFaunaDB } from "../../../@types/DataCollectionFaunaDB";
 
 type DataResponseAPI = Array<CreditorDebtorType> | {} | void;
 
 const getAllCreditorsDebtors = async (req: NextApiRequest, res: NextApiResponse<DataResponseAPI>) => {
-  if (req.headers.authorization !== process.env.NEXT_PUBLIC_API_ROUTE_SECRET) {
+  const sessionData = (await getServerSession(
+    { req: req, res: res },
+    authOptions
+  )) as SessionDataType | null;
+
+  if (!!sessionData && req.headers.authorization !== process.env.NEXT_PUBLIC_API_ROUTE_SECRET) {
     res.status(401).end("You are not authorized to call this API!");
   }
 
-  if (req.method === "GET") {
-    const session = await getSession({ req });
-
-    const getAllCreditorsDebtorsByUser = await fauna
-      .query<Array<CreditorDebtorType>>(
-        query.Select(
-          ["data", "creditorsDebtors"],
-          query.Get(query.Match(query.Index("user_by_email"), query.Casefold(String(session?.user?.email)))),
-          [{}]
+  switch (req.method) {
+    case "GET":
+      const getAllCreditorsDebtorsByUser = await fauna
+        .query<Array<DataCollectionFaunaDB<CreditorDebtorType>>>(
+          query.Map(
+            query.Select(
+              ["data"],
+              query.Paginate(
+                query.Match(
+                  query.Index("creditorDebtor_by_userId"),
+                  query.Casefold(String(sessionData?.userRef.id))
+                )
+              )
+            ),
+            query.Lambda((x) => query.Get(x))
+          )
         )
-      )
-      .then((response) => {
-        return response;
-      })
-      .catch((err) => console.log("Error:", err.message));
+        .then((response) => {
+          const creditorsDebtors = response.map(
+            (creditorDebtor) => creditorDebtor.data
+          );
+          return creditorsDebtors;
+        })
+        .catch((err) => console.log("Error:", err.message));
 
-    return res.status(200).json(getAllCreditorsDebtorsByUser);
-  } else {
-    res.status(405).end("Method not allowed!");
+      return res.status(200).json(getAllCreditorsDebtorsByUser);
+
+    case "POST":
+
+      return res.status(200).end("Method allowed, is development!");
+    default:
+      res.status(405).end("Method not allowed!");
   }
 };
 

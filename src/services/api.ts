@@ -119,7 +119,9 @@ export const getUniqueTransactionAPIRoute = async (id: string) => {
  * @transactionData Dados da transação para serem inseridos na collection de
  * transactions do FaunaDB.
  */
-export const postUniqueTransactionAPIRoute = async (transactionData: TransactionDataType) => {
+export const postUniqueTransactionAPIRoute = async (
+  transactionData: TransactionDataType
+) => {
   const data = await apiRoute
     .post("/transactions", {
       transactionData: transactionData,

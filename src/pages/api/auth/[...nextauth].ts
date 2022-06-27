@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 
 import fauna from "../../../services/fauna";
@@ -10,7 +10,7 @@ type User = {
   };
 };
 
-export default NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     GithubProvider({
       clientId: process.env.GITHUB_CLIENT_ID,
@@ -22,6 +22,17 @@ export default NextAuth({
       },
     }),
   ],
+
+  jwt: {
+    maxAge: 60 * 72, // 72 Hours
+  },
+
+  secret: process.env.NEXTAUTH_SECRET,
+
+  session: {
+    strategy: "jwt",
+    maxAge: 60 * 72, // 72 Hours
+  },
 
   callbacks: {
     async signIn({ user }) {
@@ -39,9 +50,24 @@ export default NextAuth({
       try {
         await fauna.query(
           query.If(
-            query.Not(query.Exists(query.Match(query.Index("user_by_email"), query.Casefold(String(email))))),
+            query.Not(
+              query.Exists(
+                query.Match(
+                  query.Index("user_by_email"),
+                  query.Casefold(String(email))
+                )
+              )
+            ),
             query.Create(query.Collection("users"), { data: initialUserData }),
-            query.Select("ref", query.Get(query.Match(query.Index("user_by_userId"), query.Casefold(String(id)))))
+            query.Select(
+              "ref",
+              query.Get(
+                query.Match(
+                  query.Index("user_by_userId"),
+                  query.Casefold(String(id))
+                )
+              )
+            )
           )
         );
 
@@ -56,11 +82,18 @@ export default NextAuth({
       const userFaunaDB = await fauna.query<User>(
         query.Select(
           "ref",
-          query.Get(query.Match(query.Index("user_by_email"), query.Casefold(String(session?.user?.email))))
+          query.Get(
+            query.Match(
+              query.Index("user_by_email"),
+              query.Casefold(String(session?.user?.email))
+            )
+          )
         )
       );
 
       return { ...session, userRef: userFaunaDB };
     },
   },
-});
+};
+
+export default NextAuth(authOptions);

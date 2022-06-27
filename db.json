@@ -1,6 +1,7 @@
 {
   "transactions": [
     {
+      "userId": "335194651486060611",
       "id": "aca04f2e-eb42-11ec-8fea-0242ac120002",
       "type": "0",
       "status": "1",
@@ -15,6 +16,7 @@
       "anotherInformation": "Pagamento foi efetuado antes a data de lançamento."
     },
     {
+      "userId": "335194651486060611",
       "id": "f1a687b1-98d9-49a0-84e5-896b7fed0533",
       "type": "0",
       "status": "0",
@@ -29,6 +31,7 @@
       "anotherInformation": "Pagamento ainda deve ser efetuado."
     },
     {
+      "userId": "335194651486060611",
       "id": "be808b96-eb42-11ec-8fea-0242ac120002",
       "type": "1",
       "status": "1",
@@ -43,6 +46,7 @@
       "anotherInformation": "Recebimento já concretizado antes da data de vencimento."
     },
     {
+      "userId": "335194651486060611",
       "id": "5dacc67a-eb44-11ec-8ea0-0242ac120002",
       "type": "0",
       "status": "0",
@@ -57,6 +61,7 @@
       "anotherInformation": "Pagamento ainda deve ser efetuado."
     },
     {
+      "userId": "335194651486060611",
       "id": "e2393c86-eb51-11ec-8ea0-0242ac120002",
       "type": "0",
       "status": "1",
@@ -71,6 +76,7 @@
       "anotherInformation": "Pagamento já efetuado antes da data de vencimento."
     },
     {
+      "userId": "335194651486060611",
       "id": "720ff154-eb45-11ec-8ea0-0242ac120002",
       "type": "0",
       "status": "0",
@@ -119,30 +125,35 @@
   ],
   "payment_method": [
     {
+      "userId": "335194651486060611",
       "id": "68f3538a-eb41-11ec-8fea-0242ac120002",
       "title": "Boleto",
       "status": "1",
       "anotherInformation": ""
     },
     {
+      "userId": "335194651486060611",
       "id": "68f35664-eb41-11ec-8fea-0242ac120002",
       "title": "PIX",
       "status": "1",
       "anotherInformation": ""
     },
     {
+      "userId": "335194651486060611",
       "id": "68f35920-eb41-11ec-8fea-0242ac120002",
       "title": "Cartão de Crédito",
       "status": "0",
       "anotherInformation": ""
     },
     {
+      "userId": "335194651486060611",
       "id": "68f35a6a-eb41-11ec-8fea-0242ac120002",
       "title": "Débito em conta",
       "status": "1",
       "anotherInformation": ""
     },
     {
+      "userId": "335194651486060611",
       "id": "68f35bb4-eb41-11ec-8fea-0242ac120002",
       "title": "Dinheiro",
       "status": "1",

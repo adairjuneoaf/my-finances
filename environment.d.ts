@@ -3,6 +3,7 @@ declare global {
     interface ProcessEnv {
       FAUNA_DB_KEY: string;
       NEXTAUTH_URL: string;
+      NEXTAUTH_SECRET: string;
       GITHUB_CLIENT_ID: string;
       FAUNA_DB_ENDPOINT: string;
       GITHUB_CLIENT_SECRET: string;

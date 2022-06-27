@@ -39,6 +39,7 @@ import { FiActivity, FiSearch, FiSettings } from "react-icons/fi";
 import { RiAddFill } from "react-icons/ri";
 
 import {
+  getAllPaymentMethodsAPIRoute,
   getAllTransactionsAPIRoute,
   getUniqueCreditorDebtorAPIRoute,
   getUniquePaymentMethodAPIRoute,
@@ -75,8 +76,19 @@ const TransactionsPage: NextPage = () => {
             <Flex flex="2" paddingX="2">
               <LogoComponent />
             </Flex>
-            <Flex alignItems="center" justifyContent="center" flex="10" paddingX="2"></Flex>
-            <Flex alignItems="center" justifyContent="flex-end" flexDirection="row" flex="5" paddingX="2">
+            <Flex
+              alignItems="center"
+              justifyContent="center"
+              flex="10"
+              paddingX="2"
+            ></Flex>
+            <Flex
+              alignItems="center"
+              justifyContent="flex-end"
+              flexDirection="row"
+              flex="5"
+              paddingX="2"
+            >
               <ActionBarComponent />
               <Center height="32px" paddingX="4">
                 <Divider orientation="vertical" color="gray.100" />
@@ -86,21 +98,43 @@ const TransactionsPage: NextPage = () => {
           </Box>
         </Flex>
 
-        <HStack width="68vw" height="100%" margin="auto" marginY="8" justifyContent="space-between" flexDirection="row">
+        <HStack
+          width="68vw"
+          height="100%"
+          margin="auto"
+          marginY="8"
+          justifyContent="space-between"
+          flexDirection="row"
+        >
           <HStack spacing="4" alignItems="center">
             <Text as="h1" fontSize="3xl" fontWeight="extrabold">
               Lançamentos
             </Text>
-            {isFetching && !isLoading && <Spinner color="green.500" size="md" thickness="4px" speed="0.5s" />}
+            {isFetching && !isLoading && (
+              <Spinner
+                color="green.500"
+                size="md"
+                thickness="4px"
+                speed="0.5s"
+              />
+            )}
           </HStack>
           <HStack spacing="4">
             <NextLink passHref href="/dashboard">
-              <Button type="button" colorScheme="whiteAlpha" leftIcon={<FiActivity fontSize="18" />}>
+              <Button
+                type="button"
+                colorScheme="whiteAlpha"
+                leftIcon={<FiActivity fontSize="18" />}
+              >
                 Dashboard
               </Button>
             </NextLink>
             <NextLink passHref href="/records">
-              <Button type="button" colorScheme="blue" leftIcon={<FiSettings fontSize="18" />}>
+              <Button
+                type="button"
+                colorScheme="blue"
+                leftIcon={<FiSettings fontSize="18" />}
+              >
                 Cadastros
               </Button>
             </NextLink>
@@ -123,7 +157,12 @@ const TransactionsPage: NextPage = () => {
                 //   dataForPayment: "01926642635",
                 //   anotherInformation: "Recebimento já concretizado antes da data de vencimento.",
                 // });
-                getAllTransactionsAPIRoute();
+
+                // getAllTransactionsAPIRoute();
+
+                getUniqueTransactionAPIRoute(
+                  "be808b96-eb42-11ec-8fea-0242ac120002"
+                );
               }}
             >
               Transactions
@@ -133,7 +172,15 @@ const TransactionsPage: NextPage = () => {
               type="button"
               colorScheme="yellow"
               onClick={() => {
-                getUniquePaymentMethodAPIRoute("68f35664-eb41-11ec-8fea-0242ac120002");
+                // getAllPaymentMethodsAPIRoute();
+
+                // getUniquePaymentMethodAPIRoute(
+                //   "68f35664-eb41-11ec-8fea-0242ac120002"
+                // );
+
+                getUniquePaymentMethodAPIRoute(
+                  "68f35920-eb41-11ec-8fea-0242ac120002"
+                );
               }}
             >
               PaymentMethod
@@ -143,7 +190,9 @@ const TransactionsPage: NextPage = () => {
               type="button"
               colorScheme="purple"
               onClick={() => {
-                getUniqueCreditorDebtorAPIRoute("a9f62ba0-eb41-11ec-8fea-0242ac120002");
+                getUniqueCreditorDebtorAPIRoute(
+                  "a9f62ba0-eb41-11ec-8fea-0242ac120002"
+                );
               }}
             >
               CreditorDebtor
@@ -160,7 +209,14 @@ const TransactionsPage: NextPage = () => {
           </HStack>
         </HStack>
 
-        <Flex as="section" width="68vw" height="100%" paddingY="4" paddingX="8" margin="auto">
+        <Flex
+          as="section"
+          width="68vw"
+          height="100%"
+          paddingY="4"
+          paddingX="8"
+          margin="auto"
+        >
           <InputGroup>
             <InputLeftAddon
               border="none"
@@ -185,7 +241,10 @@ const TransactionsPage: NextPage = () => {
         </Flex>
 
         <Flex width="68vw" height="100%" padding="8" margin="auto">
-          <TableTransactionsComponent transactions={transactionsList} isLoading={isLoading} />
+          <TableTransactionsComponent
+            transactions={transactionsList}
+            isLoading={isLoading}
+          />
         </Flex>
       </Flex>
     </Fragment>

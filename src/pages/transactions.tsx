@@ -46,6 +46,7 @@ import {
   getAllCreditorsDebtorsAPIRoute,
   getUniqueTransactionAPIRoute,
   postUniqueTransactionAPIRoute,
+  postUniquePaymentMethodAPIRoute,
 } from "../services/api";
 
 const TransactionsPage: NextPage = () => {
@@ -173,15 +174,18 @@ const TransactionsPage: NextPage = () => {
               type="button"
               colorScheme="yellow"
               onClick={() => {
-                // getAllPaymentMethodsAPIRoute();
+                getAllPaymentMethodsAPIRoute();
+
+                // postUniquePaymentMethodAPIRoute({
+                //   id: "647c8780-f60f-11ec-b939-0242ac120002",
+                //   title: "Método Teste",
+                //   status: "0",
+                //   anotherInformation: "Novo método de pagamento teste cadastrado pela API Route."
+                // })
 
                 // getUniquePaymentMethodAPIRoute(
-                //   "68f35664-eb41-11ec-8fea-0242ac120002"
+                //   "68f35920-eb41-11ec-8fea-0242ac120002"
                 // );
-
-                getUniquePaymentMethodAPIRoute(
-                  "68f35920-eb41-11ec-8fea-0242ac120002"
-                );
               }}
             >
               PaymentMethod

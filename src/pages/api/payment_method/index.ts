@@ -13,6 +13,7 @@ import { PaymentMethodType } from "../../../@types/PaymentMethodType";
 import { DataCollectionFaunaDB } from "../../../@types/DataCollectionFaunaDB";
 
 type DataResponseAPI = Array<PaymentMethodType> | {} | void;
+type DataRequestBodyAPI = { paymentMethodData: PaymentMethodType };
 
 const getAllPaymentMethods = async (
   req: NextApiRequest,
@@ -29,6 +30,8 @@ const getAllPaymentMethods = async (
   ) {
     res.status(401).end("You are not authorized to call this API!");
   }
+
+  const { paymentMethodData } = req.body as DataRequestBodyAPI;
 
   switch (req.method) {
     case "GET":
@@ -58,7 +61,23 @@ const getAllPaymentMethods = async (
       return res.status(200).json(getAllPaymentMethodsByUser);
 
     case "POST":
-      res.status(200).end("Method allowed, is development!");
+      const postUniquePaymentMethodByUser = await fauna
+        .query(
+          query.Create("paymentMethods", {
+            data: {
+              userId: sessionData?.userRef.id,
+              ...paymentMethodData,
+            },
+          })
+        )
+        .then((response) => {
+          return response;
+        })
+        .catch((err) => {
+          console.error(err.message);
+        });
+
+      return res.status(200).json({ ...postUniquePaymentMethodByUser });
 
     default:
       res.status(405).end("Method not allowed!");

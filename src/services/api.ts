@@ -217,6 +217,28 @@ export const getUniquePaymentMethodAPIRoute = async (id: string) => {
 };
 
 /**
+ * @returns Função de retorno dos dados de UM único método de pagamento
+ * armazenado no FaunaDB.
+ * 
+ * @paymentMethodData Dados do método de pagamento que serão armazenados
+ * na collection de paymentMethods no FaunaDB.
+ */
+export const postUniquePaymentMethodAPIRoute = async (paymentMethodData: PaymentMethodType) => {
+  const data = await apiRoute
+    .post("/payment_method", {
+      paymentMethodData: paymentMethodData
+    }).then((response) => {
+      return response.data
+    }).catch((error) => {
+      console.error("Error: ", error.message);
+    })
+
+  console.log(data);
+
+  return data;
+}
+
+/**
  * @returns Função de retorno dos dados de todos os credores/devedores
  * armazenados na API FAKE.
  */

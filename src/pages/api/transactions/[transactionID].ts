@@ -29,106 +29,106 @@ const getUniqueTransaction = async (
   )) as SessionDataType | null;
 
   if (
-    !!sessionData &&
-    req.headers.authorization !== process.env.NEXT_PUBLIC_API_ROUTE_SECRET
+    (sessionData !== undefined || null) &&
+    req.headers.authorization === process.env.NEXT_PUBLIC_API_ROUTE_SECRET
   ) {
-    res.status(401).end("You are not authorized to call this API!");
-  }
+    const { transactionID } = req.query as ReqQuery;
+    const { transactionData } = req.body as DataRequestBodyAPI;
 
-  const { transactionID } = req.query as ReqQuery;
-  const { transactionData } = req.body as DataRequestBodyAPI;
-
-  switch (req.method) {
-    case "GET":
-      const getUniqueTransactionByID = await fauna
-        .query<Array<DataCollectionFaunaDB<TransactionDataType>>>(
-          query.Map(
-            query.Select(
-              ["data"],
-              query.Paginate(
-                query.Match(
-                  query.Index("transaction_by_userId"),
-                  query.Casefold(String(sessionData?.userRef.id))
+    switch (req.method) {
+      case "GET":
+        const getUniqueTransactionByID = await fauna
+          .query<Array<DataCollectionFaunaDB<TransactionDataType>>>(
+            query.Map(
+              query.Select(
+                ["data"],
+                query.Paginate(
+                  query.Match(
+                    query.Index("transaction_by_userId"),
+                    query.Casefold(String(sessionData?.userRef.id))
+                  )
                 )
-              )
-            ),
-            query.Lambda((x) => query.Get(x))
+              ),
+              query.Lambda((x) => query.Get(x))
+            )
           )
-        )
-        // .query(
-        //   query.Get(
-        //     query.Match(
-        //       query.Index("transaction_by_id"),
-        //       query.Casefold(String("f1a687b1-98d9-49a0-84e5-896b7fed0533"))
-        //     )
-        //   )
-        // )
-        .then((response) => {
-          const transaction = response.find(
-            (value) => value.data.id === transactionID
-          );
+          // .query(
+          //   query.Get(
+          //     query.Match(
+          //       query.Index("transaction_by_id"),
+          //       query.Casefold(String("f1a687b1-98d9-49a0-84e5-896b7fed0533"))
+          //     )
+          //   )
+          // )
+          .then((response) => {
+            const transaction = response.find(
+              (value) => value.data.id === transactionID
+            );
 
-          return transaction?.data;
-        })
-        .catch((err) => {
-          console.error(err.message);
-        });
+            return transaction?.data;
+          })
+          .catch((err) => {
+            console.error(err.message);
+          });
 
-      return res.status(200).json(getUniqueTransactionByID);
+        return res.status(200).json(getUniqueTransactionByID);
 
-    case "PUT":
-      const putUniqueTransactionByID = await fauna
-        .query(
-          query.Replace(
-            query.Select(
-              "ref",
-              query.Get(
-                query.Match(
-                  query.Index("transaction_by_id"),
-                  query.Casefold(String(transactionID))
+      case "PUT":
+        const putUniqueTransactionByID = await fauna
+          .query(
+            query.Replace(
+              query.Select(
+                "ref",
+                query.Get(
+                  query.Match(
+                    query.Index("transaction_by_id"),
+                    query.Casefold(String(transactionID))
+                  )
                 )
-              )
-            ),
-            {
-              data: {
-                userId: sessionData?.userRef.id,
-                ...transactionData,
-              },
-            }
+              ),
+              {
+                data: {
+                  userId: sessionData?.userRef.id,
+                  ...transactionData,
+                },
+              }
+            )
           )
-        )
-        .then((response) => response)
-        .catch((err) => console.error("Error: ", err.message));
+          .then((response) => response)
+          .catch((err) => console.error("Error: ", err.message));
 
-      return res.status(200).json(putUniqueTransactionByID);
+        return res.status(200).json(putUniqueTransactionByID);
 
-    case "PATCH":
-      const patchUniqueTransactionByID = await fauna
-        .query(
-          query.Update(
-            query.Select(
-              "ref",
-              query.Get(
-                query.Match(
-                  query.Index("transaction_by_id"),
-                  query.Casefold(String(transactionID))
+      case "PATCH":
+        const patchUniqueTransactionByID = await fauna
+          .query(
+            query.Update(
+              query.Select(
+                "ref",
+                query.Get(
+                  query.Match(
+                    query.Index("transaction_by_id"),
+                    query.Casefold(String(transactionID))
+                  )
                 )
-              )
-            ),
-            {
-              data: {
-                ...transactionData,
-              },
-            }
+              ),
+              {
+                data: {
+                  ...transactionData,
+                },
+              }
+            )
           )
-        )
-        .then((response) => response)
-        .catch((err) => console.error("Error: ", err.message));
+          .then((response) => response)
+          .catch((err) => console.error("Error: ", err.message));
 
-      return res.status(200).json(patchUniqueTransactionByID);
+        return res.status(200).json(patchUniqueTransactionByID);
 
-    default:
-      res.status(405).end("Method not allowed!");
+      default:
+        res.status(405).end("Method not allowed!");
+    }
+  } else {
+    return res.status(401).end("You are not authorized to call this API!");
   }
 };
 

@@ -25,62 +25,62 @@ const getAllPaymentMethods = async (
   )) as SessionDataType | null;
 
   if (
-    !!sessionData &&
-    req.headers.authorization !== process.env.NEXT_PUBLIC_API_ROUTE_SECRET
+    (sessionData !== undefined || null) &&
+    req.headers.authorization === process.env.NEXT_PUBLIC_API_ROUTE_SECRET
   ) {
-    res.status(401).end("You are not authorized to call this API!");
-  }
+    const { paymentMethodData } = req.body as DataRequestBodyAPI;
 
-  const { paymentMethodData } = req.body as DataRequestBodyAPI;
-
-  switch (req.method) {
-    case "GET":
-      const getAllPaymentMethodsByUser = await fauna
-        .query<Array<DataCollectionFaunaDB<PaymentMethodType>>>(
-          query.Map(
-            query.Select(
-              ["data"],
-              query.Paginate(
-                query.Match(
-                  query.Index("paymentMethod_by_userId"),
-                  query.Casefold(String(sessionData?.userRef.id))
+    switch (req.method) {
+      case "GET":
+        const getAllPaymentMethodsByUser = await fauna
+          .query<Array<DataCollectionFaunaDB<PaymentMethodType>>>(
+            query.Map(
+              query.Select(
+                ["data"],
+                query.Paginate(
+                  query.Match(
+                    query.Index("paymentMethod_by_userId"),
+                    query.Casefold(String(sessionData?.userRef.id))
+                  )
                 )
-              )
-            ),
-            query.Lambda((x) => query.Get(x))
+              ),
+              query.Lambda((x) => query.Get(x))
+            )
           )
-        )
-        .then((response) => {
-          const paymentMethods = response.map(
-            (paymentMethod) => paymentMethod.data
-          );
-          return paymentMethods;
-        })
-        .catch((err) => console.log("Error:", err.message));
-
-      return res.status(200).json(getAllPaymentMethodsByUser);
-
-    case "POST":
-      const postUniquePaymentMethodByUser = await fauna
-        .query(
-          query.Create("paymentMethods", {
-            data: {
-              userId: sessionData?.userRef.id,
-              ...paymentMethodData,
-            },
+          .then((response) => {
+            const paymentMethods = response.map(
+              (paymentMethod) => paymentMethod.data
+            );
+            return paymentMethods;
           })
-        )
-        .then((response) => {
-          return response;
-        })
-        .catch((err) => {
-          console.error(err.message);
-        });
+          .catch((err) => console.log("Error:", err.message));
 
-      return res.status(200).json({ ...postUniquePaymentMethodByUser });
+        return res.status(200).json(getAllPaymentMethodsByUser);
 
-    default:
-      res.status(405).end("Method not allowed!");
+      case "POST":
+        const postUniquePaymentMethodByUser = await fauna
+          .query(
+            query.Create("paymentMethods", {
+              data: {
+                userId: sessionData?.userRef.id,
+                ...paymentMethodData,
+              },
+            })
+          )
+          .then((response) => {
+            return response;
+          })
+          .catch((err) => {
+            console.error(err.message);
+          });
+
+        return res.status(200).json({ ...postUniquePaymentMethodByUser });
+
+      default:
+        res.status(405).end("Method not allowed!");
+    }
+  } else {
+    return res.status(401).end("You are not authorized to call this API!");
   }
 };
 

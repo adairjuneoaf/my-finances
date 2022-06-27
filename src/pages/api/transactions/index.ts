@@ -25,60 +25,62 @@ const getAllTransactions = async (
   )) as SessionDataType | null;
 
   if (
-    !!sessionData &&
-    req.headers.authorization !== process.env.NEXT_PUBLIC_API_ROUTE_SECRET
+    (sessionData !== undefined || null) &&
+    req.headers.authorization === process.env.NEXT_PUBLIC_API_ROUTE_SECRET
   ) {
-    res.status(401).end("You are not authorized to call this API!");
-  }
+    const { transactionData } = req.body as DataRequestBodyAPI;
 
-  const { transactionData } = req.body as DataRequestBodyAPI;
-
-  switch (req.method) {
-    case "GET":
-      const getAllTransactionsByUser = await fauna
-        .query<Array<DataCollectionFaunaDB<TransactionDataType>>>(
-          query.Map(
-            query.Select(
-              ["data"],
-              query.Paginate(
-                query.Match(
-                  query.Index("transaction_by_userId"),
-                  query.Casefold(String(sessionData?.userRef.id))
+    switch (req.method) {
+      case "GET":
+        const getAllTransactionsByUser = await fauna
+          .query<Array<DataCollectionFaunaDB<TransactionDataType>>>(
+            query.Map(
+              query.Select(
+                ["data"],
+                query.Paginate(
+                  query.Match(
+                    query.Index("transaction_by_userId"),
+                    query.Casefold(String(sessionData?.userRef.id))
+                  )
                 )
-              )
-            ),
-            query.Lambda((x) => query.Get(x))
+              ),
+              query.Lambda((x) => query.Get(x))
+            )
           )
-        )
-        .then((response) => {
-          const transactions = response.map((transaction) => transaction.data);
-          return transactions;
-        })
-        .catch((err) => console.error("Error:", err.message));
-
-      return res.status(200).json(getAllTransactionsByUser);
-
-    case "POST":
-      const postUniqueTransactionsByUser = await fauna
-        .query(
-          query.Create("transactions", {
-            data: {
-              userId: sessionData?.userRef.id,
-              ...transactionData,
-            },
+          .then((response) => {
+            const transactions = response.map(
+              (transaction) => transaction.data
+            );
+            return transactions;
           })
-        )
-        .then((response) => {
-          return response;
-        })
-        .catch((err) => {
-          console.error(err.message);
-        });
+          .catch((err) => console.error("Error:", err.message));
 
-      return res.status(200).json({ ...postUniqueTransactionsByUser });
+        return res.status(200).json(getAllTransactionsByUser);
 
-    default:
-      res.status(405).end("Method not allowed!");
+      case "POST":
+        const postUniqueTransactionsByUser = await fauna
+          .query(
+            query.Create("transactions", {
+              data: {
+                userId: sessionData?.userRef.id,
+                ...transactionData,
+              },
+            })
+          )
+          .then((response) => {
+            return response;
+          })
+          .catch((err) => {
+            console.error(err.message);
+          });
+
+        return res.status(200).json({ ...postUniqueTransactionsByUser });
+
+      default:
+        res.status(405).end("Method not allowed!");
+    }
+  } else {
+    return res.status(401).end("You are not authorized to call this API!");
   }
 };
 

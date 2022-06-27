@@ -39,20 +39,9 @@ import { FiActivity, FiSearch, FiSettings } from "react-icons/fi";
 import { RiAddFill } from "react-icons/ri";
 
 import {
-  getAllPaymentMethodsAPIRoute,
   getAllTransactionsAPIRoute,
-  getUniqueCreditorDebtorAPIRoute,
-  getUniquePaymentMethodAPIRoute,
+  getAllPaymentMethodsAPIRoute,
   getAllCreditorsDebtorsAPIRoute,
-  getUniqueTransactionAPIRoute,
-  postUniqueTransactionAPIRoute,
-  postUniquePaymentMethodAPIRoute,
-  postUniqueCreditorDebtorAPIRoute,
-  putUniqueTransactionAPIRoute,
-  patchUniqueTransactionAPIRoute,
-  patchUniquePaymentMethodAPIRoute,
-  patchUniqueCreditorDebtorAPIRoute,
-  putUniqueCreditorDebtorAPIRoute,
 } from "../services/api";
 
 const TransactionsPage: NextPage = () => {
@@ -151,50 +140,7 @@ const TransactionsPage: NextPage = () => {
               type="button"
               colorScheme="red"
               onClick={() => {
-                // postUniqueTransactionAPIRoute({
-                //   id: "ee2fc04c-f343-11ec-b939-0242ac120002",
-                //   type: "0",
-                //   status: "1",
-                //   valueTransaction: 301,
-                //   dateDueTransaction: new Date(1655251200000),
-                //   dateEntriesTransaction: new Date(1654992000000),
-                //   title: "Financiamento apartamento CAIXA",
-                //   description: "Lançamento de saída para pagamento sendo efetuado para testes com o Drawer",
-                //   paymentMethod: "68f35a6a-eb41-11ec-8fea-0242ac120002",
-                //   creditorDebtor: "a9f62e0c-eb41-11ec-8fea-0242ac120002",
-                //   dataForPayment: "01926642635",
-                //   anotherInformation: "Recebimento já concretizado antes da data de vencimento.",
-                // });
-                // getAllTransactionsAPIRoute();
-                // getUniqueTransactionAPIRoute(
-                //   "be808b96-eb42-11ec-8fea-0242ac120002"
-                // );
-
-                // putUniqueTransactionAPIRoute(
-                //   "be808b96-eb42-11ec-8fea-0242ac120002",
-                //   {
-                //     type: "1",
-                //     status: "1",
-                //     valueTransaction: 4500,
-                //     dateDueTransaction: 1655251200000,
-                //     dateEntriesTransaction: 1654992000000,
-                //     title: "Recebimento de salário",
-                //     description:
-                //       "Lançamento de ENTRADA para pagamento sendo efetuado para testes com a API ROUTE.",
-                //     paymentMethod: "68f35a6a-eb41-11ec-8fea-0242ac120002",
-                //     creditorDebtor: "a9f62e0c-eb41-11ec-8fea-0242ac120002",
-                //     dataForPayment: "01926642635",
-                //     anotherInformation:
-                //       "Recebimento já concretizado antes da data de vencimento.",
-                //   }
-                // );
-
-                patchUniqueTransactionAPIRoute(
-                  "be808b96-eb42-11ec-8fea-0242ac120002",
-                  {
-                    status: "1",
-                  }
-                );
+                getAllTransactionsAPIRoute();
               }}
             >
               Transactions
@@ -204,25 +150,7 @@ const TransactionsPage: NextPage = () => {
               type="button"
               colorScheme="yellow"
               onClick={() => {
-                // getAllPaymentMethodsAPIRoute();
-
-                // postUniquePaymentMethodAPIRoute({
-                //   id: "647c8780-f60f-11ec-b939-0242ac120002",
-                //   title: "Método Teste",
-                //   status: "0",
-                //   anotherInformation: "Novo método de pagamento teste cadastrado pela API Route."
-                // })
-
-                // getUniquePaymentMethodAPIRoute(
-                //   "68f35920-eb41-11ec-8fea-0242ac120002"
-                // );
-
-                patchUniquePaymentMethodAPIRoute(
-                  "647c8780-f60f-11ec-b939-0242ac120002",
-                  {
-                    status: "1",
-                  }
-                );
+                getAllPaymentMethodsAPIRoute();
               }}
             >
               PaymentMethod
@@ -232,36 +160,7 @@ const TransactionsPage: NextPage = () => {
               type="button"
               colorScheme="purple"
               onClick={() => {
-                // getUniqueCreditorDebtorAPIRoute(
-                //   "a9f62d30-eb41-11ec-8fea-0242ac120002"
-                // );
-
-                // getAllCreditorsDebtorsAPIRoute();
-
-                // postUniqueCreditorDebtorAPIRoute({
-                //   id: "04eb3c75-cf62-41a5-a28f-108364fb4fb0",
-                //   title: "Binance Corretora",
-                //   status: "0",
-                //   anotherInformation:
-                //     "Corretora responsável pelo retorno dos ganhos com investimento em cripto moedas.",
-                // });
-
-                // patchUniqueCreditorDebtorAPIRoute(
-                //   "04eb3c75-cf62-41a5-a28f-108364fb4fb0",
-                //   {
-                //     status: "1",
-                //   }
-                // );
-
-                putUniqueCreditorDebtorAPIRoute(
-                  "04eb3c75-cf62-41a5-a28f-108364fb4fb0",
-                  {
-                    title: "Binance Corretora ALTERAÇÃO",
-                    status: "0",
-                    anotherInformation:
-                      "Alteração COM PUT DA API ROUTE - Corretora responsável pelo retorno dos ganhos com investimento em cripto moedas.",
-                  }
-                );
+                getAllCreditorsDebtorsAPIRoute();
               }}
             >
               CreditorDebtor

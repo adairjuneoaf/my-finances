@@ -41,7 +41,10 @@ import { RiAddFill } from "react-icons/ri";
 import {
   getAllTransactionsAPIRoute,
   getAllPaymentMethodsAPIRoute,
+  getUniqueTransactionAPIRoute,
   getAllCreditorsDebtorsAPIRoute,
+  getUniquePaymentMethodAPIRoute,
+  getUniqueCreditorDebtorAPIRoute,
 } from "../services/api";
 
 const TransactionsPage: NextPage = () => {
@@ -140,7 +143,11 @@ const TransactionsPage: NextPage = () => {
               type="button"
               colorScheme="red"
               onClick={() => {
-                getAllTransactionsAPIRoute();
+                // getAllTransactionsAPIRoute();
+
+                getUniqueTransactionAPIRoute(
+                  "e2393c86-eb51-11ec-8ea0-0242ac120002"
+                );
               }}
             >
               Transactions
@@ -150,7 +157,11 @@ const TransactionsPage: NextPage = () => {
               type="button"
               colorScheme="yellow"
               onClick={() => {
-                getAllPaymentMethodsAPIRoute();
+                // getAllPaymentMethodsAPIRoute();
+
+                getUniquePaymentMethodAPIRoute(
+                  "68f35bb4-eb41-11ec-8fea-0242ac120002"
+                );
               }}
             >
               PaymentMethod
@@ -160,7 +171,11 @@ const TransactionsPage: NextPage = () => {
               type="button"
               colorScheme="purple"
               onClick={() => {
-                getAllCreditorsDebtorsAPIRoute();
+                // getAllCreditorsDebtorsAPIRoute();
+
+                getUniqueCreditorDebtorAPIRoute(
+                  "a9f62e0c-eb41-11ec-8fea-0242ac120002"
+                );
               }}
             >
               CreditorDebtor

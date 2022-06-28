@@ -10,7 +10,6 @@ import { query } from "faunadb";
 // Typings[TypeScript]
 import { SessionDataType } from "../../../@types/SessionDataType";
 import { TransactionDataType } from "../../../@types/TransactionDataType";
-import { DataCollectionFaunaDB } from "../../../@types/DataCollectionFaunaDB";
 
 type DataResponseAPI = TransactionDataType | {} | void;
 type DataRequestBodyAPI = { transactionData: TransactionDataType };
@@ -38,34 +37,19 @@ const getUniqueTransaction = async (
     switch (req.method) {
       case "GET":
         const getUniqueTransactionByID = await fauna
-          .query<Array<DataCollectionFaunaDB<TransactionDataType>>>(
-            query.Map(
-              query.Select(
-                ["data"],
-                query.Paginate(
-                  query.Match(
-                    query.Index("transaction_by_userId"),
-                    query.Casefold(String(sessionData?.userRef.id))
-                  )
+          .query<TransactionDataType>(
+            query.Select(
+              ["data"],
+              query.Get(
+                query.Match(
+                  query.Index("transaction_by_id"),
+                  query.Casefold(String(transactionID))
                 )
-              ),
-              query.Lambda((x) => query.Get(x))
+              )
             )
           )
-          // .query(
-          //   query.Get(
-          //     query.Match(
-          //       query.Index("transaction_by_id"),
-          //       query.Casefold(String("f1a687b1-98d9-49a0-84e5-896b7fed0533"))
-          //     )
-          //   )
-          // )
           .then((response) => {
-            const transaction = response.find(
-              (value) => value.data.id === transactionID
-            );
-
-            return transaction?.data;
+            return response;
           })
           .catch((err) => {
             console.error(err.message);

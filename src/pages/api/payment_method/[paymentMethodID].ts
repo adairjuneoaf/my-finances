@@ -10,7 +10,6 @@ import { query } from "faunadb";
 // Typings[TypeScript]
 import { SessionDataType } from "../../../@types/SessionDataType";
 import { PaymentMethodType } from "../../../@types/PaymentMethodType";
-import { DataCollectionFaunaDB } from "../../../@types/DataCollectionFaunaDB";
 
 type DataResponseAPI = PaymentMethodType | {} | void;
 type DataRequestBodyAPI = { paymentMethodData: PaymentMethodType };
@@ -38,25 +37,19 @@ const getUniquePaymentMethod = async (
     switch (req.method) {
       case "GET":
         const getUniquePaymentMethodByID = await fauna
-          .query<Array<DataCollectionFaunaDB<PaymentMethodType>>>(
-            query.Map(
-              query.Select(
-                ["data"],
-                query.Paginate(
-                  query.Match(
-                    query.Index("paymentMethod_by_userId"),
-                    query.Casefold(String(sessionData?.userRef.id))
-                  )
+          .query<PaymentMethodType>(
+            query.Select(
+              ["data"],
+              query.Get(
+                query.Match(
+                  query.Index("paymentMethod_by_id"),
+                  query.Casefold(String(paymentMethodID))
                 )
-              ),
-              query.Lambda((x) => query.Get(x))
+              )
             )
           )
           .then((response) => {
-            const paymentMethod = response.find(
-              (value) => value.data.id === paymentMethodID
-            );
-            return paymentMethod?.data;
+            return response;
           })
           .catch((err) => {
             console.error(err.message);

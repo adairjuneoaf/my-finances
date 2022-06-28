@@ -10,7 +10,6 @@ import { query } from "faunadb";
 // Typings[TypeScript]
 import { SessionDataType } from "../../../@types/SessionDataType";
 import { CreditorDebtorType } from "../../../@types/CreditorDebtorType";
-import { DataCollectionFaunaDB } from "../../../@types/DataCollectionFaunaDB";
 
 type DataResponseAPI = CreditorDebtorType | {} | void;
 type DataRequestBodyAPI = { creditorDebtorData: CreditorDebtorType };
@@ -38,25 +37,19 @@ const getUniqueCreditorDebtor = async (
     switch (req.method) {
       case "GET":
         const getUniqueCreditorDebtorByID = await fauna
-          .query<Array<DataCollectionFaunaDB<CreditorDebtorType>>>(
-            query.Map(
-              query.Select(
-                ["data"],
-                query.Paginate(
-                  query.Match(
-                    query.Index("creditorDebtor_by_userId"),
-                    query.Casefold(String(sessionData?.userRef.id))
-                  )
+          .query<CreditorDebtorType>(
+            query.Select(
+              ["data"],
+              query.Get(
+                query.Match(
+                  query.Index("creditorDebtor_by_id"),
+                  query.Casefold(String(creditorDebtorID))
                 )
-              ),
-              query.Lambda((x) => query.Get(x))
+              )
             )
           )
           .then((response) => {
-            const paymentMethod = response.find(
-              (value) => value.data.id === creditorDebtorID
-            );
-            return paymentMethod?.data;
+            return response;
           })
           .catch((err) => {
             console.error(err.message);

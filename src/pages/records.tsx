@@ -4,7 +4,9 @@ import React, { Fragment, useContext } from "react";
 // Imports Next
 import NextHead from "next/head";
 import NextLink from "next/link";
-import { NextPage } from "next";
+import { getServerSession } from "next-auth";
+import { GetServerSideProps, NextPage } from "next";
+import { authOptions } from "./api/auth/[...nextauth]";
 
 // Chakra Imports
 import {
@@ -37,12 +39,19 @@ import { ContextDrawer } from "../contexts/contextDrawer";
 import { useReactQuery } from "../hooks/useReactQuery";
 
 // Another Imports
-import { FiActivity, FiCreditCard, FiList, FiUser, FiUserPlus } from "react-icons/fi";
+import {
+  FiActivity,
+  FiCreditCard,
+  FiList,
+  FiUser,
+  FiUserPlus,
+} from "react-icons/fi";
 import TablePaymentMethodsComponent from "../components/TablePaymentMethods";
 import TableCreditorsDebtorsComponent from "../components/TableCreditorsDebtors/index";
 
 const TransactionsPage: NextPage = () => {
-  const { handleDrawerNewPaymentMethod, handleDrawerNewCreditorDebtor } = useContext(ContextDrawer);
+  const { handleDrawerNewPaymentMethod, handleDrawerNewCreditorDebtor } =
+    useContext(ContextDrawer);
 
   const { creditorsDebtors, paymentMethods } = useReactQuery();
 
@@ -79,8 +88,19 @@ const TransactionsPage: NextPage = () => {
             <Flex flex="2" paddingX="2">
               <LogoComponent />
             </Flex>
-            <Flex alignItems="center" justifyContent="center" flex="10" paddingX="2"></Flex>
-            <Flex alignItems="center" justifyContent="flex-end" flexDirection="row" flex="5" paddingX="2">
+            <Flex
+              alignItems="center"
+              justifyContent="center"
+              flex="10"
+              paddingX="2"
+            ></Flex>
+            <Flex
+              alignItems="center"
+              justifyContent="flex-end"
+              flexDirection="row"
+              flex="5"
+              paddingX="2"
+            >
               <ActionBarComponent />
               <Center height="32px" paddingX="4">
                 <Divider orientation="vertical" color="gray.100" />
@@ -90,24 +110,44 @@ const TransactionsPage: NextPage = () => {
           </Box>
         </Flex>
 
-        <HStack width="68vw" height="100%" margin="auto" marginY="8" justifyContent="space-between" flexDirection="row">
+        <HStack
+          width="68vw"
+          height="100%"
+          margin="auto"
+          marginY="8"
+          justifyContent="space-between"
+          flexDirection="row"
+        >
           <HStack spacing="4" alignItems="center">
             <Text as="h1" fontSize="3xl" fontWeight="extrabold">
               Cadastros
             </Text>
             {(isFetchingCreditorsDebtors || isFetchingPaymentMethods) &&
               (!isFetchingCreditorsDebtors || !isLoadingPaymentMethods) && (
-                <Spinner color="green.500" size="md" thickness="4px" speed="0.5s" />
+                <Spinner
+                  color="green.500"
+                  size="md"
+                  thickness="4px"
+                  speed="0.5s"
+                />
               )}
           </HStack>
           <HStack spacing="4">
             <NextLink passHref href="/dashboard">
-              <Button type="button" colorScheme="whiteAlpha" leftIcon={<FiActivity fontSize="18" />}>
+              <Button
+                type="button"
+                colorScheme="whiteAlpha"
+                leftIcon={<FiActivity fontSize="18" />}
+              >
                 Dashboard
               </Button>
             </NextLink>
             <NextLink passHref href="/transactions">
-              <Button type="button" colorScheme="green" leftIcon={<FiList fontSize="24" />}>
+              <Button
+                type="button"
+                colorScheme="green"
+                leftIcon={<FiList fontSize="24" />}
+              >
                 Lançamentos
               </Button>
             </NextLink>
@@ -120,7 +160,12 @@ const TransactionsPage: NextPage = () => {
               <AccordionButton>
                 <HStack spacing="3" flex="1">
                   <Icon as={FiCreditCard} fontSize="24" />
-                  <Text as="h2" fontSize="xl" fontWeight="medium" textAlign="left">
+                  <Text
+                    as="h2"
+                    fontSize="xl"
+                    fontWeight="medium"
+                    textAlign="left"
+                  >
                     Métodos de pagamento
                   </Text>
                 </HStack>
@@ -139,7 +184,8 @@ const TransactionsPage: NextPage = () => {
                     Novo Método de pagamento
                   </Button>
                 </HStack>
-                Segue abaixo uma tabela com todos os métodos de pagamento cadastros.
+                Segue abaixo uma tabela com todos os métodos de pagamento
+                cadastros.
                 <Flex width="100%" height="100%" paddingY="8" margin="auto">
                   <TablePaymentMethodsComponent
                     paymentMethods={listPaymentMethods}
@@ -153,7 +199,13 @@ const TransactionsPage: NextPage = () => {
               <AccordionButton>
                 <HStack spacing="3" flex="1">
                   <Icon as={FiUser} fontSize="24" />
-                  <Text as="h2" fontSize="xl" fontWeight="medium" textAlign="left" flex="1">
+                  <Text
+                    as="h2"
+                    fontSize="xl"
+                    fontWeight="medium"
+                    textAlign="left"
+                    flex="1"
+                  >
                     Credores/Devedores
                   </Text>
                 </HStack>
@@ -186,6 +238,23 @@ const TransactionsPage: NextPage = () => {
       </Flex>
     </Fragment>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getServerSession(context, authOptions);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: `/?${"authorized=false"}`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
 };
 
 export default TransactionsPage;

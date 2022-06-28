@@ -3,12 +3,28 @@ import React, { Fragment } from "react";
 
 // Imports Next
 import Head from "next/head";
-import { NextPage } from "next";
 import NextLink from "next/link";
 import { signIn } from "next-auth/react";
+import { ParsedUrlQuery } from "querystring";
+import { getServerSession } from "next-auth";
+import { GetServerSideProps, NextPage } from "next";
+import { authOptions } from "./api/auth/[...nextauth]";
 
 // Chakra Imports
-import { Box, Button, Flex, HStack, IconButton, Link, Text, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Link,
+  Text,
+  Alert,
+  Button,
+  HStack,
+  VStack,
+  AlertIcon,
+  AlertTitle,
+  IconButton,
+  AlertDescription,
+} from "@chakra-ui/react";
 
 // Components Imports
 import { InputComponent } from "../components/Form/Input";
@@ -25,12 +41,22 @@ type FormLoginData = {
   password: string;
 };
 
+interface QueryProps extends ParsedUrlQuery {
+  authorized?: "false" | "true";
+}
+
 const validationSubmitSignInForm = yup.object().shape({
-  email: yup.string().required("O endereço de e-mail é obrigatório.").email("E-mail inválido!"),
-  password: yup.string().required("A senha é obrigatória.").min(8, "O mínimo de caracteres é 8."),
+  email: yup
+    .string()
+    .required("O endereço de e-mail é obrigatório.")
+    .email("E-mail inválido!"),
+  password: yup
+    .string()
+    .required("A senha é obrigatória.")
+    .min(8, "O mínimo de caracteres é 8."),
 });
 
-const HomePage: NextPage = () => {
+const HomePage: NextPage<QueryProps> = ({ authorized }) => {
   const { register, handleSubmit, formState } = useForm<FormLoginData>({
     resolver: yupResolver(validationSubmitSignInForm),
   });
@@ -47,7 +73,13 @@ const HomePage: NextPage = () => {
         <title>my.finance$ | Controle financeiro pessoal</title>
       </Head>
 
-      <Flex width="100vw" height="100vh" alignItems="center" justifyContent="center" flexDirection="column">
+      <Flex
+        width="100vw"
+        height="100vh"
+        alignItems="center"
+        justifyContent="center"
+        flexDirection="column"
+      >
         <Flex
           width="100%"
           maxWidth={480}
@@ -56,7 +88,28 @@ const HomePage: NextPage = () => {
           borderRadius="10"
           flexDirection="column"
         >
-          <Flex as="section" alignItems="center" justifyContent="space-between" flexDirection="row">
+          {authorized === "false" && (
+            <Alert
+              status="warning"
+              backgroundColor="rgb(251 211 141 / 16%)"
+              marginBottom="4"
+              borderRadius="10"
+            >
+              <AlertIcon color="orange.200" />
+              <VStack alignItems="flex-start" spacing="1">
+                <AlertTitle>Sessão não encontrada</AlertTitle>
+                <AlertDescription>
+                  Efetue o login para acessar a plataforma
+                </AlertDescription>
+              </VStack>
+            </Alert>
+          )}
+          <Flex
+            as="section"
+            alignItems="center"
+            justifyContent="space-between"
+            flexDirection="row"
+          >
             <Text as="h1" fontSize={28} fontWeight="bold" marginBottom="4">
               Login
             </Text>
@@ -95,7 +148,11 @@ const HomePage: NextPage = () => {
             </HStack>
           </Flex>
 
-          <VStack spacing="4" as="form" onSubmit={handleSubmit(handlerSubmitSignInForm)}>
+          <VStack
+            spacing="4"
+            as="form"
+            onSubmit={handleSubmit(handlerSubmitSignInForm)}
+          >
             <InputComponent
               id="email"
               type="email"
@@ -147,6 +204,27 @@ const HomePage: NextPage = () => {
       </Flex>
     </Fragment>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getServerSession(context, authOptions);
+
+  const { authorized = null } = context.query as QueryProps;
+
+  if (session) {
+    return {
+      redirect: {
+        destination: "/dashboard",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      authorized,
+    },
+  };
 };
 
 export default HomePage;

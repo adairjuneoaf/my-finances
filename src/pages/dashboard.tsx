@@ -5,9 +5,22 @@ import React, { Fragment, useContext, useMemo, useState } from "react";
 import NextHead from "next/head";
 import NextLink from "next/link";
 import { NextPage } from "next";
+import { GetServerSideProps } from "next";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]";
 
 // Chakra Imports
-import { Box, Button, Center, Divider, Flex, HStack, SimpleGrid, Text, Spinner } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Center,
+  Divider,
+  Flex,
+  HStack,
+  SimpleGrid,
+  Text,
+  Spinner,
+} from "@chakra-ui/react";
 
 // Components Imports
 import LogoComponent from "../components/Logo";
@@ -23,19 +36,37 @@ import { ContextDrawer } from "../contexts/contextDrawer";
 // Hooks Imports
 import { useReactQuery } from "../hooks/useReactQuery";
 
-// Another Imports
-import { RiAddFill } from "react-icons/ri";
-import { FiList, FiSettings, FiTrendingDown, FiTrendingUp, FiActivity } from "react-icons/fi";
+// API Imports
+import { getAllTransactions } from "../services/api";
+
+// Utils Imports
 import { formatValueToMoney } from "../utils/formatValueToMoney";
 
-const DashboardPage: NextPage = () => {
+// Another Imports
+import { RiAddFill } from "react-icons/ri";
+import {
+  FiList,
+  FiSettings,
+  FiTrendingDown,
+  FiTrendingUp,
+  FiActivity,
+} from "react-icons/fi";
+
+// Typings[TypeScript]
+import { TransactionDataType } from "../@types/TransactionDataType";
+
+type DashboardServerSideProps = {
+  initialData: Array<TransactionDataType>;
+};
+
+const DashboardPage: NextPage<DashboardServerSideProps> = ({ initialData }) => {
   const [totalInput, setTotalInput] = useState("R$ 0,00");
   const [totalOutput, setTotalOutput] = useState("R$ 0,00");
   const [totalBalance, setTotalBalance] = useState("R$ 0,00");
 
   const { handleDrawerNewTransaction } = useContext(ContextDrawer);
 
-  const { transactions } = useReactQuery();
+  const { transactions } = useReactQuery([...initialData]);
 
   const { data, isFetching, isLoading } = transactions;
 
@@ -91,8 +122,19 @@ const DashboardPage: NextPage = () => {
             <Flex flex="2" paddingX="2">
               <LogoComponent />
             </Flex>
-            <Flex alignItems="center" justifyContent="center" flex="10" paddingX="2"></Flex>
-            <Flex alignItems="center" justifyContent="flex-end" flexDirection="row" flex="5" paddingX="2">
+            <Flex
+              alignItems="center"
+              justifyContent="center"
+              flex="10"
+              paddingX="2"
+            ></Flex>
+            <Flex
+              alignItems="center"
+              justifyContent="flex-end"
+              flexDirection="row"
+              flex="5"
+              paddingX="2"
+            >
               <ActionBarComponent />
               <Center height="32px" paddingX="4">
                 <Divider orientation="vertical" color="gray.100" />
@@ -102,16 +144,34 @@ const DashboardPage: NextPage = () => {
           </Box>
         </Flex>
 
-        <HStack width="68vw" height="100%" margin="auto" marginY="8" justifyContent="space-between" flexDirection="row">
+        <HStack
+          width="68vw"
+          height="100%"
+          margin="auto"
+          marginY="8"
+          justifyContent="space-between"
+          flexDirection="row"
+        >
           <HStack spacing="4" alignItems="center">
             <Text as="h1" fontSize="3xl" fontWeight="extrabold">
               Dashboard
             </Text>
-            {isFetching && !isLoading && <Spinner color="green.500" size="md" thickness="4px" speed="0.5s" />}
+            {isFetching && !isLoading && (
+              <Spinner
+                color="green.500"
+                size="md"
+                thickness="4px"
+                speed="0.5s"
+              />
+            )}
           </HStack>
           <HStack spacing="4">
             <NextLink passHref href="/records">
-              <Button type="button" colorScheme="blue" leftIcon={<FiSettings fontSize="18" />}>
+              <Button
+                type="button"
+                colorScheme="blue"
+                leftIcon={<FiSettings fontSize="18" />}
+              >
                 Cadastros
               </Button>
             </NextLink>
@@ -128,31 +188,82 @@ const DashboardPage: NextPage = () => {
 
         <Flex as="section" width="68vw" height="100%" padding="8" margin="auto">
           <SimpleGrid spacing="4" width="100%" height="auto" columns={3}>
-            <CardComponent title="Balanço" value={totalBalance} icon={<FiActivity fontSize="28" color="yellow" />} />
-            <CardComponent title="Entradas" value={totalInput} icon={<FiTrendingDown fontSize="28" color="green" />} />
-            <CardComponent title="Saídas" value={totalOutput} icon={<FiTrendingUp fontSize="28" color="red" />} />
+            <CardComponent
+              title="Balanço"
+              value={totalBalance}
+              icon={<FiActivity fontSize="28" color="yellow" />}
+            />
+            <CardComponent
+              title="Entradas"
+              value={totalInput}
+              icon={<FiTrendingDown fontSize="28" color="green" />}
+            />
+            <CardComponent
+              title="Saídas"
+              value={totalOutput}
+              icon={<FiTrendingUp fontSize="28" color="red" />}
+            />
           </SimpleGrid>
         </Flex>
 
-        <HStack width="68vw" height="100%" margin="auto" marginY="8" justifyContent="space-between" flexDirection="row">
+        <HStack
+          width="68vw"
+          height="100%"
+          margin="auto"
+          marginY="8"
+          justifyContent="space-between"
+          flexDirection="row"
+        >
           <HStack spacing="4" alignItems="center">
             <Text as="h1" fontSize="3xl" fontWeight="extrabold">
               Últimos lançamentos
             </Text>
           </HStack>
           <NextLink passHref href="/transactions">
-            <Button type="button" colorScheme="green" leftIcon={<FiList fontSize="24" />}>
+            <Button
+              type="button"
+              colorScheme="green"
+              leftIcon={<FiList fontSize="24" />}
+            >
               Ver todos
             </Button>
           </NextLink>
         </HStack>
 
         <Flex width="68vw" height="100%" padding="8" margin="auto">
-          <TableTransactionsComponent transactions={transactionsList} isLoading={isLoading} />
+          <TableTransactionsComponent
+            transactions={transactionsList}
+            isLoading={isLoading}
+          />
         </Flex>
       </Flex>
     </Fragment>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getServerSession(context, authOptions);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: `/?${"authorized=false"}`,
+        permanent: false,
+      },
+    };
+  }
+
+  const initialData = await getAllTransactions()
+    .then((response) => response)
+    .catch((err) => {
+      console.error("Error: ", err.message);
+    });
+
+  return {
+    props: {
+      initialData,
+    },
+  };
 };
 
 export default DashboardPage;

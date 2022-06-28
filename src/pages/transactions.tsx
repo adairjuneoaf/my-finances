@@ -4,7 +4,9 @@ import React, { Fragment, useContext } from "react";
 // Imports Next
 import NextHead from "next/head";
 import NextLink from "next/link";
-import { NextPage } from "next";
+import { getServerSession } from "next-auth";
+import { GetServerSideProps, NextPage } from "next";
+import { authOptions } from "./api/auth/[...nextauth]";
 
 // Chakra Imports
 import {
@@ -232,6 +234,23 @@ const TransactionsPage: NextPage = () => {
       </Flex>
     </Fragment>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const session = await getServerSession(context, authOptions);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: `/?${"authorized=false"}`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
 };
 
 export default TransactionsPage;

@@ -31,14 +31,30 @@ interface IInputComponentProps extends NumberInputFieldProps {
   isLoadingValue?: boolean;
 }
 
-const InputValue: ForwardRefRenderFunction<HTMLInputElement, IInputComponentProps> = (
-  { id, label, errorInput = null, isRequired = false, isLoadingValue = false, ...props },
+const InputValue: ForwardRefRenderFunction<
+  HTMLInputElement,
+  IInputComponentProps
+> = (
+  {
+    id,
+    label,
+    errorInput = null,
+    isRequired = false,
+    isLoadingValue = false,
+    ...props
+  },
   ref
 ) => {
   return (
     <FormControl isInvalid={!!errorInput} isRequired={isRequired}>
       {!!label && (
-        <FormLabel htmlFor={label} fontSize="lg" padding="0" marginY="2" fontWeight="medium">
+        <FormLabel
+          htmlFor={label}
+          fontSize="lg"
+          padding="0"
+          marginY="2"
+          fontWeight="medium"
+        >
           {label}
         </FormLabel>
       )}
@@ -49,9 +65,17 @@ const InputValue: ForwardRefRenderFunction<HTMLInputElement, IInputComponentProp
           color="white"
           fontSize="16px"
           fontWeight="bold"
-          children={"R$"}
-        />
-        <NumberInput min={0} precision={2} defaultValue={0} width="100%" variant="filled" focusBorderColor="green.500">
+        >
+          R$
+        </InputLeftAddon>
+        <NumberInput
+          min={0}
+          precision={2}
+          defaultValue={0}
+          width="100%"
+          variant="filled"
+          focusBorderColor="green.500"
+        >
           <SkeletonComponent isLoading={isLoadingValue}>
             <NumberInputField
               {...props}
@@ -60,7 +84,10 @@ const InputValue: ForwardRefRenderFunction<HTMLInputElement, IInputComponentProp
               borderColor="gray.700"
               backgroundColor="transparent"
               borderRadius="0px 6px 6px 0px"
-              _hover={{ backgroundColor: "transparent", borderColor: "gray.600" }}
+              _hover={{
+                backgroundColor: "transparent",
+                borderColor: "gray.600",
+              }}
             />
             <NumberInputStepper>
               <NumberIncrementStepper borderColor="gray.700" />

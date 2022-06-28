@@ -35,10 +35,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import validationPaymentMethodForm from "./formValidationPaymentMethod";
 
-export const getFormFieldsPaymentMethod = () => {
-  const { handleSubmit, register, formState, reset, control, setValue } = useForm<PaymentMethodType>({
-    resolver: yupResolver(validationPaymentMethodForm),
-  });
+export const GetFormFieldsPaymentMethod = () => {
+  const { handleSubmit, register, formState, reset, control, setValue } =
+    useForm<PaymentMethodType>({
+      resolver: yupResolver(validationPaymentMethodForm),
+    });
 
   const {
     isEditing,
@@ -53,7 +54,10 @@ export const getFormFieldsPaymentMethod = () => {
 
   const { errors, isSubmitting } = formState;
 
-  const submitPaymentMethod: SubmitHandler<PaymentMethodType> = async ({ id, ...data }) => {
+  const submitPaymentMethod: SubmitHandler<PaymentMethodType> = async ({
+    id,
+    ...data
+  }) => {
     await new Promise((resolve) => {
       setTimeout(() => {
         console.log({ ...data });
@@ -78,7 +82,9 @@ export const getFormFieldsPaymentMethod = () => {
     if (paymentMethodID !== null) {
       getUniquePaymentMethod(paymentMethodID)
         .then((response) => {
-          Object.entries(response).forEach(([name, value]) => setValue(name as keyof PaymentMethodType, value));
+          Object.entries(response).forEach(([name, value]) =>
+            setValue(name as keyof PaymentMethodType, value)
+          );
           console.log(response);
         })
         .catch((error) => {
@@ -139,7 +145,13 @@ export const getFormFieldsPaymentMethod = () => {
         <HStack alignItems="flex-start">
           <VStack alignItems="flex-start" flex="1">
             <FormControl isInvalid={!!errors.status} isRequired>
-              <FormLabel htmlFor="status" fontSize="lg" padding="0" marginY="2" fontWeight="medium">
+              <FormLabel
+                htmlFor="status"
+                fontSize="lg"
+                padding="0"
+                marginY="2"
+                fontWeight="medium"
+              >
                 Status do método de pagamento
               </FormLabel>
               <Controller
@@ -158,7 +170,9 @@ export const getFormFieldsPaymentMethod = () => {
                   </RadioGroup>
                 )}
               />
-              {errors.status && <FormErrorMessage>{errors?.status.message}</FormErrorMessage>}
+              {errors.status && (
+                <FormErrorMessage>{errors?.status.message}</FormErrorMessage>
+              )}
             </FormControl>
           </VStack>
         </HStack>

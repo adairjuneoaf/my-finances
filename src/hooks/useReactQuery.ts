@@ -18,7 +18,7 @@ const configReactQuery = {
   staleTime: 1000 * 60 * 6, // 6 Minutes
   refetchInterval: 1000 * 60 * 3, // 3 Minutes
   refetchOnWindowFocus: true,
-  retry: false,
+  retry: 5,
 };
 
 export const useReactQuery = (

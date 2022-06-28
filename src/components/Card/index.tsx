@@ -6,6 +6,7 @@ import {} from "next/link";
 
 // Chakra Imports
 import { HStack, Box, VStack, Text, Heading } from "@chakra-ui/react";
+import SkeletonComponent from "../Skeleton";
 
 // Components Imports
 
@@ -16,9 +17,15 @@ type CardComponentProps = {
   title: string;
   icon?: ReactNode;
   value: string;
+  isLoading?: boolean;
 };
 
-const CardComponent: React.FC<CardComponentProps> = ({ title, value, icon }) => {
+const CardComponent: React.FC<CardComponentProps> = ({
+  icon,
+  title,
+  value,
+  isLoading,
+}) => {
   return (
     <Box
       padding="8"
@@ -30,15 +37,26 @@ const CardComponent: React.FC<CardComponentProps> = ({ title, value, icon }) => 
       borderRadius="10"
       backgroundColor="gray.800"
     >
-      <HStack flexDirection="row" justifyContent="flex-start" alignItems="center">
+      <HStack
+        flexDirection="row"
+        justifyContent="flex-start"
+        alignItems="center"
+      >
         {!!icon && icon}
         <Text as="h2" fontSize="24" fontWeight="medium">
           {title}
         </Text>
       </HStack>
-      <VStack width="100%" height="auto" justifyContent="flex-start" alignItems="flex-start">
-        <Heading fontSize="28">{value}</Heading>
-      </VStack>
+      <SkeletonComponent isLoading={isLoading}>
+        <VStack
+          width="100%"
+          height="auto"
+          justifyContent="flex-start"
+          alignItems="flex-start"
+        >
+          <Heading fontSize="28">{value}</Heading>
+        </VStack>
+      </SkeletonComponent>
     </Box>
   );
 };

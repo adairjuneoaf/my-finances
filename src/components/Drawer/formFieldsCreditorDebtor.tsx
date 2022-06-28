@@ -36,10 +36,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import validationCreditorDebtorForm from "./formValidationCreditorDebtor";
 
-export const getFormFieldsCreditorDebtor = () => {
-  const { handleSubmit, register, formState, reset, control, setValue } = useForm<CreditorDebtorType>({
-    resolver: yupResolver(validationCreditorDebtorForm),
-  });
+export const GetFormFieldsCreditorDebtor = () => {
+  const { handleSubmit, register, formState, reset, control, setValue } =
+    useForm<CreditorDebtorType>({
+      resolver: yupResolver(validationCreditorDebtorForm),
+    });
 
   const {
     isEditing,
@@ -54,7 +55,10 @@ export const getFormFieldsCreditorDebtor = () => {
 
   const { errors, isSubmitting } = formState;
 
-  const submitCreditorDebtor: SubmitHandler<CreditorDebtorType> = async ({ id, ...data }) => {
+  const submitCreditorDebtor: SubmitHandler<CreditorDebtorType> = async ({
+    id,
+    ...data
+  }) => {
     await new Promise((resolve) => {
       setTimeout(() => {
         console.log({ ...data });
@@ -79,7 +83,9 @@ export const getFormFieldsCreditorDebtor = () => {
     if (creditorDebtorID !== null) {
       getUniqueCreditorDebtor(creditorDebtorID)
         .then((response) => {
-          Object.entries(response).forEach(([name, value]) => setValue(name as keyof CreditorDebtorType, value));
+          Object.entries(response).forEach(([name, value]) =>
+            setValue(name as keyof CreditorDebtorType, value)
+          );
           console.log(response);
         })
         .catch((error) => {
@@ -140,7 +146,13 @@ export const getFormFieldsCreditorDebtor = () => {
         <HStack alignItems="flex-start">
           <VStack alignItems="flex-start" flex="1">
             <FormControl isInvalid={!!errors.status} isRequired>
-              <FormLabel htmlFor="status" fontSize="lg" padding="0" marginY="2" fontWeight="medium">
+              <FormLabel
+                htmlFor="status"
+                fontSize="lg"
+                padding="0"
+                marginY="2"
+                fontWeight="medium"
+              >
                 Status do Credor/Devedor
               </FormLabel>
               <Controller
@@ -159,7 +171,9 @@ export const getFormFieldsCreditorDebtor = () => {
                   </RadioGroup>
                 )}
               />
-              {errors.status && <FormErrorMessage>{errors?.status.message}</FormErrorMessage>}
+              {errors.status && (
+                <FormErrorMessage>{errors?.status.message}</FormErrorMessage>
+              )}
             </FormControl>
           </VStack>
         </HStack>

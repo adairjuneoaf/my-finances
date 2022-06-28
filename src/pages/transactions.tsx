@@ -206,10 +206,11 @@ const TransactionsPage: NextPage = () => {
             <InputLeftAddon
               border="none"
               pointerEvents="none"
-              children={<FiSearch fontSize="18" />}
               color="gray.500"
               backgroundColor="gray.700"
-            />
+            >
+              <FiSearch fontSize="18" />
+            </InputLeftAddon>
             <Input
               placeholder="Buscar lançamento"
               id="search"

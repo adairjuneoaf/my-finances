@@ -36,9 +36,6 @@ import { ContextDrawer } from "../contexts/contextDrawer";
 // Hooks Imports
 import { useReactQuery } from "../hooks/useReactQuery";
 
-// API Imports
-import { getAllTransactions } from "../services/api";
-
 // Utils Imports
 import { formatValueToMoney } from "../utils/formatValueToMoney";
 
@@ -46,27 +43,20 @@ import { formatValueToMoney } from "../utils/formatValueToMoney";
 import { RiAddFill } from "react-icons/ri";
 import {
   FiList,
-  FiSettings,
-  FiTrendingDown,
-  FiTrendingUp,
   FiActivity,
+  FiSettings,
+  FiTrendingUp,
+  FiTrendingDown,
 } from "react-icons/fi";
 
-// Typings[TypeScript]
-import { TransactionDataType } from "../@types/TransactionDataType";
-
-type DashboardServerSideProps = {
-  initialData: Array<TransactionDataType>;
-};
-
-const DashboardPage: NextPage<DashboardServerSideProps> = ({ initialData }) => {
+const DashboardPage: NextPage = () => {
   const [totalInput, setTotalInput] = useState("R$ 0,00");
   const [totalOutput, setTotalOutput] = useState("R$ 0,00");
   const [totalBalance, setTotalBalance] = useState("R$ 0,00");
 
   const { handleDrawerNewTransaction } = useContext(ContextDrawer);
 
-  const { transactions } = useReactQuery([...initialData]);
+  const { transactions } = useReactQuery();
 
   const { data, isFetching, isLoading } = transactions;
 
@@ -191,16 +181,19 @@ const DashboardPage: NextPage<DashboardServerSideProps> = ({ initialData }) => {
             <CardComponent
               title="Balanço"
               value={totalBalance}
+              isLoading={isLoading}
               icon={<FiActivity fontSize="28" color="yellow" />}
             />
             <CardComponent
               title="Entradas"
               value={totalInput}
+              isLoading={isLoading}
               icon={<FiTrendingDown fontSize="28" color="green" />}
             />
             <CardComponent
               title="Saídas"
               value={totalOutput}
+              isLoading={isLoading}
               icon={<FiTrendingUp fontSize="28" color="red" />}
             />
           </SimpleGrid>
@@ -253,16 +246,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
-  const initialData = await getAllTransactions()
-    .then((response) => response)
-    .catch((err) => {
-      console.error("Error: ", err.message);
-    });
-
   return {
-    props: {
-      initialData,
-    },
+    props: {},
   };
 };
 

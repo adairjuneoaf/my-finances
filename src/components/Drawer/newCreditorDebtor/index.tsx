@@ -2,10 +2,10 @@
 import React, { Fragment } from "react";
 
 // Components Imports
-import { getFormFieldsCreditorDebtor } from "../formFieldsCreditorDebtor";
+import { GetFormFieldsCreditorDebtor } from "../formFieldsCreditorDebtor";
 
 const NewCreditorDebtor: React.FC = () => {
-  return <Fragment>{getFormFieldsCreditorDebtor()}</Fragment>;
+  return <Fragment>{GetFormFieldsCreditorDebtor()}</Fragment>;
 };
 
 export default NewCreditorDebtor;

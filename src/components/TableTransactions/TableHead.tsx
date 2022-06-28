@@ -9,7 +9,7 @@ const TableHead: React.FC = () => {
     <Fragment>
       <Tr>
         <Th width="5%" fontSize="14px" color="gray.200" fontWeight="extrabold">
-          COD
+          #
         </Th>
         <Th width="8%" fontSize="14px" color="gray.200" fontWeight="extrabold">
           TIPO
@@ -20,10 +20,21 @@ const TableHead: React.FC = () => {
         <Th fontSize="14px" color="gray.200" fontWeight="extrabold">
           DESCRIÇÃO
         </Th>
-        <Th isNumeric width="8%" fontSize="14px" color="gray.200" fontWeight="extrabold">
+        <Th
+          isNumeric
+          width="8%"
+          fontSize="14px"
+          color="gray.200"
+          fontWeight="extrabold"
+        >
           VALOR
         </Th>
-        <Th width="2%" fontSize="14px" color="gray.200" fontWeight="extrabold"></Th>
+        <Th
+          width="2%"
+          fontSize="14px"
+          color="gray.200"
+          fontWeight="extrabold"
+        ></Th>
       </Tr>
     </Fragment>
   );

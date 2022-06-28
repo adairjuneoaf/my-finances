@@ -2,10 +2,10 @@
 import React, { Fragment } from "react";
 
 // Components Imports
-import { getFormFieldsTransaction } from "../formFieldsTransactions";
+import { GetFormFieldsTransaction } from "../formFieldsTransactions";
 
 const NewTransactionBody: React.FC = () => {
-  return <Fragment>{getFormFieldsTransaction()}</Fragment>;
+  return <Fragment>{GetFormFieldsTransaction()}</Fragment>;
 };
 
 export default NewTransactionBody;

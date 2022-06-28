@@ -43,8 +43,16 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import validationTransactionForm from "./formValidationTransactions";
 import SkeletonComponent from "../Skeleton";
 
-export const getFormFieldsTransaction = () => {
-  const { handleSubmit, register, formState, reset, setValue, control, resetField } = useForm<TransactionDataType>({
+export const GetFormFieldsTransaction = () => {
+  const {
+    reset,
+    control,
+    setValue,
+    register,
+    formState,
+    resetField,
+    handleSubmit,
+  } = useForm<TransactionDataType>({
     resolver: yupResolver(validationTransactionForm),
     mode: "onBlur",
   });
@@ -68,7 +76,10 @@ export const getFormFieldsTransaction = () => {
   const { data: creditorsDebtorsList } = creditorsDebtors;
   const { data: paymentMethodsList } = paymentMethods;
 
-  const submitTransaction: SubmitHandler<TransactionDataType> = async ({ id, ...data }) => {
+  const submitTransaction: SubmitHandler<TransactionDataType> = async ({
+    id,
+    ...data
+  }) => {
     await new Promise((resolve) => {
       setTimeout(() => {
         console.log({ ...data });
@@ -112,7 +123,9 @@ export const getFormFieldsTransaction = () => {
     if (transactionID !== null && drawerType === "edit-transaction") {
       getUniqueTransaction(transactionID)
         .then((response) => {
-          Object.entries(response).forEach(([name, value]) => setValue(name as keyof TransactionDataType, value));
+          Object.entries(response).forEach(([name, value]) =>
+            setValue(name as keyof TransactionDataType, value)
+          );
           console.log(response);
         })
         .catch((error) => {
@@ -187,7 +200,13 @@ export const getFormFieldsTransaction = () => {
         <HStack alignItems="flex-start">
           <VStack alignItems="flex-start" spacing="3" flex="1">
             <FormControl isInvalid={!!errors.type} isRequired>
-              <FormLabel htmlFor="status" fontSize="lg" padding="0" marginY="2" fontWeight="medium">
+              <FormLabel
+                htmlFor="status"
+                fontSize="lg"
+                padding="0"
+                marginY="2"
+                fontWeight="medium"
+              >
                 Tipo de lançamento
               </FormLabel>
               <Controller
@@ -208,12 +227,20 @@ export const getFormFieldsTransaction = () => {
                   </SkeletonComponent>
                 )}
               />
-              {errors.type && <FormErrorMessage>{errors?.type.message}</FormErrorMessage>}
+              {errors.type && (
+                <FormErrorMessage>{errors?.type.message}</FormErrorMessage>
+              )}
             </FormControl>
           </VStack>
           <VStack alignItems="flex-start" spacing="3" flex="1">
             <FormControl isInvalid={!!errors.status} isRequired>
-              <FormLabel htmlFor="status" fontSize="lg" padding="0" marginY="2" fontWeight="medium">
+              <FormLabel
+                htmlFor="status"
+                fontSize="lg"
+                padding="0"
+                marginY="2"
+                fontWeight="medium"
+              >
                 Status do lançamento
               </FormLabel>
               <Controller
@@ -234,7 +261,9 @@ export const getFormFieldsTransaction = () => {
                   </SkeletonComponent>
                 )}
               />
-              {errors.status && <FormErrorMessage>{errors?.status.message}</FormErrorMessage>}
+              {errors.status && (
+                <FormErrorMessage>{errors?.status.message}</FormErrorMessage>
+              )}
             </FormControl>
           </VStack>
         </HStack>

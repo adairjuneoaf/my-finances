@@ -7,6 +7,7 @@ import {} from "next/link";
 // Chakra Imports
 import { HStack, Box, VStack, Text, Heading } from "@chakra-ui/react";
 import SkeletonComponent from "../Skeleton";
+import { formatValueToMoney } from "../../utils/formatValueToMoney";
 
 // Components Imports
 
@@ -16,7 +17,7 @@ import SkeletonComponent from "../Skeleton";
 type CardComponentProps = {
   title: string;
   icon?: ReactNode;
-  value: string;
+  value?: number;
   isLoading?: boolean;
 };
 
@@ -54,7 +55,7 @@ const CardComponent: React.FC<CardComponentProps> = ({
           justifyContent="flex-start"
           alignItems="flex-start"
         >
-          <Heading fontSize="28">{value}</Heading>
+          <Heading fontSize="28">{formatValueToMoney(value)}</Heading>
         </VStack>
       </SkeletonComponent>
     </Box>

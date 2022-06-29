@@ -28,9 +28,9 @@ import {
 
 // Components Imports
 import LogoComponent from "../components/Logo";
+import DrawerComponent from "../components/Drawer";
 import ProfileComponent from "../components/Profile";
 import ActionBarComponent from "../components/ActionBar";
-import DrawerComponentComponent from "../components/Drawer";
 
 // Contexts Imports
 import { ContextDrawer } from "../contexts/contextDrawer";
@@ -49,6 +49,7 @@ import {
 import TablePaymentMethodsComponent from "../components/TablePaymentMethods";
 import TableCreditorsDebtorsComponent from "../components/TableCreditorsDebtors/index";
 import SideBarNavigationComponent from "../components/SideBarNavigation";
+import HeaderComponent from "../components/Header";
 
 const TransactionsPage: NextPage = () => {
   const { handleDrawerNewPaymentMethod, handleDrawerNewCreditorDebtor } =
@@ -73,62 +74,23 @@ const TransactionsPage: NextPage = () => {
         <title>my.finance$ | Cadastros</title>
       </NextHead>
       <Flex width="100vw" height="auto" flexDirection="column">
-        <DrawerComponentComponent />
-        <Flex width="100vw" maxHeight="88px" backgroundColor="gray.800">
-          <Box
-            as="header"
-            width="90vw"
-            height="100%"
-            margin="auto"
-            paddingY="8px"
-            display="flex"
-            alignItems="center"
-            flexDirection="row"
-            justifyContent="space-between"
-          >
-            <Flex flex="2" paddingX="2">
-              <LogoComponent />
-            </Flex>
-            <Flex
-              alignItems="center"
-              justifyContent="center"
-              flex="10"
-              paddingX="2"
-            ></Flex>
-            <Flex
-              alignItems="center"
-              justifyContent="flex-end"
-              flexDirection="row"
-              flex="5"
-              paddingX="2"
-            >
-              <ActionBarComponent />
-              <Center height="32px" paddingX="4">
-                <Divider orientation="vertical" color="gray.100" />
-              </Center>
-              <ProfileComponent />
-            </Flex>
-          </Box>
-        </Flex>
+        <HeaderComponent />
+        <DrawerComponent />
 
         <Flex
-          flexDirection="row"
-          gap="8"
-          width="86vw"
-          margin="auto"
-          marginY="8"
+          gap="12"
+          width="100%"
+          marginTop="10"
+          marginBottom="6"
+          marginX="auto"
+          maxWidth={1480}
         >
-          <Flex width="100%" flexDirection="column">
+          <Flex>
             <SideBarNavigationComponent />
           </Flex>
-          <Flex flex="1" flexDirection="column">
-            <HStack
-              width="72vw"
-              margin="auto"
-              marginBottom="3"
-              justifyContent="space-between"
-              flexDirection="row"
-            >
+
+          <Flex flexDirection="column" width="100%" flex="1" paddingTop="6">
+            <Box as="section">
               <HStack spacing="4" alignItems="center">
                 <Text
                   as="h1"
@@ -148,16 +110,10 @@ const TransactionsPage: NextPage = () => {
                     />
                   )}
               </HStack>
-            </HStack>
+            </Box>
 
-            <Flex
-              width="72vw"
-              height="100%"
-              paddingY="4"
-              paddingX="8"
-              margin="auto"
-            >
-              <Accordion allowToggle width="100%">
+            <Box as="section">
+              <Accordion allowToggle width="100%" marginY="8" paddingX="8">
                 <AccordionItem>
                   <AccordionButton>
                     <HStack spacing="3" flex="1">
@@ -174,7 +130,7 @@ const TransactionsPage: NextPage = () => {
                     <AccordionIcon fontSize="24" />
                   </AccordionButton>
                   <AccordionPanel>
-                    <HStack paddingTop="2" paddingBottom="6">
+                    <HStack paddingY="4">
                       <Button
                         type="button"
                         colorScheme="green"
@@ -183,12 +139,12 @@ const TransactionsPage: NextPage = () => {
                         leftIcon={<FiCreditCard fontSize="18" />}
                         onClick={handleDrawerNewPaymentMethod}
                       >
-                        Novo Método de pagamento
+                        Novo método de pagamento
                       </Button>
                     </HStack>
                     Segue abaixo uma tabela com todos os métodos de pagamento
                     cadastros.
-                    <Flex width="100%" height="100%" paddingY="8" margin="auto">
+                    <Flex width="100%" height="100%" paddingY="4" margin="auto">
                       <TablePaymentMethodsComponent
                         paymentMethods={listPaymentMethods}
                         isLoading={isLoadingPaymentMethods}
@@ -214,7 +170,7 @@ const TransactionsPage: NextPage = () => {
                     <AccordionIcon fontSize="24" />
                   </AccordionButton>
                   <AccordionPanel>
-                    <HStack paddingTop="2" paddingBottom="6">
+                    <HStack paddingY="4">
                       <Button
                         type="button"
                         colorScheme="green"
@@ -228,7 +184,7 @@ const TransactionsPage: NextPage = () => {
                     </HStack>
                     Segue abaixo uma tabela com todos os credores/devedor
                     cadastros.
-                    <Flex width="100%" height="100%" paddingY="8" margin="auto">
+                    <Flex width="100%" height="100%" paddingY="4" margin="auto">
                       <TableCreditorsDebtorsComponent
                         creditorsDebtors={listCreditorsDebtors}
                         isLoading={isLoadingCreditorsDebtors}
@@ -237,7 +193,7 @@ const TransactionsPage: NextPage = () => {
                   </AccordionPanel>
                 </AccordionItem>
               </Accordion>
-            </Flex>
+            </Box>
           </Flex>
         </Flex>
       </Flex>

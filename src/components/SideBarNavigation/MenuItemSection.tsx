@@ -17,22 +17,26 @@ interface MenuItemNavigationProps {
   icon?: ElementType;
   title?: string;
   route?: string;
+  description?: string;
 }
 
 const MenuItemNavigation: React.FC<MenuItemNavigationProps> = ({
   icon,
   title,
   route = "/",
+  description,
 }) => {
   const { asPath } = useRouter();
 
   return (
     <NextLink passHref href={route}>
       <HStack
-        spacing="3"
+        spacing="4"
         width="100%"
         height="auto"
+        margin="0"
         cursor="pointer"
+        title={description}
         alignItems="center"
         _hover={{ color: "green.500", transition: "all  350ms" }}
         pointerEvents={`${asPath.includes(route) ? "none" : "initial"}`}

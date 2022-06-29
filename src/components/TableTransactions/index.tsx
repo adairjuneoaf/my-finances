@@ -90,8 +90,8 @@ const TableTransactionsComponent: React.FC<TableTransactionsData> = ({
                 textTransform="none"
                 color="gray.300"
               >
-                ** Apenas os últimos 5 lançamentos são exibidos, veja todos
-                clicando no botão &ldquo;Ver todos&rdquo; acima da tabela.
+                ** Apenas os últimos 5 lançamentos são exibidos aqui, veja todos
+                acessando a página de lançamentos no menu ao lado.
               </Th>
             </Tr>
           </Tfoot>

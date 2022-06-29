@@ -6,19 +6,26 @@ import { Skeleton } from "@chakra-ui/react";
 
 // Typings[TypeScript]
 interface ISkeletonComponentProps {
-    children: ReactNode;
-    isLoading?: boolean;
+  children: ReactNode;
+  isLoading?: boolean;
 }
 
 const SkeletonComponent: React.FC<ISkeletonComponentProps> = ({
-    children,
-    isLoading = false,
+  children,
+  isLoading = false,
 }) => {
-    return (
-        <Skeleton isLoaded={!isLoading} speed={1} fadeDuration={0.2}>
-            {children}
-        </Skeleton>
-    );
+  return (
+    <Skeleton
+      speed={0.65}
+      isLoaded={!isLoading}
+      fadeDuration={1.2}
+      borderRadius="5"
+      startColor="RGBA(255, 255, 255, 0.04)"
+      endColor="RGBA(255, 255, 255, 0.08)"
+    >
+      {children}
+    </Skeleton>
+  );
 };
 
 export default SkeletonComponent;

@@ -22,7 +22,6 @@ const MenuSectionNavigation: React.FC<
     <Flex
       width="100%"
       height="auto"
-      marginBottom="4"
       flexDirection="column"
       alignItems="flex-start"
     >
@@ -34,7 +33,7 @@ const MenuSectionNavigation: React.FC<
       >
         {title}
       </Text>
-      <VStack spacing="4" marginLeft="4" marginTop="4">
+      <VStack spacing="5" marginLeft="4" marginTop="4">
         {children}
       </VStack>
     </Flex>

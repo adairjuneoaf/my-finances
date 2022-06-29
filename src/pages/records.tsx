@@ -48,6 +48,7 @@ import {
 } from "react-icons/fi";
 import TablePaymentMethodsComponent from "../components/TablePaymentMethods";
 import TableCreditorsDebtorsComponent from "../components/TableCreditorsDebtors/index";
+import SideBarNavigationComponent from "../components/SideBarNavigation";
 
 const TransactionsPage: NextPage = () => {
   const { handleDrawerNewPaymentMethod, handleDrawerNewCreditorDebtor } =
@@ -76,7 +77,7 @@ const TransactionsPage: NextPage = () => {
         <Flex width="100vw" maxHeight="88px" backgroundColor="gray.800">
           <Box
             as="header"
-            width="80vw"
+            width="90vw"
             height="100%"
             margin="auto"
             paddingY="8px"
@@ -110,130 +111,134 @@ const TransactionsPage: NextPage = () => {
           </Box>
         </Flex>
 
-        <HStack
-          width="68vw"
-          height="100%"
+        <Flex
+          flexDirection="row"
+          gap="8"
+          width="86vw"
           margin="auto"
           marginY="8"
-          justifyContent="space-between"
-          flexDirection="row"
         >
-          <HStack spacing="4" alignItems="center">
-            <Text as="h1" fontSize="3xl" fontWeight="extrabold">
-              Cadastros
-            </Text>
-            {(isFetchingCreditorsDebtors || isFetchingPaymentMethods) &&
-              (!isFetchingCreditorsDebtors || !isLoadingPaymentMethods) && (
-                <Spinner
-                  color="green.500"
-                  size="md"
-                  thickness="4px"
-                  speed="0.5s"
-                />
-              )}
-          </HStack>
-          <HStack spacing="4">
-            <NextLink passHref href="/dashboard">
-              <Button
-                type="button"
-                colorScheme="whiteAlpha"
-                leftIcon={<FiActivity fontSize="18" />}
-              >
-                Dashboard
-              </Button>
-            </NextLink>
-            <NextLink passHref href="/transactions">
-              <Button
-                type="button"
-                colorScheme="green"
-                leftIcon={<FiList fontSize="24" />}
-              >
-                Lançamentos
-              </Button>
-            </NextLink>
-          </HStack>
-        </HStack>
+          <Flex width="100%" flexDirection="column">
+            <SideBarNavigationComponent />
+          </Flex>
+          <Flex flex="1" flexDirection="column">
+            <HStack
+              width="72vw"
+              margin="auto"
+              marginBottom="3"
+              justifyContent="space-between"
+              flexDirection="row"
+            >
+              <HStack spacing="4" alignItems="center">
+                <Text
+                  as="h1"
+                  fontSize="3xl"
+                  fontWeight="extrabold"
+                  lineHeight="1"
+                >
+                  Cadastros
+                </Text>
+                {(isFetchingCreditorsDebtors || isFetchingPaymentMethods) &&
+                  (!isFetchingCreditorsDebtors || !isLoadingPaymentMethods) && (
+                    <Spinner
+                      color="green.500"
+                      size="md"
+                      thickness="4px"
+                      speed="0.5s"
+                    />
+                  )}
+              </HStack>
+            </HStack>
 
-        <Flex width="68vw" height="100%" padding="8" margin="auto">
-          <Accordion allowToggle width="100%">
-            <AccordionItem>
-              <AccordionButton>
-                <HStack spacing="3" flex="1">
-                  <Icon as={FiCreditCard} fontSize="24" />
-                  <Text
-                    as="h2"
-                    fontSize="xl"
-                    fontWeight="medium"
-                    textAlign="left"
-                  >
-                    Métodos de pagamento
-                  </Text>
-                </HStack>
-                <AccordionIcon fontSize="24" />
-              </AccordionButton>
-              <AccordionPanel>
-                <HStack paddingTop="2" paddingBottom="6">
-                  <Button
-                    type="button"
-                    colorScheme="green"
-                    fontSize="14"
-                    fontWeight="medium"
-                    leftIcon={<FiCreditCard fontSize="18" />}
-                    onClick={handleDrawerNewPaymentMethod}
-                  >
-                    Novo Método de pagamento
-                  </Button>
-                </HStack>
-                Segue abaixo uma tabela com todos os métodos de pagamento
-                cadastros.
-                <Flex width="100%" height="100%" paddingY="8" margin="auto">
-                  <TablePaymentMethodsComponent
-                    paymentMethods={listPaymentMethods}
-                    isLoading={isLoadingPaymentMethods}
-                  />
-                </Flex>
-              </AccordionPanel>
-            </AccordionItem>
+            <Flex
+              width="72vw"
+              height="100%"
+              paddingY="4"
+              paddingX="8"
+              margin="auto"
+            >
+              <Accordion allowToggle width="100%">
+                <AccordionItem>
+                  <AccordionButton>
+                    <HStack spacing="3" flex="1">
+                      <Icon as={FiCreditCard} fontSize="24" />
+                      <Text
+                        as="h2"
+                        fontSize="xl"
+                        fontWeight="medium"
+                        textAlign="left"
+                      >
+                        Métodos de pagamento
+                      </Text>
+                    </HStack>
+                    <AccordionIcon fontSize="24" />
+                  </AccordionButton>
+                  <AccordionPanel>
+                    <HStack paddingTop="2" paddingBottom="6">
+                      <Button
+                        type="button"
+                        colorScheme="green"
+                        fontSize="14"
+                        fontWeight="medium"
+                        leftIcon={<FiCreditCard fontSize="18" />}
+                        onClick={handleDrawerNewPaymentMethod}
+                      >
+                        Novo Método de pagamento
+                      </Button>
+                    </HStack>
+                    Segue abaixo uma tabela com todos os métodos de pagamento
+                    cadastros.
+                    <Flex width="100%" height="100%" paddingY="8" margin="auto">
+                      <TablePaymentMethodsComponent
+                        paymentMethods={listPaymentMethods}
+                        isLoading={isLoadingPaymentMethods}
+                      />
+                    </Flex>
+                  </AccordionPanel>
+                </AccordionItem>
 
-            <AccordionItem>
-              <AccordionButton>
-                <HStack spacing="3" flex="1">
-                  <Icon as={FiUser} fontSize="24" />
-                  <Text
-                    as="h2"
-                    fontSize="xl"
-                    fontWeight="medium"
-                    textAlign="left"
-                    flex="1"
-                  >
-                    Credores/Devedores
-                  </Text>
-                </HStack>
-                <AccordionIcon fontSize="24" />
-              </AccordionButton>
-              <AccordionPanel>
-                <HStack paddingTop="2" paddingBottom="6">
-                  <Button
-                    type="button"
-                    colorScheme="green"
-                    fontSize="14"
-                    fontWeight="medium"
-                    leftIcon={<FiUserPlus fontSize="18" />}
-                    onClick={handleDrawerNewCreditorDebtor}
-                  >
-                    Novo Credor/Devedor
-                  </Button>
-                </HStack>
-                Segue abaixo uma tabela com todos os credores/devedor cadastros.
-                <Flex width="100%" height="100%" paddingY="8" margin="auto">
-                  <TableCreditorsDebtorsComponent
-                    creditorsDebtors={listCreditorsDebtors}
-                    isLoading={isLoadingCreditorsDebtors}
-                  />
-                </Flex>
-              </AccordionPanel>
-            </AccordionItem>
-          </Accordion>
+                <AccordionItem>
+                  <AccordionButton>
+                    <HStack spacing="3" flex="1">
+                      <Icon as={FiUser} fontSize="24" />
+                      <Text
+                        as="h2"
+                        fontSize="xl"
+                        fontWeight="medium"
+                        textAlign="left"
+                        flex="1"
+                      >
+                        Credores/Devedores
+                      </Text>
+                    </HStack>
+                    <AccordionIcon fontSize="24" />
+                  </AccordionButton>
+                  <AccordionPanel>
+                    <HStack paddingTop="2" paddingBottom="6">
+                      <Button
+                        type="button"
+                        colorScheme="green"
+                        fontSize="14"
+                        fontWeight="medium"
+                        leftIcon={<FiUserPlus fontSize="18" />}
+                        onClick={handleDrawerNewCreditorDebtor}
+                      >
+                        Novo Credor/Devedor
+                      </Button>
+                    </HStack>
+                    Segue abaixo uma tabela com todos os credores/devedor
+                    cadastros.
+                    <Flex width="100%" height="100%" paddingY="8" margin="auto">
+                      <TableCreditorsDebtorsComponent
+                        creditorsDebtors={listCreditorsDebtors}
+                        isLoading={isLoadingCreditorsDebtors}
+                      />
+                    </Flex>
+                  </AccordionPanel>
+                </AccordionItem>
+              </Accordion>
+            </Flex>
+          </Flex>
         </Flex>
       </Flex>
     </Fragment>

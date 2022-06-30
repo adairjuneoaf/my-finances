@@ -8,6 +8,8 @@ import { ReactQueryDevtools } from "react-query/devtools";
 
 // Chakra UI Imports
 import { ChakraProvider } from "@chakra-ui/react";
+import "@fontsource/roboto";
+import "@fontsource/inter";
 
 // Contexts Imports
 import { ContextDrawerProvider } from "../contexts/contextDrawer";

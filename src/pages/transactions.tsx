@@ -36,6 +36,8 @@ import { useReactQuery } from "../hooks/useReactQuery";
 import { FiSearch } from "react-icons/fi";
 import { RiAddFill } from "react-icons/ri";
 
+import { getAllTransactionsAPIRoute } from "../services/api";
+
 const TransactionsPage: NextPage = () => {
   const { handleDrawerNewTransaction } = useContext(ContextDrawer);
 
@@ -60,7 +62,7 @@ const TransactionsPage: NextPage = () => {
           marginX="auto"
           maxWidth={1480}
         >
-          <Flex>
+          <Flex flexDirection="column">
             <SideBarNavigationComponent />
           </Flex>
 
@@ -93,6 +95,12 @@ const TransactionsPage: NextPage = () => {
                 </HStack>
 
                 <HStack spacing="4">
+                  <Button
+                    colorScheme="facebook"
+                    onClick={getAllTransactionsAPIRoute}
+                  >
+                    teste_api
+                  </Button>
                   <Button
                     type="button"
                     colorScheme="green"

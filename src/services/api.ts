@@ -43,8 +43,28 @@ export const getAllTransactions = async () => {
  * @returns Função de retorno dos dados de todas as transações armazenadas
  * no FaunaDB.
  */
+// export const getAllTransactionsAPIRoute = async () => {
+//   const listTransactions: Array<AllTransactionsFormatted> = await apiRoute
+//     .get("/transactions")
+//     .then((response) => {
+//       return response.data;
+//     })
+//     .catch((error) => {
+//       return console.error("Error", error.message);
+//     });
+
+//   const data = listTransactions.map((transaction) => ({
+//     ...transaction,
+//     valueTransactionFormatted: formatValueToMoney(transaction.valueTransaction),
+//   }));
+
+//   console.log(data);
+
+//   return data;
+// };
+
 export const getAllTransactionsAPIRoute = async () => {
-  const listTransactions: Array<AllTransactionsFormatted> = await apiRoute
+  const data = await apiRoute
     .get("/transactions")
     .then((response) => {
       return response.data;
@@ -53,10 +73,10 @@ export const getAllTransactionsAPIRoute = async () => {
       return console.error("Error", error.message);
     });
 
-  const data = listTransactions.map((transaction) => ({
-    ...transaction,
-    valueTransactionFormatted: formatValueToMoney(transaction.valueTransaction),
-  }));
+  // const data = listTransactions.map((transaction) => ({
+  //   ...transaction,
+  //   valueTransactionFormatted: formatValueToMoney(transaction.valueTransaction),
+  // }));
 
   console.log(data);
 

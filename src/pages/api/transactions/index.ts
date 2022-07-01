@@ -14,6 +14,15 @@ import { DataCollectionFaunaDB } from "../../../@types/DataCollectionFaunaDB";
 
 type DataResponseAPI = Array<TransactionDataType> | {} | void;
 type DataRequestBodyAPI = { transactionData: TransactionDataType };
+type DataAfterAndBeforePage = [
+  transactionRef: {
+    id: string;
+  }
+];
+
+let arrayCountPagesAndValidationIsEmpty: Number[] = [];
+let refAfterPageTransactions: string = "";
+let refBeforePageTransactions: string = "";
 
 const getAllTransactions = async (
   req: NextApiRequest,
@@ -33,27 +42,68 @@ const getAllTransactions = async (
     switch (req.method) {
       case "GET":
         const getAllTransactionsByUser = await fauna
-          .query<Array<DataCollectionFaunaDB<TransactionDataType>>>(
-            query.Map(
-              query.Select(
-                ["data"],
+          .query<{
+            after: DataAfterAndBeforePage;
+            before: DataAfterAndBeforePage;
+            data: Array<DataCollectionFaunaDB<TransactionDataType>>;
+          }>(
+            query.If(
+              query.IsEmpty(arrayCountPagesAndValidationIsEmpty),
+              query.Map(
                 query.Paginate(
                   query.Match(
                     query.Index("transaction_by_userId"),
                     query.Casefold(String(sessionData?.userRef.id))
-                  )
-                )
+                  ),
+                  {
+                    size: 5,
+                  }
+                ),
+                query.Lambda((x) => query.Get(x))
               ),
-              query.Lambda((x) => query.Get(x))
+              query.Map(
+                query.Paginate(
+                  query.Match(
+                    query.Index("transaction_by_userId"),
+                    query.Casefold(String(sessionData?.userRef.id))
+                  ),
+                  {
+                    after: [
+                      query.Ref(
+                        query.Collection("transactions"),
+                        String(refAfterPageTransactions)
+                      ),
+                    ],
+                    size: 5,
+                  }
+                ),
+                query.Lambda((x) => query.Get(x))
+              )
             )
           )
           .then((response) => {
-            const transactions = response.map(
+            const transactions = response.data.map(
               (transaction) => transaction.data
             );
-            return transactions;
+            arrayCountPagesAndValidationIsEmpty.push(
+              arrayCountPagesAndValidationIsEmpty.length + 1
+            );
+
+            const pageAfter = response.after && response.after.shift();
+            const pageBefore = response.after && response.after.shift();
+            refAfterPageTransactions = response.after
+              ? String(pageAfter?.id)
+              : "";
+            refBeforePageTransactions = response.after
+              ? String(pageBefore?.id)
+              : "";
+
+            return { transactions, refAfterPageTransactions };
           })
           .catch((err) => console.error("Error:", err.message));
+
+        console.log("PageRef: ", refAfterPageTransactions);
+        console.log("Array Validation: ", arrayCountPagesAndValidationIsEmpty);
 
         return res.status(200).json(getAllTransactionsByUser);
 

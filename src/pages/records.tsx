@@ -73,7 +73,7 @@ const TransactionsPage: NextPage = () => {
       <NextHead>
         <title>my.finance$ | Cadastros</title>
       </NextHead>
-      <Flex width="100vw" height="auto" flexDirection="column">
+      <Flex width={`calc(100vw - 1px)`} height="auto" flexDirection="column">
         <HeaderComponent />
         <DrawerComponent />
 
@@ -84,6 +84,7 @@ const TransactionsPage: NextPage = () => {
           marginBottom="6"
           marginX="auto"
           maxWidth={1480}
+          paddingX="6"
         >
           <Flex>
             <SideBarNavigationComponent />

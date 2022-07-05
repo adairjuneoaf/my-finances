@@ -42,6 +42,15 @@ export const theme = extendTheme({
         overflowX: "hidden",
         color: "gray.50",
       },
+      "*::-webkit-scrollbar": {
+        width: "8px",
+      },
+      "*::-webkit-scrollbar-thumb": {
+        background: "gray.700",
+      },
+      "*::-webkit-scrollbar-track": {
+        background: "gray.800",
+      },
     },
   },
 });

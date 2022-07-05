@@ -11,7 +11,7 @@ import MenuItemNavigation from "./MenuItemSection";
 // Contexts Imports
 
 // Another Imports
-import { FiUserPlus, FiCreditCard } from "react-icons/fi";
+import { FiUserPlus, FiCreditCard, FiSettings } from "react-icons/fi";
 import { RiDashboardLine, RiFileListLine } from "react-icons/ri";
 
 // Typings[TypeScript]
@@ -41,17 +41,9 @@ const SideBarNavigationComponent: React.FC = () => {
           route="/transactions"
           description="Ir até a página de Lançamentos"
         />
-      </MenuSectionNavigation>
-      <MenuSectionNavigation title="Cadastros">
         <MenuItemNavigation
-          title="Credores/Devedores"
-          icon={FiUserPlus}
-          route="/records"
-          description="Ir até a página de Cadastros"
-        />
-        <MenuItemNavigation
-          title="Forma de pagamento"
-          icon={FiCreditCard}
+          title="Cadastros"
+          icon={FiSettings}
           route="/records"
           description="Ir até a página de Cadastros"
         />

@@ -74,7 +74,7 @@ const HomePage: NextPage<QueryProps> = ({ authorized }) => {
       </Head>
 
       <Flex
-        width="100vw"
+        width={`calc(100vw - 1px)`}
         height="100vh"
         alignItems="center"
         justifyContent="center"

@@ -61,7 +61,7 @@ const DashboardPage: NextPage = () => {
       <NextHead>
         <title>my.finance$ | Dashboard</title>
       </NextHead>
-      <Flex width="100vw" height="auto" flexDirection="column" maxHeight="86vh">
+      <Flex width={`calc(100vw - 1px)`} height="auto" flexDirection="column">
         <HeaderComponent />
         <DrawerComponent />
 
@@ -72,6 +72,7 @@ const DashboardPage: NextPage = () => {
           marginBottom="6"
           marginX="auto"
           maxWidth={1480}
+          paddingX="6"
         >
           <Flex>
             <SideBarNavigationComponent />

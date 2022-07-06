@@ -1,5 +1,5 @@
 // Imports React
-import React, { Fragment, useContext } from "react";
+import React, { Fragment, useContext, useState } from "react";
 
 // Imports Next
 import NextHead from "next/head";
@@ -35,15 +35,36 @@ import { useReactQuery } from "../hooks/useReactQuery";
 // Another Imports
 import { FiSearch } from "react-icons/fi";
 import { RiAddFill } from "react-icons/ri";
-
 import { getAllTransactionsAPIRoute } from "../services/api";
+import { useQuery } from "react-query";
+
+const SIZE_PER_LOAD = 5;
 
 const TransactionsPage: NextPage = () => {
   const { handleDrawerNewTransaction } = useContext(ContextDrawer);
+  const [loadMore, setLoadMore] = useState(SIZE_PER_LOAD);
 
   const { transactions } = useReactQuery();
 
   const { data: transactionsList, isFetching, isLoading } = transactions;
+
+  const { data: transactionsListAPIRoute } = useQuery(
+    "transactionsAPIRoute",
+    getAllTransactionsAPIRoute,
+    {
+      cacheTime: 1000 * 60 * 10, // 10 Minutes
+      staleTime: 1000 * 60 * 10, // 10 Minutes
+      refetchInterval: false, // 5 Minutes
+      refetchOnWindowFocus: false,
+      retry: 5,
+    }
+  );
+
+  console.log(
+    transactionsListAPIRoute?.transactions
+      .slice(0, loadMore)
+      .map((transaction) => transaction)
+  );
 
   return (
     <Fragment>
@@ -96,12 +117,17 @@ const TransactionsPage: NextPage = () => {
                 </HStack>
 
                 <HStack spacing="4">
-                  <Button
-                    colorScheme="facebook"
-                    onClick={getAllTransactionsAPIRoute}
-                  >
-                    teste_api
-                  </Button>
+                  {loadMore <
+                    Number(transactionsListAPIRoute?.transactions.length) && (
+                    <Button
+                      colorScheme="facebook"
+                      onClick={() => {
+                        setLoadMore(loadMore + SIZE_PER_LOAD);
+                      }}
+                    >
+                      teste_api
+                    </Button>
+                  )}
                   <Button
                     type="button"
                     colorScheme="green"

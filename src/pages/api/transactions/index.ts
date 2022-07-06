@@ -10,23 +10,11 @@ import { query } from "faunadb";
 // Typings[TypeScript]
 import { SessionDataType } from "../../../@types/SessionDataType";
 import { DataResponseAPI } from "../../../@types/DataResponseAPI";
+import { DataRequestBodyAPI } from "../../../@types/DataRequestBodyAPI";
 import { TransactionDataType } from "../../../@types/TransactionDataType";
 import { DataCollectionFaunaDB } from "../../../@types/DataCollectionFaunaDB";
-import { DataRequestBodyAPI } from "../../../@types/DataRequestBodyAPI";
 
-const SIZE_PER_PAGE_DEFAULT = 5;
-
-type DataAfterAndBeforePage = [
-  transactionRef: {
-    id: string;
-  }
-];
-
-let currentPage: number = 0;
-let countTotalTransactions: number = 0;
-let arrayCountPagesAndValidationIsEmpty: Number[] = [];
-let refAfterPageTransactions: string | undefined = undefined;
-let refBeforePageTransactions: string | undefined = undefined;
+const SIZE_PER_PAGE_DEFAULT = 99999;
 
 const getAllTransactions = async (
   req: NextApiRequest,
@@ -46,94 +34,30 @@ const getAllTransactions = async (
     switch (req.method) {
       case "GET":
         const getAllTransactionsByUser = await fauna
-          .query<{
-            count: number;
-            list: {
-              after: DataAfterAndBeforePage;
-              before: DataAfterAndBeforePage;
-              data: Array<DataCollectionFaunaDB<TransactionDataType>>;
-            };
-          }>(
-            query.Let(
-              {
-                payload: {
-                  count: query.Count(
-                    query.Match(
-                      query.Index("transaction_by_userId"),
-                      query.Casefold(String(sessionData?.userRef.id))
-                    )
-                  ),
-                  list: query.If(
-                    query.IsEmpty(arrayCountPagesAndValidationIsEmpty),
-                    query.Map(
-                      query.Paginate(
-                        query.Match(
-                          query.Index("transaction_by_userId"),
-                          query.Casefold(String(sessionData?.userRef.id))
-                        ),
-                        {
-                          size: SIZE_PER_PAGE_DEFAULT,
-                        }
-                      ),
-                      query.Lambda((x) => query.Get(x))
-                    ),
-                    query.Map(
-                      query.Paginate(
-                        query.Match(
-                          query.Index("transaction_by_userId"),
-                          query.Casefold(String(sessionData?.userRef.id))
-                        ),
-                        {
-                          after: [
-                            query.Ref(
-                              query.Collection("transactions"),
-                              String(refAfterPageTransactions)
-                            ),
-                          ],
-                          size: SIZE_PER_PAGE_DEFAULT,
-                        }
-                      ),
-                      query.Lambda((x) => query.Get(x))
-                    )
-                  ),
-                },
-              },
-              query.Var("payload")
+          .query<{ data: Array<DataCollectionFaunaDB<TransactionDataType>> }>(
+            query.Map(
+              query.Paginate(
+                query.Match(
+                  query.Index("transaction_by_userId"),
+                  query.Casefold(String(sessionData?.userRef.id))
+                ),
+                {
+                  size: SIZE_PER_PAGE_DEFAULT,
+                }
+              ),
+              query.Lambda((x) => query.Get(x))
             )
           )
           .then((response) => {
-            const list = response.list.data.map(
+            const transactions = response.data.map(
               (transaction) => transaction.data
             );
 
-            arrayCountPagesAndValidationIsEmpty.push(
-              arrayCountPagesAndValidationIsEmpty.length + 1,
-              (currentPage = currentPage + 1)
-            );
-
-            countTotalTransactions = response.count;
-
-            refAfterPageTransactions = response.list.after
-              ? String(response.list.after.shift()?.id)
-              : undefined;
-
-            refBeforePageTransactions = response.list.before
-              ? String(response.list.before.shift()?.id)
-              : undefined;
-
-            return { list };
+            return { payload: transactions };
           })
           .catch((err) => console.error("Error:", err.message));
 
-        return res.status(200).json({
-          pagination: {
-            page: currentPage,
-            totalCount: countTotalTransactions,
-            refNextPage: refAfterPageTransactions,
-            refPreviousPage: refBeforePageTransactions,
-          },
-          payload: { ...getAllTransactionsByUser },
-        });
+        return res.status(200).json({ ...getAllTransactionsByUser });
 
       case "POST":
         const postUniqueTransactionsByUser = await fauna

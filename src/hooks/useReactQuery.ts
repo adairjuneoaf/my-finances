@@ -14,9 +14,9 @@ import { CreditorDebtorType } from "../@types/CreditorDebtorType";
 import { TransactionDataType } from "../@types/TransactionDataType";
 
 const configReactQuery = {
-  cacheTime: 1000 * 60 * 6, // 6 Minutes
-  staleTime: 1000 * 60 * 6, // 6 Minutes
-  refetchInterval: 1000 * 60 * 3, // 3 Minutes
+  cacheTime: 1000 * 60 * 10, // 10 Minutes
+  staleTime: 1000 * 60 * 10, // 10 Minutes
+  refetchInterval: 1000 * 60 * 5, // 5 Minutes
   refetchOnWindowFocus: true,
   retry: 5,
 };

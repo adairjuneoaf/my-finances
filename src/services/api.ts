@@ -54,16 +54,12 @@ export const getAllTransactionsAPIRoute = async () => {
       return console.error("Error", error.message);
     });
 
-  const pagination = data.pagination;
-
-  const transactions = data.payload.list.map((transaction) => ({
+  const transactions = data.payload.map((transaction) => ({
     ...transaction,
     valueTransactionFormatted: formatValueToMoney(transaction.valueTransaction),
   }));
 
-  console.log({ pagination: pagination, transactions: transactions });
-
-  return { pagination: pagination, transactions: transactions };
+  return { transactions };
 };
 
 /**

@@ -6,34 +6,44 @@ import { useRouter } from "next/router";
 
 // Chakra Imports
 import {
+  Tr,
+  Th,
+  Text,
+  Flex,
+  Tfoot,
   Table,
   Tbody,
   Thead,
-  Tr,
-  Th,
-  Tfoot,
+  Button,
   TableContainer,
-  HStack,
-  Spinner,
 } from "@chakra-ui/react";
 
 // Components Imports
 import TableHead from "./TableHead";
 import TableBody from "./TableBody";
+import SkeletonBody from "./SkeletonBody";
 
 // Another Imports
+import { FiZoomIn } from "react-icons/fi";
 
 // Typings[TypeScript]
 import { TransactionDataType } from "../../@types/TransactionDataType";
-import SkeletonBody from "./SkeletonBody";
 type TableTransactionsData = {
-  transactions?: Array<TransactionDataType>;
+  loadMore?: () => void;
   isLoading?: boolean;
+  totalCount?: number;
+  hasLoadMore?: boolean;
+  currentCount?: number;
+  transactions?: Array<TransactionDataType>;
 };
 
 const TableTransactionsComponent: React.FC<TableTransactionsData> = ({
-  transactions,
+  loadMore,
   isLoading,
+  hasLoadMore,
+  transactions,
+  totalCount = 0,
+  currentCount = 0,
 }) => {
   const { asPath } = useRouter();
 
@@ -97,18 +107,67 @@ const TableTransactionsComponent: React.FC<TableTransactionsData> = ({
           </Tfoot>
         )}
 
-        {asPath === "/transactions" && (
+        {hasLoadMore && asPath === "/transactions" && (
           <Tfoot>
             <Tr>
               <Th
-                colSpan={5}
-                paddingTop="6"
+                colSpan={6}
+                width="100%"
+                paddingTop="8"
+                paddingBottom="0"
+                paddingX="0"
                 textTransform="none"
                 color="gray.300"
               >
-                ** Essa página conta com a funcionalidade de scroll infinito,
-                efetue a rolagem para baixo exibindo assim outros registros,
-                caso existam mais.
+                <Flex
+                  alignItems="flex-end"
+                  flexDirection="column"
+                  justifyContent="space-between"
+                  gap="4"
+                >
+                  <Text fontSize="13px">
+                    {currentCount} lançamentos exibidos de {totalCount} no total
+                  </Text>
+                  <Button
+                    type="button"
+                    width="100%"
+                    colorScheme="green"
+                    leftIcon={<FiZoomIn fontSize="22" />}
+                    onClick={loadMore}
+                  >
+                    Mostrar mais
+                  </Button>
+                </Flex>
+              </Th>
+            </Tr>
+          </Tfoot>
+        )}
+
+        {!hasLoadMore && asPath === "/transactions" && (
+          <Tfoot>
+            <Tr>
+              <Th
+                colSpan={6}
+                width="100%"
+                paddingTop="8"
+                paddingBottom="0"
+                paddingX="0"
+                textTransform="none"
+                color="gray.300"
+              >
+                <Flex
+                  alignItems="center"
+                  flexDirection="row"
+                  justifyContent="space-between"
+                >
+                  <Text>
+                    ** Fim da lista, não existem mais registros há serem
+                    carregados.
+                  </Text>
+                  <Text fontSize="13px">
+                    {currentCount} lançamentos exibidos de {totalCount} no total
+                  </Text>
+                </Flex>
               </Th>
             </Tr>
           </Tfoot>

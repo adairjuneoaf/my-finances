@@ -35,10 +35,8 @@ import { useReactQuery } from "../hooks/useReactQuery";
 // Another Imports
 import { FiSearch } from "react-icons/fi";
 import { RiAddFill } from "react-icons/ri";
-import { getAllTransactionsAPIRoute } from "../services/api";
-import { useQuery } from "react-query";
 
-const SIZE_PER_LOAD = 5;
+const SIZE_PER_LOAD = 8;
 
 const TransactionsPage: NextPage = () => {
   const { handleDrawerNewTransaction } = useContext(ContextDrawer);
@@ -46,25 +44,11 @@ const TransactionsPage: NextPage = () => {
 
   const { transactions } = useReactQuery();
 
-  const { data: transactionsList, isFetching, isLoading } = transactions;
+  const { data, isFetching, isLoading } = transactions;
 
-  const { data: transactionsListAPIRoute } = useQuery(
-    "transactionsAPIRoute",
-    getAllTransactionsAPIRoute,
-    {
-      cacheTime: 1000 * 60 * 10, // 10 Minutes
-      staleTime: 1000 * 60 * 10, // 10 Minutes
-      refetchInterval: false, // 5 Minutes
-      refetchOnWindowFocus: false,
-      retry: 5,
-    }
-  );
-
-  console.log(
-    transactionsListAPIRoute?.transactions
-      .slice(0, loadMore)
-      .map((transaction) => transaction)
-  );
+  const transactionsList = data
+    ?.slice(0, loadMore)
+    .map((transaction) => transaction);
 
   return (
     <Fragment>
@@ -117,17 +101,6 @@ const TransactionsPage: NextPage = () => {
                 </HStack>
 
                 <HStack spacing="4">
-                  {loadMore <
-                    Number(transactionsListAPIRoute?.transactions.length) && (
-                    <Button
-                      colorScheme="facebook"
-                      onClick={() => {
-                        setLoadMore(loadMore + SIZE_PER_LOAD);
-                      }}
-                    >
-                      teste_api
-                    </Button>
-                  )}
                   <Button
                     type="button"
                     colorScheme="green"
@@ -168,6 +141,12 @@ const TransactionsPage: NextPage = () => {
                 <TableTransactionsComponent
                   transactions={transactionsList}
                   isLoading={isLoading}
+                  currentCount={Number(transactionsList?.length)}
+                  totalCount={Number(data?.length)}
+                  hasLoadMore={!!(loadMore < Number(data?.length))}
+                  loadMore={() => {
+                    setLoadMore(loadMore + SIZE_PER_LOAD);
+                  }}
                 />
               </Box>
             </Box>

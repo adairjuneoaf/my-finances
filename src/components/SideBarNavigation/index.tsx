@@ -20,7 +20,7 @@ const SideBarNavigationComponent: React.FC = () => {
   return (
     <Flex
       gap="10"
-      padding="6"
+      paddingX="6"
       width="100%"
       height="100%"
       maxHeight="86vh"

@@ -22,7 +22,7 @@ import {
 
 // Components Imports
 import HeaderComponent from "../components/Header";
-import DrawerComponentComponent from "../components/Drawer";
+import DrawerComponent from "../components/Drawer";
 import SideBarNavigationComponent from "../components/SideBarNavigation";
 import TableTransactionsComponent from "../components/TableTransactions";
 
@@ -52,7 +52,7 @@ const TransactionsPage: NextPage = () => {
       </NextHead>
       <Flex width={`calc(100vw - 1px)`} height="auto" flexDirection="column">
         <HeaderComponent />
-        <DrawerComponentComponent />
+        <DrawerComponent />
 
         <Flex
           gap="12"
@@ -67,7 +67,7 @@ const TransactionsPage: NextPage = () => {
             <SideBarNavigationComponent />
           </Flex>
 
-          <Flex flexDirection="column" width="100%" flex="1" paddingTop="6">
+          <Flex flexDirection="column" width="100%" flex="1">
             <Box as="section">
               <HStack
                 spacing="4"

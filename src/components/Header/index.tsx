@@ -17,7 +17,6 @@ const HeaderComponent: React.FC = () => {
       marginX="auto"
       height="100%"
       margin="auto"
-      maxWidth={1576}
       paddingY="2"
       paddingX="6"
       display="flex"

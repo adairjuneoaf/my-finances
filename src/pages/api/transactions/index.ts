@@ -9,17 +9,20 @@ import { query } from "faunadb";
 
 // Typings[TypeScript]
 import { SessionDataType } from "../../../@types/SessionDataType";
+import { DataResponseAPI } from "../../../@types/DataResponseAPI";
 import { TransactionDataType } from "../../../@types/TransactionDataType";
 import { DataCollectionFaunaDB } from "../../../@types/DataCollectionFaunaDB";
+import { DataRequestBodyAPI } from "../../../@types/DataRequestBodyAPI";
 
-type DataResponseAPI = Array<TransactionDataType> | {} | void;
-type DataRequestBodyAPI = { transactionData: TransactionDataType };
+const SIZE_PER_PAGE_DEFAULT = 5;
+
 type DataAfterAndBeforePage = [
   transactionRef: {
     id: string;
   }
 ];
 
+let currentPage: number = 0;
 let countTotalTransactions: number = 0;
 let arrayCountPagesAndValidationIsEmpty: Number[] = [];
 let refAfterPageTransactions: string | undefined = undefined;
@@ -27,7 +30,7 @@ let refBeforePageTransactions: string | undefined = undefined;
 
 const getAllTransactions = async (
   req: NextApiRequest,
-  res: NextApiResponse<DataResponseAPI>
+  res: NextApiResponse<DataResponseAPI<TransactionDataType> | {}>
 ) => {
   const sessionData = (await getServerSession(
     { req: req, res: res },
@@ -38,14 +41,14 @@ const getAllTransactions = async (
     (sessionData !== undefined || null) &&
     req.headers.authorization === process.env.NEXT_PUBLIC_API_ROUTE_SECRET
   ) {
-    const { transactionData } = req.body as DataRequestBodyAPI;
+    const { data } = req.body as DataRequestBodyAPI<TransactionDataType>;
 
     switch (req.method) {
       case "GET":
         const getAllTransactionsByUser = await fauna
           .query<{
             count: number;
-            transactions: {
+            list: {
               after: DataAfterAndBeforePage;
               before: DataAfterAndBeforePage;
               data: Array<DataCollectionFaunaDB<TransactionDataType>>;
@@ -60,7 +63,7 @@ const getAllTransactions = async (
                       query.Casefold(String(sessionData?.userRef.id))
                     )
                   ),
-                  transactions: query.If(
+                  list: query.If(
                     query.IsEmpty(arrayCountPagesAndValidationIsEmpty),
                     query.Map(
                       query.Paginate(
@@ -69,7 +72,7 @@ const getAllTransactions = async (
                           query.Casefold(String(sessionData?.userRef.id))
                         ),
                         {
-                          size: 5,
+                          size: SIZE_PER_PAGE_DEFAULT,
                         }
                       ),
                       query.Lambda((x) => query.Get(x))
@@ -87,7 +90,7 @@ const getAllTransactions = async (
                               String(refAfterPageTransactions)
                             ),
                           ],
-                          size: 5,
+                          size: SIZE_PER_PAGE_DEFAULT,
                         }
                       ),
                       query.Lambda((x) => query.Get(x))
@@ -99,37 +102,37 @@ const getAllTransactions = async (
             )
           )
           .then((response) => {
-            const transactions = response.transactions.data.map(
+            const list = response.list.data.map(
               (transaction) => transaction.data
             );
 
             arrayCountPagesAndValidationIsEmpty.push(
-              arrayCountPagesAndValidationIsEmpty.length + 1
+              arrayCountPagesAndValidationIsEmpty.length + 1,
+              (currentPage = currentPage + 1)
             );
 
             countTotalTransactions = response.count;
 
-            refAfterPageTransactions = response.transactions.after
-              ? String(response.transactions.after.shift()?.id)
+            refAfterPageTransactions = response.list.after
+              ? String(response.list.after.shift()?.id)
               : undefined;
 
-            refBeforePageTransactions = response.transactions.before
-              ? String(response.transactions.before.shift()?.id)
+            refBeforePageTransactions = response.list.before
+              ? String(response.list.before.shift()?.id)
               : undefined;
 
-            return { transactions };
+            return { list };
           })
           .catch((err) => console.error("Error:", err.message));
 
         return res.status(200).json({
           pagination: {
+            page: currentPage,
             totalCount: countTotalTransactions,
             refNextPage: refAfterPageTransactions,
             refPreviousPage: refBeforePageTransactions,
           },
-          payload: {
-            ...getAllTransactionsByUser,
-          },
+          payload: { ...getAllTransactionsByUser },
         });
 
       case "POST":
@@ -138,7 +141,7 @@ const getAllTransactions = async (
             query.Create("transactions", {
               data: {
                 userId: sessionData?.userRef.id,
-                ...transactionData,
+                ...data,
               },
             })
           )

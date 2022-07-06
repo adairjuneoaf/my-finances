@@ -90,7 +90,7 @@ const TransactionsPage: NextPage = () => {
             <SideBarNavigationComponent />
           </Flex>
 
-          <Flex flexDirection="column" width="100%" flex="1" paddingTop="6">
+          <Flex flexDirection="column" width="100%" flex="1">
             <Box as="section">
               <HStack spacing="4" alignItems="center">
                 <Text

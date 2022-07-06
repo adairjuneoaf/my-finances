@@ -12,6 +12,7 @@ import { v4 as uuid } from "uuid";
 import { TransactionDataType } from "./../@types/TransactionDataType";
 import { CreditorDebtorType } from "./../@types/CreditorDebtorType";
 import { PaymentMethodType } from "./../@types/PaymentMethodType";
+import { DataResponseAPI } from "../@types/DataResponseAPI";
 
 interface AllTransactionsFormatted extends TransactionDataType {
   valueTransactionFormatted: string;
@@ -43,28 +44,8 @@ export const getAllTransactions = async () => {
  * @returns Função de retorno dos dados de todas as transações armazenadas
  * no FaunaDB.
  */
-// export const getAllTransactionsAPIRoute = async () => {
-//   const listTransactions: Array<AllTransactionsFormatted> = await apiRoute
-//     .get("/transactions")
-//     .then((response) => {
-//       return response.data;
-//     })
-//     .catch((error) => {
-//       return console.error("Error", error.message);
-//     });
-
-//   const data = listTransactions.map((transaction) => ({
-//     ...transaction,
-//     valueTransactionFormatted: formatValueToMoney(transaction.valueTransaction),
-//   }));
-
-//   console.log(data);
-
-//   return data;
-// };
-
 export const getAllTransactionsAPIRoute = async () => {
-  const data = await apiRoute
+  const data: DataResponseAPI<TransactionDataType> = await apiRoute
     .get("/transactions")
     .then((response) => {
       return response.data;
@@ -73,14 +54,16 @@ export const getAllTransactionsAPIRoute = async () => {
       return console.error("Error", error.message);
     });
 
-  // const data = listTransactions.map((transaction) => ({
-  //   ...transaction,
-  //   valueTransactionFormatted: formatValueToMoney(transaction.valueTransaction),
-  // }));
+  const pagination = data.pagination;
 
-  console.log(data);
+  const transactions = data.payload.list.map((transaction) => ({
+    ...transaction,
+    valueTransactionFormatted: formatValueToMoney(transaction.valueTransaction),
+  }));
 
-  return data;
+  console.log({ pagination: pagination, transactions: transactions });
+
+  return { pagination: pagination, transactions: transactions };
 };
 
 /**

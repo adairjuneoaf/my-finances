@@ -1,23 +1,24 @@
 // Imports Next-Auth/Next.js
-import type { NextApiRequest, NextApiResponse } from "next";
-import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]";
+import { getServerSession } from "next-auth/next";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 // Imports FaunaDB
-import fauna from "../../../services/fauna";
 import { query } from "faunadb";
+import fauna from "../../../services/fauna";
 
 // Typings[TypeScript]
 import { SessionDataType } from "../../../@types/SessionDataType";
+import { DataResponseAPI } from "../../../@types/DataResponseAPI";
 import { CreditorDebtorType } from "../../../@types/CreditorDebtorType";
+import { DataRequestBodyAPI } from "../../../@types/DataRequestBodyAPI";
 import { DataCollectionFaunaDB } from "../../../@types/DataCollectionFaunaDB";
 
-type DataResponseAPI = Array<CreditorDebtorType> | {} | void;
-type DataRequestBodyAPI = { creditorDebtorData: CreditorDebtorType };
+const SIZE_PER_PAGE_DEFAULT = 99999;
 
 const getAllCreditorsDebtors = async (
   req: NextApiRequest,
-  res: NextApiResponse<DataResponseAPI>
+  res: NextApiResponse<DataResponseAPI<CreditorDebtorType> | {}>
 ) => {
   const sessionData = (await getServerSession(
     { req: req, res: res },
@@ -28,34 +29,35 @@ const getAllCreditorsDebtors = async (
     (sessionData !== undefined || null) &&
     req.headers.authorization === process.env.NEXT_PUBLIC_API_ROUTE_SECRET
   ) {
-    const { creditorDebtorData } = req.body as DataRequestBodyAPI;
+    const { data } = req.body as DataRequestBodyAPI<CreditorDebtorType>;
 
     switch (req.method) {
       case "GET":
         const getAllCreditorsDebtorsByUser = await fauna
-          .query<Array<DataCollectionFaunaDB<CreditorDebtorType>>>(
+          .query<{ data: Array<DataCollectionFaunaDB<CreditorDebtorType>> }>(
             query.Map(
-              query.Select(
-                ["data"],
-                query.Paginate(
-                  query.Match(
-                    query.Index("creditorDebtor_by_userId"),
-                    query.Casefold(String(sessionData?.userRef.id))
-                  )
-                )
+              query.Paginate(
+                query.Match(
+                  query.Index("creditorDebtor_by_userId"),
+                  query.Casefold(String(sessionData?.userRef.id))
+                ),
+                {
+                  size: SIZE_PER_PAGE_DEFAULT,
+                }
               ),
               query.Lambda((x) => query.Get(x))
             )
           )
           .then((response) => {
-            const creditorsDebtors = response.map(
+            const creditorsDebtors = response.data.map(
               (creditorDebtor) => creditorDebtor.data
             );
-            return creditorsDebtors;
+
+            return { payload: creditorsDebtors };
           })
           .catch((err) => console.log("Error:", err.message));
 
-        return res.status(200).json(getAllCreditorsDebtorsByUser);
+        return res.status(200).json({ ...getAllCreditorsDebtorsByUser });
 
       case "POST":
         const postUniqueCreditorDebtorByUser = await fauna
@@ -63,7 +65,7 @@ const getAllCreditorsDebtors = async (
             query.Create("creditorsDebtors", {
               data: {
                 userId: sessionData?.userRef.id,
-                ...creditorDebtorData,
+                ...data,
               },
             })
           )

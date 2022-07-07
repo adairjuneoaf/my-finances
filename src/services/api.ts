@@ -228,7 +228,7 @@ export const getAllPaymentMethods = async () => {
  * armazenados no FaunaDB.
  */
 export const getAllPaymentMethodsAPIRoute = async () => {
-  const data: Array<PaymentMethodType> = await apiRoute
+  const data: DataResponseAPI<PaymentMethodType> = await apiRoute
     .get("/payment_method")
     .then((response) => {
       return response.data;
@@ -400,7 +400,7 @@ export const getAllCreditorsDebtors = async () => {
  * armazenados no FaunaDB.
  */
 export const getAllCreditorsDebtorsAPIRoute = async () => {
-  const data: Array<CreditorDebtorType> = await apiRoute
+  const data: DataResponseAPI<CreditorDebtorType> = await apiRoute
     .get("/creditor_debtor")
     .then((response) => {
       return response.data;

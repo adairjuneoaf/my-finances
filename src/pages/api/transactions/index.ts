@@ -1,11 +1,11 @@
 // Imports Next-Auth/Next.js
-import type { NextApiRequest, NextApiResponse } from "next";
-import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]";
+import { getServerSession } from "next-auth/next";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 // Imports FaunaDB
-import fauna from "../../../services/fauna";
 import { query } from "faunadb";
+import fauna from "../../../services/fauna";
 
 // Typings[TypeScript]
 import { SessionDataType } from "../../../@types/SessionDataType";

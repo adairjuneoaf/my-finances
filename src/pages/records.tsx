@@ -3,7 +3,6 @@ import React, { Fragment, useContext } from "react";
 
 // Imports Next
 import NextHead from "next/head";
-import NextLink from "next/link";
 import { getServerSession } from "next-auth";
 import { GetServerSideProps, NextPage } from "next";
 import { authOptions } from "./api/auth/[...nextauth]";
@@ -15,9 +14,7 @@ import {
   Icon,
   Text,
   Button,
-  Center,
   HStack,
-  Divider,
   Spinner,
   Accordion,
   AccordionIcon,
@@ -27,10 +24,11 @@ import {
 } from "@chakra-ui/react";
 
 // Components Imports
-import LogoComponent from "../components/Logo";
 import DrawerComponent from "../components/Drawer";
-import ProfileComponent from "../components/Profile";
-import ActionBarComponent from "../components/ActionBar";
+import HeaderComponent from "../components/Header";
+import SideBarNavigationComponent from "../components/SideBarNavigation";
+import TablePaymentMethodsComponent from "../components/TablePaymentMethods";
+import TableCreditorsDebtorsComponent from "../components/TableCreditorsDebtors/index";
 
 // Contexts Imports
 import { ContextDrawer } from "../contexts/contextDrawer";
@@ -39,17 +37,8 @@ import { ContextDrawer } from "../contexts/contextDrawer";
 import { useReactQuery } from "../hooks/useReactQuery";
 
 // Another Imports
-import {
-  FiActivity,
-  FiCreditCard,
-  FiList,
-  FiUser,
-  FiUserPlus,
-} from "react-icons/fi";
-import TablePaymentMethodsComponent from "../components/TablePaymentMethods";
-import TableCreditorsDebtorsComponent from "../components/TableCreditorsDebtors/index";
-import SideBarNavigationComponent from "../components/SideBarNavigation";
-import HeaderComponent from "../components/Header";
+import { FiCreditCard, FiUser, FiUserPlus } from "react-icons/fi";
+import { getAllCreditorsDebtorsAPIRoute } from "../services/api";
 
 const TransactionsPage: NextPage = () => {
   const { handleDrawerNewPaymentMethod, handleDrawerNewCreditorDebtor } =
@@ -101,6 +90,12 @@ const TransactionsPage: NextPage = () => {
                 >
                   Cadastros
                 </Text>
+                <Button
+                  colorScheme="facebook"
+                  onClick={getAllCreditorsDebtorsAPIRoute}
+                >
+                  test_api
+                </Button>
                 {(isFetchingCreditorsDebtors || isFetchingPaymentMethods) &&
                   (!isFetchingCreditorsDebtors || !isLoadingPaymentMethods) && (
                     <Spinner

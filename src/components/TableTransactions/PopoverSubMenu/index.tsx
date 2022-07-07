@@ -22,14 +22,19 @@ import { FiEdit, FiTrash, FiEye, FiMoreVertical } from "react-icons/fi";
 // Typings[TypeScript]
 import { IPopoverSubMenu } from "./types";
 
-const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ transactionID }) => {
+const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({
+  transactionID,
+}) => {
   const { handleDrawerEditTransaction } = useContext(ContextDrawer);
 
   return (
     <Popover>
       <Tooltip hasArrow label="Ações" shouldWrapChildren marginTop="3">
         <PopoverTrigger>
-          <Button backgroundColor="transparent" _hover={{ backgroundColor: "gray.900" }}>
+          <Button
+            backgroundColor="transparent"
+            _hover={{ backgroundColor: "gray.900" }}
+          >
             <FiMoreVertical fontSize="24" color="white" />
           </Button>
         </PopoverTrigger>

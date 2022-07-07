@@ -26,9 +26,9 @@ import {
 // Components Imports
 import DrawerComponent from "../components/Drawer";
 import HeaderComponent from "../components/Header";
-import SideBarNavigationComponent from "../components/SideBarNavigation";
-import TablePaymentMethodsComponent from "../components/TablePaymentMethods";
-import TableCreditorsDebtorsComponent from "../components/TableCreditorsDebtors/index";
+import SideBarNavigation from "../components/SideBarNavigation";
+import TablePaymentMethods from "../components/TablePaymentMethods";
+import TableCreditorsDebtors from "../components/TableCreditorsDebtors";
 
 // Contexts Imports
 import { ContextDrawer } from "../contexts/contextDrawer";
@@ -38,7 +38,6 @@ import { useReactQuery } from "../hooks/useReactQuery";
 
 // Another Imports
 import { FiCreditCard, FiUser, FiUserPlus } from "react-icons/fi";
-import { getAllCreditorsDebtorsAPIRoute } from "../services/api";
 
 const TransactionsPage: NextPage = () => {
   const { handleDrawerNewPaymentMethod, handleDrawerNewCreditorDebtor } =
@@ -46,16 +45,8 @@ const TransactionsPage: NextPage = () => {
 
   const { creditorsDebtors, paymentMethods } = useReactQuery();
 
-  const {
-    data: listCreditorsDebtors,
-    isFetching: isFetchingCreditorsDebtors,
-    isLoading: isLoadingCreditorsDebtors,
-  } = creditorsDebtors;
-  const {
-    data: listPaymentMethods,
-    isFetching: isFetchingPaymentMethods,
-    isLoading: isLoadingPaymentMethods,
-  } = paymentMethods;
+  const { isFetching: isFetchingCreditorsDebtors } = creditorsDebtors;
+  const { isFetching: isFetchingPaymentMethods } = paymentMethods;
 
   return (
     <Fragment>
@@ -76,7 +67,7 @@ const TransactionsPage: NextPage = () => {
           paddingX="6"
         >
           <Flex>
-            <SideBarNavigationComponent />
+            <SideBarNavigation />
           </Flex>
 
           <Flex flexDirection="column" width="100%" flex="1">
@@ -90,21 +81,14 @@ const TransactionsPage: NextPage = () => {
                 >
                   Cadastros
                 </Text>
-                <Button
-                  colorScheme="facebook"
-                  onClick={getAllCreditorsDebtorsAPIRoute}
-                >
-                  test_api
-                </Button>
-                {(isFetchingCreditorsDebtors || isFetchingPaymentMethods) &&
-                  (!isFetchingCreditorsDebtors || !isLoadingPaymentMethods) && (
-                    <Spinner
-                      color="green.500"
-                      size="md"
-                      thickness="4px"
-                      speed="0.5s"
-                    />
-                  )}
+                {(isFetchingCreditorsDebtors || isFetchingPaymentMethods) && (
+                  <Spinner
+                    color="green.500"
+                    size="md"
+                    thickness="4px"
+                    speed="0.5s"
+                  />
+                )}
               </HStack>
             </Box>
 
@@ -141,10 +125,7 @@ const TransactionsPage: NextPage = () => {
                     Segue abaixo uma tabela com todos os métodos de pagamento
                     cadastros.
                     <Flex width="100%" height="100%" paddingY="4" margin="auto">
-                      <TablePaymentMethodsComponent
-                        paymentMethods={listPaymentMethods}
-                        isLoading={isLoadingPaymentMethods}
-                      />
+                      <TablePaymentMethods />
                     </Flex>
                   </AccordionPanel>
                 </AccordionItem>
@@ -181,10 +162,7 @@ const TransactionsPage: NextPage = () => {
                     Segue abaixo uma tabela com todos os credores/devedor
                     cadastros.
                     <Flex width="100%" height="100%" paddingY="4" margin="auto">
-                      <TableCreditorsDebtorsComponent
-                        creditorsDebtors={listCreditorsDebtors}
-                        isLoading={isLoadingCreditorsDebtors}
-                      />
+                      <TableCreditorsDebtors />
                     </Flex>
                   </AccordionPanel>
                 </AccordionItem>

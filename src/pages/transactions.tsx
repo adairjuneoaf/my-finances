@@ -23,8 +23,8 @@ import {
 // Components Imports
 import HeaderComponent from "../components/Header";
 import DrawerComponent from "../components/Drawer";
+import TableTransactions from "../components/TableTransactions";
 import SideBarNavigationComponent from "../components/SideBarNavigation";
-import TableTransactionsComponent from "../components/TableTransactions";
 
 // Contexts Imports
 import { ContextDrawer } from "../contexts/contextDrawer";
@@ -36,7 +36,7 @@ import { useReactQuery } from "../hooks/useReactQuery";
 import { FiSearch } from "react-icons/fi";
 import { RiAddFill } from "react-icons/ri";
 
-const SIZE_PER_LOAD = 8;
+const SIZE_PER_LOAD = 5;
 
 const TransactionsPage: NextPage = () => {
   const { handleDrawerNewTransaction } = useContext(ContextDrawer);
@@ -138,16 +138,7 @@ const TransactionsPage: NextPage = () => {
               </InputGroup>
 
               <Box as="div" paddingX="8">
-                <TableTransactionsComponent
-                  transactions={transactionsList}
-                  isLoading={isLoading}
-                  currentCount={Number(transactionsList?.length)}
-                  totalCount={Number(data?.length)}
-                  hasLoadMore={!!(loadMore < Number(data?.length))}
-                  loadMore={() => {
-                    setLoadMore(loadMore + SIZE_PER_LOAD);
-                  }}
-                />
+                <TableTransactions />
               </Box>
             </Box>
           </Flex>

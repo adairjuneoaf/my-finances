@@ -1,5 +1,5 @@
 // Imports React
-import React from "react";
+import React, { useState } from "react";
 
 // Imports Next
 import { useRouter } from "next/router";
@@ -23,29 +23,32 @@ import TableHead from "./TableHead";
 import TableBody from "./TableBody";
 import SkeletonBody from "./SkeletonBody";
 
+// Hooks Imports
+import { useReactQuery } from "../../hooks/useReactQuery";
+
 // Another Imports
 import { FiZoomIn } from "react-icons/fi";
 
-// Typings[TypeScript]
-import { TransactionDataType } from "../../@types/TransactionDataType";
-type TableTransactionsData = {
-  loadMore?: () => void;
-  isLoading?: boolean;
-  totalCount?: number;
-  hasLoadMore?: boolean;
-  currentCount?: number;
-  transactions?: Array<TransactionDataType>;
-};
+const SIZE_PER_LOAD = 5;
 
-const TableTransactionsComponent: React.FC<TableTransactionsData> = ({
-  loadMore,
-  isLoading,
-  hasLoadMore,
-  transactions,
-  totalCount = 0,
-  currentCount = 0,
-}) => {
+const TableTransactionsComponent: React.FC = () => {
   const { asPath } = useRouter();
+
+  const { transactions } = useReactQuery();
+
+  const { data, isLoading } = transactions;
+
+  const [loadMore, setLoadMore] = useState(SIZE_PER_LOAD);
+
+  const currentTransactions = data
+    ?.slice(0, loadMore)
+    .map((transaction) => transaction);
+
+  let hasLoadMore = !!(loadMore < Number(data?.length));
+
+  const loadMoreTransactions = () => {
+    setLoadMore(loadMore + SIZE_PER_LOAD);
+  };
 
   return (
     <TableContainer
@@ -59,7 +62,7 @@ const TableTransactionsComponent: React.FC<TableTransactionsData> = ({
           <TableHead />
         </Thead>
         <Tbody>
-          {!transactions && !isLoading && (
+          {!data && !isLoading && (
             <Tr>
               <Th
                 colSpan={5}
@@ -75,12 +78,12 @@ const TableTransactionsComponent: React.FC<TableTransactionsData> = ({
           )}
 
           {!isLoading &&
-            transactions &&
-            transactions?.map((data, idx) => {
+            data &&
+            currentTransactions?.map((data, idx) => {
               return <TableBody key={data.id} {...data} index={idx + 1} />;
             })}
 
-          {isLoading && !transactions && (
+          {isLoading && !data && (
             <>
               <SkeletonBody />
               <SkeletonBody />
@@ -95,8 +98,10 @@ const TableTransactionsComponent: React.FC<TableTransactionsData> = ({
           <Tfoot>
             <Tr>
               <Th
-                colSpan={5}
-                paddingTop="6"
+                colSpan={6}
+                width="100%"
+                paddingTop="8"
+                paddingBottom="0"
                 textTransform="none"
                 color="gray.300"
               >
@@ -115,7 +120,6 @@ const TableTransactionsComponent: React.FC<TableTransactionsData> = ({
                 width="100%"
                 paddingTop="8"
                 paddingBottom="0"
-                paddingX="0"
                 textTransform="none"
                 color="gray.300"
               >
@@ -126,16 +130,17 @@ const TableTransactionsComponent: React.FC<TableTransactionsData> = ({
                   gap="4"
                 >
                   <Text fontSize="13px">
-                    {currentCount} lançamentos exibidos de {totalCount} no total
+                    {currentTransactions?.length} lançamentos exibidos de{" "}
+                    {data?.length} no total
                   </Text>
                   <Button
                     type="button"
                     width="100%"
                     colorScheme="green"
                     leftIcon={<FiZoomIn fontSize="22" />}
-                    onClick={loadMore}
+                    onClick={loadMoreTransactions}
                   >
-                    Mostrar mais
+                    Mostrar mais lançamentos
                   </Button>
                 </Flex>
               </Th>
@@ -151,7 +156,6 @@ const TableTransactionsComponent: React.FC<TableTransactionsData> = ({
                 width="100%"
                 paddingTop="8"
                 paddingBottom="0"
-                paddingX="0"
                 textTransform="none"
                 color="gray.300"
               >
@@ -161,11 +165,12 @@ const TableTransactionsComponent: React.FC<TableTransactionsData> = ({
                   justifyContent="space-between"
                 >
                   <Text>
-                    ** Fim da lista, não existem mais registros há serem
+                    ** Fim da lista, não existem mais lançamentos há serem
                     carregados.
                   </Text>
                   <Text fontSize="13px">
-                    {currentCount} lançamentos exibidos de {totalCount} no total
+                    {currentTransactions?.length} lançamentos exibidos de{" "}
+                    {data?.length} no total
                   </Text>
                 </Flex>
               </Th>

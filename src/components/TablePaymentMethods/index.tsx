@@ -1,35 +1,65 @@
 // Imports React
-import React from "react";
+import React, { useState } from "react";
 
 // Imports Next
 
 // Chakra Imports
-import { Table, Tbody, Thead, Tr, Th, Tfoot, TableContainer, HStack, Spinner } from "@chakra-ui/react";
+import {
+  Tr,
+  Th,
+  Text,
+  Flex,
+  Tfoot,
+  Table,
+  Tbody,
+  Thead,
+  TableContainer,
+  Button,
+} from "@chakra-ui/react";
 
 // Components Imports
 import TableHead from "./TableHead";
 import TableBody from "./TableBody";
+import SkeletonBody from "./SkeletonBody";
+
+// Hooks Imports
+import { useReactQuery } from "../../hooks/useReactQuery";
 
 // Another Imports
+import { FiZoomIn } from "react-icons/fi";
 
-// Typings[TypeScript]
-import { PaymentMethodType } from "../../@types/PaymentMethodType";
+const SIZE_PER_LOAD = 5;
 
-type TablePaymentMethodsData = {
-  paymentMethods?: Array<PaymentMethodType>;
-  isLoading?: boolean;
-};
+const TablePaymentMethodsComponent: React.FC = () => {
+  const { paymentMethods } = useReactQuery();
 
-const TablePaymentMethodsComponent: React.FC<TablePaymentMethodsData> = ({ paymentMethods, isLoading }) => {
+  const { data, isLoading } = paymentMethods;
+
+  const [loadMore, setLoadMore] = useState(SIZE_PER_LOAD);
+
+  const currentPaymentMethods = data
+    ?.slice(0, loadMore)
+    .map((paymentMethod) => paymentMethod);
+
+  let hasLoadMore = !!(loadMore < Number(data?.length));
+
+  const loadMorePaymentMethods = () => {
+    setLoadMore(loadMore + SIZE_PER_LOAD);
+  };
 
   return (
-    <TableContainer width="100%" backgroundColor="gray.800" padding="8" borderRadius="10">
+    <TableContainer
+      width="100%"
+      backgroundColor="gray.800"
+      padding="8"
+      borderRadius="10"
+    >
       <Table colorScheme="whiteAlpha" variant="simple" whiteSpace="normal">
         <Thead>
           <TableHead />
         </Thead>
         <Tbody>
-          {!paymentMethods && !isLoading && (
+          {!data && !isLoading && (
             <Tr>
               <Th
                 colSpan={5}
@@ -44,21 +74,54 @@ const TablePaymentMethodsComponent: React.FC<TablePaymentMethodsData> = ({ payme
             </Tr>
           )}
           {!isLoading &&
-            paymentMethods &&
-            paymentMethods?.map((data, idx) => {
+            data &&
+            currentPaymentMethods?.map((data, idx) => {
               return <TableBody key={data.id} {...data} index={idx + 1} />;
             })}
-          {isLoading && !paymentMethods && (
-            <Tr>
-              <Th colSpan={5} textTransform="none" color="gray.300">
-                <HStack spacing="4" marginY="6" alignItems="center" justifyContent="center">
-                  <Spinner color="green.500" size="md" thickness="4px" speed="0.5s" />
-                </HStack>
-              </Th>
-            </Tr>
+
+          {isLoading && !data && (
+            <>
+              <SkeletonBody />
+              <SkeletonBody />
+              <SkeletonBody />
+            </>
           )}
         </Tbody>
-        <Tfoot height='4' />
+        <Tfoot>
+          <Tr>
+            <Th
+              colSpan={6}
+              width="100%"
+              paddingTop="8"
+              paddingBottom="0"
+              textTransform="none"
+              color="gray.300"
+            >
+              <Flex
+                alignItems="flex-end"
+                flexDirection="column"
+                justifyContent="space-between"
+                gap="4"
+              >
+                <Text fontSize="13px">
+                  {currentPaymentMethods?.length} métodos de pagamento exibidos
+                  de {data?.length} no total
+                </Text>
+                {hasLoadMore && (
+                  <Button
+                    type="button"
+                    width="100%"
+                    colorScheme="green"
+                    leftIcon={<FiZoomIn fontSize="22" />}
+                    onClick={loadMorePaymentMethods}
+                  >
+                    Mostrar mais métodos de pagamentos
+                  </Button>
+                )}
+              </Flex>
+            </Th>
+          </Tr>
+        </Tfoot>
       </Table>
     </TableContainer>
   );

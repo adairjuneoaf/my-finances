@@ -7,16 +7,16 @@ import {
   HStack,
   VStack,
   Button,
-  Spinner,
+  FormLabel,
   DrawerBody,
   RadioGroup,
   FormControl,
   DrawerFooter,
   FormErrorMessage,
-  FormLabel,
 } from "@chakra-ui/react";
 
 // Component Imports
+import SkeletonComponent from "../Skeleton";
 import { InputComponent } from "../Form/Input";
 import { InputTextAreaComponent } from "../Form/InputTextArea";
 
@@ -39,6 +39,7 @@ export const GetFormFieldsPaymentMethod = () => {
   const { handleSubmit, register, formState, reset, control, setValue } =
     useForm<PaymentMethodType>({
       resolver: yupResolver(validationPaymentMethodForm),
+      mode: "onBlur",
     });
 
   const {
@@ -54,10 +55,9 @@ export const GetFormFieldsPaymentMethod = () => {
 
   const { errors, isSubmitting } = formState;
 
-  const submitPaymentMethod: SubmitHandler<PaymentMethodType> = async ({
-    id,
-    ...data
-  }) => {
+  const submitPaymentMethod: SubmitHandler<
+    Omit<PaymentMethodType, "id" | "createdAt">
+  > = async (data) => {
     await new Promise((resolve) => {
       setTimeout(() => {
         console.log({ ...data });
@@ -94,23 +94,8 @@ export const GetFormFieldsPaymentMethod = () => {
           handleIsLoadingDataForEdit();
         });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEditing]);
-
-  if (isLoadingDataForEdit) {
-    return (
-      <DrawerBody
-        as="div"
-        width="100%"
-        height="100%"
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <Spinner color="green.500" size="md" thickness="4px" speed="0.5s" />
-      </DrawerBody>
-    );
-  }
 
   return (
     <Fragment>
@@ -137,6 +122,7 @@ export const GetFormFieldsPaymentMethod = () => {
             type="text"
             label="Título do método de pagamento"
             isRequired
+            isLoadingValue={isLoadingDataForEdit}
             {...register("title")}
             errorInput={errors.title}
           />
@@ -158,16 +144,18 @@ export const GetFormFieldsPaymentMethod = () => {
                 name="status"
                 control={control}
                 render={({ field }) => (
-                  <RadioGroup {...field}>
-                    <HStack spacing="3">
-                      <Radio value="0" colorScheme="red">
-                        Inativo
-                      </Radio>
-                      <Radio value="1" colorScheme="green">
-                        Ativo
-                      </Radio>
-                    </HStack>
-                  </RadioGroup>
+                  <SkeletonComponent isLoading={isLoadingDataForEdit}>
+                    <RadioGroup {...field}>
+                      <HStack spacing="3">
+                        <Radio value="0" colorScheme="red">
+                          Inativo
+                        </Radio>
+                        <Radio value="1" colorScheme="green">
+                          Ativo
+                        </Radio>
+                      </HStack>
+                    </RadioGroup>
+                  </SkeletonComponent>
                 )}
               />
               {errors.status && (
@@ -181,6 +169,7 @@ export const GetFormFieldsPaymentMethod = () => {
           <InputTextAreaComponent
             id="anotherInformation"
             label="Outras informações"
+            isLoadingValue={isLoadingDataForEdit}
             placeholder="Outras informações relevantes sobre o método de pagamento..."
             {...register("anotherInformation")}
             errorInput={errors.anotherInformation}

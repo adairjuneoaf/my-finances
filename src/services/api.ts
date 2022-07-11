@@ -64,12 +64,13 @@ export const getUniqueTransaction = async (id: string) => {
  * transactions do FaunaDB.
  */
 export const postUniqueTransaction = async (
-  transactionData: Omit<TransactionDataType, "id">
+  transactionData: Omit<TransactionDataType, "id" | "createdAt">
 ) => {
   const data = await apiRoute
     .post("/transactions", {
       transactionData: {
         id: uuid(),
+        createdAt: new Date().getTime(),
         ...transactionData,
       },
     })
@@ -193,12 +194,13 @@ export const getUniquePaymentMethod = async (id: string) => {
  * na collection de paymentMethods no FaunaDB.
  */
 export const postUniquePaymentMethod = async (
-  paymentMethodData: Omit<PaymentMethodType, "id">
+  paymentMethodData: Omit<PaymentMethodType, "id" | "createdAt">
 ) => {
   const data = await apiRoute
     .post("/payment_method", {
       paymentMethodData: {
         id: uuid(),
+        createdAt: new Date().getTime(),
         ...paymentMethodData,
       },
     })
@@ -318,12 +320,13 @@ export const getUniqueCreditorDebtor = async (id: string) => {
  * na collection de creditorDebtors no FaunaDB.
  */
 export const postUniqueCreditorDebtor = async (
-  creditorDebtorData: Omit<CreditorDebtorType, "id">
+  creditorDebtorData: Omit<CreditorDebtorType, "id" | "createdAt">
 ) => {
   const data = await apiRoute
     .post("/creditor_debtor", {
       creditorDebtorData: {
         id: uuid(),
+        createdAt: new Date().getTime(),
         ...creditorDebtorData,
       },
     })

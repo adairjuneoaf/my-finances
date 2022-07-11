@@ -3,22 +3,20 @@ import { Fragment, useContext, useEffect } from "react";
 
 // Chakra Imports
 import {
-  Text,
   Radio,
   HStack,
   VStack,
   Button,
-  Spinner,
+  FormLabel,
   DrawerBody,
   RadioGroup,
-  DrawerFooter,
   FormControl,
+  DrawerFooter,
   FormErrorMessage,
-  FormLabel,
-  Skeleton,
 } from "@chakra-ui/react";
 
 // Component Imports
+import SkeletonComponent from "../Skeleton";
 import { InputComponent } from "../Form/Input";
 import { SelectComponent } from "../Form/Select";
 import { InputValueComponent } from "../Form/InputValue";
@@ -41,7 +39,6 @@ import { FiSave, FiX } from "react-icons/fi";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import validationTransactionForm from "./formValidationTransactions";
-import SkeletonComponent from "../Skeleton";
 
 export const GetFormFieldsTransaction = () => {
   const {
@@ -76,10 +73,9 @@ export const GetFormFieldsTransaction = () => {
   const { data: creditorsDebtorsList } = creditorsDebtors;
   const { data: paymentMethodsList } = paymentMethods;
 
-  const submitTransaction: SubmitHandler<TransactionDataType> = async ({
-    id,
-    ...data
-  }) => {
+  const submitTransaction: SubmitHandler<
+    Omit<TransactionDataType, "id" | "createdAt">
+  > = async (data) => {
     await new Promise((resolve) => {
       setTimeout(() => {
         console.log({ ...data });
@@ -135,6 +131,7 @@ export const GetFormFieldsTransaction = () => {
           handleIsLoadingDataForEdit();
         });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEditing]);
 
   return (

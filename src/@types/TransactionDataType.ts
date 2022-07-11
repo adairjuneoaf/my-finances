@@ -3,6 +3,7 @@ export type TransactionDataType = {
   type: string;
   title: string;
   status: string;
+  createdAt: number;
   description: string;
   paymentMethod: string;
   dataForPayment: string;

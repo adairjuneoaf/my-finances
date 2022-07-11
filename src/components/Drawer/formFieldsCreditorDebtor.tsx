@@ -3,21 +3,20 @@ import { Fragment, useContext, useEffect } from "react";
 
 // Chakra Imports
 import {
-  Text,
   Radio,
   HStack,
   VStack,
   Button,
-  Spinner,
+  FormLabel,
   DrawerBody,
   RadioGroup,
   FormControl,
   DrawerFooter,
   FormErrorMessage,
-  FormLabel,
 } from "@chakra-ui/react";
 
 // Component Imports
+import SkeletonComponent from "../Skeleton";
 import { InputComponent } from "../Form/Input";
 import { InputTextAreaComponent } from "../Form/InputTextArea";
 
@@ -40,6 +39,7 @@ export const GetFormFieldsCreditorDebtor = () => {
   const { handleSubmit, register, formState, reset, control, setValue } =
     useForm<CreditorDebtorType>({
       resolver: yupResolver(validationCreditorDebtorForm),
+      mode: "onBlur",
     });
 
   const {
@@ -55,10 +55,9 @@ export const GetFormFieldsCreditorDebtor = () => {
 
   const { errors, isSubmitting } = formState;
 
-  const submitCreditorDebtor: SubmitHandler<CreditorDebtorType> = async ({
-    id,
-    ...data
-  }) => {
+  const submitCreditorDebtor: SubmitHandler<
+    Omit<CreditorDebtorType, "id" | "createdAt">
+  > = async (data) => {
     await new Promise((resolve) => {
       setTimeout(() => {
         console.log({ ...data });
@@ -95,23 +94,8 @@ export const GetFormFieldsCreditorDebtor = () => {
           handleIsLoadingDataForEdit();
         });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEditing]);
-
-  if (isLoadingDataForEdit) {
-    return (
-      <DrawerBody
-        as="div"
-        width="100%"
-        height="100%"
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-      >
-        <Spinner color="green.500" size="md" thickness="4px" speed="0.5s" />
-      </DrawerBody>
-    );
-  }
 
   return (
     <Fragment>
@@ -138,6 +122,7 @@ export const GetFormFieldsCreditorDebtor = () => {
             type="text"
             label="Nome do Credor/Devedor"
             isRequired
+            isLoadingValue={isLoadingDataForEdit}
             {...register("title")}
             errorInput={errors.title}
           />
@@ -159,16 +144,18 @@ export const GetFormFieldsCreditorDebtor = () => {
                 name="status"
                 control={control}
                 render={({ field }) => (
-                  <RadioGroup {...field}>
-                    <HStack spacing="3">
-                      <Radio value="0" colorScheme="red">
-                        Inativo
-                      </Radio>
-                      <Radio value="1" colorScheme="green">
-                        Ativo
-                      </Radio>
-                    </HStack>
-                  </RadioGroup>
+                  <SkeletonComponent isLoading={isLoadingDataForEdit}>
+                    <RadioGroup {...field}>
+                      <HStack spacing="3">
+                        <Radio value="0" colorScheme="red">
+                          Inativo
+                        </Radio>
+                        <Radio value="1" colorScheme="green">
+                          Ativo
+                        </Radio>
+                      </HStack>
+                    </RadioGroup>
+                  </SkeletonComponent>
                 )}
               />
               {errors.status && (
@@ -182,6 +169,7 @@ export const GetFormFieldsCreditorDebtor = () => {
           <InputTextAreaComponent
             id="anotherInformation"
             label="Outras informações"
+            isLoadingValue={isLoadingDataForEdit}
             placeholder="Outras informações relevantes sobre o Credor/Devedor..."
             {...register("anotherInformation")}
             errorInput={errors.anotherInformation}

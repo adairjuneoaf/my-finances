@@ -1,5 +1,5 @@
 // Imports React
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 // Imports Next
 import { useRouter } from "next/router";
@@ -28,6 +28,7 @@ import { useReactQuery } from "../../hooks/useReactQuery";
 
 // Another Imports
 import { FiZoomIn } from "react-icons/fi";
+import _ from "lodash";
 
 const SIZE_PER_LOAD = 5;
 
@@ -40,9 +41,13 @@ const TableTransactionsComponent: React.FC = () => {
 
   const [loadMore, setLoadMore] = useState(SIZE_PER_LOAD);
 
-  const currentTransactions = data
-    ?.slice(0, loadMore)
-    .map((transaction) => transaction);
+  const currentTransactions = useMemo(() => {
+    const dataOrdered = _.orderBy(data, ["dateEntriesTransaction"], ["desc"])
+      ?.slice(0, loadMore)
+      .map((transaction) => transaction);
+
+    return dataOrdered;
+  }, [data, loadMore]);
 
   let hasLoadMore = !!(loadMore < Number(data?.length));
 

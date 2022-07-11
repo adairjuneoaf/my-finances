@@ -5,7 +5,7 @@ import React from "react";
 import NextLink from "next/link";
 
 // Chakra Imports
-import { Avatar, IconButton, Text, Wrap, WrapItem, Flex, Tooltip, Image, HStack } from "@chakra-ui/react";
+import { Text, Flex, Image, HStack } from "@chakra-ui/react";
 
 // Components Imports
 
@@ -22,7 +22,7 @@ const LogoComponent: React.FC = () => {
         cursor="pointer"
         title="my.finance$"
       >
-        <Image src="/logo.svg" width="36px" height="auto" />
+        <Image src="/logo.svg" width="36px" height="auto" alt="" />
         <HStack spacing="0" fontSize="24px" fontWeight="700" color="white">
           <Text>my</Text>
           <Text>.</Text>

@@ -36,19 +36,12 @@ import { useReactQuery } from "../hooks/useReactQuery";
 import { FiSearch } from "react-icons/fi";
 import { RiAddFill } from "react-icons/ri";
 
-const SIZE_PER_LOAD = 5;
-
 const TransactionsPage: NextPage = () => {
   const { handleDrawerNewTransaction } = useContext(ContextDrawer);
-  const [loadMore, setLoadMore] = useState(SIZE_PER_LOAD);
 
   const { transactions } = useReactQuery();
 
-  const { data, isFetching, isLoading } = transactions;
-
-  const transactionsList = data
-    ?.slice(0, loadMore)
-    .map((transaction) => transaction);
+  const { isFetching, isLoading } = transactions;
 
   return (
     <Fragment>

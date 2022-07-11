@@ -29,8 +29,6 @@ const DashboardPage: NextPage = () => {
 
   const { data, isFetching, isLoading } = transactions;
 
-  const transactionsList = data?.slice(0, 5);
-
   const TotalInput = useRef<number | undefined>(0);
   const TotalOutput = useRef<number | undefined>(0);
   const TotalBalance = useRef<number | undefined>(0);
@@ -135,10 +133,7 @@ const DashboardPage: NextPage = () => {
               </HStack>
 
               <Box as="div" paddingX="8">
-                <TableTransactionsComponent
-                  transactions={transactionsList}
-                  isLoading={isLoading}
-                />
+                <TableTransactionsComponent />
               </Box>
             </Box>
           </Flex>

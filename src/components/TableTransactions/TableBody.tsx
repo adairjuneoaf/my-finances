@@ -9,9 +9,9 @@ import { Badge, Th, Tr } from "@chakra-ui/react";
 
 // Typings[TypeScript]
 import { TransactionDataType } from "../../@types/TransactionDataType";
+import { formatValueToMoney } from "../../utils/formatValueToMoney";
 interface TableBodyProps extends TransactionDataType {
   index: number;
-  valueTransactionFormatted?: string;
 }
 
 const TableBody: React.FC<TableBodyProps> = ({
@@ -20,7 +20,7 @@ const TableBody: React.FC<TableBodyProps> = ({
   type,
   status,
   title,
-  valueTransactionFormatted,
+  valueTransaction,
 }) => {
   return (
     <Fragment>
@@ -56,7 +56,7 @@ const TableBody: React.FC<TableBodyProps> = ({
           {title}
         </Th>
         <Th isNumeric fontSize="16px" color="gray.100">
-          {valueTransactionFormatted}
+          {formatValueToMoney(valueTransaction)}
         </Th>
         <Th fontSize="16px" color="gray.100">
           <PopoverSubMenuComponent transactionID={id} />

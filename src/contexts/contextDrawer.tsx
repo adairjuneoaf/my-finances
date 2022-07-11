@@ -28,6 +28,7 @@ const ContextDrawerProvider = ({ children }: ContextDrawerProviderProps) => {
     if (disclosure.isOpen) {
       disclosure.onClose();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [route]);
 
   /**

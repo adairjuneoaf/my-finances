@@ -1,9 +1,8 @@
 // AXIOS Imports
-import { api, apiRoute } from "./axios";
+import { apiRoute } from "./axios";
 
 // Utils Imports
 import { formatDate } from "../utils/formatDate";
-import { formatValueToMoney } from "../utils/formatValueToMoney";
 
 // Another Imports
 import { v4 as uuid } from "uuid";
@@ -14,37 +13,11 @@ import { CreditorDebtorType } from "./../@types/CreditorDebtorType";
 import { PaymentMethodType } from "./../@types/PaymentMethodType";
 import { DataResponseAPI } from "../@types/DataResponseAPI";
 
-interface AllTransactionsFormatted extends TransactionDataType {
-  valueTransactionFormatted: string;
-}
-
 /**
  * @returns Função de retorno dos dados de todas as transações armazenadas
  * na API FAKE.
  */
 export const getAllTransactions = async () => {
-  const listTransactions: Array<AllTransactionsFormatted> = await api
-    .get("/transactions")
-    .then((response) => {
-      return response.data;
-    })
-    .catch((error) => {
-      return console.error("Error", error.message);
-    });
-
-  const data = listTransactions.map((transaction) => ({
-    ...transaction,
-    valueTransactionFormatted: formatValueToMoney(transaction.valueTransaction),
-  }));
-
-  return data;
-};
-
-/**
- * @returns Função de retorno dos dados de todas as transações armazenadas
- * no FaunaDB.
- */
-export const getAllTransactionsAPIRoute = async () => {
   const data: DataResponseAPI<TransactionDataType> = await apiRoute
     .get("/transactions")
     .then((response) => {
@@ -54,12 +27,7 @@ export const getAllTransactionsAPIRoute = async () => {
       return console.error("Error", error.message);
     });
 
-  const transactions = data.payload.map((transaction) => ({
-    ...transaction,
-    valueTransactionFormatted: formatValueToMoney(transaction.valueTransaction),
-  }));
-
-  return { transactions };
+  return data.payload;
 };
 
 /**
@@ -70,30 +38,6 @@ export const getAllTransactionsAPIRoute = async () => {
  * preferência.
  */
 export const getUniqueTransaction = async (id: string) => {
-  const data: TransactionDataType = await api
-    .get(`/transactions/${id}`)
-    .then((response) => {
-      return response.data;
-    })
-    .catch((error) => {
-      return console.error("Error", error.message);
-    });
-
-  return {
-    ...data,
-    dateDueTransaction: formatDate(data.dateDueTransaction),
-    dateEntriesTransaction: formatDate(data.dateEntriesTransaction),
-  };
-};
-
-/**
- * @returns Função de retorno dos dados de UMA única transação armazenada
- * no FaunaDB.
- *
- * @id transactionID para fazer a busca do método de pagamento de
- * preferência.
- */
-export const getUniqueTransactionAPIRoute = async (id: string) => {
   const data: TransactionDataType = await apiRoute
     .get(`/transactions/${id}`)
     .then((response) => {
@@ -109,8 +53,6 @@ export const getUniqueTransactionAPIRoute = async (id: string) => {
     dateEntriesTransaction: formatDate(data.dateEntriesTransaction),
   };
 
-  console.log(dataFormatted);
-
   return dataFormatted;
 };
 
@@ -121,7 +63,7 @@ export const getUniqueTransactionAPIRoute = async (id: string) => {
  * @transactionData Dados da transação para serem inseridos na collection de
  * transactions do FaunaDB.
  */
-export const postUniqueTransactionAPIRoute = async (
+export const postUniqueTransaction = async (
   transactionData: Omit<TransactionDataType, "id">
 ) => {
   const data = await apiRoute
@@ -152,7 +94,7 @@ export const postUniqueTransactionAPIRoute = async (
  * @transactionData Dados da transação para serem inseridos na alteração dentro
  * da collection de transactions do FaunaDB.
  */
-export const putUniqueTransactionAPIRoute = async (
+export const putUniqueTransaction = async (
   id: string,
   transactionData: Omit<TransactionDataType, "id">
 ) => {
@@ -184,7 +126,7 @@ export const putUniqueTransactionAPIRoute = async (
  * @param transactionData Tipo do `STATUS` da transação para ser realizada
  * alteração na collection do FaunaDB.
  */
-export const patchUniqueTransactionAPIRoute = async (
+export const patchUniqueTransaction = async (
   id: string,
   transactionData: Pick<TransactionDataType, "status">
 ) => {
@@ -211,23 +153,6 @@ export const patchUniqueTransactionAPIRoute = async (
  * armazenados na API FAKE.
  */
 export const getAllPaymentMethods = async () => {
-  const data: Array<PaymentMethodType> = await api
-    .get("/payment_method")
-    .then((response) => {
-      return response.data;
-    })
-    .catch((error) => {
-      return console.error("Error", error.message);
-    });
-
-  return data;
-};
-
-/**
- * @returns Função de retorno dos dados de todos os métodos de pagamento
- * armazenados no FaunaDB.
- */
-export const getAllPaymentMethodsAPIRoute = async () => {
   const data: DataResponseAPI<PaymentMethodType> = await apiRoute
     .get("/payment_method")
     .then((response) => {
@@ -237,9 +162,7 @@ export const getAllPaymentMethodsAPIRoute = async () => {
       return console.error("Error", error.message);
     });
 
-  console.log(data);
-
-  return data;
+  return data.payload;
 };
 
 /**
@@ -250,26 +173,6 @@ export const getAllPaymentMethodsAPIRoute = async () => {
  * preferência.
  */
 export const getUniquePaymentMethod = async (id: string) => {
-  const data: PaymentMethodType = await api
-    .get(`/payment_method/${id}`)
-    .then((response) => {
-      return response.data;
-    })
-    .catch((error) => {
-      return console.error("Error", error.message);
-    });
-
-  return data;
-};
-
-/**
- * @returns Função de retorno dos dados de UM único método de pagamento
- * armazenado no FaunaDB.
- *
- * @id paymentMethodID para fazer a busca do método de pagamento de
- * preferência.
- */
-export const getUniquePaymentMethodAPIRoute = async (id: string) => {
   const data: PaymentMethodType = await apiRoute
     .get(`/payment_method/${id}`)
     .then((response) => {
@@ -278,8 +181,6 @@ export const getUniquePaymentMethodAPIRoute = async (id: string) => {
     .catch((error) => {
       return console.error("Error", error.message);
     });
-
-  console.log(data);
 
   return data;
 };
@@ -291,7 +192,7 @@ export const getUniquePaymentMethodAPIRoute = async (id: string) => {
  * @paymentMethodData Dados do método de pagamento que serão armazenados
  * na collection de paymentMethods no FaunaDB.
  */
-export const postUniquePaymentMethodAPIRoute = async (
+export const postUniquePaymentMethod = async (
   paymentMethodData: Omit<PaymentMethodType, "id">
 ) => {
   const data = await apiRoute
@@ -308,8 +209,6 @@ export const postUniquePaymentMethodAPIRoute = async (
       console.error("Error: ", error.message);
     });
 
-  console.log(data);
-
   return data;
 };
 
@@ -323,7 +222,7 @@ export const postUniquePaymentMethodAPIRoute = async (
  * @paymentMethodData Dados do método de pagamento para serem inseridos na
  * alteração dentro da collection de paymentMethods do FaunaDB.
  */
-export const putUniquePaymentMethodAPIRoute = async (
+export const putUniquePaymentMethod = async (
   id: string,
   paymentMethodData: Omit<PaymentMethodType, "id">
 ) => {
@@ -341,8 +240,6 @@ export const putUniquePaymentMethodAPIRoute = async (
       return console.error("Error", error.message);
     });
 
-  console.log(data);
-
   return data;
 };
 
@@ -356,7 +253,7 @@ export const putUniquePaymentMethodAPIRoute = async (
  * @param paymentMethodData Tipo do `STATUS` do método de pagamento para
  * ser realizada alteração na collection do FaunaDB.
  */
-export const patchUniquePaymentMethodAPIRoute = async (
+export const patchUniquePaymentMethod = async (
   id: string,
   paymentMethodData: Pick<PaymentMethodType, "status">
 ) => {
@@ -373,8 +270,6 @@ export const patchUniquePaymentMethodAPIRoute = async (
       return console.error("Error", error.message);
     });
 
-  console.log(data);
-
   return data;
 };
 
@@ -383,23 +278,6 @@ export const patchUniquePaymentMethodAPIRoute = async (
  * armazenados na API FAKE.
  */
 export const getAllCreditorsDebtors = async () => {
-  const data: Array<CreditorDebtorType> = await api
-    .get("/creditor_debtor")
-    .then((response) => {
-      return response.data;
-    })
-    .catch((error) => {
-      return console.error("Error", error.message);
-    });
-
-  return data;
-};
-
-/**
- * @returns Função de retorno dos dados de todos os credores/devedores
- * armazenados no FaunaDB.
- */
-export const getAllCreditorsDebtorsAPIRoute = async () => {
   const data: DataResponseAPI<CreditorDebtorType> = await apiRoute
     .get("/creditor_debtor")
     .then((response) => {
@@ -409,9 +287,7 @@ export const getAllCreditorsDebtorsAPIRoute = async () => {
       return console.error("Error", error.message);
     });
 
-  console.log(data);
-
-  return data;
+  return data.payload;
 };
 
 /**
@@ -422,26 +298,6 @@ export const getAllCreditorsDebtorsAPIRoute = async () => {
  * preferência.
  */
 export const getUniqueCreditorDebtor = async (id: string) => {
-  const data: CreditorDebtorType = await api
-    .get(`/creditor_debtor/${id}`)
-    .then((response) => {
-      return response.data;
-    })
-    .catch((error) => {
-      return console.error("Error", error.message);
-    });
-
-  return data;
-};
-
-/**
- * @returns Função de retorno dos dados de UM único credor/devedor
- * armazenado no FaunaDB.
- *
- * @id creditorDebtorID para fazer a busca do método de pagamento de
- * preferência.
- */
-export const getUniqueCreditorDebtorAPIRoute = async (id: string) => {
   const data: CreditorDebtorType = await apiRoute
     .get(`/creditor_debtor/${id}`)
     .then((response) => {
@@ -450,8 +306,6 @@ export const getUniqueCreditorDebtorAPIRoute = async (id: string) => {
     .catch((error) => {
       return console.error("Error", error.message);
     });
-
-  console.log(data);
 
   return data;
 };
@@ -463,7 +317,7 @@ export const getUniqueCreditorDebtorAPIRoute = async (id: string) => {
  * @creditorDebtorData Dados do credor/devedor que serão armazenados
  * na collection de creditorDebtors no FaunaDB.
  */
-export const postUniqueCreditorDebtorAPIRoute = async (
+export const postUniqueCreditorDebtor = async (
   creditorDebtorData: Omit<CreditorDebtorType, "id">
 ) => {
   const data = await apiRoute
@@ -480,8 +334,6 @@ export const postUniqueCreditorDebtorAPIRoute = async (
       console.error("Error: ", error.message);
     });
 
-  console.log(data);
-
   return data;
 };
 
@@ -494,7 +346,7 @@ export const postUniqueCreditorDebtorAPIRoute = async (
  * @param creditorDebtorData Dados do credor/devedor para serem inseridos na
  * alteração dentro da collection de creditorsDebtors do FaunaDB.
  */
-export const putUniqueCreditorDebtorAPIRoute = async (
+export const putUniqueCreditorDebtor = async (
   id: string,
   creditorDebtorData: Omit<CreditorDebtorType, "id">
 ) => {
@@ -512,8 +364,6 @@ export const putUniqueCreditorDebtorAPIRoute = async (
       return console.error("Error", error.message);
     });
 
-  console.log(data);
-
   return data;
 };
 
@@ -526,7 +376,7 @@ export const putUniqueCreditorDebtorAPIRoute = async (
  * @param creditorDebtorData Tipo do `STATUS` do credor/devedor para
  * ser realizada alteração na collection do FaunaDB.
  */
-export const patchUniqueCreditorDebtorAPIRoute = async (
+export const patchUniqueCreditorDebtor = async (
   id: string,
   creditorDebtorData: Pick<CreditorDebtorType, "status">
 ) => {
@@ -542,8 +392,6 @@ export const patchUniqueCreditorDebtorAPIRoute = async (
     .catch((error) => {
       return console.error("Error", error.message);
     });
-
-  console.log(data);
 
   return data;
 };

@@ -1,8 +1,6 @@
 // Imports React
 import React, { useContext } from 'react'
 
-// Imports Next
-
 // Chakra Imports
 import {
   Text,
@@ -15,17 +13,12 @@ import {
 } from '@chakra-ui/react'
 
 // Components Imports
-import NewTransactionBody from './newTransaction'
-import EditTransactionBody from './editTransaction'
-import NewPaymentMethod from './newPaymentMethod'
-import EditPaymentMethod from './editPaymentMethod'
-import NewCreditorDebtor from './newCreditorDebtor'
-import EditCreditorDebtor from './editCreditorDebtor'
+import { TransactionBody } from './transaction'
+import { PaymentMethodBody } from './paymentMethod'
+import { CreditorDebtorBody } from './creditorDebtor'
 
 // ContextImports Imports
 import { ContextDrawer } from '../../contexts/contextDrawer'
-
-// Typings[TypeScript]
 
 const DrawerComponent: React.FC = () => {
   const { disclosure, drawerType } = useContext(ContextDrawer)
@@ -103,13 +96,9 @@ const DrawerComponent: React.FC = () => {
           </Flex>
         )}
 
-        {drawerType === 'new-transaction' && <NewTransactionBody />}
-        {drawerType === 'new-payment-method' && <NewPaymentMethod />}
-        {drawerType === 'new-creditor-debtor' && <NewCreditorDebtor />}
-
-        {drawerType === 'edit-transaction' && <EditTransactionBody />}
-        {drawerType === 'edit-payment-method' && <EditPaymentMethod />}
-        {drawerType === 'edit-creditor-debtor' && <EditCreditorDebtor />}
+        {drawerType === 'new-transaction' && 'edit-transaction' && <TransactionBody />}
+        {drawerType === 'new-payment-method' && 'edit-payment-method' && <PaymentMethodBody />}
+        {drawerType === 'new-creditor-debtor' && 'edit-creditor-debtor' && <CreditorDebtorBody />}
       </DrawerContent>
     </Drawer>
   )

@@ -16,37 +16,37 @@ import {
 } from '@chakra-ui/react'
 
 // Component Imports
-import SkeletonComponent from '../Skeleton'
-import { InputComponent } from '../Form/Input'
-import { InputTextAreaComponent } from '../Form/InputTextArea'
+import SkeletonComponent from '../../Skeleton'
+import { InputComponent } from '../../Form/Input'
+import { InputTextAreaComponent } from '../../Form/InputTextArea'
 
 // Context Imports
-import { ContextDrawer } from '../../contexts/contextDrawer'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { ContextDrawer } from '../../../contexts/contextDrawer'
 
 // ReactQuery Imports
 import { useMutation, useQueryClient } from 'react-query'
 
-// ReactHookForms Imports
-import { yupResolver } from '@hookform/resolvers/yup'
+// ReactHookForm Imports
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 
-// Validation Imports
-import validationCreditorDebtorForm from './formValidationCreditorDebtor'
-
 // API Services
-import { getUniqueCreditorDebtor, postUniqueCreditorDebtor } from '../../services/api'
+import { getUniquePaymentMethod, postUniquePaymentMethod } from '../../../services/api'
+
+// Validation Imports
+import validationPaymentMethodForm from './formValidationPaymentMethod'
 
 // Another Imports
 import { v4 as uuid } from 'uuid'
 import { FiSave, FiX } from 'react-icons/fi'
 
 // Typings[TypeScript]
-import { CreditorDebtorType } from '../../@types/CreditorDebtorType'
+import { PaymentMethodType } from '../../../@types/PaymentMethodType'
 
-export const GetFormFieldsCreditorDebtor = () => {
+export const GetFormFieldsPaymentMethod = () => {
   const { handleSubmit, register, formState, reset, control, setValue } =
-    useForm<CreditorDebtorType>({
-      resolver: yupResolver(validationCreditorDebtorForm),
+    useForm<PaymentMethodType>({
+      resolver: yupResolver(validationPaymentMethodForm),
       mode: 'onBlur',
       defaultValues: {
         title: '',
@@ -58,9 +58,9 @@ export const GetFormFieldsCreditorDebtor = () => {
   const {
     isEditing,
     disclosure,
-    creditorDebtorID,
+    paymentMethodID,
     isLoadingDataForEdit,
-    handleResetCreditorDebtorID,
+    handleResetPaymentMethodID,
     handleIsLoadingDataForEdit,
   } = useContext(ContextDrawer)
 
@@ -70,13 +70,13 @@ export const GetFormFieldsCreditorDebtor = () => {
 
   const queryClient = useQueryClient()
 
-  const { mutateAsync } = useMutation(postUniqueCreditorDebtor, {
+  const { mutateAsync } = useMutation(postUniquePaymentMethod, {
     onSuccess: () => {
-      queryClient.refetchQueries(['creditors_debtors'])
+      queryClient.refetchQueries(['payment_methods'])
     },
   })
 
-  const submitCreditorDebtor: SubmitHandler<Omit<CreditorDebtorType, 'id' | 'createdAt'>> = async (
+  const submitPaymentMethod: SubmitHandler<Omit<PaymentMethodType, 'id' | 'createdAt'>> = async (
     data,
   ) => {
     await mutateAsync(
@@ -87,31 +87,31 @@ export const GetFormFieldsCreditorDebtor = () => {
       },
       {
         onSuccess: () => {
-          console.info('Sucesso na criação do novo Credor/Devedor. ✅')
+          console.info('Sucesso na criação do novo Método de Pagamento. ✅')
           reset()
         },
         onError: () => {
-          console.warn('Error na criação do novo Credor/Devedor! ❌')
+          console.warn('Error na criação do novo Método de Pagamento! ❌')
         },
       },
     )
   }
 
-  const cancelSubmitCreditorDebtor = () => {
+  const cancelSubmitPaymentMethod = () => {
     onClose()
     reset()
 
     if (isEditing) {
-      handleResetCreditorDebtorID()
+      handleResetPaymentMethodID()
     }
   }
 
   useEffect(() => {
-    if (creditorDebtorID !== null) {
-      getUniqueCreditorDebtor(creditorDebtorID)
+    if (paymentMethodID !== null) {
+      getUniquePaymentMethod(paymentMethodID)
         .then((response) => {
           Object.entries(response).forEach(([name, value]) =>
-            setValue(name as keyof CreditorDebtorType, value),
+            setValue(name as keyof PaymentMethodType, value),
           )
           console.log(response)
         })
@@ -148,7 +148,7 @@ export const GetFormFieldsCreditorDebtor = () => {
           <InputComponent
             id='title'
             type='text'
-            label='Nome do Credor/Devedor'
+            label='Título do método de pagamento'
             isRequired
             isLoadingValue={isLoadingDataForEdit}
             {...register('title')}
@@ -160,7 +160,7 @@ export const GetFormFieldsCreditorDebtor = () => {
           <VStack alignItems='flex-start' flex='1'>
             <FormControl isInvalid={!!errors.status} isRequired>
               <FormLabel htmlFor='status' fontSize='lg' padding='0' marginY='2' fontWeight='medium'>
-                Status do Credor/Devedor
+                Status do método de pagamento
               </FormLabel>
               <Controller
                 name='status'
@@ -190,7 +190,7 @@ export const GetFormFieldsCreditorDebtor = () => {
             id='anotherInformation'
             label='Outras informações'
             isLoadingValue={isLoadingDataForEdit}
-            placeholder='Outras informações relevantes sobre o Credor/Devedor...'
+            placeholder='Outras informações relevantes sobre o método de pagamento...'
             {...register('anotherInformation')}
             errorInput={errors.anotherInformation}
           />
@@ -202,7 +202,7 @@ export const GetFormFieldsCreditorDebtor = () => {
             type='button'
             leftIcon={<FiX fontSize='18' />}
             colorScheme='red'
-            onClick={cancelSubmitCreditorDebtor}
+            onClick={cancelSubmitPaymentMethod}
             disabled={isSubmitting}
           >
             Cancelar
@@ -212,7 +212,7 @@ export const GetFormFieldsCreditorDebtor = () => {
             colorScheme='green'
             isLoading={isSubmitting}
             leftIcon={<FiSave fontSize='18' />}
-            onClick={handleSubmit(submitCreditorDebtor)}
+            onClick={handleSubmit(submitPaymentMethod)}
           >
             Salvar
           </Button>

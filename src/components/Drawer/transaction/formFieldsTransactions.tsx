@@ -16,17 +16,17 @@ import {
 } from '@chakra-ui/react'
 
 // Component Imports
-import SkeletonComponent from '../Skeleton'
-import { InputComponent } from '../Form/Input'
-import { SelectComponent } from '../Form/Select'
-import { InputValueComponent } from '../Form/InputValue'
-import { InputTextAreaComponent } from '../Form/InputTextArea'
+import SkeletonComponent from '../../Skeleton'
+import { InputComponent } from '../../Form/Input'
+import { SelectComponent } from '../../Form/Select'
+import { InputValueComponent } from '../../Form/InputValue'
+import { InputTextAreaComponent } from '../../Form/InputTextArea'
 
 // Context Imports
-import { ContextDrawer } from '../../contexts/contextDrawer'
+import { ContextDrawer } from '../../../contexts/contextDrawer'
 
 // Hook Imports
-import { useReactQuery } from '../../hooks/useReactQuery'
+import { useReactQuery } from '../../../hooks/useReactQuery'
 
 // ReactQuery Imports
 import { useMutation, useQueryClient } from 'react-query'
@@ -36,7 +36,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 
 // API Services
-import { getUniqueTransaction, postUniqueTransaction } from '../../services/api'
+import { getUniqueTransaction, postUniqueTransaction } from '../../../services/api'
 
 // Validation Imports
 import validationTransactionForm from './formValidationTransactions'
@@ -46,7 +46,7 @@ import { v4 as uuid } from 'uuid'
 import { FiSave, FiX } from 'react-icons/fi'
 
 // Typings[TypeScript]
-import { TransactionDataType } from '../../@types/TransactionDataType'
+import { TransactionDataType } from '../../../@types/TransactionDataType'
 
 export const GetFormFieldsTransaction = () => {
   const { reset, control, setValue, register, formState, handleSubmit } =

@@ -16,37 +16,37 @@ import {
 } from '@chakra-ui/react'
 
 // Component Imports
-import SkeletonComponent from '../Skeleton'
-import { InputComponent } from '../Form/Input'
-import { InputTextAreaComponent } from '../Form/InputTextArea'
+import SkeletonComponent from '../../Skeleton'
+import { InputComponent } from '../../Form/Input'
+import { InputTextAreaComponent } from '../../Form/InputTextArea'
 
 // Context Imports
-import { yupResolver } from '@hookform/resolvers/yup'
-import { ContextDrawer } from '../../contexts/contextDrawer'
+import { ContextDrawer } from '../../../contexts/contextDrawer'
 
 // ReactQuery Imports
 import { useMutation, useQueryClient } from 'react-query'
 
-// ReactHookForm Imports
+// ReactHookForms Imports
+import { yupResolver } from '@hookform/resolvers/yup'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 
-// API Services
-import { getUniquePaymentMethod, postUniquePaymentMethod } from '../../services/api'
-
 // Validation Imports
-import validationPaymentMethodForm from './formValidationPaymentMethod'
+import validationCreditorDebtorForm from './formValidationCreditorDebtor'
+
+// API Services
+import { getUniqueCreditorDebtor, postUniqueCreditorDebtor } from '../../../services/api'
 
 // Another Imports
 import { v4 as uuid } from 'uuid'
 import { FiSave, FiX } from 'react-icons/fi'
 
 // Typings[TypeScript]
-import { PaymentMethodType } from '../../@types/PaymentMethodType'
+import { CreditorDebtorType } from '../../../@types/CreditorDebtorType'
 
-export const GetFormFieldsPaymentMethod = () => {
+export const GetFormFieldsCreditorDebtor = () => {
   const { handleSubmit, register, formState, reset, control, setValue } =
-    useForm<PaymentMethodType>({
-      resolver: yupResolver(validationPaymentMethodForm),
+    useForm<CreditorDebtorType>({
+      resolver: yupResolver(validationCreditorDebtorForm),
       mode: 'onBlur',
       defaultValues: {
         title: '',
@@ -58,9 +58,9 @@ export const GetFormFieldsPaymentMethod = () => {
   const {
     isEditing,
     disclosure,
-    paymentMethodID,
+    creditorDebtorID,
     isLoadingDataForEdit,
-    handleResetPaymentMethodID,
+    handleResetCreditorDebtorID,
     handleIsLoadingDataForEdit,
   } = useContext(ContextDrawer)
 
@@ -70,13 +70,13 @@ export const GetFormFieldsPaymentMethod = () => {
 
   const queryClient = useQueryClient()
 
-  const { mutateAsync } = useMutation(postUniquePaymentMethod, {
+  const { mutateAsync } = useMutation(postUniqueCreditorDebtor, {
     onSuccess: () => {
-      queryClient.refetchQueries(['payment_methods'])
+      queryClient.refetchQueries(['creditors_debtors'])
     },
   })
 
-  const submitPaymentMethod: SubmitHandler<Omit<PaymentMethodType, 'id' | 'createdAt'>> = async (
+  const submitCreditorDebtor: SubmitHandler<Omit<CreditorDebtorType, 'id' | 'createdAt'>> = async (
     data,
   ) => {
     await mutateAsync(
@@ -87,31 +87,31 @@ export const GetFormFieldsPaymentMethod = () => {
       },
       {
         onSuccess: () => {
-          console.info('Sucesso na criação do novo Método de Pagamento. ✅')
+          console.info('Sucesso na criação do novo Credor/Devedor. ✅')
           reset()
         },
         onError: () => {
-          console.warn('Error na criação do novo Método de Pagamento! ❌')
+          console.warn('Error na criação do novo Credor/Devedor! ❌')
         },
       },
     )
   }
 
-  const cancelSubmitPaymentMethod = () => {
+  const cancelSubmitCreditorDebtor = () => {
     onClose()
     reset()
 
     if (isEditing) {
-      handleResetPaymentMethodID()
+      handleResetCreditorDebtorID()
     }
   }
 
   useEffect(() => {
-    if (paymentMethodID !== null) {
-      getUniquePaymentMethod(paymentMethodID)
+    if (creditorDebtorID !== null) {
+      getUniqueCreditorDebtor(creditorDebtorID)
         .then((response) => {
           Object.entries(response).forEach(([name, value]) =>
-            setValue(name as keyof PaymentMethodType, value),
+            setValue(name as keyof CreditorDebtorType, value),
           )
           console.log(response)
         })
@@ -148,7 +148,7 @@ export const GetFormFieldsPaymentMethod = () => {
           <InputComponent
             id='title'
             type='text'
-            label='Título do método de pagamento'
+            label='Nome do Credor/Devedor'
             isRequired
             isLoadingValue={isLoadingDataForEdit}
             {...register('title')}
@@ -160,7 +160,7 @@ export const GetFormFieldsPaymentMethod = () => {
           <VStack alignItems='flex-start' flex='1'>
             <FormControl isInvalid={!!errors.status} isRequired>
               <FormLabel htmlFor='status' fontSize='lg' padding='0' marginY='2' fontWeight='medium'>
-                Status do método de pagamento
+                Status do Credor/Devedor
               </FormLabel>
               <Controller
                 name='status'
@@ -190,7 +190,7 @@ export const GetFormFieldsPaymentMethod = () => {
             id='anotherInformation'
             label='Outras informações'
             isLoadingValue={isLoadingDataForEdit}
-            placeholder='Outras informações relevantes sobre o método de pagamento...'
+            placeholder='Outras informações relevantes sobre o Credor/Devedor...'
             {...register('anotherInformation')}
             errorInput={errors.anotherInformation}
           />
@@ -202,7 +202,7 @@ export const GetFormFieldsPaymentMethod = () => {
             type='button'
             leftIcon={<FiX fontSize='18' />}
             colorScheme='red'
-            onClick={cancelSubmitPaymentMethod}
+            onClick={cancelSubmitCreditorDebtor}
             disabled={isSubmitting}
           >
             Cancelar
@@ -212,7 +212,7 @@ export const GetFormFieldsPaymentMethod = () => {
             colorScheme='green'
             isLoading={isSubmitting}
             leftIcon={<FiSave fontSize='18' />}
-            onClick={handleSubmit(submitPaymentMethod)}
+            onClick={handleSubmit(submitCreditorDebtor)}
           >
             Salvar
           </Button>

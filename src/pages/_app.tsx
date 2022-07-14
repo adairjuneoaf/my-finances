@@ -17,9 +17,9 @@ import { ContextDrawerProvider } from "../contexts/contextDrawer";
 // Another Imports
 import { theme } from "../styles/theme";
 
-const queryClient = new QueryClient();
-
 const isDevelopment = process.env.NODE_ENV === "development";
+
+const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (

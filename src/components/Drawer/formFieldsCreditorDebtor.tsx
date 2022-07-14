@@ -23,23 +23,39 @@ import { InputTextAreaComponent } from "../Form/InputTextArea";
 // Context Imports
 import { ContextDrawer } from "../../contexts/contextDrawer";
 
+// ReactQuery Imports
+import { useMutation, useQueryClient } from "react-query";
+
+// ReactHookForms Imports
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+
+// Validation Imports
+import validationCreditorDebtorForm from "./formValidationCreditorDebtor";
+
 // API Services
-import { getUniqueCreditorDebtor } from "../../services/api";
+import {
+  getUniqueCreditorDebtor,
+  postUniqueCreditorDebtor,
+} from "../../services/api";
+
+// Another Imports
+import { v4 as uuid } from "uuid";
+import { FiSave, FiX } from "react-icons/fi";
 
 // Typings[TypeScript]
 import { CreditorDebtorType } from "../../@types/CreditorDebtorType";
-
-// Another Imports
-import { FiSave, FiX } from "react-icons/fi";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import validationCreditorDebtorForm from "./formValidationCreditorDebtor";
 
 export const GetFormFieldsCreditorDebtor = () => {
   const { handleSubmit, register, formState, reset, control, setValue } =
     useForm<CreditorDebtorType>({
       resolver: yupResolver(validationCreditorDebtorForm),
       mode: "onBlur",
+      defaultValues: {
+        title: "",
+        status: "",
+        anotherInformation: "",
+      },
     });
 
   const {
@@ -55,18 +71,33 @@ export const GetFormFieldsCreditorDebtor = () => {
 
   const { errors, isSubmitting } = formState;
 
+  const queryClient = useQueryClient();
+
+  const { mutateAsync } = useMutation(postUniqueCreditorDebtor, {
+    onSuccess: () => {
+      queryClient.refetchQueries(["creditors_debtors"]);
+    },
+  });
+
   const submitCreditorDebtor: SubmitHandler<
     Omit<CreditorDebtorType, "id" | "createdAt">
   > = async (data) => {
-    await new Promise((resolve) => {
-      setTimeout(() => {
-        console.log({ ...data });
-        resolve({ ...data });
-      }, 3000);
-    }).then(() => {
-      reset();
-      handleResetCreditorDebtorID();
-    });
+    await mutateAsync(
+      {
+        id: uuid(),
+        createdAt: new Date().getTime(),
+        ...data,
+      },
+      {
+        onSuccess: () => {
+          console.info("Sucesso na criação do novo Credor/Devedor. ✅");
+          reset();
+        },
+        onError: () => {
+          console.warn("Error na criação do novo Credor/Devedor! ❌");
+        },
+      }
+    );
   };
 
   const cancelSubmitCreditorDebtor = () => {

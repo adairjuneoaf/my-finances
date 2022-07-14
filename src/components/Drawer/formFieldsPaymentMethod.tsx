@@ -21,25 +21,41 @@ import { InputComponent } from "../Form/Input";
 import { InputTextAreaComponent } from "../Form/InputTextArea";
 
 // Context Imports
+import { yupResolver } from "@hookform/resolvers/yup";
 import { ContextDrawer } from "../../contexts/contextDrawer";
 
+// ReactQuery Imports
+import { useMutation, useQueryClient } from "react-query";
+
+// ReactHookForm Imports
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+
 // API Services
-import { getUniquePaymentMethod } from "../../services/api";
+import {
+  getUniquePaymentMethod,
+  postUniquePaymentMethod,
+} from "../../services/api";
+
+// Validation Imports
+import validationPaymentMethodForm from "./formValidationPaymentMethod";
+
+// Another Imports
+import { v4 as uuid } from "uuid";
+import { FiSave, FiX } from "react-icons/fi";
 
 // Typings[TypeScript]
 import { PaymentMethodType } from "../../@types/PaymentMethodType";
-
-// Another Imports
-import { FiSave, FiX } from "react-icons/fi";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import validationPaymentMethodForm from "./formValidationPaymentMethod";
 
 export const GetFormFieldsPaymentMethod = () => {
   const { handleSubmit, register, formState, reset, control, setValue } =
     useForm<PaymentMethodType>({
       resolver: yupResolver(validationPaymentMethodForm),
       mode: "onBlur",
+      defaultValues: {
+        title: "",
+        status: "",
+        anotherInformation: "",
+      },
     });
 
   const {
@@ -55,18 +71,33 @@ export const GetFormFieldsPaymentMethod = () => {
 
   const { errors, isSubmitting } = formState;
 
+  const queryClient = useQueryClient();
+
+  const { mutateAsync } = useMutation(postUniquePaymentMethod, {
+    onSuccess: () => {
+      queryClient.refetchQueries(["payment_methods"]);
+    },
+  });
+
   const submitPaymentMethod: SubmitHandler<
     Omit<PaymentMethodType, "id" | "createdAt">
   > = async (data) => {
-    await new Promise((resolve) => {
-      setTimeout(() => {
-        console.log({ ...data });
-        resolve({ ...data });
-      }, 3000);
-    }).then(() => {
-      reset();
-      handleResetPaymentMethodID();
-    });
+    await mutateAsync(
+      {
+        id: uuid(),
+        createdAt: new Date().getTime(),
+        ...data,
+      },
+      {
+        onSuccess: () => {
+          console.info("Sucesso na criação do novo Método de Pagamento. ✅");
+          reset();
+        },
+        onError: () => {
+          console.warn("Error na criação do novo Método de Pagamento! ❌");
+        },
+      }
+    );
   };
 
   const cancelSubmitPaymentMethod = () => {

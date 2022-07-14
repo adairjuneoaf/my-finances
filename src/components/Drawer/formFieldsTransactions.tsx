@@ -28,17 +28,28 @@ import { ContextDrawer } from "../../contexts/contextDrawer";
 // Hook Imports
 import { useReactQuery } from "../../hooks/useReactQuery";
 
+// ReactQuery Imports
+import { useMutation, useQueryClient } from "react-query";
+
+// ReactHookForm Imports
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+
 // API Services
-import { getUniqueTransaction } from "../../services/api";
+import {
+  getUniqueTransaction,
+  postUniqueTransaction,
+} from "../../services/api";
+
+// Validation Imports
+import validationTransactionForm from "./formValidationTransactions";
+
+// Another Imports
+import { v4 as uuid } from "uuid";
+import { FiSave, FiX } from "react-icons/fi";
 
 // Typings[TypeScript]
 import { TransactionDataType } from "../../@types/TransactionDataType";
-
-// Another Imports
-import { FiSave, FiX } from "react-icons/fi";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import validationTransactionForm from "./formValidationTransactions";
 
 export const GetFormFieldsTransaction = () => {
   const {
@@ -52,6 +63,14 @@ export const GetFormFieldsTransaction = () => {
   } = useForm<TransactionDataType>({
     resolver: yupResolver(validationTransactionForm),
     mode: "onBlur",
+    defaultValues: {
+      type: "0",
+      title: "",
+      status: "0",
+      description: "",
+      valueTransaction: 0.0,
+      anotherInformation: "",
+    },
   });
 
   const {
@@ -70,45 +89,37 @@ export const GetFormFieldsTransaction = () => {
 
   const { creditorsDebtors, paymentMethods } = useReactQuery();
 
+  const queryClient = useQueryClient();
+
   const { data: creditorsDebtorsList } = creditorsDebtors;
   const { data: paymentMethodsList } = paymentMethods;
+
+  const { mutateAsync } = useMutation(postUniqueTransaction, {
+    onSuccess: () => {
+      queryClient.refetchQueries(["transactions"]);
+    },
+  });
 
   const submitTransaction: SubmitHandler<
     Omit<TransactionDataType, "id" | "createdAt">
   > = async (data) => {
-    await new Promise((resolve) => {
-      setTimeout(() => {
-        console.log({ ...data });
-        resolve(data);
-      }, 3000);
-    }).then(() => {
-      reset();
-      resetField("type", {
-        defaultValue: "0",
-      });
-      resetField("status", {
-        defaultValue: "0",
-      });
-      resetField("valueTransaction", {
-        defaultValue: 0,
-      });
-
-      handleResetTransactionID();
-    });
+    await mutateAsync(
+      { id: uuid(), createdAt: new Date().getTime(), ...data },
+      {
+        onSuccess: () => {
+          console.info("Sucesso na criação da nova transaction! ✅");
+          reset();
+        },
+        onError: () => {
+          console.warn("Error na criação da nova transaction! ❌");
+        },
+      }
+    );
   };
 
   const cancelSubmitTransaction = () => {
     onClose();
     reset();
-    resetField("type", {
-      defaultValue: "0",
-    });
-    resetField("status", {
-      defaultValue: "0",
-    });
-    resetField("valueTransaction", {
-      defaultValue: 0,
-    });
 
     if (isEditing) {
       handleResetTransactionID();

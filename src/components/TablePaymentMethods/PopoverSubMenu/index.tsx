@@ -1,5 +1,5 @@
 // Imports React
-import React, { useContext } from "react";
+import React, { useContext } from 'react'
 
 // Chakra Imports
 import {
@@ -11,67 +11,67 @@ import {
   PopoverContent,
   PopoverTrigger,
   Tooltip,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react'
 
-//Contexts Imports
-import { ContextDrawer } from "../../../contexts/contextDrawer";
+// Contexts Imports
+import { ContextDrawer } from '../../../contexts/contextDrawer'
 
 // Another Imports
-import { FiEdit, FiEye, FiMoreVertical, FiPower } from "react-icons/fi";
+import { FiEdit, FiEye, FiMoreVertical, FiPower } from 'react-icons/fi'
 
 // Typings[TypeScript]
-import { IPopoverSubMenu } from "./types";
+import { IPopoverSubMenu } from './types'
 
 const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ paymentMethodID, status }) => {
-  const { handleDrawerEditPaymentMethod } = useContext(ContextDrawer);
+  const { handleDrawerEditPaymentMethod } = useContext(ContextDrawer)
 
   return (
     <Popover>
-      <Tooltip hasArrow label="Ações" shouldWrapChildren marginTop="3">
+      <Tooltip hasArrow label='Ações' shouldWrapChildren marginTop='3'>
         <PopoverTrigger>
-          <Button backgroundColor="transparent" _hover={{ backgroundColor: "gray.900" }}>
-            <FiMoreVertical fontSize="24" color="white" />
+          <Button backgroundColor='transparent' _hover={{ backgroundColor: 'gray.900' }}>
+            <FiMoreVertical fontSize='24' color='white' />
           </Button>
         </PopoverTrigger>
       </Tooltip>
-      <PopoverContent backgroundColor="gray.800" width="fit-content">
+      <PopoverContent backgroundColor='gray.800' width='fit-content'>
         <PopoverBody>
           <HStack>
-            <Tooltip hasArrow label="Detalhes">
+            <Tooltip hasArrow label='Detalhes'>
               <IconButton
-                aria-label="more-details-paymentMethod"
-                icon={<FiEye fontSize="24" color="white" />}
-                backgroundColor="blue.500"
-                colorScheme="blue"
+                aria-label='more-details-paymentMethod'
+                icon={<FiEye fontSize='24' color='white' />}
+                backgroundColor='blue.500'
+                colorScheme='blue'
               />
             </Tooltip>
-            <Tooltip hasArrow label="Editar">
+            <Tooltip hasArrow label='Editar'>
               <IconButton
-                aria-label="edit-paymentMethod"
-                icon={<FiEdit fontSize="24" color="white" />}
-                backgroundColor="green.500"
-                colorScheme="green"
+                aria-label='edit-paymentMethod'
+                icon={<FiEdit fontSize='24' color='white' />}
+                backgroundColor='green.500'
+                colorScheme='green'
                 onClick={() => {
-                  handleDrawerEditPaymentMethod(paymentMethodID);
+                  handleDrawerEditPaymentMethod(paymentMethodID)
                 }}
               />
             </Tooltip>
-            {status === "1" ? (
-              <Tooltip hasArrow label="Inativar">
+            {status === '1' ? (
+              <Tooltip hasArrow label='Inativar'>
                 <IconButton
-                  aria-label="inactive-paymentMethod"
-                  icon={<FiPower fontSize="24" color="white" />}
-                  backgroundColor="red.500"
-                  colorScheme="red"
+                  aria-label='inactive-paymentMethod'
+                  icon={<FiPower fontSize='24' color='white' />}
+                  backgroundColor='red.500'
+                  colorScheme='red'
                 />
               </Tooltip>
             ) : (
-              <Tooltip hasArrow label="Ativar">
+              <Tooltip hasArrow label='Ativar'>
                 <IconButton
-                  aria-label="active-paymentMethod"
-                  icon={<FiPower fontSize="24" color="white" />}
-                  backgroundColor="green.500"
-                  colorScheme="green"
+                  aria-label='active-paymentMethod'
+                  icon={<FiPower fontSize='24' color='white' />}
+                  backgroundColor='green.500'
+                  colorScheme='green'
                 />
               </Tooltip>
             )}
@@ -79,7 +79,7 @@ const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ paymentMethodID, s
         </PopoverBody>
       </PopoverContent>
     </Popover>
-  );
-};
+  )
+}
 
-export default PopoverSubMenuComponent;
+export default PopoverSubMenuComponent

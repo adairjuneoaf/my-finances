@@ -1,36 +1,36 @@
 // Imports React
-import React, { Fragment } from "react";
+import React, { Fragment } from 'react'
 
 // Components Imports
-import SkeletonComponent from "../Skeleton";
+import SkeletonComponent from '../Skeleton'
 
 // Chakra Imports
-import { Th, Tr } from "@chakra-ui/react";
+import { Th, Tr } from '@chakra-ui/react'
 
 // Typings[TypeScript]
 type SkeletonBodyProps = {
-  skeletonLines?: number;
-};
+  skeletonLines?: number
+}
 
-const SkeletonBody: React.FC<SkeletonBodyProps> = ({ skeletonLines = 3 }) => {
+const SkeletonBody: React.FC<SkeletonBodyProps> = () => {
   return (
     <Fragment>
       <Tr>
-        <Th width="10%">
+        <Th width='10%'>
           <SkeletonComponent isLoading>_</SkeletonComponent>
         </Th>
-        <Th width="20%">
+        <Th width='20%'>
           <SkeletonComponent isLoading>_</SkeletonComponent>
         </Th>
-        <Th width="60%">
+        <Th width='60%'>
           <SkeletonComponent isLoading>_</SkeletonComponent>
         </Th>
-        <Th width="10%">
+        <Th width='10%'>
           <SkeletonComponent isLoading>_</SkeletonComponent>
         </Th>
       </Tr>
     </Fragment>
-  );
-};
+  )
+}
 
-export default SkeletonBody;
+export default SkeletonBody

@@ -1,8 +1,8 @@
 // Imports React
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState } from 'react'
 
 // Imports Next
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router'
 
 // Chakra Imports
 import {
@@ -16,53 +16,48 @@ import {
   Thead,
   Button,
   TableContainer,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react'
 
 // Components Imports
-import TableHead from "./TableHead";
-import TableBody from "./TableBody";
-import SkeletonBody from "./SkeletonBody";
+import TableHead from './TableHead'
+import TableBody from './TableBody'
+import SkeletonBody from './SkeletonBody'
 
 // Hooks Imports
-import { useReactQuery } from "../../hooks/useReactQuery";
+import { useReactQuery } from '../../hooks/useReactQuery'
 
 // Another Imports
-import { FiZoomIn } from "react-icons/fi";
-import _ from "lodash";
+import { FiZoomIn } from 'react-icons/fi'
+import _ from 'lodash'
 
-const SIZE_PER_LOAD = 5;
+const SIZE_PER_LOAD = 5
 
 const TableTransactionsComponent: React.FC = () => {
-  const { asPath } = useRouter();
+  const { asPath } = useRouter()
 
-  const { transactions } = useReactQuery();
+  const { transactions } = useReactQuery()
 
-  const { data, isLoading } = transactions;
+  const { data, isLoading } = transactions
 
-  const [loadMore, setLoadMore] = useState(SIZE_PER_LOAD);
+  const [loadMore, setLoadMore] = useState(SIZE_PER_LOAD)
 
   const currentTransactions = useMemo(() => {
-    const dataOrdered = _.orderBy(data, ["dateEntriesTransaction"], ["desc"])
+    const dataOrdered = _.orderBy(data, ['dateEntriesTransaction'], ['desc'])
       ?.slice(0, loadMore)
-      .map((transaction) => transaction);
+      .map((transaction) => transaction)
 
-    return dataOrdered;
-  }, [data, loadMore]);
+    return dataOrdered
+  }, [data, loadMore])
 
-  let hasLoadMore = !!(loadMore < Number(data?.length));
+  const hasLoadMore = !!(loadMore < Number(data?.length))
 
   const loadMoreTransactions = () => {
-    setLoadMore(loadMore + SIZE_PER_LOAD);
-  };
+    setLoadMore(loadMore + SIZE_PER_LOAD)
+  }
 
   return (
-    <TableContainer
-      width="100%"
-      backgroundColor="gray.800"
-      padding="8"
-      borderRadius="10"
-    >
-      <Table colorScheme="whiteAlpha" variant="simple" whiteSpace="normal">
+    <TableContainer width='100%' backgroundColor='gray.800' padding='8' borderRadius='10'>
+      <Table colorScheme='whiteAlpha' variant='simple' whiteSpace='normal'>
         <Thead>
           <TableHead />
         </Thead>
@@ -71,11 +66,11 @@ const TableTransactionsComponent: React.FC = () => {
             <Tr>
               <Th
                 colSpan={5}
-                fontSize="14px"
-                color="gray.200"
-                fontWeight="bold"
-                fontStyle="italic"
-                textTransform="none"
+                fontSize='14px'
+                color='gray.200'
+                fontWeight='bold'
+                fontStyle='italic'
+                textTransform='none'
               >
                 Não existem dados...
               </Th>
@@ -85,7 +80,7 @@ const TableTransactionsComponent: React.FC = () => {
           {!isLoading &&
             data &&
             currentTransactions?.map((data, idx) => {
-              return <TableBody key={data.id} {...data} index={idx + 1} />;
+              return <TableBody key={data.id} {...data} index={idx + 1} />
             })}
 
           {isLoading && !data && (
@@ -99,50 +94,49 @@ const TableTransactionsComponent: React.FC = () => {
           )}
         </Tbody>
 
-        {asPath === "/dashboard" && (
+        {asPath === '/dashboard' && (
           <Tfoot>
             <Tr>
               <Th
                 colSpan={6}
-                width="100%"
-                paddingTop="8"
-                paddingBottom="0"
-                textTransform="none"
-                color="gray.300"
+                width='100%'
+                paddingTop='8'
+                paddingBottom='0'
+                textTransform='none'
+                color='gray.300'
               >
-                ** Apenas os últimos 5 lançamentos são exibidos aqui, veja todos
-                acessando a página de lançamentos no menu ao lado.
+                ** Apenas os últimos 5 lançamentos são exibidos aqui, veja todos acessando a página
+                de lançamentos no menu ao lado.
               </Th>
             </Tr>
           </Tfoot>
         )}
 
-        {hasLoadMore && asPath === "/transactions" && (
+        {hasLoadMore && asPath === '/transactions' && (
           <Tfoot>
             <Tr>
               <Th
                 colSpan={6}
-                width="100%"
-                paddingTop="8"
-                paddingBottom="0"
-                textTransform="none"
-                color="gray.300"
+                width='100%'
+                paddingTop='8'
+                paddingBottom='0'
+                textTransform='none'
+                color='gray.300'
               >
                 <Flex
-                  alignItems="flex-end"
-                  flexDirection="column"
-                  justifyContent="space-between"
-                  gap="4"
+                  alignItems='flex-end'
+                  flexDirection='column'
+                  justifyContent='space-between'
+                  gap='4'
                 >
-                  <Text fontSize="13px">
-                    {currentTransactions?.length} lançamentos exibidos de{" "}
-                    {data?.length} no total
+                  <Text fontSize='13px'>
+                    {currentTransactions?.length} lançamentos exibidos de {data?.length} no total
                   </Text>
                   <Button
-                    type="button"
-                    width="100%"
-                    colorScheme="green"
-                    leftIcon={<FiZoomIn fontSize="22" />}
+                    type='button'
+                    width='100%'
+                    colorScheme='green'
+                    leftIcon={<FiZoomIn fontSize='22' />}
                     onClick={loadMoreTransactions}
                   >
                     Mostrar mais lançamentos
@@ -153,29 +147,21 @@ const TableTransactionsComponent: React.FC = () => {
           </Tfoot>
         )}
 
-        {!hasLoadMore && asPath === "/transactions" && (
+        {!hasLoadMore && asPath === '/transactions' && (
           <Tfoot>
             <Tr>
               <Th
                 colSpan={6}
-                width="100%"
-                paddingTop="8"
-                paddingBottom="0"
-                textTransform="none"
-                color="gray.300"
+                width='100%'
+                paddingTop='8'
+                paddingBottom='0'
+                textTransform='none'
+                color='gray.300'
               >
-                <Flex
-                  alignItems="center"
-                  flexDirection="row"
-                  justifyContent="space-between"
-                >
-                  <Text>
-                    ** Fim da lista, não existem mais lançamentos há serem
-                    carregados.
-                  </Text>
-                  <Text fontSize="13px">
-                    {currentTransactions?.length} lançamentos exibidos de{" "}
-                    {data?.length} no total
+                <Flex alignItems='center' flexDirection='row' justifyContent='space-between'>
+                  <Text>** Fim da lista, não existem mais lançamentos há serem carregados.</Text>
+                  <Text fontSize='13px'>
+                    {currentTransactions?.length} lançamentos exibidos de {data?.length} no total
                   </Text>
                 </Flex>
               </Th>
@@ -184,7 +170,7 @@ const TableTransactionsComponent: React.FC = () => {
         )}
       </Table>
     </TableContainer>
-  );
-};
+  )
+}
 
-export default TableTransactionsComponent;
+export default TableTransactionsComponent

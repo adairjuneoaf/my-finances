@@ -1,3 +1,3 @@
 export interface DataRequestBodyAPI<T> {
-  data: T;
+  data: T
 }

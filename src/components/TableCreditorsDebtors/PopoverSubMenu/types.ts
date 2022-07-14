@@ -1,4 +1,4 @@
 export interface IPopoverSubMenu {
-  creditorDebtorID: string;
-  status: string;
+  creditorDebtorID: string
+  status: string
 }

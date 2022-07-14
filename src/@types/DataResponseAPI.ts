@@ -1,3 +1,3 @@
 export interface DataResponseAPI<T> {
-  payload: Array<T>;
+  payload: Array<T>
 }

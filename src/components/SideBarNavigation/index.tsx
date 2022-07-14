@@ -1,55 +1,55 @@
 // Imports React
-import React from "react";
+import React from 'react'
 
 // Chakra Imports
-import { Flex } from "@chakra-ui/react";
+import { Flex } from '@chakra-ui/react'
 
 // Components Imports
-import MenuSectionNavigation from "./MenuSection";
-import MenuItemNavigation from "./MenuItemSection";
+import MenuSectionNavigation from './MenuSection'
+import MenuItemNavigation from './MenuItemSection'
 
 // Contexts Imports
 
 // Another Imports
-import { FiUserPlus, FiCreditCard, FiSettings } from "react-icons/fi";
-import { RiDashboardLine, RiFileListLine } from "react-icons/ri";
+import { FiSettings } from 'react-icons/fi'
+import { RiDashboardLine, RiFileListLine } from 'react-icons/ri'
 
 // Typings[TypeScript]
 
 const SideBarNavigationComponent: React.FC = () => {
   return (
     <Flex
-      gap="10"
-      paddingX="6"
-      width="100%"
-      height="100%"
-      maxHeight="86vh"
-      minWidth="288px"
-      borderRadius="10"
-      flexDirection="column"
+      gap='10'
+      paddingX='6'
+      width='100%'
+      height='100%'
+      maxHeight='86vh'
+      minWidth='288px'
+      borderRadius='10'
+      flexDirection='column'
     >
-      <MenuSectionNavigation title="Geral">
+      <MenuSectionNavigation title='Geral'>
         <MenuItemNavigation
-          title="Dashboard"
+          title='Dashboard'
           icon={RiDashboardLine}
-          route="/dashboard"
-          description="Ir até a página de Dashboard"
+          route='/dashboard'
+          description='Ir até a página de Dashboard'
         />
         <MenuItemNavigation
-          title="Lançamentos"
+          title='Lançamentos'
           icon={RiFileListLine}
-          route="/transactions"
-          description="Ir até a página de Lançamentos"
+          route='/transactions'
+          description='Ir até a página de Lançamentos'
         />
         <MenuItemNavigation
-          title="Cadastros"
+          title='Cadastros'
           icon={FiSettings}
-          route="/records"
-          description="Ir até a página de Cadastros"
+          route='/records'
+          description='Ir até a página de Cadastros'
         />
       </MenuSectionNavigation>
     </Flex>
-  );
-};
+  )
+}
 
-export default SideBarNavigationComponent;
+export default SideBarNavigationComponent

@@ -1,17 +1,17 @@
 // Imports React
-import React, { Fragment } from "react";
+import React, { Fragment } from 'react'
 
 // Components Imports
-import PopoverSubMenuComponent from "./PopoverSubMenu";
+import PopoverSubMenuComponent from './PopoverSubMenu'
 
 // Chakra Imports
-import { Badge, Th, Tr } from "@chakra-ui/react";
+import { Badge, Th, Tr } from '@chakra-ui/react'
 
 // Typings[TypeScript]
-import { TransactionDataType } from "../../@types/TransactionDataType";
-import { formatValueToMoney } from "../../utils/formatValueToMoney";
+import { TransactionDataType } from '../../@types/TransactionDataType'
+import { formatValueToMoney } from '../../utils/formatValueToMoney'
 interface TableBodyProps extends TransactionDataType {
-  index: number;
+  index: number
 }
 
 const TableBody: React.FC<TableBodyProps> = ({
@@ -25,45 +25,45 @@ const TableBody: React.FC<TableBodyProps> = ({
   return (
     <Fragment>
       <Tr>
-        <Th fontSize="16px" color="gray.100">
+        <Th fontSize='16px' color='gray.100'>
           {index}
         </Th>
-        <Th fontSize="16px" color="gray.100">
-          {type === "1" && (
-            <Badge variant="solid" colorScheme="green" padding="1">
+        <Th fontSize='16px' color='gray.100'>
+          {type === '1' && (
+            <Badge variant='solid' colorScheme='green' padding='1'>
               ENTRADA
             </Badge>
           )}
-          {type === "0" && (
-            <Badge variant="solid" colorScheme="red" padding="1">
+          {type === '0' && (
+            <Badge variant='solid' colorScheme='red' padding='1'>
               SAÍDA
             </Badge>
           )}
         </Th>
-        <Th fontSize="16px" color="gray.100">
-          {status === "1" && (
-            <Badge variant="solid" colorScheme="green" padding="1">
+        <Th fontSize='16px' color='gray.100'>
+          {status === '1' && (
+            <Badge variant='solid' colorScheme='green' padding='1'>
               CONCLUÍDO
             </Badge>
           )}
-          {status === "0" && (
-            <Badge variant="solid" colorScheme="yellow" padding="1">
+          {status === '0' && (
+            <Badge variant='solid' colorScheme='yellow' padding='1'>
               EM ABERTO
             </Badge>
           )}
         </Th>
-        <Th fontSize="16px" color="gray.100" textTransform="initial">
+        <Th fontSize='16px' color='gray.100' textTransform='initial'>
           {title}
         </Th>
-        <Th isNumeric fontSize="16px" color="gray.100">
+        <Th isNumeric fontSize='16px' color='gray.100'>
           {formatValueToMoney(valueTransaction)}
         </Th>
-        <Th fontSize="16px" color="gray.100">
+        <Th fontSize='16px' color='gray.100'>
           <PopoverSubMenuComponent transactionID={id} />
         </Th>
       </Tr>
     </Fragment>
-  );
-};
+  )
+}
 
-export default TableBody;
+export default TableBody

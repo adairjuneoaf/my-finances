@@ -1,3 +1,3 @@
 export interface IPopoverSubMenu {
-  transactionID: string;
+  transactionID: string
 }

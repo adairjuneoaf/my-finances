@@ -1,5 +1,5 @@
 // Imports React
-import React, { useState } from "react";
+import React, { useState } from 'react'
 
 // Imports Next
 
@@ -15,46 +15,39 @@ import {
   Table,
   Button,
   TableContainer,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react'
 
 // Components Imports
-import TableHead from "./TableHead";
-import TableBody from "./TableBody";
-import SkeletonBody from "./SkeletonBody";
+import TableHead from './TableHead'
+import TableBody from './TableBody'
+import SkeletonBody from './SkeletonBody'
 
 // Hooks Imports
-import { useReactQuery } from "../../hooks/useReactQuery";
+import { useReactQuery } from '../../hooks/useReactQuery'
 
 // Another Imports
-import { FiZoomIn } from "react-icons/fi";
+import { FiZoomIn } from 'react-icons/fi'
 
-const SIZE_PER_LOAD = 5;
+const SIZE_PER_LOAD = 5
 
 const TableCreditorsDebtorsComponent: React.FC = () => {
-  const { creditorsDebtors } = useReactQuery();
+  const { creditorsDebtors } = useReactQuery()
 
-  const { data, isLoading } = creditorsDebtors;
+  const { data, isLoading } = creditorsDebtors
 
-  const [loadMore, setLoadMore] = useState(SIZE_PER_LOAD);
+  const [loadMore, setLoadMore] = useState(SIZE_PER_LOAD)
 
-  const currentCreditorsDebtors = data
-    ?.slice(0, loadMore)
-    .map((creditorDebtor) => creditorDebtor);
+  const currentCreditorsDebtors = data?.slice(0, loadMore).map((creditorDebtor) => creditorDebtor)
 
-  let hasLoadMore = !!(loadMore < Number(data?.length));
+  const hasLoadMore = !!(loadMore < Number(data?.length))
 
   const loadMoreCreditorsDebtors = () => {
-    setLoadMore(loadMore + SIZE_PER_LOAD);
-  };
+    setLoadMore(loadMore + SIZE_PER_LOAD)
+  }
 
   return (
-    <TableContainer
-      width="100%"
-      backgroundColor="gray.800"
-      padding="8"
-      borderRadius="10"
-    >
-      <Table colorScheme="whiteAlpha" variant="simple" whiteSpace="normal">
+    <TableContainer width='100%' backgroundColor='gray.800' padding='8' borderRadius='10'>
+      <Table colorScheme='whiteAlpha' variant='simple' whiteSpace='normal'>
         <Thead>
           <TableHead />
         </Thead>
@@ -63,11 +56,11 @@ const TableCreditorsDebtorsComponent: React.FC = () => {
             <Tr>
               <Th
                 colSpan={5}
-                fontSize="14px"
-                color="gray.200"
-                fontWeight="bold"
-                fontStyle="italic"
-                textTransform="none"
+                fontSize='14px'
+                color='gray.200'
+                fontWeight='bold'
+                fontStyle='italic'
+                textTransform='none'
               >
                 Não existem dados...
               </Th>
@@ -76,7 +69,7 @@ const TableCreditorsDebtorsComponent: React.FC = () => {
           {!isLoading &&
             data &&
             currentCreditorsDebtors?.map((data, idx) => {
-              return <TableBody key={data.id} {...data} index={idx + 1} />;
+              return <TableBody key={data.id} {...data} index={idx + 1} />
             })}
           {isLoading && !data && (
             <>
@@ -90,28 +83,28 @@ const TableCreditorsDebtorsComponent: React.FC = () => {
           <Tr>
             <Th
               colSpan={6}
-              width="100%"
-              paddingTop="8"
-              paddingBottom="0"
-              textTransform="none"
-              color="gray.300"
+              width='100%'
+              paddingTop='8'
+              paddingBottom='0'
+              textTransform='none'
+              color='gray.300'
             >
               <Flex
-                alignItems="flex-end"
-                flexDirection="column"
-                justifyContent="space-between"
-                gap="4"
+                alignItems='flex-end'
+                flexDirection='column'
+                justifyContent='space-between'
+                gap='4'
               >
-                <Text fontSize="13px">
-                  {currentCreditorsDebtors?.length} credores/devedores exibidos
-                  de {data?.length} no total
+                <Text fontSize='13px'>
+                  {currentCreditorsDebtors?.length} credores/devedores exibidos de {data?.length} no
+                  total
                 </Text>
                 {hasLoadMore && (
                   <Button
-                    type="button"
-                    width="100%"
-                    colorScheme="green"
-                    leftIcon={<FiZoomIn fontSize="22" />}
+                    type='button'
+                    width='100%'
+                    colorScheme='green'
+                    leftIcon={<FiZoomIn fontSize='22' />}
                     onClick={loadMoreCreditorsDebtors}
                   >
                     Mostrar mais credores/devedores
@@ -123,7 +116,7 @@ const TableCreditorsDebtorsComponent: React.FC = () => {
         </Tfoot>
       </Table>
     </TableContainer>
-  );
-};
+  )
+}
 
-export default TableCreditorsDebtorsComponent;
+export default TableCreditorsDebtorsComponent

@@ -1,6 +1,6 @@
 export type DataCollectionFaunaDB<TypeResponseData> = {
-  data: TypeResponseData;
+  data: TypeResponseData
   ref: {
-    id: string;
-  };
-};
+    id: string
+  }
+}

@@ -1,4 +1,4 @@
 export interface IPopoverSubMenu {
-  paymentMethodID: string;
-  status: string;
+  paymentMethodID: string
+  status: string
 }

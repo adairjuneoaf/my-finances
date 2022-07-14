@@ -1,12 +1,8 @@
 // React-Query Imports
-import { useQuery } from "react-query";
+import { useQuery } from 'react-query'
 
 // API Imports
-import {
-  getAllCreditorsDebtors,
-  getAllPaymentMethods,
-  getAllTransactions,
-} from "../services/api";
+import { getAllCreditorsDebtors, getAllPaymentMethods, getAllTransactions } from '../services/api'
 
 const configReactQuery = {
   cacheTime: 1000 * 60 * 10, // 10 Minutes
@@ -14,28 +10,24 @@ const configReactQuery = {
   refetchInterval: 1000 * 60 * 5, // 5 Minutes
   refetchOnWindowFocus: true,
   retry: 5,
-};
+}
 
 export const useReactQuery = () => {
-  const transactions = useQuery("transactions", getAllTransactions, {
+  const transactions = useQuery('transactions', getAllTransactions, {
     ...configReactQuery,
-  });
+  })
 
-  const paymentMethods = useQuery("payment_methods", getAllPaymentMethods, {
+  const paymentMethods = useQuery('payment_methods', getAllPaymentMethods, {
     ...configReactQuery,
-  });
+  })
 
-  const creditorsDebtors = useQuery(
-    "creditors_debtors",
-    getAllCreditorsDebtors,
-    {
-      ...configReactQuery,
-    }
-  );
+  const creditorsDebtors = useQuery('creditors_debtors', getAllCreditorsDebtors, {
+    ...configReactQuery,
+  })
 
   return {
     transactions,
     paymentMethods,
     creditorsDebtors,
-  };
-};
+  }
+}

@@ -1,14 +1,14 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
-import GithubProvider from "next-auth/providers/github";
+import NextAuth, { NextAuthOptions } from 'next-auth'
+import GithubProvider from 'next-auth/providers/github'
 
-import fauna from "../../../services/fauna";
-import { query } from "faunadb";
+import fauna from '../../../services/fauna'
+import { query } from 'faunadb'
 
 type User = {
   ref: {
-    id: string;
-  };
-};
+    id: string
+  }
+}
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -17,7 +17,7 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
       authorization: {
         params: {
-          scope: "read:user, user:email",
+          scope: 'read:user, user:email',
         },
       },
     }),
@@ -26,13 +26,13 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
     maxAge: 60 * 60 * 24 * 3, // 72 Hours - 3 Days
   },
 
   callbacks: {
     async signIn({ user }) {
-      const { id, name, email } = user;
+      const { id, name, email } = user
 
       const initialUserData = {
         userId: id,
@@ -41,55 +41,44 @@ export const authOptions: NextAuthOptions = {
         transactions: [{}],
         paymentMethods: [{}],
         creditorsDebtors: [{}],
-      };
+      }
 
       try {
         await fauna.query(
           query.If(
             query.Not(
               query.Exists(
-                query.Match(
-                  query.Index("user_by_email"),
-                  query.Casefold(String(email))
-                )
-              )
+                query.Match(query.Index('user_by_email'), query.Casefold(String(email))),
+              ),
             ),
-            query.Create(query.Collection("users"), { data: initialUserData }),
+            query.Create(query.Collection('users'), { data: initialUserData }),
             query.Select(
-              "ref",
-              query.Get(
-                query.Match(
-                  query.Index("user_by_userId"),
-                  query.Casefold(String(id))
-                )
-              )
-            )
-          )
-        );
+              'ref',
+              query.Get(query.Match(query.Index('user_by_userId'), query.Casefold(String(id)))),
+            ),
+          ),
+        )
 
-        return true;
+        return true
       } catch (error) {
-        console.error(error);
-        return false;
+        console.error(error)
+        return false
       }
     },
 
     async session({ session }) {
       const userFaunaDB = await fauna.query<User>(
         query.Select(
-          "ref",
+          'ref',
           query.Get(
-            query.Match(
-              query.Index("user_by_email"),
-              query.Casefold(String(session?.user?.email))
-            )
-          )
-        )
-      );
+            query.Match(query.Index('user_by_email'), query.Casefold(String(session?.user?.email))),
+          ),
+        ),
+      )
 
-      return { ...session, userRef: userFaunaDB };
+      return { ...session, userRef: userFaunaDB }
     },
   },
-};
+}
 
-export default NextAuth(authOptions);
+export default NextAuth(authOptions)

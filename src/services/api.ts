@@ -1,17 +1,14 @@
 // AXIOS Imports
-import { apiRoute } from "./axios";
+import { apiRoute } from './axios'
 
 // Utils Imports
-import { formatDate } from "../utils/formatDate";
-
-// Another Imports
-import { v4 as uuid } from "uuid";
+import { formatDate } from '../utils/formatDate'
 
 // Typings[TypeScript]
-import { TransactionDataType } from "./../@types/TransactionDataType";
-import { CreditorDebtorType } from "./../@types/CreditorDebtorType";
-import { PaymentMethodType } from "./../@types/PaymentMethodType";
-import { DataResponseAPI } from "../@types/DataResponseAPI";
+import { TransactionDataType } from './../@types/TransactionDataType'
+import { CreditorDebtorType } from './../@types/CreditorDebtorType'
+import { PaymentMethodType } from './../@types/PaymentMethodType'
+import { DataResponseAPI } from '../@types/DataResponseAPI'
 
 /**
  * @returns Função de retorno dos dados de todas as transações armazenadas
@@ -19,16 +16,16 @@ import { DataResponseAPI } from "../@types/DataResponseAPI";
  */
 export const getAllTransactions = async () => {
   const data: DataResponseAPI<TransactionDataType> = await apiRoute
-    .get("/transactions")
+    .get('/transactions')
     .then((response) => {
-      return response.data;
+      return response.data
     })
     .catch((error) => {
-      return console.error("Error", error.message);
-    });
+      return console.error('Error', error.message)
+    })
 
-  return data.payload;
-};
+  return data.payload
+}
 
 /**
  * @returns Função de retorno dos dados de `UMA` única transação armazenada
@@ -40,20 +37,20 @@ export const getUniqueTransaction = async (id: string) => {
   const data: TransactionDataType = await apiRoute
     .get(`/transactions/${id}`)
     .then((response) => {
-      return response.data;
+      return response.data
     })
     .catch((error) => {
-      return console.error("Error", error.message);
-    });
+      return console.error('Error', error.message)
+    })
 
   const dataFormatted = {
     ...data,
     dateDueTransaction: formatDate(data.dateDueTransaction),
     dateEntriesTransaction: formatDate(data.dateEntriesTransaction),
-  };
+  }
 
-  return dataFormatted;
-};
+  return dataFormatted
+}
 
 /**
  * @returns Função de `INSERÇÃO` dos dados de UMA única transação armazenada
@@ -64,16 +61,16 @@ export const getUniqueTransaction = async (id: string) => {
  */
 export const postUniqueTransaction = async (data: TransactionDataType) => {
   await apiRoute
-    .post("/transactions", {
+    .post('/transactions', {
       data: data,
     })
     .then((response) => {
-      return response.data;
+      return response.data
     })
     .catch((error) => {
-      return console.error("Error", error.message);
-    });
-};
+      return console.error('Error', error.message)
+    })
+}
 
 /**
  * @returns Função de `ALTERAÇÃO` dos dados de UMA única transação
@@ -86,7 +83,7 @@ export const postUniqueTransaction = async (data: TransactionDataType) => {
  */
 export const putUniqueTransaction = async (
   id: string,
-  transactionData: Omit<TransactionDataType, "id" | "createdAt">
+  transactionData: Omit<TransactionDataType, 'id' | 'createdAt'>,
 ) => {
   const data = await apiRoute
     .put(`/transactions/${id}`, {
@@ -96,14 +93,14 @@ export const putUniqueTransaction = async (
       },
     })
     .then((response) => {
-      return response.data;
+      return response.data
     })
     .catch((error) => {
-      return console.error("Error", error.message);
-    });
+      return console.error('Error', error.message)
+    })
 
-  return data;
-};
+  return data
+}
 
 /**
  * @returns Função de alteração do `STATUS` de `UMA` única
@@ -116,7 +113,7 @@ export const putUniqueTransaction = async (
  */
 export const patchStatusUniqueTransaction = async (
   id: string,
-  statusData: Pick<TransactionDataType, "status">
+  statusData: Pick<TransactionDataType, 'status'>,
 ) => {
   const data = await apiRoute
     .patch(`/transactions/${id}`, {
@@ -125,16 +122,16 @@ export const patchStatusUniqueTransaction = async (
       },
     })
     .then((response) => {
-      return response.data;
+      return response.data
     })
     .catch((error) => {
-      return console.error("Error", error.message);
-    });
+      return console.error('Error', error.message)
+    })
 
-  console.log(data);
+  console.log(data)
 
-  return data;
-};
+  return data
+}
 
 /**
  * @returns Função de retorno dos dados de todas os métodos de pagamentos
@@ -142,16 +139,16 @@ export const patchStatusUniqueTransaction = async (
  */
 export const getAllPaymentMethods = async () => {
   const data: DataResponseAPI<PaymentMethodType> = await apiRoute
-    .get("/payment_method")
+    .get('/payment_method')
     .then((response) => {
-      return response.data;
+      return response.data
     })
     .catch((error) => {
-      return console.error("Error", error.message);
-    });
+      return console.error('Error', error.message)
+    })
 
-  return data.payload;
-};
+  return data.payload
+}
 
 /**
  * @returns Função de retorno dos dados de `UM` único método de pagamento
@@ -163,14 +160,14 @@ export const getUniquePaymentMethod = async (id: string) => {
   const data: PaymentMethodType = await apiRoute
     .get(`/payment_method/${id}`)
     .then((response) => {
-      return response.data;
+      return response.data
     })
     .catch((error) => {
-      return console.error("Error", error.message);
-    });
+      return console.error('Error', error.message)
+    })
 
-  return data;
-};
+  return data
+}
 
 /**
  * @returns Função de `INSERÇÃO` dos dados de `UM` único método de pagamento
@@ -181,16 +178,16 @@ export const getUniquePaymentMethod = async (id: string) => {
  */
 export const postUniquePaymentMethod = async (data: PaymentMethodType) => {
   await apiRoute
-    .post("/payment_method", {
+    .post('/payment_method', {
       data: data,
     })
     .then((response) => {
-      return response.data;
+      return response.data
     })
     .catch((error) => {
-      console.error("Error: ", error.message);
-    });
-};
+      console.error('Error: ', error.message)
+    })
+}
 
 /**
  * @returns Função de `ALTERAÇÃO` dos dados de `UM` único método de pagamento
@@ -203,7 +200,7 @@ export const postUniquePaymentMethod = async (data: PaymentMethodType) => {
  */
 export const putUniquePaymentMethod = async (
   id: string,
-  paymentMethodData: Omit<PaymentMethodType, "id" | "createdAt">
+  paymentMethodData: Omit<PaymentMethodType, 'id' | 'createdAt'>,
 ) => {
   const data = await apiRoute
     .put(`/payment_method/${id}`, {
@@ -213,14 +210,14 @@ export const putUniquePaymentMethod = async (
       },
     })
     .then((response) => {
-      return response.data;
+      return response.data
     })
     .catch((error) => {
-      return console.error("Error", error.message);
-    });
+      return console.error('Error', error.message)
+    })
 
-  return data;
-};
+  return data
+}
 
 /**
  * @returns Função de alteração do `STATUS` de `UM` único método de pagamento
@@ -233,7 +230,7 @@ export const putUniquePaymentMethod = async (
  */
 export const patchStatusUniquePaymentMethod = async (
   id: string,
-  statusData: Pick<PaymentMethodType, "status">
+  statusData: Pick<PaymentMethodType, 'status'>,
 ) => {
   const data = await apiRoute
     .patch(`/payment_method/${id}`, {
@@ -242,14 +239,14 @@ export const patchStatusUniquePaymentMethod = async (
       },
     })
     .then((response) => {
-      return response.data;
+      return response.data
     })
     .catch((error) => {
-      return console.error("Error", error.message);
-    });
+      return console.error('Error', error.message)
+    })
 
-  return data;
-};
+  return data
+}
 
 /**
  * @returns Função de retorno dos dados de todas os credores/devedores
@@ -257,16 +254,16 @@ export const patchStatusUniquePaymentMethod = async (
  */
 export const getAllCreditorsDebtors = async () => {
   const data: DataResponseAPI<CreditorDebtorType> = await apiRoute
-    .get("/creditor_debtor")
+    .get('/creditor_debtor')
     .then((response) => {
-      return response.data;
+      return response.data
     })
     .catch((error) => {
-      return console.error("Error", error.message);
-    });
+      return console.error('Error', error.message)
+    })
 
-  return data.payload;
-};
+  return data.payload
+}
 
 /**
  * @returns Função de retorno dos dados de `UM` único credor/devedor
@@ -278,14 +275,14 @@ export const getUniqueCreditorDebtor = async (id: string) => {
   const data: CreditorDebtorType = await apiRoute
     .get(`/creditor_debtor/${id}`)
     .then((response) => {
-      return response.data;
+      return response.data
     })
     .catch((error) => {
-      return console.error("Error", error.message);
-    });
+      return console.error('Error', error.message)
+    })
 
-  return data;
-};
+  return data
+}
 
 /**
  * @returns Função de `INSERÇÃO` dos dados de `UM` único credor/devedor
@@ -296,16 +293,16 @@ export const getUniqueCreditorDebtor = async (id: string) => {
  */
 export const postUniqueCreditorDebtor = async (data: CreditorDebtorType) => {
   await apiRoute
-    .post("/creditor_debtor", {
+    .post('/creditor_debtor', {
       data: data,
     })
     .then((response) => {
-      return response.data;
+      return response.data
     })
     .catch((error) => {
-      console.error("Error: ", error.message);
-    });
-};
+      console.error('Error: ', error.message)
+    })
+}
 
 /**
  * @returns Função de `ALTERAÇÃO` dos dados de `UM` único credor/devedor
@@ -318,7 +315,7 @@ export const postUniqueCreditorDebtor = async (data: CreditorDebtorType) => {
  */
 export const putUniqueCreditorDebtor = async (
   id: string,
-  creditorDebtorData: Omit<CreditorDebtorType, "id" | "createdAt">
+  creditorDebtorData: Omit<CreditorDebtorType, 'id' | 'createdAt'>,
 ) => {
   const data = await apiRoute
     .put(`/creditor_debtor/${id}`, {
@@ -328,14 +325,14 @@ export const putUniqueCreditorDebtor = async (
       },
     })
     .then((response) => {
-      return response.data;
+      return response.data
     })
     .catch((error) => {
-      return console.error("Error", error.message);
-    });
+      return console.error('Error', error.message)
+    })
 
-  return data;
-};
+  return data
+}
 
 /**
  * @returns Função de alteração do `STATUS` de `UM` único credor/devedor
@@ -348,7 +345,7 @@ export const putUniqueCreditorDebtor = async (
  */
 export const patchUniqueCreditorDebtor = async (
   id: string,
-  statusData: Pick<CreditorDebtorType, "status">
+  statusData: Pick<CreditorDebtorType, 'status'>,
 ) => {
   const data = await apiRoute
     .patch(`/creditor_debtor/${id}`, {
@@ -357,11 +354,11 @@ export const patchUniqueCreditorDebtor = async (
       },
     })
     .then((response) => {
-      return response.data;
+      return response.data
     })
     .catch((error) => {
-      return console.error("Error", error.message);
-    });
+      return console.error('Error', error.message)
+    })
 
-  return data;
-};
+  return data
+}

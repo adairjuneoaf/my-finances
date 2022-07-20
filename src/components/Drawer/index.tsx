@@ -38,67 +38,89 @@ const DrawerComponent: React.FC = () => {
       <DrawerOverlay />
       <DrawerContent backgroundColor='gray.800'>
         <DrawerCloseButton />
-        <DrawerHeader borderBottom='2px' borderColor='gray.700'>
-          {drawerType === 'default' && (
-            <Text as='h2' fontSize='24px'>
-              Drawer padrão
-            </Text>
-          )}
-
-          {drawerType === 'new-transaction' && (
-            <Text as='h2' fontSize='24px'>
-              Novo lançamento
-            </Text>
-          )}
-
-          {drawerType === 'edit-transaction' && (
-            <Text as='h2' fontSize='24px'>
-              Editar lançamento
-            </Text>
-          )}
-
-          {drawerType === 'new-payment-method' && (
-            <Text as='h2' fontSize='24px'>
-              Novo método de pagamento
-            </Text>
-          )}
-
-          {drawerType === 'edit-payment-method' && (
-            <Text as='h2' fontSize='24px'>
-              Editar método de pagamento
-            </Text>
-          )}
-
-          {drawerType === 'new-creditor-debtor' && (
-            <Text as='h2' fontSize='24px'>
-              Novo credor/devedor
-            </Text>
-          )}
-
-          {drawerType === 'edit-creditor-debtor' && (
-            <Text as='h2' fontSize='24px'>
-              Editar credor/devedor
-            </Text>
-          )}
-        </DrawerHeader>
 
         {drawerType === 'default' && (
-          <Flex
-            width='100%'
-            height='auto'
-            paddingY={'2'}
-            paddingX={'6'}
-            display='flex'
-            flexDirection='column'
-            justifyContent='flex-start'
-          >
-            Drawer padrão do app...
-          </Flex>
+          <>
+            <DrawerHeader borderBottom='2px' borderColor='gray.700'>
+              <Text as='h2' fontSize='24px'>
+                Drawer padrão
+              </Text>
+            </DrawerHeader>
+            <Flex
+              width='100%'
+              height='auto'
+              paddingY={'2'}
+              paddingX={'6'}
+              display='flex'
+              flexDirection='column'
+              justifyContent='flex-start'
+            >
+              Drawer padrão do app...
+            </Flex>
+          </>
         )}
 
-        {drawerType === 'new-transaction' && 'edit-transaction' && <TransactionBody />}
-        {drawerType === 'new-payment-method' && 'edit-payment-method' && <PaymentMethodBody />}
-        {drawerType === 'new-creditor-debtor' && 'edit-creditor-debtor' && <CreditorDebtorBody />}
+        {drawerType === 'new-transaction' && (
+          <>
+            <DrawerHeader borderBottom='2px' borderColor='gray.700'>
+              <Text as='h2' fontSize='24px'>
+                Novo lançamento
+              </Text>
+            </DrawerHeader>
+            <TransactionBody />
+          </>
+        )}
+        {drawerType === 'edit-transaction' && (
+          <>
+            <DrawerHeader borderBottom='2px' borderColor='gray.700'>
+              <Text as='h2' fontSize='24px'>
+                Editar lançamento
+              </Text>
+            </DrawerHeader>
+            <TransactionBody />
+          </>
+        )}
+        {drawerType === 'new-payment-method' && (
+          <>
+            <DrawerHeader borderBottom='2px' borderColor='gray.700'>
+              <Text as='h2' fontSize='24px'>
+                Novo método de pagamento
+              </Text>
+            </DrawerHeader>
+
+            <PaymentMethodBody />
+          </>
+        )}
+        {drawerType === 'edit-payment-method' && (
+          <>
+            <DrawerHeader borderBottom='2px' borderColor='gray.700'>
+              <Text as='h2' fontSize='24px'>
+                Editar método de pagamento
+              </Text>
+            </DrawerHeader>
+            <PaymentMethodBody />
+          </>
+        )}
+        {drawerType === 'new-creditor-debtor' && (
+          <>
+            <DrawerHeader borderBottom='2px' borderColor='gray.700'>
+              <Text as='h2' fontSize='24px'>
+                Novo credor/devedor
+              </Text>
+            </DrawerHeader>
+            <CreditorDebtorBody />
+          </>
+        )}
+        {drawerType === 'edit-creditor-debtor' && (
+          <>
+            <DrawerHeader borderBottom='2px' borderColor='gray.700'>
+              <Text as='h2' fontSize='24px'>
+                Editar credor/devedor
+              </Text>
+            </DrawerHeader>
+            <CreditorDebtorBody />
+          </>
+        )}
       </DrawerContent>
     </Drawer>
   )

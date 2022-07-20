@@ -31,14 +31,18 @@ import { useMutation, useQueryClient } from 'react-query'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 
 // API Services
-import { getUniquePaymentMethod, postUniquePaymentMethod } from '../../../services/api'
+import {
+  getUniquePaymentMethod,
+  postUniquePaymentMethod,
+  putUniquePaymentMethod,
+} from '../../../services/api'
 
 // Validation Imports
 import { formValidations } from './formValidations'
 
 // Another Imports
 import { v4 as uuid } from 'uuid'
-import { FiSave, FiX } from 'react-icons/fi'
+import { FiEdit, FiSave, FiX } from 'react-icons/fi'
 
 // Typings[TypeScript]
 import { PaymentMethodType } from '../../../@types/PaymentMethodType'
@@ -57,6 +61,7 @@ export const GetFormFieldsPaymentMethod = () => {
 
   const {
     isEditing,
+    drawerType,
     disclosure,
     paymentMethodID,
     isLoadingDataForEdit,
@@ -70,16 +75,22 @@ export const GetFormFieldsPaymentMethod = () => {
 
   const queryClient = useQueryClient()
 
-  const { mutateAsync } = useMutation(postUniquePaymentMethod, {
+  const { mutateAsync: mutateAsyncNewPaymentMethod } = useMutation(postUniquePaymentMethod, {
     onSuccess: () => {
       queryClient.refetchQueries(['payment_methods'])
     },
   })
 
-  const submitPaymentMethod: SubmitHandler<Omit<PaymentMethodType, 'id' | 'createdAt'>> = async (
+  const { mutateAsync: mutateAsyncEditPaymentMethod } = useMutation(putUniquePaymentMethod, {
+    onSuccess: () => {
+      queryClient.refetchQueries(['payment_methods'])
+    },
+  })
+
+  const submitNewPaymentMethod: SubmitHandler<Omit<PaymentMethodType, 'id' | 'createdAt'>> = async (
     data,
   ) => {
-    await mutateAsync(
+    await mutateAsyncNewPaymentMethod(
       {
         id: uuid(),
         createdAt: new Date().getTime(),
@@ -97,6 +108,22 @@ export const GetFormFieldsPaymentMethod = () => {
     )
   }
 
+  const submitEditPaymentMethod: SubmitHandler<PaymentMethodType> = async (data) => {
+    await mutateAsyncEditPaymentMethod(
+      { id: data.id, data },
+      {
+        onSuccess: () => {
+          console.info('Sucesso na edição do Método de Pagamento. ♻️')
+          onClose()
+          reset()
+        },
+        onError: () => {
+          console.warn('Error na edição do Método de Pagamento! ❌')
+        },
+      },
+    )
+  }
+
   const cancelSubmitPaymentMethod = () => {
     onClose()
     reset()
@@ -107,15 +134,15 @@ export const GetFormFieldsPaymentMethod = () => {
   }
 
   useEffect(() => {
-    if (paymentMethodID !== null) {
+    if (paymentMethodID !== null && drawerType === 'edit-payment-method') {
       getUniquePaymentMethod(paymentMethodID)
         .then((response) => {
           Object.entries(response).forEach(([name, value]) =>
             setValue(name as keyof PaymentMethodType, value),
           )
-          console.log(response)
         })
         .catch((error) => {
+          onClose()
           console.log('Error', error)
         })
         .finally(() => {
@@ -203,7 +230,7 @@ export const GetFormFieldsPaymentMethod = () => {
             leftIcon={<FiX fontSize='18' />}
             colorScheme='red'
             onClick={cancelSubmitPaymentMethod}
-            disabled={isSubmitting}
+            disabled={isSubmitting || isLoadingDataForEdit}
           >
             Cancelar
           </Button>
@@ -211,8 +238,19 @@ export const GetFormFieldsPaymentMethod = () => {
             type='submit'
             colorScheme='green'
             isLoading={isSubmitting}
-            leftIcon={<FiSave fontSize='18' />}
-            onClick={handleSubmit(submitPaymentMethod)}
+            leftIcon={
+              drawerType === 'new-payment-method' ? (
+                <FiSave fontSize='18' />
+              ) : (
+                <FiEdit fontSize='18' />
+              )
+            }
+            onClick={
+              drawerType === 'new-payment-method'
+                ? handleSubmit(submitNewPaymentMethod)
+                : handleSubmit(submitEditPaymentMethod)
+            }
+            disabled={isSubmitting || isLoadingDataForEdit}
           >
             Salvar
           </Button>

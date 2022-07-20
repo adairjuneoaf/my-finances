@@ -108,16 +108,16 @@ const ContextDrawerProvider = ({ children }: ContextDrawerProviderProps) => {
         paymentMethodID,
         creditorDebtorID,
         isLoadingDataForEdit,
+        handleIsLoadingDataForEdit,
         handleResetTransactionID,
         handleResetPaymentMethodID,
         handleResetCreditorDebtorID,
-        handleIsLoadingDataForEdit,
         handleDrawerNewTransaction,
+        handleDrawerNewPaymentMethod,
+        handleDrawerNewCreditorDebtor,
         handleDrawerEditTransaction,
         handleDrawerEditPaymentMethod,
         handleDrawerEditCreditorDebtor,
-        handleDrawerNewPaymentMethod,
-        handleDrawerNewCreditorDebtor,
       }}
     >
       {children}

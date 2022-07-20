@@ -23,10 +23,10 @@ export interface ContextDrawerValuesProps {
   handleResetTransactionID: () => void
   handleResetPaymentMethodID: () => void
   handleResetCreditorDebtorID: () => void
-  handleDrawerEditTransaction: (transactionID: string) => void
-  handleDrawerEditPaymentMethod: (paymentMethodID: string) => void
-  handleDrawerEditCreditorDebtor: (creditorDebtorID: string) => void
   handleDrawerNewTransaction: () => void
   handleDrawerNewPaymentMethod: () => void
   handleDrawerNewCreditorDebtor: () => void
+  handleDrawerEditTransaction: (transactionID: string) => void
+  handleDrawerEditPaymentMethod: (paymentMethodID: string) => void
+  handleDrawerEditCreditorDebtor: (creditorDebtorID: string) => void
 }

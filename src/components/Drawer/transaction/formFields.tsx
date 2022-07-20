@@ -36,14 +36,18 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 
 // API Services
-import { getUniqueTransaction, postUniqueTransaction } from '../../../services/api'
+import {
+  getUniqueTransaction,
+  postUniqueTransaction,
+  putUniqueTransaction,
+} from '../../../services/api'
 
 // Validation Imports
 import { formValidation } from './formValidations'
 
 // Another Imports
 import { v4 as uuid } from 'uuid'
-import { FiSave, FiX } from 'react-icons/fi'
+import { FiEdit, FiSave, FiX } from 'react-icons/fi'
 
 // Typings[TypeScript]
 import { TransactionDataType } from '../../../@types/TransactionDataType'
@@ -54,11 +58,11 @@ export const GetFormFieldsTransaction = () => {
       resolver: yupResolver(formValidation),
       mode: 'onBlur',
       defaultValues: {
-        type: '0',
+        type: '',
         title: '',
-        status: '0',
+        status: '',
         description: '',
-        valueTransaction: 0.0,
+        valueTransaction: 0,
         anotherInformation: '',
       },
     })
@@ -84,16 +88,22 @@ export const GetFormFieldsTransaction = () => {
   const { data: creditorsDebtorsList } = creditorsDebtors
   const { data: paymentMethodsList } = paymentMethods
 
-  const { mutateAsync } = useMutation(postUniqueTransaction, {
+  const { mutateAsync: mutateAsyncNewTransaction } = useMutation(postUniqueTransaction, {
     onSuccess: () => {
       queryClient.refetchQueries(['transactions'])
     },
   })
 
-  const submitTransaction: SubmitHandler<Omit<TransactionDataType, 'id' | 'createdAt'>> = async (
+  const { mutateAsync: mutateAsyncEditTransaction } = useMutation(putUniqueTransaction, {
+    onSuccess: () => {
+      queryClient.refetchQueries(['transactions'])
+    },
+  })
+
+  const submitNewTransaction: SubmitHandler<Omit<TransactionDataType, 'id' | 'createdAt'>> = async (
     data,
   ) => {
-    await mutateAsync(
+    await mutateAsyncNewTransaction(
       { id: uuid(), createdAt: new Date().getTime(), ...data },
       {
         onSuccess: () => {
@@ -102,6 +112,22 @@ export const GetFormFieldsTransaction = () => {
         },
         onError: () => {
           console.warn('Error na criação da nova transaction! ❌')
+        },
+      },
+    )
+  }
+
+  const submitEditTransaction: SubmitHandler<TransactionDataType> = async (data) => {
+    await mutateAsyncEditTransaction(
+      { id: data.id, data },
+      {
+        onSuccess: () => {
+          console.info('Sucesso na edição da transaction! ♻️')
+          onClose()
+          reset()
+        },
+        onError: () => {
+          console.warn('Error na na edição da transaction! ❌')
         },
       },
     )
@@ -123,9 +149,9 @@ export const GetFormFieldsTransaction = () => {
           Object.entries(response).forEach(([name, value]) =>
             setValue(name as keyof TransactionDataType, value),
           )
-          console.log(response)
         })
         .catch((error) => {
+          onClose()
           console.error('Error', error)
         })
         .finally(() => {
@@ -316,8 +342,14 @@ export const GetFormFieldsTransaction = () => {
             type='submit'
             colorScheme='green'
             isLoading={isSubmitting}
-            leftIcon={<FiSave fontSize='18' />}
-            onClick={handleSubmit(submitTransaction)}
+            leftIcon={
+              drawerType === 'new-transaction' ? <FiSave fontSize='18' /> : <FiEdit fontSize='18' />
+            }
+            onClick={
+              drawerType === 'new-transaction'
+                ? handleSubmit(submitNewTransaction)
+                : handleSubmit(submitEditTransaction)
+            }
             disabled={isSubmitting || isLoadingDataForEdit}
           >
             Salvar

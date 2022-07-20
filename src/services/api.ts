@@ -10,6 +10,11 @@ import { CreditorDebtorType } from './../@types/CreditorDebtorType'
 import { PaymentMethodType } from './../@types/PaymentMethodType'
 import { DataResponseAPI } from '../@types/DataResponseAPI'
 
+interface DataPutType<DataType> {
+  id: string
+  data: DataType
+}
+
 /**
  * @returns Função de retorno dos dados de todas as transações armazenadas
  * no FaunaDB.
@@ -78,18 +83,14 @@ export const postUniqueTransaction = async (data: TransactionDataType) => {
  *
  * @param id ID da transação para ser feita busca no FaunaDB.
  *
- * @param transactionData Dados da transação para serem inseridos na alteração dentro
+ * @param data Dados da transação para serem inseridos na alteração dentro
  * da collection de transactions do FaunaDB.
  */
-export const putUniqueTransaction = async (
-  id: string,
-  transactionData: Omit<TransactionDataType, 'id' | 'createdAt'>,
-) => {
-  const data = await apiRoute
+export const putUniqueTransaction = async ({ id, data }: DataPutType<TransactionDataType>) => {
+  await apiRoute
     .put(`/transactions/${id}`, {
       transactionData: {
-        id: id,
-        ...transactionData,
+        ...data,
       },
     })
     .then((response) => {
@@ -98,8 +99,6 @@ export const putUniqueTransaction = async (
     .catch((error) => {
       return console.error('Error', error.message)
     })
-
-  return data
 }
 
 /**
@@ -195,18 +194,15 @@ export const postUniquePaymentMethod = async (data: PaymentMethodType) => {
  *
  * @param id ID do método de pagamento para ser feita busca no FaunaDB.
  *
- * @param paymentMethodData Dados da transação para serem inseridos na
+ * @param data Dados da transação para serem inseridos na
  * collection de paymentMethods do FaunaDB.
  */
-export const putUniquePaymentMethod = async (
-  id: string,
-  paymentMethodData: Omit<PaymentMethodType, 'id' | 'createdAt'>,
-) => {
-  const data = await apiRoute
+
+export const putUniquePaymentMethod = async ({ id, data }: DataPutType<PaymentMethodType>) => {
+  await apiRoute
     .put(`/payment_method/${id}`, {
       paymentMethodData: {
-        id: id,
-        ...paymentMethodData,
+        ...data,
       },
     })
     .then((response) => {
@@ -215,8 +211,6 @@ export const putUniquePaymentMethod = async (
     .catch((error) => {
       return console.error('Error', error.message)
     })
-
-  return data
 }
 
 /**
@@ -232,7 +226,7 @@ export const patchStatusUniquePaymentMethod = async (
   id: string,
   statusData: Pick<PaymentMethodType, 'status'>,
 ) => {
-  const data = await apiRoute
+  await apiRoute
     .patch(`/payment_method/${id}`, {
       paymentMethodData: {
         status: statusData.status,
@@ -244,8 +238,6 @@ export const patchStatusUniquePaymentMethod = async (
     .catch((error) => {
       return console.error('Error', error.message)
     })
-
-  return data
 }
 
 /**
@@ -310,18 +302,14 @@ export const postUniqueCreditorDebtor = async (data: CreditorDebtorType) => {
  *
  * @param id ID do credor/devedor para ser feita busca no FaunaDB.
  *
- * @param creditorDebtorData Dados do credor/devedor para ser inserido na
+ * @param data Dados do credor/devedor para ser inserido na
  * collection de creditorsDebtors do FaunaDB.
  */
-export const putUniqueCreditorDebtor = async (
-  id: string,
-  creditorDebtorData: Omit<CreditorDebtorType, 'id' | 'createdAt'>,
-) => {
-  const data = await apiRoute
+export const putUniqueCreditorDebtor = async ({ id, data }: DataPutType<CreditorDebtorType>) => {
+  await apiRoute
     .put(`/creditor_debtor/${id}`, {
       creditorDebtorData: {
-        id: id,
-        ...creditorDebtorData,
+        ...data,
       },
     })
     .then((response) => {
@@ -330,8 +318,6 @@ export const putUniqueCreditorDebtor = async (
     .catch((error) => {
       return console.error('Error', error.message)
     })
-
-  return data
 }
 
 /**
@@ -347,7 +333,7 @@ export const patchUniqueCreditorDebtor = async (
   id: string,
   statusData: Pick<CreditorDebtorType, 'status'>,
 ) => {
-  const data = await apiRoute
+  await apiRoute
     .patch(`/creditor_debtor/${id}`, {
       creditorDebtorData: {
         status: statusData.status,
@@ -359,6 +345,4 @@ export const patchUniqueCreditorDebtor = async (
     .catch((error) => {
       return console.error('Error', error.message)
     })
-
-  return data
 }

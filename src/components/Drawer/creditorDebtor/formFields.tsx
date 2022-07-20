@@ -34,11 +34,15 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { formValidations } from './formValidations'
 
 // API Services
-import { getUniqueCreditorDebtor, postUniqueCreditorDebtor } from '../../../services/api'
+import {
+  getUniqueCreditorDebtor,
+  postUniqueCreditorDebtor,
+  putUniqueCreditorDebtor,
+} from '../../../services/api'
 
 // Another Imports
 import { v4 as uuid } from 'uuid'
-import { FiSave, FiX } from 'react-icons/fi'
+import { FiEdit, FiSave, FiX } from 'react-icons/fi'
 
 // Typings[TypeScript]
 import { CreditorDebtorType } from '../../../@types/CreditorDebtorType'
@@ -58,10 +62,11 @@ export const GetFormFieldsCreditorDebtor = () => {
   const {
     isEditing,
     disclosure,
+    drawerType,
     creditorDebtorID,
     isLoadingDataForEdit,
-    handleResetCreditorDebtorID,
     handleIsLoadingDataForEdit,
+    handleResetCreditorDebtorID,
   } = useContext(ContextDrawer)
 
   const { onClose } = disclosure
@@ -70,16 +75,22 @@ export const GetFormFieldsCreditorDebtor = () => {
 
   const queryClient = useQueryClient()
 
-  const { mutateAsync } = useMutation(postUniqueCreditorDebtor, {
+  const { mutateAsync: mutateAsyncNewCreditorDebtor } = useMutation(postUniqueCreditorDebtor, {
     onSuccess: () => {
       queryClient.refetchQueries(['creditors_debtors'])
     },
   })
 
-  const submitCreditorDebtor: SubmitHandler<Omit<CreditorDebtorType, 'id' | 'createdAt'>> = async (
-    data,
-  ) => {
-    await mutateAsync(
+  const { mutateAsync: mutateAsyncEditCreditorDebtor } = useMutation(putUniqueCreditorDebtor, {
+    onSuccess: () => {
+      queryClient.refetchQueries(['creditors_debtors'])
+    },
+  })
+
+  const submitNewCreditorDebtor: SubmitHandler<
+    Omit<CreditorDebtorType, 'id' | 'createdAt'>
+  > = async (data) => {
+    await mutateAsyncNewCreditorDebtor(
       {
         id: uuid(),
         createdAt: new Date().getTime(),
@@ -97,6 +108,25 @@ export const GetFormFieldsCreditorDebtor = () => {
     )
   }
 
+  const submitEditCreditorDebtor: SubmitHandler<CreditorDebtorType> = async (data) => {
+    await mutateAsyncEditCreditorDebtor(
+      {
+        id: data.id,
+        data,
+      },
+      {
+        onSuccess: () => {
+          console.info('Sucesso na edição do Credor/Devedor. ♻️')
+          onClose()
+          reset()
+        },
+        onError: () => {
+          console.warn('Error na edição do novo Credor/Devedor! ❌')
+        },
+      },
+    )
+  }
+
   const cancelSubmitCreditorDebtor = () => {
     onClose()
     reset()
@@ -107,15 +137,15 @@ export const GetFormFieldsCreditorDebtor = () => {
   }
 
   useEffect(() => {
-    if (creditorDebtorID !== null) {
+    if (creditorDebtorID !== null && drawerType === 'edit-creditor-debtor') {
       getUniqueCreditorDebtor(creditorDebtorID)
         .then((response) => {
           Object.entries(response).forEach(([name, value]) =>
             setValue(name as keyof CreditorDebtorType, value),
           )
-          console.log(response)
         })
         .catch((error) => {
+          onClose()
           console.log('Error', error)
         })
         .finally(() => {
@@ -203,7 +233,7 @@ export const GetFormFieldsCreditorDebtor = () => {
             leftIcon={<FiX fontSize='18' />}
             colorScheme='red'
             onClick={cancelSubmitCreditorDebtor}
-            disabled={isSubmitting}
+            disabled={isSubmitting || isLoadingDataForEdit}
           >
             Cancelar
           </Button>
@@ -211,8 +241,19 @@ export const GetFormFieldsCreditorDebtor = () => {
             type='submit'
             colorScheme='green'
             isLoading={isSubmitting}
-            leftIcon={<FiSave fontSize='18' />}
-            onClick={handleSubmit(submitCreditorDebtor)}
+            leftIcon={
+              drawerType === 'new-creditor-debtor' ? (
+                <FiSave fontSize='18' />
+              ) : (
+                <FiEdit fontSize='18' />
+              )
+            }
+            onClick={
+              drawerType === 'new-creditor-debtor'
+                ? handleSubmit(submitNewCreditorDebtor)
+                : handleSubmit(submitEditCreditorDebtor)
+            }
+            disabled={isSubmitting || isLoadingDataForEdit}
           >
             Salvar
           </Button>

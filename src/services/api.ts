@@ -15,6 +15,11 @@ interface DataPutType<DataType> {
   data: DataType
 }
 
+interface DataPatchStatusType {
+  id: string
+  status: string
+}
+
 /**
  * @returns Função de retorno dos dados de todas as transações armazenadas
  * no FaunaDB.
@@ -219,17 +224,14 @@ export const putUniquePaymentMethod = async ({ id, data }: DataPutType<PaymentMe
  *
  * @param id ID do método de pagamento para ser realizada as alterações.
  *
- * @param statusData Tipo do `STATUS(0 ou 1)` do método de pagamento para ser
+ * @param status Tipo do `STATUS(0 ou 1)` do método de pagamento para ser
  * realizada alteração na collection de paymentMethods do FaunaDB.
  */
-export const patchStatusUniquePaymentMethod = async (
-  id: string,
-  statusData: Pick<PaymentMethodType, 'status'>,
-) => {
+export const patchStatusUniquePaymentMethod = async ({ id, status }: DataPatchStatusType) => {
   await apiRoute
     .patch(`/payment_method/${id}`, {
       paymentMethodData: {
-        status: statusData.status,
+        status: status,
       },
     })
     .then((response) => {
@@ -326,17 +328,14 @@ export const putUniqueCreditorDebtor = async ({ id, data }: DataPutType<Creditor
  *
  * @param id ID do credor/devedor para ser realizada alteração.
  *
- * @param statusData Tipo do `STATUS(0 ou 1)` do credor/devedor para ser
+ * @param status Tipo do `STATUS(0 ou 1)` do credor/devedor para ser
  * realizada alteração na collection de creditorsDebtors do FaunaDB.
  */
-export const patchUniqueCreditorDebtor = async (
-  id: string,
-  statusData: Pick<CreditorDebtorType, 'status'>,
-) => {
+export const patchStatusUniqueCreditorDebtor = async ({ id, status }: DataPatchStatusType) => {
   await apiRoute
     .patch(`/creditor_debtor/${id}`, {
       creditorDebtorData: {
-        status: statusData.status,
+        status: status,
       },
     })
     .then((response) => {

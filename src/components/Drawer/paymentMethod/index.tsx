@@ -2,7 +2,7 @@
 import React, { Fragment } from 'react'
 
 // Components Imports
-import { GetFormFieldsPaymentMethod } from './formFieldsPaymentMethod'
+import { GetFormFieldsPaymentMethod } from './formFields'
 
 export const PaymentMethodBody: React.FC = () => {
   return <Fragment>{GetFormFieldsPaymentMethod()}</Fragment>

@@ -17,7 +17,7 @@ import { TransactionBody } from './transaction'
 import { PaymentMethodBody } from './paymentMethod'
 import { CreditorDebtorBody } from './creditorDebtor'
 
-// ContextImports Imports
+// Context Imports
 import { ContextDrawer } from '../../contexts/contextDrawer'
 
 const DrawerComponent: React.FC = () => {

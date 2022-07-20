@@ -1,6 +1,6 @@
 import * as yup from 'yup'
 
-const validationTransactionForm = yup.object().shape({
+export const formValidation = yup.object().shape({
   id: yup.string().uuid(),
   type: yup.string().required('Informe um tipo.'),
   status: yup.string().required('Informe o status.'),
@@ -38,5 +38,3 @@ const validationTransactionForm = yup.object().shape({
   creditorDebtor: yup.string().required('A empresa responsável do lançamento é obrigatória!'),
   anotherInformation: yup.string(),
 })
-
-export default validationTransactionForm

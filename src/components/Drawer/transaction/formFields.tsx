@@ -39,7 +39,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { getUniqueTransaction, postUniqueTransaction } from '../../../services/api'
 
 // Validation Imports
-import validationTransactionForm from './formValidationTransactions'
+import { formValidation } from './formValidations'
 
 // Another Imports
 import { v4 as uuid } from 'uuid'
@@ -51,7 +51,7 @@ import { TransactionDataType } from '../../../@types/TransactionDataType'
 export const GetFormFieldsTransaction = () => {
   const { reset, control, setValue, register, formState, handleSubmit } =
     useForm<TransactionDataType>({
-      resolver: yupResolver(validationTransactionForm),
+      resolver: yupResolver(formValidation),
       mode: 'onBlur',
       defaultValues: {
         type: '0',

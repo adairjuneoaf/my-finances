@@ -25,9 +25,6 @@ import { InputTextAreaComponent } from '../../Form/InputTextArea'
 // Context Imports
 import { ContextDrawer } from '../../../contexts/contextDrawer'
 
-// Hook Imports
-import { useReactQuery } from '../../../hooks/useReactQuery'
-
 // ReactQuery Imports
 import { useMutation, useQueryClient } from 'react-query'
 
@@ -81,12 +78,7 @@ export const GetFormFieldsTransaction = () => {
 
   const { errors, isSubmitting } = formState
 
-  const { creditorsDebtors, paymentMethods } = useReactQuery()
-
   const queryClient = useQueryClient()
-
-  const { data: creditorsDebtorsList } = creditorsDebtors
-  const { data: paymentMethodsList } = paymentMethods
 
   const { mutateAsync: mutateAsyncNewTransaction } = useMutation(postUniqueTransaction, {
     onSuccess: () => {
@@ -280,7 +272,7 @@ export const GetFormFieldsTransaction = () => {
           <SelectComponent
             isRequired
             isLoadingValue={isLoadingDataForEdit}
-            options={creditorsDebtorsList}
+            typeList='creditorsDebtors'
             label='Credor/Devedor'
             placeholder='Selecionar credor ou devedor...'
             errorSelectOption={errors.creditorDebtor}
@@ -291,7 +283,7 @@ export const GetFormFieldsTransaction = () => {
         <VStack alignItems='flex-start' spacing='1'>
           <SelectComponent
             isLoadingValue={isLoadingDataForEdit}
-            options={paymentMethodsList}
+            typeList='paymentMethods'
             label='Método de pagamento'
             errorSelectOption={errors.paymentMethod}
             {...register('paymentMethod')}

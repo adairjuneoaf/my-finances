@@ -4,6 +4,9 @@ import React, { forwardRef, ForwardRefRenderFunction } from 'react'
 // Chakra Imports
 import { FormControl, FormErrorMessage, FormLabel, Select, SelectProps } from '@chakra-ui/react'
 
+// ReactQuery Imports
+import { useReactQuery } from '../../../hooks/useReactQuery'
+
 // Components Imports
 import SkeletonComponent from '../../Skeleton'
 
@@ -15,17 +18,19 @@ import OptionSelectComponent from './optionSelect'
 import { Option } from './types'
 
 interface SelectOptionsProps extends SelectProps {
+  typeList: 'paymentMethods' | 'creditorsDebtors'
   label?: string
   isRequired?: boolean
   errorSelectOption?: FieldError
-  options?: Array<Option>
   isLoadingValue?: boolean
 }
 
 const SelectOptionsComponent: ForwardRefRenderFunction<HTMLSelectElement, SelectOptionsProps> = (
-  { label, options, errorSelectOption, isRequired = false, isLoadingValue = true, ...props },
+  { label, typeList, errorSelectOption, isRequired = false, isLoadingValue = true, ...props },
   ref,
 ) => {
+  const { creditorsDebtors, paymentMethods } = useReactQuery()
+
   return (
     <FormControl isInvalid={!!errorSelectOption} isRequired={isRequired}>
       {!!label && (
@@ -44,11 +49,23 @@ const SelectOptionsComponent: ForwardRefRenderFunction<HTMLSelectElement, Select
           focusBorderColor='green.500'
           _hover={{ backgroundColor: 'transparent', borderColor: 'gray.600' }}
         >
-          {options &&
-            options?.map((data: Option) => {
+          {typeList === 'paymentMethods' &&
+            paymentMethods.data &&
+            paymentMethods.data?.map((data: Option) => {
               return <OptionSelectComponent key={data.id} {...data} />
             })}
-          {!options && <option>Não existem opções...</option>}
+          {typeList === 'paymentMethods' && !paymentMethods.data && (
+            <option>Não existem opções...</option>
+          )}
+
+          {typeList === 'creditorsDebtors' &&
+            creditorsDebtors.data &&
+            creditorsDebtors.data?.map((data: Option) => {
+              return <OptionSelectComponent key={data.id} {...data} />
+            })}
+          {typeList === 'creditorsDebtors' && !creditorsDebtors.data && (
+            <option>Não existem opções...</option>
+          )}
         </Select>
       </SkeletonComponent>
       {errorSelectOption && <FormErrorMessage>{errorSelectOption?.message}</FormErrorMessage>}

@@ -11,6 +11,7 @@ import {
   PopoverContent,
   PopoverTrigger,
   Tooltip,
+  useDisclosure,
 } from '@chakra-ui/react'
 
 // Contexts Imports
@@ -21,12 +22,24 @@ import { FiEdit, FiTrash, FiEye, FiMoreVertical } from 'react-icons/fi'
 
 // Typings[TypeScript]
 import { IPopoverSubMenu } from './types'
+import { AlertDialogDeleteTransaction } from '../AlertDialogDelete'
 
 const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ transactionID }) => {
   const { handleDrawerEditTransaction } = useContext(ContextDrawer)
 
+  const alertDialogDisclosure = useDisclosure()
+
+  const excludeTransaction = () => {
+    console.log('teste exclude function')
+  }
+
   return (
     <Popover>
+      <AlertDialogDeleteTransaction
+        onSuccess={excludeTransaction}
+        isOpen={alertDialogDisclosure.isOpen}
+        onClose={alertDialogDisclosure.onClose}
+      />
       <Tooltip hasArrow label='Ações' shouldWrapChildren marginTop='3'>
         <PopoverTrigger>
           <Button backgroundColor='transparent' _hover={{ backgroundColor: 'gray.900' }}>
@@ -62,6 +75,7 @@ const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ transactionID }) =
                 icon={<FiTrash fontSize='24' color='white' />}
                 backgroundColor='red.500'
                 colorScheme='red'
+                onClick={alertDialogDisclosure.onOpen}
               />
             </Tooltip>
           </HStack>

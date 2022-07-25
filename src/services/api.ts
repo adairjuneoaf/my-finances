@@ -138,6 +138,26 @@ export const patchStatusUniqueTransaction = async (
 }
 
 /**
+ * @returns Função de exclusão de `UMA` única
+ * transação armazenada no FaunaDB.
+ *
+ * @param id ID da transação para ser realizada as alterações.
+ *
+ */
+export const deleteUniqueTransaction = async ({ id }: { id: string }) => {
+  const data = await apiRoute
+    .delete(`/transactions/${id}`)
+    .then((response) => {
+      return response.data
+    })
+    .catch((error) => {
+      return console.error('Error', error.message)
+    })
+
+  console.log(data)
+}
+
+/**
  * @returns Função de retorno dos dados de todas os métodos de pagamentos
  * armazenados no FaunaDB.
  */

@@ -23,22 +23,48 @@ import { FiEdit, FiTrash, FiEye, FiMoreVertical } from 'react-icons/fi'
 // Typings[TypeScript]
 import { IPopoverSubMenu } from './types'
 import { AlertDialogDeleteTransaction } from '../AlertDialogDelete'
+import { useMutation, useQueryClient } from 'react-query'
+import { deleteUniqueTransaction } from '../../../services/api'
 
 const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ transactionID }) => {
   const { handleDrawerEditTransaction } = useContext(ContextDrawer)
 
   const alertDialogDisclosure = useDisclosure()
 
-  const excludeTransaction = () => {
-    console.log('teste exclude function')
+  const queryClient = useQueryClient()
+
+  const { mutateAsync, isLoading } = useMutation(deleteUniqueTransaction, {
+    onSuccess: () => {
+      queryClient.refetchQueries(['transactions'])
+    },
+  })
+
+  const handleDeleteTransaction = async () => {
+    await mutateAsync(
+      {
+        id: transactionID,
+      },
+      {
+        onSuccess: () => {
+          console.info('Sucesso na exclusão do lançamento selecionado!. ✅')
+          alertDialogDisclosure.onClose()
+        },
+        onError: () => {
+          console.warn('Error na exclusão do lançamento selecionado. ❌')
+        },
+      },
+    )
   }
 
   return (
     <Popover>
       <AlertDialogDeleteTransaction
-        onSuccess={excludeTransaction}
+        isLoading={isLoading}
         isOpen={alertDialogDisclosure.isOpen}
         onClose={alertDialogDisclosure.onClose}
+        onSuccess={() => {
+          handleDeleteTransaction()
+        }}
       />
       <Tooltip hasArrow label='Ações' shouldWrapChildren marginTop='3'>
         <PopoverTrigger>

@@ -108,6 +108,10 @@ const getUniqueTransaction = async (req: NextApiRequest, res: NextApiResponse<Da
         return res.status(200).json(patchUniqueTransactionByID)
       }
 
+      case 'DELETE': {
+        return res.status(200).json(`deleted successful! - ${transactionID}`)
+      }
+
       default:
         res.status(405).end('Method not allowed!')
     }

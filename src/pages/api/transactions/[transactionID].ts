@@ -109,7 +109,24 @@ const getUniqueTransaction = async (req: NextApiRequest, res: NextApiResponse<Da
       }
 
       case 'DELETE': {
-        return res.status(200).json(`deleted successful! - ${transactionID}`)
+        const deleteUniqueTransactionByID = await fauna
+          .query(
+            query.Delete(
+              query.Select(
+                'ref',
+                query.Get(
+                  query.Match(
+                    query.Index('transaction_by_id'),
+                    query.Casefold(String(transactionID)),
+                  ),
+                ),
+              ),
+            ),
+          )
+          .then((response) => response)
+          .catch((err) => console.error('Error: ', err.message))
+
+        return res.status(200).json(deleteUniqueTransactionByID)
       }
 
       default:

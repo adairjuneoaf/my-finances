@@ -119,7 +119,7 @@ export const patchStatusUniqueTransaction = async (
   id: string,
   statusData: Pick<TransactionDataType, 'status'>,
 ) => {
-  const data = await apiRoute
+  await apiRoute
     .patch(`/transactions/${id}`, {
       transactionData: {
         status: statusData.status,
@@ -131,10 +131,6 @@ export const patchStatusUniqueTransaction = async (
     .catch((error) => {
       return console.error('Error', error.message)
     })
-
-  console.log(data)
-
-  return data
 }
 
 /**
@@ -145,7 +141,7 @@ export const patchStatusUniqueTransaction = async (
  *
  */
 export const deleteUniqueTransaction = async ({ id }: { id: string }) => {
-  const data = await apiRoute
+  await apiRoute
     .delete(`/transactions/${id}`)
     .then((response) => {
       return response.data
@@ -153,8 +149,6 @@ export const deleteUniqueTransaction = async ({ id }: { id: string }) => {
     .catch((error) => {
       return console.error('Error', error.message)
     })
-
-  console.log(data)
 }
 
 /**

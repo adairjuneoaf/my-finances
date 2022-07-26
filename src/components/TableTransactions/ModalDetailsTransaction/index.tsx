@@ -73,7 +73,17 @@ export const ModalDetailsTransaction: React.FC<IModalProps> = ({ isOpen, onClose
       onClose={onClose}
     >
       <ModalOverlay />
-      <ModalContent backgroundColor='gray.800'>
+      <ModalContent
+        backgroundColor='gray.800'
+        css={{
+          '&::-webkit-scrollbar': {
+            width: '8px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            background: '#353646',
+          },
+        }}
+      >
         <ModalHeader paddingTop='6' paddingX='8' fontSize='24px' color='gray.600' cursor='default'>
           Detalhes do lançamento
         </ModalHeader>
@@ -110,20 +120,20 @@ export const ModalDetailsTransaction: React.FC<IModalProps> = ({ isOpen, onClose
             )}
           </HStack>
           <VStack marginY='4' spacing='2' alignItems='flex-start'>
-            <Text as='p' fontSize='16px' fontStyle='italic'>
-              Lançamento em{' '}
+            <Text as='p' fontSize='16px'>
+              Lançamento - &nbsp;
               <time
                 dateTime={`${fromUnixTime(Number(data?.dateEntriesTransaction) / 1000)}`}
-                style={{ fontStyle: 'normal' }}
+                style={{ fontWeight: '600' }}
               >
                 {formatDetailedDate(data?.dateEntriesTransaction)}
               </time>
             </Text>
-            <Text as='p' fontSize='16px' fontStyle='italic'>
-              Vencimento em{' '}
+            <Text as='p' fontSize='16px'>
+              Vencimento - &nbsp;
               <time
                 dateTime={`${fromUnixTime(Number(data?.dateDueTransaction) / 1000)}`}
-                style={{ fontStyle: 'normal' }}
+                style={{ fontWeight: '600' }}
               >
                 {formatDetailedDate(data?.dateDueTransaction)}
               </time>
@@ -135,7 +145,7 @@ export const ModalDetailsTransaction: React.FC<IModalProps> = ({ isOpen, onClose
             </Text>
           </VStack>
           <VStack marginY='4' alignItems='flex-start'>
-            <Text as='p' fontSize='16px' fontStyle='italic'>
+            <Text as='p' fontSize='16px' fontStyle='italic' fontWeight='semibold' color='gray.600'>
               Dados para pagamento
             </Text>
             {data?.dataForPayment ? (
@@ -153,20 +163,24 @@ export const ModalDetailsTransaction: React.FC<IModalProps> = ({ isOpen, onClose
             )}
           </VStack>
           <HStack marginY='4' spacing='6' alignItems='flex-start'>
-            <Text as='p' fontSize='16px' fontStyle='italic'>
+            <Text as='p' fontSize='16px' fontStyle='italic' fontWeight='semibold' color='gray.600'>
               Método de Pagamento
-              <Text fontStyle='normal'>{getPaymentMethodDetails(data?.paymentMethod)}</Text>
+              <Text fontStyle='normal' fontWeight='normal' color='gray.50'>
+                {getPaymentMethodDetails(data?.paymentMethod)}
+              </Text>
             </Text>
-            <Text as='p' fontSize='16px' fontStyle='italic'>
+            <Text as='p' fontSize='16px' fontStyle='italic' fontWeight='semibold' color='gray.600'>
               Credor/Devedor
-              <Text fontStyle='normal'>{getCreditorDebtorDetails(data?.creditorDebtor)}</Text>
+              <Text fontStyle='normal' fontWeight='normal' color='gray.50'>
+                {getCreditorDebtorDetails(data?.creditorDebtor)}
+              </Text>
             </Text>
           </HStack>
           <VStack marginY='4' alignItems='flex-start'>
-            <Text as='p' fontSize='16px' fontStyle='italic'>
+            <Text as='p' fontSize='16px' fontStyle='italic' fontWeight='semibold' color='gray.600'>
               Outras informações do lançamento
             </Text>
-            {data?.dataForPayment ? (
+            {data?.anotherInformation ? (
               <Box as='div' width='100%' padding='4' backgroundColor='gray.900' borderRadius='5'>
                 <Text as='p' fontSize='16px' fontWeight='medium'>
                   {data.anotherInformation}

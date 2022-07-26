@@ -29,7 +29,7 @@
   },
   "settings": {
     "react": {
-      "version": "detected"
+      "version": "detect"
     },
     "import/resolver": {
       "typescript": {}

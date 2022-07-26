@@ -54,8 +54,8 @@ const SelectOptionsComponent: ForwardRefRenderFunction<HTMLSelectElement, Select
             paymentMethods.data?.map((data: Option) => {
               return <OptionSelectComponent key={data.id} {...data} />
             })}
-          {typeList === 'paymentMethods' && !paymentMethods.data && (
-            <option>Não existem opções...</option>
+          {typeList === 'paymentMethods' && paymentMethods.data?.length === 0 && (
+            <option disabled>Não existem opções...</option>
           )}
 
           {typeList === 'creditorsDebtors' &&
@@ -63,8 +63,8 @@ const SelectOptionsComponent: ForwardRefRenderFunction<HTMLSelectElement, Select
             creditorsDebtors.data?.map((data: Option) => {
               return <OptionSelectComponent key={data.id} {...data} />
             })}
-          {typeList === 'creditorsDebtors' && !creditorsDebtors.data && (
-            <option>Não existem opções...</option>
+          {typeList === 'creditorsDebtors' && creditorsDebtors.data?.length === 0 && (
+            <option disabled>Não existem opções...</option>
           )}
         </Select>
       </SkeletonComponent>

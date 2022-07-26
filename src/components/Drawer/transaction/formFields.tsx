@@ -274,7 +274,6 @@ export const GetFormFieldsTransaction = () => {
             isLoadingValue={isLoadingDataForEdit}
             typeList='creditorsDebtors'
             label='Credor/Devedor'
-            placeholder='Selecionar credor ou devedor...'
             errorSelectOption={errors.creditorDebtor}
             {...register('creditorDebtor')}
           />
@@ -282,6 +281,7 @@ export const GetFormFieldsTransaction = () => {
 
         <VStack alignItems='flex-start' spacing='1'>
           <SelectComponent
+            isRequired
             isLoadingValue={isLoadingDataForEdit}
             typeList='paymentMethods'
             label='Método de pagamento'

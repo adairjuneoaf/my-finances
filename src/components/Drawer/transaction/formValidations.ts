@@ -36,5 +36,6 @@ export const formValidation = yup.object().shape({
     )
     .required('A data de vencimento é obrigatória!'),
   creditorDebtor: yup.string().required('A empresa responsável do lançamento é obrigatória!'),
+  paymentMethod: yup.string().required('É obrigatório informar uma forma de pagamento!'),
   anotherInformation: yup.string(),
 })

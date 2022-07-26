@@ -52,7 +52,7 @@ const TableCreditorsDebtorsComponent: React.FC = () => {
           <TableHead />
         </Thead>
         <Tbody>
-          {!data && !isLoading && (
+          {data?.length === 0 && !isLoading && (
             <Tr>
               <Th
                 colSpan={5}
@@ -66,12 +66,14 @@ const TableCreditorsDebtorsComponent: React.FC = () => {
               </Th>
             </Tr>
           )}
-          {!isLoading &&
-            data &&
+
+          {data?.length !== 0 &&
+            !isLoading &&
             currentCreditorsDebtors?.map((data, idx) => {
               return <TableBody key={data.id} {...data} index={idx + 1} />
             })}
-          {isLoading && !data && (
+
+          {data?.length === 0 && isLoading && (
             <>
               <SkeletonBody />
               <SkeletonBody />

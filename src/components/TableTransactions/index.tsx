@@ -62,7 +62,7 @@ const TableTransactionsComponent: React.FC = () => {
           <TableHead />
         </Thead>
         <Tbody>
-          {!data && !isLoading && (
+          {data?.length === 0 && !isLoading && (
             <Tr>
               <Th
                 colSpan={5}
@@ -77,13 +77,13 @@ const TableTransactionsComponent: React.FC = () => {
             </Tr>
           )}
 
-          {!isLoading &&
-            data &&
+          {data?.length !== 0 &&
+            !isLoading &&
             currentTransactions?.map((data, idx) => {
               return <TableBody key={data.id} {...data} index={idx + 1} />
             })}
 
-          {isLoading && !data && (
+          {data?.length === 0 && isLoading && (
             <>
               <SkeletonBody />
               <SkeletonBody />

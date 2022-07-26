@@ -38,9 +38,6 @@ export const authOptions: NextAuthOptions = {
         userId: id,
         name: name,
         email: email,
-        transactions: [{}],
-        paymentMethods: [{}],
-        creditorsDebtors: [{}],
       }
 
       try {

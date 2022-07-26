@@ -52,7 +52,7 @@ const TablePaymentMethodsComponent: React.FC = () => {
           <TableHead />
         </Thead>
         <Tbody>
-          {!data && !isLoading && (
+          {data?.length === 0 && !isLoading && (
             <Tr>
               <Th
                 colSpan={5}
@@ -66,13 +66,14 @@ const TablePaymentMethodsComponent: React.FC = () => {
               </Th>
             </Tr>
           )}
-          {!isLoading &&
-            data &&
+
+          {data?.length !== 0 &&
+            !isLoading &&
             currentPaymentMethods?.map((data, idx) => {
               return <TableBody key={data.id} {...data} index={idx + 1} />
             })}
 
-          {isLoading && !data && (
+          {data?.length === 0 && isLoading && (
             <>
               <SkeletonBody />
               <SkeletonBody />

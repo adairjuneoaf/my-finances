@@ -8,8 +8,9 @@ export const api = axios.create({
 })
 
 export const apiRoute = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_ROUTE_URL,
+  baseURL: '/api',
   headers: {
+    'Content-Type': 'application/json',
     Authorization: `${process.env.NEXT_PUBLIC_API_ROUTE_SECRET}`,
   },
 })

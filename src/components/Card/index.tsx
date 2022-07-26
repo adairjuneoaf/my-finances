@@ -35,7 +35,7 @@ const CardComponent: React.FC<CardComponentProps> = ({ icon, title, value, isLoa
     >
       <HStack flexDirection='row' justifyContent='flex-start' alignItems='center'>
         {!!icon && icon}
-        <Text as='h2' fontSize='24' fontWeight='medium'>
+        <Text as='h2' fontSize='24' fontWeight='semibold'>
           {title}
         </Text>
       </HStack>

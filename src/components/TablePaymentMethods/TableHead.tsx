@@ -15,7 +15,7 @@ const TableHead: React.FC = () => {
           STATUS
         </Th>
         <Th fontSize='14px' color='gray.200' fontWeight='extrabold'>
-          DESCRIÇÃO
+          TÍTULO
         </Th>
         <Th width='2%' fontSize='14px' color='gray.200' fontWeight='extrabold'></Th>
       </Tr>

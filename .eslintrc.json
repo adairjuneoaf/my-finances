@@ -28,6 +28,9 @@
     "no-duplicate-imports": "error"
   },
   "settings": {
+    "react": {
+      "version": "detected"
+    },
     "import/resolver": {
       "typescript": {}
     }

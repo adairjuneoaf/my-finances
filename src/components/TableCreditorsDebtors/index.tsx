@@ -67,13 +67,13 @@ const TableCreditorsDebtorsComponent: React.FC = () => {
             </Tr>
           )}
 
-          {data?.length !== 0 &&
+          {data &&
             !isLoading &&
             currentCreditorsDebtors?.map((data, idx) => {
               return <TableBody key={data.id} {...data} index={idx + 1} />
             })}
 
-          {data?.length === 0 && isLoading && (
+          {!data && isLoading && (
             <>
               <SkeletonBody />
               <SkeletonBody />

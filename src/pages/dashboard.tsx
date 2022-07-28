@@ -3,6 +3,7 @@ import React, { Fragment, useMemo, useRef } from 'react'
 
 // Imports Next
 import NextHead from 'next/head'
+import dynamic from 'next/dynamic'
 import { getServerSession } from 'next-auth'
 import { authOptions } from './api/auth/[...nextauth]'
 import { NextPage, GetServerSideProps } from 'next'
@@ -12,10 +13,14 @@ import { Box, Flex, Text, HStack, Spinner, SimpleGrid } from '@chakra-ui/react'
 
 // Components Imports
 import CardComponent from '../components/Card'
-import DrawerComponent from '../components/Drawer'
 import HeaderComponent from '../components/Header'
 import SideBarNavigationComponent from '../components/SideBarNavigation'
 import TableTransactionsComponent from '../components/TableTransactions'
+const DrawerComponent = dynamic(() => import('../components/Drawer'), {
+  ssr: false,
+  suspense: false,
+  loading: () => <Spinner color='green.500' size='md' thickness='4px' speed='0.5s' />,
+})
 
 // Hooks Imports
 import { useReactQuery } from '../hooks/useReactQuery'

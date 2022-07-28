@@ -4,6 +4,7 @@ import React, { useRef } from 'react'
 // Chakra Imports
 import {
   Button,
+  HStack,
   AlertDialog,
   AlertDialogBody,
   AlertDialogFooter,
@@ -11,7 +12,6 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
   AlertDialogProps,
-  HStack,
 } from '@chakra-ui/react'
 
 // Another Imports
@@ -25,12 +25,12 @@ interface IAlertDialogProps {
   onSuccess: () => void
 }
 
-export const AlertDialogDeleteTransaction: React.FC<IAlertDialogProps> = ({
+export default function AlertDialogDeleteTransaction({
   isOpen,
   onClose,
-  isLoading = false,
   onSuccess,
-}) => {
+  isLoading = false,
+}: IAlertDialogProps) {
   const alertDialogRef = useRef() as AlertDialogProps['leastDestructiveRef']
 
   return (

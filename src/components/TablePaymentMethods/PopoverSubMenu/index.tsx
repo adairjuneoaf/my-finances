@@ -1,20 +1,32 @@
 // Imports React
-import React, { useContext } from 'react'
+import React, { Fragment, useContext, useRef } from 'react'
+
+// Imports Next
+import dynamic from 'next/dynamic'
 
 // Chakra Imports
 import {
   Button,
   HStack,
-  IconButton,
   Popover,
+  Spinner,
+  Tooltip,
+  IconButton,
   PopoverBody,
   PopoverContent,
   PopoverTrigger,
-  Tooltip,
+  useDisclosure,
 } from '@chakra-ui/react'
 
 // ReactQuery Imports
 import { useMutation, useQueryClient } from 'react-query'
+
+// Components Dynamic Imports
+const ModalDetailsPaymentMethods = dynamic(() => import('../ModalDetailsPaymentMethods'), {
+  ssr: false,
+  suspense: false,
+  loading: () => <Spinner color='green.500' size='md' thickness='4px' speed='0.5s' />,
+})
 
 // Contexts Imports
 import { ContextDrawer } from '../../../contexts/contextDrawer'
@@ -27,9 +39,12 @@ import { FiEdit, FiEye, FiMoreVertical, FiPower } from 'react-icons/fi'
 
 // Typings[TypeScript]
 import { IPopoverSubMenu } from './types'
+import { PaymentMethodType } from '../../../@types/PaymentMethodType'
 
 const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ paymentMethodID, status }) => {
   const { handleDrawerEditPaymentMethod } = useContext(ContextDrawer)
+
+  const paymentMethodSelected = useRef<PaymentMethodType | undefined>(undefined)
 
   const queryClient = useQueryClient()
 
@@ -56,72 +71,92 @@ const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ paymentMethodID, s
     )
   }
 
+  const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const getPaymentMethod = (id: string) => {
+    const dataCache = queryClient.getQueryData<Array<PaymentMethodType>>(['payment_methods'])
+
+    paymentMethodSelected.current = dataCache?.find((paymentMethod) => paymentMethod.id === id)
+
+    onOpen()
+  }
+
   return (
-    <Popover trigger='hover'>
-      <Tooltip hasArrow label='Ações' shouldWrapChildren marginTop='3'>
-        <PopoverTrigger>
-          <Button backgroundColor='transparent' _hover={{ backgroundColor: 'gray.900' }}>
-            <FiMoreVertical fontSize='24' color='white' />
-          </Button>
-        </PopoverTrigger>
-      </Tooltip>
-      <PopoverContent backgroundColor='gray.800' width='fit-content' borderColor='gray.700'>
-        <PopoverBody>
-          <HStack>
-            <Tooltip hasArrow label='Detalhes'>
-              <IconButton
-                aria-label='more-details-paymentMethod'
-                icon={<FiEye fontSize='24' color='white' />}
-                backgroundColor='blue.500'
-                colorScheme='blue'
-                disabled={isLoading}
-              />
-            </Tooltip>
-            <Tooltip hasArrow label='Editar'>
-              <IconButton
-                aria-label='edit-paymentMethod'
-                icon={<FiEdit fontSize='24' color='white' />}
-                backgroundColor='green.500'
-                colorScheme='green'
-                disabled={isLoading}
-                onClick={() => {
-                  handleDrawerEditPaymentMethod(paymentMethodID)
-                }}
-              />
-            </Tooltip>
-            {status === '1' ? (
-              <Tooltip hasArrow label='Inativar'>
+    <Fragment>
+      <ModalDetailsPaymentMethods
+        isOpen={isOpen}
+        onClose={onClose}
+        data={paymentMethodSelected.current}
+      />
+      <Popover trigger='hover'>
+        <Tooltip hasArrow label='Ações' shouldWrapChildren marginTop='3'>
+          <PopoverTrigger>
+            <Button backgroundColor='transparent' _hover={{ backgroundColor: 'gray.900' }}>
+              <FiMoreVertical fontSize='24' color='white' />
+            </Button>
+          </PopoverTrigger>
+        </Tooltip>
+        <PopoverContent backgroundColor='gray.800' width='fit-content' borderColor='gray.700'>
+          <PopoverBody>
+            <HStack>
+              <Tooltip hasArrow label='Detalhes'>
                 <IconButton
-                  aria-label='inactive-paymentMethod'
-                  icon={<FiPower fontSize='24' color='white' />}
-                  backgroundColor='red.500'
-                  colorScheme='red'
-                  isLoading={isLoading}
+                  aria-label='more-details-paymentMethod'
+                  icon={<FiEye fontSize='24' color='white' />}
+                  backgroundColor='blue.500'
+                  colorScheme='blue'
                   disabled={isLoading}
                   onClick={() => {
-                    handlePaymentMethodStatus('0')
+                    getPaymentMethod(paymentMethodID)
                   }}
                 />
               </Tooltip>
-            ) : (
-              <Tooltip hasArrow label='Ativar'>
+              <Tooltip hasArrow label='Editar'>
                 <IconButton
-                  aria-label='active-paymentMethod'
-                  icon={<FiPower fontSize='24' color='white' />}
+                  aria-label='edit-paymentMethod'
+                  icon={<FiEdit fontSize='24' color='white' />}
                   backgroundColor='green.500'
                   colorScheme='green'
-                  isLoading={isLoading}
                   disabled={isLoading}
                   onClick={() => {
-                    handlePaymentMethodStatus('1')
+                    handleDrawerEditPaymentMethod(paymentMethodID)
                   }}
                 />
               </Tooltip>
-            )}
-          </HStack>
-        </PopoverBody>
-      </PopoverContent>
-    </Popover>
+              {status === '1' ? (
+                <Tooltip hasArrow label='Inativar'>
+                  <IconButton
+                    aria-label='inactive-paymentMethod'
+                    icon={<FiPower fontSize='24' color='white' />}
+                    backgroundColor='red.500'
+                    colorScheme='red'
+                    isLoading={isLoading}
+                    disabled={isLoading}
+                    onClick={() => {
+                      handlePaymentMethodStatus('0')
+                    }}
+                  />
+                </Tooltip>
+              ) : (
+                <Tooltip hasArrow label='Ativar'>
+                  <IconButton
+                    aria-label='active-paymentMethod'
+                    icon={<FiPower fontSize='24' color='white' />}
+                    backgroundColor='green.500'
+                    colorScheme='green'
+                    isLoading={isLoading}
+                    disabled={isLoading}
+                    onClick={() => {
+                      handlePaymentMethodStatus('1')
+                    }}
+                  />
+                </Tooltip>
+              )}
+            </HStack>
+          </PopoverBody>
+        </PopoverContent>
+      </Popover>
+    </Fragment>
   )
 }
 

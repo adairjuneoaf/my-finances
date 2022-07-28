@@ -3,6 +3,7 @@ import React, { Fragment, useContext } from 'react'
 
 // Imports Next
 import NextHead from 'next/head'
+import dynamic from 'next/dynamic'
 import { getServerSession } from 'next-auth'
 import { GetServerSideProps, NextPage } from 'next'
 import { authOptions } from './api/auth/[...nextauth]'
@@ -24,11 +25,15 @@ import {
 } from '@chakra-ui/react'
 
 // Components Imports
-import DrawerComponent from '../components/Drawer'
 import HeaderComponent from '../components/Header'
 import SideBarNavigation from '../components/SideBarNavigation'
 import TablePaymentMethods from '../components/TablePaymentMethods'
 import TableCreditorsDebtors from '../components/TableCreditorsDebtors'
+const DrawerComponent = dynamic(() => import('../components/Drawer'), {
+  ssr: false,
+  suspense: false,
+  loading: () => <Spinner color='green.500' size='md' thickness='4px' speed='0.5s' />,
+})
 
 // Contexts Imports
 import { ContextDrawer } from '../contexts/contextDrawer'

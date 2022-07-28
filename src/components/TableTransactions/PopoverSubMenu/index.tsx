@@ -1,5 +1,8 @@
 // Imports React
-import React, { useContext, useRef } from 'react'
+import React, { Fragment, useContext, useRef } from 'react'
+
+// Imports Next
+import dynamic from 'next/dynamic'
 
 // Chakra Imports
 import {
@@ -10,6 +13,7 @@ import {
   PopoverBody,
   PopoverContent,
   PopoverTrigger,
+  Spinner,
   Tooltip,
   useDisclosure,
 } from '@chakra-ui/react'
@@ -17,8 +21,17 @@ import {
 // ReactQuery Imports
 import { useMutation, useQueryClient } from 'react-query'
 
-// Components Imports
-import { AlertDialogDeleteTransaction } from '../AlertDialogDelete'
+// Components Dynamic Imports
+const AlertDialogDeleteTransaction = dynamic(() => import('../AlertDialogDelete'), {
+  ssr: false,
+  suspense: false,
+  loading: () => <Spinner color='green.500' size='md' thickness='4px' speed='0.5s' />,
+})
+const ModalDetailsTransaction = dynamic(() => import('../ModalDetailsTransaction'), {
+  ssr: false,
+  suspense: false,
+  loading: () => <Spinner color='green.500' size='md' thickness='4px' speed='0.5s' />,
+})
 
 // Contexts Imports
 import { ContextDrawer } from '../../../contexts/contextDrawer'
@@ -32,12 +45,11 @@ import { FiEdit, FiTrash, FiEye, FiMoreVertical } from 'react-icons/fi'
 // Typings[TypeScript]
 import { IPopoverSubMenu } from './types'
 import { TransactionDataType } from '../../../@types/TransactionDataType'
-import { ModalDetailsTransaction } from '../ModalDetailsTransaction/index'
 
 const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ transactionID }) => {
   const { handleDrawerEditTransaction } = useContext(ContextDrawer)
 
-  const transactionSelected = useRef<TransactionDataType | undefined>()
+  const transactionSelected = useRef<TransactionDataType | undefined>(undefined)
 
   const alertDialogDisclosure = useDisclosure()
   const modalOverlayDisclosure = useDisclosure()
@@ -79,7 +91,7 @@ const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ transactionID }) =
   }
 
   return (
-    <Popover trigger='hover'>
+    <Fragment>
       <AlertDialogDeleteTransaction
         isLoading={isLoading}
         isOpen={alertDialogDisclosure.isOpen}
@@ -93,51 +105,53 @@ const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ transactionID }) =
         onClose={modalOverlayDisclosure.onClose}
         data={transactionSelected.current}
       />
-      <Tooltip hasArrow label='Ações' shouldWrapChildren marginTop='3'>
-        <PopoverTrigger>
-          <Button backgroundColor='transparent' _hover={{ backgroundColor: 'gray.900' }}>
-            <FiMoreVertical fontSize='24' color='white' />
-          </Button>
-        </PopoverTrigger>
-      </Tooltip>
-      <PopoverContent backgroundColor='gray.800' width='fit-content' borderColor='gray.700'>
-        <PopoverBody>
-          <HStack>
-            <Tooltip hasArrow label='Detalhes'>
-              <IconButton
-                aria-label='more-details-transaction'
-                icon={<FiEye fontSize='24' color='white' />}
-                backgroundColor='blue.500'
-                colorScheme='blue'
-                onClick={() => {
-                  getTransaction(transactionID)
-                }}
-              />
-            </Tooltip>
-            <Tooltip hasArrow label='Editar'>
-              <IconButton
-                aria-label='edit-transaction'
-                icon={<FiEdit fontSize='24' color='white' />}
-                backgroundColor='green.500'
-                colorScheme='green'
-                onClick={() => {
-                  handleDrawerEditTransaction(transactionID)
-                }}
-              />
-            </Tooltip>
-            <Tooltip hasArrow label='Excluir'>
-              <IconButton
-                aria-label='delete-transaction'
-                icon={<FiTrash fontSize='24' color='white' />}
-                backgroundColor='red.500'
-                colorScheme='red'
-                onClick={alertDialogDisclosure.onOpen}
-              />
-            </Tooltip>
-          </HStack>
-        </PopoverBody>
-      </PopoverContent>
-    </Popover>
+      <Popover trigger='hover'>
+        <Tooltip hasArrow label='Ações' shouldWrapChildren marginTop='3'>
+          <PopoverTrigger>
+            <Button backgroundColor='transparent' _hover={{ backgroundColor: 'gray.900' }}>
+              <FiMoreVertical fontSize='24' color='white' />
+            </Button>
+          </PopoverTrigger>
+        </Tooltip>
+        <PopoverContent backgroundColor='gray.800' width='fit-content' borderColor='gray.700'>
+          <PopoverBody>
+            <HStack>
+              <Tooltip hasArrow label='Detalhes'>
+                <IconButton
+                  aria-label='more-details-transaction'
+                  icon={<FiEye fontSize='24' color='white' />}
+                  backgroundColor='blue.500'
+                  colorScheme='blue'
+                  onClick={() => {
+                    getTransaction(transactionID)
+                  }}
+                />
+              </Tooltip>
+              <Tooltip hasArrow label='Editar'>
+                <IconButton
+                  aria-label='edit-transaction'
+                  icon={<FiEdit fontSize='24' color='white' />}
+                  backgroundColor='green.500'
+                  colorScheme='green'
+                  onClick={() => {
+                    handleDrawerEditTransaction(transactionID)
+                  }}
+                />
+              </Tooltip>
+              <Tooltip hasArrow label='Excluir'>
+                <IconButton
+                  aria-label='delete-transaction'
+                  icon={<FiTrash fontSize='24' color='white' />}
+                  backgroundColor='red.500'
+                  colorScheme='red'
+                  onClick={alertDialogDisclosure.onOpen}
+                />
+              </Tooltip>
+            </HStack>
+          </PopoverBody>
+        </PopoverContent>
+      </Popover>
+    </Fragment>
   )
 }
 

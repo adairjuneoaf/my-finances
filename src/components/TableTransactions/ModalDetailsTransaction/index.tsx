@@ -3,18 +3,17 @@ import React from 'react'
 
 // Chakra Imports
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalCloseButton,
-  ModalFooter,
-  HStack,
   Text,
-  VStack,
   Badge,
-  Box,
+  Modal,
+  HStack,
+  VStack,
+  ModalBody,
+  ModalHeader,
+  ModalFooter,
+  ModalContent,
+  ModalOverlay,
+  ModalCloseButton,
 } from '@chakra-ui/react'
 
 // React-Query Imports
@@ -58,7 +57,7 @@ const getCreditorDebtorDetails = (id: string | undefined) => {
   return creditorDebtor?.title
 }
 
-export const ModalDetailsTransaction: React.FC<IModalProps> = ({ isOpen, onClose, data }) => {
+export default function ModalDetailsTransaction({ isOpen, onClose, data }: IModalProps) {
   return (
     <Modal
       closeOnEsc
@@ -149,49 +148,77 @@ export const ModalDetailsTransaction: React.FC<IModalProps> = ({ isOpen, onClose
               Dados para pagamento
             </Text>
             {data?.dataForPayment ? (
-              <Box as='div' width='100%' padding='4' backgroundColor='gray.900' borderRadius='5'>
-                <Text as='p' fontSize='16px' fontWeight='medium'>
-                  {data.dataForPayment}
-                </Text>
-              </Box>
+              <Text
+                as='p'
+                fontSize='16px'
+                fontWeight='medium'
+                width='100%'
+                padding='4'
+                backgroundColor='gray.900'
+                borderRadius='5'
+              >
+                {data.dataForPayment}
+              </Text>
             ) : (
-              <Box as='div' width='60%'>
-                <Text as='p' fontSize='16px' fontStyle='italic'>
-                  Não existem mais dados...
-                </Text>
-              </Box>
+              <Text
+                as='p'
+                fontSize='16px'
+                fontStyle='italic'
+                width='100%'
+                padding='4'
+                backgroundColor='gray.900'
+                borderRadius='5'
+              >
+                Não existem mais dados...
+              </Text>
             )}
           </VStack>
           <HStack marginY='4' spacing='6' alignItems='flex-start'>
-            <Text as='p' fontSize='16px' fontStyle='italic' fontWeight='semibold' color='gray.600'>
-              Método de Pagamento
+            <VStack alignItems='flex-start' spacing='1'>
+              <Text fontSize='16px' fontStyle='italic' fontWeight='semibold' color='gray.600'>
+                Método de Pagamento
+              </Text>
               <Text fontStyle='normal' fontWeight='normal' color='gray.50'>
                 {getPaymentMethodDetails(data?.paymentMethod)}
               </Text>
-            </Text>
-            <Text as='p' fontSize='16px' fontStyle='italic' fontWeight='semibold' color='gray.600'>
-              Credor/Devedor
+            </VStack>
+            <VStack alignItems='flex-start' spacing='1'>
+              <Text fontSize='16px' fontStyle='italic' fontWeight='semibold' color='gray.600'>
+                Credor/Devedor
+              </Text>
               <Text fontStyle='normal' fontWeight='normal' color='gray.50'>
                 {getCreditorDebtorDetails(data?.creditorDebtor)}
               </Text>
-            </Text>
+            </VStack>
           </HStack>
           <VStack marginY='4' alignItems='flex-start'>
             <Text as='p' fontSize='16px' fontStyle='italic' fontWeight='semibold' color='gray.600'>
               Outras informações do lançamento
             </Text>
             {data?.anotherInformation ? (
-              <Box as='div' width='100%' padding='4' backgroundColor='gray.900' borderRadius='5'>
-                <Text as='p' fontSize='16px' fontWeight='medium'>
-                  {data.anotherInformation}
-                </Text>
-              </Box>
+              <Text
+                as='p'
+                fontSize='16px'
+                fontWeight='medium'
+                width='100%'
+                padding='4'
+                backgroundColor='gray.900'
+                borderRadius='5'
+              >
+                {data.anotherInformation}
+              </Text>
             ) : (
-              <Box as='div' width='60%'>
-                <Text as='p' fontSize='16px' fontStyle='italic'>
-                  Não existem mais informações...
-                </Text>
-              </Box>
+              <Text
+                as='p'
+                fontSize='16px'
+                fontStyle='italic'
+                width='100%'
+                padding='4'
+                backgroundColor='gray.900'
+                borderRadius='5'
+              >
+                Não existem mais informações...
+              </Text>
             )}
           </VStack>
         </ModalBody>

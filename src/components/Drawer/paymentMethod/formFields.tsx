@@ -13,6 +13,7 @@ import {
   FormControl,
   DrawerFooter,
   FormErrorMessage,
+  useToast,
 } from '@chakra-ui/react'
 
 // Component Imports
@@ -69,6 +70,12 @@ export const GetFormFieldsPaymentMethod = () => {
     handleIsLoadingDataForEdit,
   } = useContext(ContextDrawer)
 
+  const toast = useToast({
+    position: 'top',
+    duration: 1000 * 3, // 3 Seconds
+    title: 'Métodos de Pagamento',
+  });
+
   const { onClose } = disclosure
 
   const { errors, isSubmitting } = formState
@@ -98,11 +105,11 @@ export const GetFormFieldsPaymentMethod = () => {
       },
       {
         onSuccess: () => {
-          console.info('Sucesso na criação do novo Método de Pagamento. ✅')
+          toast({ description: 'Método de Pagamento criado com sucesso!', status: 'success' })
           reset()
         },
         onError: () => {
-          console.warn('Error na criação do novo Método de Pagamento! ❌')
+          toast({ description: 'Erro na criação do Método de Pagamento.', status: 'error' })
         },
       },
     )
@@ -113,12 +120,12 @@ export const GetFormFieldsPaymentMethod = () => {
       { id: data.id, data },
       {
         onSuccess: () => {
-          console.info('Sucesso na edição do Método de Pagamento. ♻️')
+          toast({ description: 'Método de Pagamento editado com sucesso!', status: 'success' })
           onClose()
           reset()
         },
         onError: () => {
-          console.warn('Error na edição do Método de Pagamento! ❌')
+          toast({ description: 'Erro na edição do Método de Pagamento.', status: 'error' })
         },
       },
     )

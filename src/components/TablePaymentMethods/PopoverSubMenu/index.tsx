@@ -9,7 +9,6 @@ import {
   Button,
   HStack,
   Popover,
-  Spinner,
   Tooltip,
   IconButton,
   PopoverBody,
@@ -25,7 +24,6 @@ import { useMutation, useQueryClient } from 'react-query'
 const ModalDetailsPaymentMethods = dynamic(() => import('../ModalDetailsPaymentMethods'), {
   ssr: false,
   suspense: false,
-  loading: () => <Spinner color='green.500' size='md' thickness='4px' speed='0.5s' />,
 })
 
 // Contexts Imports

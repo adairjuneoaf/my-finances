@@ -13,7 +13,6 @@ import {
   PopoverBody,
   PopoverContent,
   PopoverTrigger,
-  Spinner,
   Tooltip,
   useDisclosure,
 } from '@chakra-ui/react'
@@ -25,12 +24,10 @@ import { useMutation, useQueryClient } from 'react-query'
 const AlertDialogDeleteTransaction = dynamic(() => import('../AlertDialogDelete'), {
   ssr: false,
   suspense: false,
-  loading: () => <Spinner color='green.500' size='md' thickness='4px' speed='0.5s' />,
 })
 const ModalDetailsTransaction = dynamic(() => import('../ModalDetailsTransaction'), {
   ssr: false,
   suspense: false,
-  loading: () => <Spinner color='green.500' size='md' thickness='4px' speed='0.5s' />,
 })
 
 // Contexts Imports

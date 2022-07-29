@@ -2,17 +2,22 @@
 import React, { ReactNode } from 'react'
 
 // Chakra Imports
-import { Skeleton } from '@chakra-ui/react'
+import { Skeleton, SkeletonCircle, SkeletonProps } from '@chakra-ui/react'
 
 // Typings[TypeScript]
-interface ISkeletonComponentProps {
+interface ISkeletonComponentProps extends SkeletonProps {
   children: ReactNode
   isLoading?: boolean
 }
 
-const SkeletonComponent: React.FC<ISkeletonComponentProps> = ({ children, isLoading = false }) => {
+interface ISkeletonCircleComponentProps extends SkeletonProps {
+  isLoading?: boolean
+}
+
+export const SkeletonComponent: React.FC<ISkeletonComponentProps> = ({ children, isLoading = false, ...props }) => {
   return (
     <Skeleton
+      {...props}
       speed={0.65}
       isLoaded={!isLoading}
       fadeDuration={1.2}
@@ -25,4 +30,15 @@ const SkeletonComponent: React.FC<ISkeletonComponentProps> = ({ children, isLoad
   )
 }
 
-export default SkeletonComponent
+export const SkeletonCircleComponent: React.FC<ISkeletonCircleComponentProps> = ({ isLoading = false, ...props }) => {
+  return (
+    <SkeletonCircle
+      {...props}
+      speed={0.65}
+      isLoaded={isLoading}
+      fadeDuration={1.2}
+      startColor='RGBA(255, 255, 255, 0.04)'
+      endColor='RGBA(255, 255, 255, 0.08)'
+    />
+  )
+}

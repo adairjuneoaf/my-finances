@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react'
 
 // Components Imports
-import SkeletonComponent from '../Skeleton'
+import { SkeletonComponent } from '../Skeleton'
 
 // Another Imports
 import { FieldError } from 'react-hook-form'

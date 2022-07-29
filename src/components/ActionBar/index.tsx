@@ -1,8 +1,8 @@
 // Imports React
 import React from 'react'
 
-// Imports Next
-import { signOut } from 'next-auth/react'
+// Imports next-auth
+import { signOut, useSession } from 'next-auth/react'
 
 // Chakra Imports
 import { IconButton, Flex, Tooltip } from '@chakra-ui/react'
@@ -13,6 +13,7 @@ import { IconButton, Flex, Tooltip } from '@chakra-ui/react'
 import { FiBell, FiLogOut } from 'react-icons/fi'
 
 const ActionBarComponent: React.FC = () => {
+  const { status } = useSession()
   return (
     <Flex gap='3' alignItems='center' justifyContent='center' flexDirection='row'>
       <Tooltip hasArrow label='Notificações' colorScheme='gray'>
@@ -36,6 +37,7 @@ const ActionBarComponent: React.FC = () => {
               callbackUrl: '/',
             })
           }}
+          disabled={!!(status === 'loading')}
         />
       </Tooltip>
     </Flex>

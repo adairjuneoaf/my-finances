@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react'
 
 // Component Imports
-import SkeletonComponent from '../../Skeleton'
+import { SkeletonComponent } from '../../Skeleton'
 import { InputComponent } from '../../Form/Input'
 import { SelectComponent } from '../../Form/Select'
 import { InputValueComponent } from '../../Form/InputValue'

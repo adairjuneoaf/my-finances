@@ -1,12 +1,9 @@
 // Imports React
 import React, { ReactNode } from 'react'
 
-// Imports Next
-import {} from 'next/link'
-
 // Chakra Imports
 import { HStack, Box, VStack, Text, Heading } from '@chakra-ui/react'
-import SkeletonComponent from '../Skeleton'
+import { SkeletonComponent } from '../Skeleton'
 import { formatValueToMoney } from '../../utils/formatValueToMoney'
 
 // Components Imports

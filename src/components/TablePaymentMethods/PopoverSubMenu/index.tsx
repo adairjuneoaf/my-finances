@@ -14,6 +14,7 @@ import {
   PopoverBody,
   PopoverContent,
   PopoverTrigger,
+  useToast,
   useDisclosure,
 } from '@chakra-ui/react'
 
@@ -46,6 +47,12 @@ const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ paymentMethodID, s
 
   const queryClient = useQueryClient()
 
+  const toast = useToast({
+    position: 'top',
+    duration: 1000 * 3, // 3 Seconds
+    title: 'Métodos de pagamento',
+  })
+
   const { mutateAsync, isLoading } = useMutation(patchStatusUniquePaymentMethod, {
     onSuccess: () => {
       queryClient.refetchQueries(['payment_methods'])
@@ -60,10 +67,10 @@ const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ paymentMethodID, s
       },
       {
         onSuccess: () => {
-          console.info('Sucesso na mudança de status do Método de Pagamento. ✅')
+          toast({ description: 'Status alterado com sucesso!', status: 'success' })
         },
         onError: () => {
-          console.warn('Error na mudança de status do Método de Pagamento! ❌')
+          toast({ description: 'Erro ao alterar o status.', status: 'error' })
         },
       },
     )

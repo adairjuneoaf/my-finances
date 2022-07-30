@@ -9,12 +9,12 @@ import {
   Button,
   HStack,
   Popover,
-  Spinner,
   Tooltip,
   IconButton,
   PopoverBody,
   PopoverContent,
   PopoverTrigger,
+  useToast,
   useDisclosure,
 } from '@chakra-ui/react'
 
@@ -25,7 +25,6 @@ import { useMutation, useQueryClient } from 'react-query'
 const ModalDetailsPaymentMethods = dynamic(() => import('../ModalDetailsPaymentMethods'), {
   ssr: false,
   suspense: false,
-  loading: () => <Spinner color='green.500' size='md' thickness='4px' speed='0.5s' />,
 })
 
 // Contexts Imports
@@ -48,6 +47,12 @@ const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ paymentMethodID, s
 
   const queryClient = useQueryClient()
 
+  const toast = useToast({
+    position: 'top',
+    duration: 1000 * 3, // 3 Seconds
+    title: 'Métodos de pagamento',
+  })
+
   const { mutateAsync, isLoading } = useMutation(patchStatusUniquePaymentMethod, {
     onSuccess: () => {
       queryClient.refetchQueries(['payment_methods'])
@@ -62,10 +67,10 @@ const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ paymentMethodID, s
       },
       {
         onSuccess: () => {
-          console.info('Sucesso na mudança de status do Método de Pagamento. ✅')
+          toast({ description: 'Status alterado com sucesso!', status: 'success' })
         },
         onError: () => {
-          console.warn('Error na mudança de status do Método de Pagamento! ❌')
+          toast({ description: 'Erro ao alterar o status.', status: 'error' })
         },
       },
     )

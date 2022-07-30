@@ -2,7 +2,7 @@
 import React, { Fragment } from 'react'
 
 // Components Imports
-import SkeletonComponent from '../Skeleton'
+import { SkeletonComponent } from '../Skeleton'
 
 // Chakra Imports
 import { Th, Tr } from '@chakra-ui/react'

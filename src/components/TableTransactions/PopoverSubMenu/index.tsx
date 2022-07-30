@@ -8,13 +8,13 @@ import dynamic from 'next/dynamic'
 import {
   Button,
   HStack,
-  IconButton,
   Popover,
+  Tooltip,
+  IconButton,
   PopoverBody,
   PopoverContent,
   PopoverTrigger,
-  Spinner,
-  Tooltip,
+  useToast,
   useDisclosure,
 } from '@chakra-ui/react'
 
@@ -25,12 +25,10 @@ import { useMutation, useQueryClient } from 'react-query'
 const AlertDialogDeleteTransaction = dynamic(() => import('../AlertDialogDelete'), {
   ssr: false,
   suspense: false,
-  loading: () => <Spinner color='green.500' size='md' thickness='4px' speed='0.5s' />,
 })
 const ModalDetailsTransaction = dynamic(() => import('../ModalDetailsTransaction'), {
   ssr: false,
   suspense: false,
-  loading: () => <Spinner color='green.500' size='md' thickness='4px' speed='0.5s' />,
 })
 
 // Contexts Imports
@@ -56,6 +54,12 @@ const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ transactionID }) =
 
   const queryClient = useQueryClient()
 
+  const toast = useToast({
+    position: 'top',
+    duration: 1000 * 3, // 3 Seconds
+    title: 'Lançamentos',
+  })
+
   const getTransaction = (id: string) => {
     const dataCache = queryClient.getQueryData<Array<TransactionDataType>>(['transactions'], {
       active: true,
@@ -80,11 +84,11 @@ const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ transactionID }) =
       },
       {
         onSuccess: () => {
-          console.info('Sucesso na exclusão do lançamento selecionado!. ✅')
           alertDialogDisclosure.onClose()
+          toast({ description: 'Lançamento excluído com sucesso!', status: 'success' })
         },
         onError: () => {
-          console.warn('Error na exclusão do lançamento selecionado. ❌')
+          toast({ description: 'Erro na exclusão do lançamento.', status: 'error' })
         },
       },
     )

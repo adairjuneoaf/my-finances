@@ -28,7 +28,7 @@ const HeaderComponent: React.FC = () => {
       <Flex flex='2' paddingX='2'>
         <LogoComponent />
       </Flex>
-      <Flex alignItems='center' justifyContent='center' flex='10' paddingX='2' />
+      <Flex alignItems='center' justifyContent='center' flex='8' paddingX='2' />
       <Flex alignItems='center' justifyContent='flex-end' flexDirection='row' flex='5' paddingX='2'>
         <ActionBarComponent />
         <Center height='32px' paddingX='4'>

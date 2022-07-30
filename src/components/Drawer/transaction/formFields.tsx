@@ -7,6 +7,7 @@ import {
   HStack,
   VStack,
   Button,
+  useToast,
   FormLabel,
   DrawerBody,
   RadioGroup,
@@ -16,7 +17,7 @@ import {
 } from '@chakra-ui/react'
 
 // Component Imports
-import SkeletonComponent from '../../Skeleton'
+import { SkeletonComponent } from '../../Skeleton'
 import { InputComponent } from '../../Form/Input'
 import { SelectComponent } from '../../Form/Select'
 import { InputValueComponent } from '../../Form/InputValue'
@@ -59,7 +60,6 @@ export const GetFormFieldsTransaction = () => {
         title: '',
         status: '',
         description: '',
-        valueTransaction: 0,
         anotherInformation: '',
       },
     })
@@ -73,6 +73,12 @@ export const GetFormFieldsTransaction = () => {
     handleResetTransactionID,
     handleIsLoadingDataForEdit,
   } = useContext(ContextDrawer)
+
+  const toast = useToast({
+    position: 'top',
+    duration: 1000 * 3, // 3 Seconds
+    title: 'Lançamentos',
+  });
 
   const { onClose } = disclosure
 
@@ -99,11 +105,11 @@ export const GetFormFieldsTransaction = () => {
       { id: uuid(), createdAt: new Date().getTime(), ...data },
       {
         onSuccess: () => {
-          console.info('Sucesso na criação da nova transaction! ✅')
+          toast({ description: 'Lançamento criado com sucesso!', status: 'success' })
           reset()
         },
         onError: () => {
-          console.warn('Error na criação da nova transaction! ❌')
+          toast({ description: 'Erro na criação do lançamento.', status: 'error' })
         },
       },
     )
@@ -114,12 +120,12 @@ export const GetFormFieldsTransaction = () => {
       { id: data.id, data },
       {
         onSuccess: () => {
-          console.info('Sucesso na edição da transaction! ♻️')
+          toast({ description: 'Lançamento editado com sucesso!', status: 'success' })
           onClose()
           reset()
         },
         onError: () => {
-          console.warn('Error na na edição da transaction! ❌')
+          toast({ description: 'Erro na edição do lançamento.', status: 'error' })
         },
       },
     )

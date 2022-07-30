@@ -13,10 +13,11 @@ import {
   FormControl,
   DrawerFooter,
   FormErrorMessage,
+  useToast,
 } from '@chakra-ui/react'
 
 // Component Imports
-import SkeletonComponent from '../../Skeleton'
+import { SkeletonComponent } from '../../Skeleton'
 import { InputComponent } from '../../Form/Input'
 import { InputTextAreaComponent } from '../../Form/InputTextArea'
 
@@ -69,6 +70,12 @@ export const GetFormFieldsCreditorDebtor = () => {
     handleResetCreditorDebtorID,
   } = useContext(ContextDrawer)
 
+  const toast = useToast({
+    position: 'top',
+    duration: 1000 * 3, // 3 Seconds
+    title: 'Credores/Devedores',
+  });
+
   const { onClose } = disclosure
 
   const { errors, isSubmitting } = formState
@@ -98,11 +105,11 @@ export const GetFormFieldsCreditorDebtor = () => {
       },
       {
         onSuccess: () => {
-          console.info('Sucesso na criação do novo Credor/Devedor. ✅')
+          toast({ description: 'Credor/Devedor criado com sucesso!', status: 'success' })
           reset()
         },
         onError: () => {
-          console.warn('Error na criação do novo Credor/Devedor! ❌')
+          toast({ description: 'Erro na criação do Credor/Devedor.', status: 'error' })
         },
       },
     )
@@ -116,12 +123,12 @@ export const GetFormFieldsCreditorDebtor = () => {
       },
       {
         onSuccess: () => {
-          console.info('Sucesso na edição do Credor/Devedor. ♻️')
+          toast({ description: 'Credor/Devedor editado com sucesso!', status: 'success' })
           onClose()
           reset()
         },
         onError: () => {
-          console.warn('Error na edição do novo Credor/Devedor! ❌')
+          toast({ description: 'Erro na edição do Credor/Devedor.', status: 'error' })
         },
       },
     )

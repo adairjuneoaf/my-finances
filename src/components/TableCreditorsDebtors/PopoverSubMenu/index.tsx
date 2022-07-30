@@ -9,12 +9,12 @@ import {
   Button,
   HStack,
   Popover,
-  Spinner,
   Tooltip,
   IconButton,
   PopoverBody,
   PopoverContent,
   PopoverTrigger,
+  useToast,
   useDisclosure,
 } from '@chakra-ui/react'
 
@@ -25,7 +25,6 @@ import { useMutation, useQueryClient } from 'react-query'
 const ModalDetailsCreditorsDebtors = dynamic(() => import('../ModalDetailsCreditorsDebtors'), {
   ssr: false,
   suspense: false,
-  loading: () => <Spinner color='green.500' size='md' thickness='4px' speed='0.5s' />,
 })
 
 // Contexts Imports
@@ -48,6 +47,12 @@ const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ creditorDebtorID, 
 
   const queryClient = useQueryClient()
 
+  const toast = useToast({
+    position: 'top',
+    duration: 1000 * 3, // 3 Seconds
+    title: 'Credores/Devedores',
+  })
+
   const { mutateAsync, isLoading } = useMutation(patchStatusUniqueCreditorDebtor, {
     onSuccess: () => {
       queryClient.refetchQueries(['creditors_debtors'])
@@ -62,10 +67,10 @@ const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ creditorDebtorID, 
       },
       {
         onSuccess: () => {
-          console.info('Sucesso na mudança de status do Credor/Devedor. ✅')
+          toast({ description: 'Status alterado com sucesso!', status: 'success' })
         },
         onError: () => {
-          console.warn('Error na mudança de status do Credor/Devedor! ❌')
+          toast({ description: 'Erro ao alterar o status.', status: 'error' })
         },
       },
     )

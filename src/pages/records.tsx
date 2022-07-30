@@ -32,7 +32,6 @@ import TableCreditorsDebtors from '../components/TableCreditorsDebtors'
 const DrawerComponent = dynamic(() => import('../components/Drawer'), {
   ssr: false,
   suspense: false,
-  loading: () => <Spinner color='green.500' size='md' thickness='4px' speed='0.5s' />,
 })
 
 // Contexts Imports

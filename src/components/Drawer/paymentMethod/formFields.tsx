@@ -74,7 +74,7 @@ export const GetFormFieldsPaymentMethod = () => {
     position: 'top',
     duration: 1000 * 3, // 3 Seconds
     title: 'Métodos de Pagamento',
-  });
+  })
 
   const { onClose } = disclosure
 

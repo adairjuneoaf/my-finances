@@ -14,7 +14,11 @@ interface ISkeletonCircleComponentProps extends SkeletonProps {
   isLoading?: boolean
 }
 
-export const SkeletonComponent: React.FC<ISkeletonComponentProps> = ({ children, isLoading = false, ...props }) => {
+export const SkeletonComponent: React.FC<ISkeletonComponentProps> = ({
+  children,
+  isLoading = false,
+  ...props
+}) => {
   return (
     <Skeleton
       {...props}
@@ -30,7 +34,10 @@ export const SkeletonComponent: React.FC<ISkeletonComponentProps> = ({ children,
   )
 }
 
-export const SkeletonCircleComponent: React.FC<ISkeletonCircleComponentProps> = ({ isLoading = false, ...props }) => {
+export const SkeletonCircleComponent: React.FC<ISkeletonCircleComponentProps> = ({
+  isLoading = false,
+  ...props
+}) => {
   return (
     <SkeletonCircle
       {...props}

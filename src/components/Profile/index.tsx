@@ -14,13 +14,13 @@ const ProfileComponent: React.FC = () => {
   return (
     <Wrap spacing='3' alignItems='center' display='flex' flexDirection='row' paddingX='4'>
       <WrapItem>
-        {status === 'loading' ?
+        {status === 'loading' ? (
           <SkeletonCircleComponent isLoaded={!!(status === 'loading')} size='12' />
-          :
+        ) : (
           <Avatar name={String(data?.user?.name)} src={String(data?.user?.image)} size='md' />
-        }
+        )}
       </WrapItem>
-      {status === 'loading' ?
+      {status === 'loading' ? (
         <WrapItem flexDirection='column' gap='1'>
           <SkeletonComponent isLoading={!!(status === 'loading')} width='24'>
             -
@@ -29,7 +29,7 @@ const ProfileComponent: React.FC = () => {
             -
           </SkeletonComponent>
         </WrapItem>
-        :
+      ) : (
         <WrapItem flexDirection='column' gap='1'>
           <Text as='h3' fontSize='18px' fontWeight='bold' color='gray.100'>
             {data?.user?.name}
@@ -38,7 +38,7 @@ const ProfileComponent: React.FC = () => {
             {data?.user?.email}
           </Text>
         </WrapItem>
-      }
+      )}
     </Wrap>
   )
 }

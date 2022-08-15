@@ -13,12 +13,14 @@ import {
   Box,
   Flex,
   Text,
-  Input,
   Button,
   HStack,
   Spinner,
-  InputGroup,
-  InputLeftAddon,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  Tooltip,
 } from '@chakra-ui/react'
 
 // Components Imports
@@ -37,7 +39,7 @@ import { ContextDrawer } from '../contexts/contextDrawer'
 import { useReactQuery } from '../hooks/useReactQuery'
 
 // Another Imports
-import { FiSearch } from 'react-icons/fi'
+import { FiFilter } from 'react-icons/fi'
 import { RiAddFill } from 'react-icons/ri'
 
 const TransactionsPage: NextPage = () => {
@@ -101,28 +103,25 @@ const TransactionsPage: NextPage = () => {
             </Box>
 
             <Box as='section'>
-              <InputGroup paddingX='8' paddingBottom='8'>
-                <InputLeftAddon
-                  border='none'
-                  pointerEvents='none'
-                  color='gray.500'
-                  backgroundColor='gray.700'
-                >
-                  <FiSearch fontSize='18' />
-                </InputLeftAddon>
-                <Input
-                  placeholder='Buscar lançamento'
-                  id='search'
-                  name='search'
-                  type='search'
-                  variant='filled'
-                  fontSize='18'
-                  borderColor='gray.700'
-                  backgroundColor='transparent'
-                  focusBorderColor='green.500'
-                  _hover={{ backgroundColor: 'transparent' }}
-                />
-              </InputGroup>
+              <Box as='div' paddingX='8' paddingBottom='4'>
+                <Accordion allowToggle>
+                  <AccordionItem border='none'>
+                    <Tooltip hasArrow label='Filtrar lançamentos' colorScheme='gray'>
+                      <AccordionButton width='fit-content' margin='0 0 0 auto'>
+                        <Box as='div' width='100%'>
+                          <FiFilter fontSize='21' color='#4B4D63' />
+                        </Box>
+                      </AccordionButton>
+                    </Tooltip>
+                    <AccordionPanel paddingY='4' paddingX='0'>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur culpa
+                      voluptas sequi, tempore labore aliquam. Corporis provident, odit quaerat enim
+                      quibusdam autem repellendus, tenetur consequatur asperiores, in cupiditate
+                      nobis nesciunt.
+                    </AccordionPanel>
+                  </AccordionItem>
+                </Accordion>
+              </Box>
 
               <Box as='div' paddingX='8'>
                 <TableTransactions />

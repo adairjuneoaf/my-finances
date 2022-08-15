@@ -74,7 +74,7 @@ export const GetFormFieldsCreditorDebtor = () => {
     position: 'top',
     duration: 1000 * 3, // 3 Seconds
     title: 'Credores/Devedores',
-  });
+  })
 
   const { onClose } = disclosure
 

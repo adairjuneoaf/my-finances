@@ -78,7 +78,7 @@ export const GetFormFieldsTransaction = () => {
     position: 'top',
     duration: 1000 * 3, // 3 Seconds
     title: 'Lançamentos',
-  });
+  })
 
   const { onClose } = disclosure
 

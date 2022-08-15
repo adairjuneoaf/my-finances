@@ -14,7 +14,7 @@ export const formatDate = (dateValue: number) => {
 
 export const formatDetailedDate = (dateValue: number | undefined) => {
   if (!dateValue) {
-    return
+    return ''
   }
 
   const dateFormatted = format(dateValue, 'dd/MM/yyyy', {
@@ -24,9 +24,21 @@ export const formatDetailedDate = (dateValue: number | undefined) => {
   return dateFormatted
 }
 
+export const formatDateForMonthYear = (dateValue: number | undefined) => {
+  if (!dateValue) {
+    return ''
+  }
+
+  const dateFormatted = format(dateValue, 'MM/yyyy', {
+    locale: ptBR,
+  })
+
+  return dateFormatted
+}
+
 export const formatDateToNow = (dateValue: number | undefined) => {
   if (!dateValue) {
-    return
+    return ''
   }
 
   const dateFormated = formatDistanceToNow(dateValue, {

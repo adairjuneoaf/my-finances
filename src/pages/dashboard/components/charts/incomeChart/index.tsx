@@ -6,44 +6,47 @@ import { Box, Text, theme } from '@chakra-ui/react';
 // Recharts Imports
 import { ResponsiveContainer, AreaChart, XAxis, YAxis, Tooltip, Area } from 'recharts';
 
-const chart = [
-  { name: '07/2022', income: 3200 },
-  { name: '08/2022', income: 3650 },
-  { name: '09/2022', income: 3520 },
-  { name: '10/2022', income: 2900 },
-  { name: '11/2022', income: 3320 },
-]
+// Hooks Imports
+import { useDataChart } from '../../../../../hooks/useDataChart';
 
-export const IncomeChart: React.FC = () => {
+const IncomeChart: React.FC = () => {
+  const { incomeOutcomeMonthYear } = useDataChart()
+
   return (
     <Box
       paddingX='6'
-      paddingY='8'
+      paddingTop='6'
+      paddingBottom='8'
       width='100%'
       height='320'
       borderRadius='10'
       backgroundColor='gray.800'
     >
       <Text as='h1' fontSize='18px' fontWeight='semibold' lineHeight='1'>
-        Entradas por mês
+        Entradas X Mês
       </Text>
       <ResponsiveContainer>
         <AreaChart
           width={500}
           height={300}
-          data={chart}
+          data={incomeOutcomeMonthYear}
           margin={{ top: 20, right: 30, left: 0, bottom: 0 }}
         >
           <XAxis
-            dataKey='name'
+            dataKey='monthYear'
+            fontSize='11'
             stroke={theme.colors.gray[700]}
             tick={{ stroke: theme.colors.gray[600], fill: theme.colors.gray[800] }}
-            fontSize='11'
+            tickLine={{ stroke: theme.colors.gray[700], fill: theme.colors.gray[700] }}
           />
           <YAxis
-            stroke={theme.colors.gray[700]}
             fontSize='11'
             domain={['auto', 'dataMax + 50']}
+            stroke={theme.colors.gray[700]}
+            tickFormatter={(value) => {
+              return `R$ ${value}`
+            }}
+            tickLine={{ stroke: theme.colors.gray[700], fill: theme.colors.gray[700] }}
             tick={{ stroke: theme.colors.gray[600], fill: theme.colors.gray[800] }}
           />
           <Tooltip
@@ -85,3 +88,5 @@ export const IncomeChart: React.FC = () => {
     </Box>
   )
 }
+
+export default IncomeChart

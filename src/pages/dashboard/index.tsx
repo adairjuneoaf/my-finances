@@ -13,8 +13,8 @@ import { Box, Flex, Text, HStack, Spinner, SimpleGrid } from '@chakra-ui/react'
 // Components Imports
 import CardComponent from '../../components/Card'
 import HeaderComponent from '../../components/Header'
-import { IncomeChart } from './components/charts/incomeChart'
-import { OutcomeChart } from './components/charts/outcomeChart'
+import IncomeChart from './components/charts/incomeChart'
+import OutcomeChart from './components/charts/outcomeChart'
 import SideBarNavigationComponent from '../../components/SideBarNavigation'
 
 // Hooks Imports

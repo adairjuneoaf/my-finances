@@ -7,10 +7,11 @@ import { useReactQuery } from './useReactQuery'
 // Utils Imports
 import { formatDateForMonthYear } from '../utils/formatDate'
 
+type ChartDataState = Array<{ monthYear: string; income: number; outcome: number }> | []
+
 export const useDataChart = () => {
-  const [incomeOutcomeMonthYear, setIncomeOutcomeMonthYear] = useState<
-    Array<{ monthYear: string; income: number; outcome: number }>
-  >([])
+  const [sumIncomeOutcomeMonthYear, setSumIncomeOutcomeMonthYear] = useState<ChartDataState>([])
+  const [countIncomeOutcomeMonthYear, setCountIncomeOutcomeMonthYear] = useState<ChartDataState>([])
 
   const { transactions } = useReactQuery()
 
@@ -28,10 +29,10 @@ export const useDataChart = () => {
     })
 
     if (!selectedDataToChart) {
-      return setIncomeOutcomeMonthYear([])
+      return setSumIncomeOutcomeMonthYear([])
     }
 
-    const formattingDataToChart = Array.from(
+    const formattingIncomeOutcomeMonthYear = Array.from(
       selectedDataToChart
         .reduce((result, object) => {
           const key = object.monthYear
@@ -59,8 +60,40 @@ export const useDataChart = () => {
         .values(),
     ) as Array<{ monthYear: string; income: number; outcome: number }>
 
-    setIncomeOutcomeMonthYear(formattingDataToChart)
+    setSumIncomeOutcomeMonthYear(formattingIncomeOutcomeMonthYear)
+
+    const countingIncomeOutcomeMonthYear = Array.from(
+      selectedDataToChart
+        .reduce((result, object) => {
+          const key = object.monthYear
+
+          const objectReturn = {
+            monthYear: object.monthYear,
+          }
+
+          const item =
+            result.get(key) ||
+            Object.assign({}, objectReturn, {
+              income: 0,
+              outcome: 0,
+            })
+
+          if (object.type === '1') {
+            item.income += 1
+          }
+          if (object.type === '0') {
+            item.outcome += 1
+          }
+
+          return result.set(key, item)
+        }, new Map())
+        .values(),
+    ) as Array<{ monthYear: string; income: number; outcome: number }>
+
+    setCountIncomeOutcomeMonthYear(countingIncomeOutcomeMonthYear)
   }, [data])
 
-  return { incomeOutcomeMonthYear }
+  console.log(countIncomeOutcomeMonthYear)
+
+  return { sumIncomeOutcomeMonthYear, countIncomeOutcomeMonthYear }
 }

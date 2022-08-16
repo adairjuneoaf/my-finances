@@ -44,8 +44,8 @@ const DashboardPage: NextPage = () => {
       {
         income: 0,
         outcome: 0,
-        balance: 0
-      }
+        balance: 0,
+      },
     )
 
     return calc
@@ -83,7 +83,14 @@ const DashboardPage: NextPage = () => {
             </HStack>
 
             <Box as='section' display='flex' flexDirection='column' gap='4'>
-              <SimpleGrid spacing='4' width='100%' height='auto' columns={3} paddingX='8' aria-label='balance-values-section'>
+              <SimpleGrid
+                spacing='4'
+                width='100%'
+                height='auto'
+                columns={3}
+                paddingX='8'
+                aria-label='balance-values-section'
+              >
                 <CardComponent
                   title='Balanço'
                   value={summary?.balance}
@@ -104,9 +111,16 @@ const DashboardPage: NextPage = () => {
                 />
               </SimpleGrid>
 
-              <SimpleGrid spacing='4' width='100%' height='auto' columns={2} paddingX='8' aria-label='charts-section'>
-                <IncomeChart />
-                <OutcomeChart />
+              <SimpleGrid
+                spacing='4'
+                width='100%'
+                height='auto'
+                columns={2}
+                paddingX='8'
+                aria-label='charts-section'
+              >
+                <IncomeChart isLoading={isLoading} />
+                <OutcomeChart isLoading={isLoading} />
               </SimpleGrid>
             </Box>
           </Flex>

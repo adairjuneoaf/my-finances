@@ -1,16 +1,19 @@
-import React from 'react';
+import React from 'react'
 
 // Chakra Imports
-import { Box, Text, theme } from '@chakra-ui/react';
+import { Box, Text, theme } from '@chakra-ui/react'
+
+// Components Imports
+import { SkeletonComponent } from '../../../../../components/Skeleton'
 
 // Recharts Imports
-import { ResponsiveContainer, AreaChart, XAxis, YAxis, Tooltip, Area } from 'recharts';
+import { ResponsiveContainer, AreaChart, XAxis, YAxis, Tooltip, Area } from 'recharts'
 
 // Hooks Imports
-import { useDataChart } from '../../../../../hooks/useDataChart';
+import { useDataChart } from '../../../../../hooks/useDataChart'
 
-const OutcomeChart: React.FC = () => {
-  const { incomeOutcomeMonthYear } = useDataChart()
+const OutcomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) => {
+  const { sumIncomeOutcomeMonthYear } = useDataChart()
 
   return (
     <Box
@@ -25,63 +28,67 @@ const OutcomeChart: React.FC = () => {
       <Text as='h1' fontSize='18px' fontWeight='semibold' lineHeight='1'>
         Saídas X Mês
       </Text>
-      <ResponsiveContainer>
-        <AreaChart
-          width={500}
-          height={300}
-          data={incomeOutcomeMonthYear}
-          margin={{ top: 20, right: 30, left: 0, bottom: 0 }}
-        >
-          <XAxis
-            dataKey='monthYear'
-            fontSize='11'
-            stroke={theme.colors.gray[700]}
-            tick={{ stroke: theme.colors.gray[600], fill: theme.colors.gray[800] }}
-            tickLine={{ stroke: theme.colors.gray[700], fill: theme.colors.gray[700] }}
-          />
-          <YAxis
-            type='number'
-            domain={['auto', 'dataMax + 50']}
-            fontSize='11'
-            tickFormatter={(value) => {
-              return `R$ ${value}`
-            }}
-            stroke={theme.colors.gray[700]}
-            tickLine={{ stroke: theme.colors.gray[700], fill: theme.colors.gray[700] }}
-            tick={{ stroke: theme.colors.gray[600], fill: theme.colors.gray[800] }}
-          />
-          <Tooltip
-            viewBox={{ x: 0, y: 0, width: 200, height: 200 }}
-            separator={'0'}
-            cursor={{ stroke: theme.colors.gray[700], strokeWidth: 1.5 }}
-          />
-          <defs>
-            <linearGradient id='outcome' x1='0' y1='0' x2='0' y2='1'>
-              <stop offset='0%' stopColor={theme.colors.red[500]} stopOpacity={1} />
-              <stop
-                offset='100%'
-                stopColor={theme.colors.gray[900]}
-                stopOpacity={0.5}
-              />
-            </linearGradient>
-          </defs>
-          <Area
-            type='monotone'
-            dataKey='outcome'
-            dot={{
-              stroke: theme.colors.red[400],
-              fill: theme.colors.red[400],
-              strokeWidth: 4,
-              r: 3,
-            }}
-            activeDot={{ stroke: theme.colors.red[400], fill: theme.colors.red[400] }}
-            stroke={theme.colors.red[400]}
-            strokeWidth={3}
-            fillOpacity={1}
-            fill='url(#outcome)'
-          />
-        </AreaChart>
-      </ResponsiveContainer>
+      {isLoading ? (
+        <ResponsiveContainer height='90%'>
+          <SkeletonComponent isLoading={true} marginTop='4'>
+            <AreaChart width={500} height={300} />
+          </SkeletonComponent>
+        </ResponsiveContainer>
+      ) : (
+        <ResponsiveContainer>
+          <AreaChart
+            width={500}
+            height={300}
+            data={sumIncomeOutcomeMonthYear}
+            margin={{ top: 20, right: 10, left: 0, bottom: 0 }}
+          >
+            <XAxis
+              dataKey='monthYear'
+              fontSize='11'
+              stroke={theme.colors.gray[700]}
+              tick={{ stroke: theme.colors.gray[600], fill: theme.colors.gray[800] }}
+              tickLine={{ stroke: theme.colors.gray[700], fill: theme.colors.gray[700] }}
+            />
+            <YAxis
+              type='number'
+              domain={['auto', 'dataMax + 50']}
+              fontSize='11'
+              tickFormatter={(value) => {
+                return `R$ ${value}`
+              }}
+              stroke={theme.colors.gray[700]}
+              tickLine={{ stroke: theme.colors.gray[700], fill: theme.colors.gray[700] }}
+              tick={{ stroke: theme.colors.gray[600], fill: theme.colors.gray[800] }}
+            />
+            <Tooltip
+              viewBox={{ x: 0, y: 0, width: 200, height: 200 }}
+              separator={'0'}
+              cursor={{ stroke: theme.colors.gray[700], strokeWidth: 1.5 }}
+            />
+            <defs>
+              <linearGradient id='outcome' x1='0' y1='0' x2='0' y2='1'>
+                <stop offset='0%' stopColor={theme.colors.red[500]} stopOpacity={1} />
+                <stop offset='100%' stopColor={theme.colors.gray[900]} stopOpacity={0.5} />
+              </linearGradient>
+            </defs>
+            <Area
+              type='monotone'
+              dataKey='outcome'
+              dot={{
+                stroke: theme.colors.red[400],
+                fill: theme.colors.red[400],
+                strokeWidth: 4,
+                r: 3,
+              }}
+              activeDot={{ stroke: theme.colors.red[400], fill: theme.colors.red[400] }}
+              stroke={theme.colors.red[400]}
+              strokeWidth={3}
+              fillOpacity={1}
+              fill='url(#outcome)'
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      )}
     </Box>
   )
 }

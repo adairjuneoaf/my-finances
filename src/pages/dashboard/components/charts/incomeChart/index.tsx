@@ -26,7 +26,7 @@ const IncomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) =
       backgroundColor='gray.800'
     >
       <Text as='h1' fontSize='18px' fontWeight='semibold' lineHeight='1'>
-        Entradas X Mês
+        Entradas X Mês(R$)
       </Text>
       {isLoading ? (
         <ResponsiveContainer height='90%'>

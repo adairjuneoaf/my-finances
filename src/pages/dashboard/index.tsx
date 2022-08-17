@@ -22,6 +22,7 @@ import { useReactQuery } from '../../hooks/useReactQuery'
 
 // Another Imports
 import { FiActivity, FiTrendingUp, FiTrendingDown } from 'react-icons/fi'
+import CountIncomeOutcomeChart from './components/charts/countIncomeOutcome'
 
 const DashboardPage: NextPage = () => {
   const { transactions } = useReactQuery()
@@ -121,6 +122,16 @@ const DashboardPage: NextPage = () => {
               >
                 <IncomeChart isLoading={isLoading} />
                 <OutcomeChart isLoading={isLoading} />
+              </SimpleGrid>
+              <SimpleGrid
+                spacing='4'
+                width='100%'
+                height='auto'
+                columns={1}
+                paddingX='8'
+                aria-label='balance-count-section'
+              >
+                <CountIncomeOutcomeChart isLoading={isLoading} />
               </SimpleGrid>
             </Box>
           </Flex>

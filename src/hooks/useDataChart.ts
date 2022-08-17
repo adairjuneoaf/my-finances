@@ -1,5 +1,5 @@
 // Imports React
-import { useEffect, useState } from 'react'
+import { useEffect, useReducer } from 'react'
 
 // Another Hooks Imports
 import { useReactQuery } from './useReactQuery'
@@ -7,15 +7,73 @@ import { useReactQuery } from './useReactQuery'
 // Utils Imports
 import { formatDateForMonthYear } from '../utils/formatDate'
 
-type ChartDataState = Array<{ monthYear: string; income: number; outcome: number }> | []
+enum ActionTypes {
+  DEFAULT = 'DEFAULT',
+  SUM_INCOME_OUTCOME = 'SUM_INCOME_OUTCOME',
+  COUNT_INCOME_OUTCOME = 'COUNT_INCOME_OUTCOME',
+}
+
+type IncomeOutcomeMonthYear = { monthYear: string; income: number; outcome: number }
+
+type DataChartState = {
+  sumIncomeOutcomeMonthYear: Array<IncomeOutcomeMonthYear>
+  countIncomeOutcomeMonthYear: Array<IncomeOutcomeMonthYear>
+}
+
+type DataChartActions =
+  | {
+      type: ActionTypes.DEFAULT
+    }
+  | {
+      type: ActionTypes.SUM_INCOME_OUTCOME
+      payload: {
+        sumIncomeOutcomeMonthYear: Array<IncomeOutcomeMonthYear>
+      }
+    }
+  | {
+      type: ActionTypes.COUNT_INCOME_OUTCOME
+      payload: {
+        countIncomeOutcomeMonthYear: Array<IncomeOutcomeMonthYear>
+      }
+    }
+
+const DataChartReducer = (state: DataChartState, action: DataChartActions) => {
+  switch (action.type) {
+    case ActionTypes.COUNT_INCOME_OUTCOME: {
+      return {
+        ...state,
+        countIncomeOutcomeMonthYear: action.payload.countIncomeOutcomeMonthYear,
+      }
+    }
+
+    case ActionTypes.SUM_INCOME_OUTCOME: {
+      return {
+        ...state,
+        sumIncomeOutcomeMonthYear: action.payload.sumIncomeOutcomeMonthYear,
+      }
+    }
+
+    case ActionTypes.DEFAULT: {
+      return state
+    }
+
+    default: {
+      return state
+    }
+  }
+}
 
 export const useDataChart = () => {
-  const [sumIncomeOutcomeMonthYear, setSumIncomeOutcomeMonthYear] = useState<ChartDataState>([])
-  const [countIncomeOutcomeMonthYear, setCountIncomeOutcomeMonthYear] = useState<ChartDataState>([])
+  const [DataChartState, dispatch] = useReducer(DataChartReducer, {
+    sumIncomeOutcomeMonthYear: [],
+    countIncomeOutcomeMonthYear: [],
+  })
 
   const { transactions } = useReactQuery()
 
   const { data } = transactions
+
+  const { countIncomeOutcomeMonthYear, sumIncomeOutcomeMonthYear } = DataChartState
 
   useEffect(() => {
     const selectedDataToChart = data?.map((value) => {
@@ -29,10 +87,12 @@ export const useDataChart = () => {
     })
 
     if (!selectedDataToChart) {
-      return setSumIncomeOutcomeMonthYear([])
+      return dispatch({
+        type: ActionTypes.DEFAULT,
+      })
     }
 
-    const formattingIncomeOutcomeMonthYear = Array.from(
+    const formattingSumIncomeOutcomeMonthYear = Array.from(
       selectedDataToChart
         .reduce((result, object) => {
           const key = object.monthYear
@@ -60,7 +120,12 @@ export const useDataChart = () => {
         .values(),
     ) as Array<{ monthYear: string; income: number; outcome: number }>
 
-    setSumIncomeOutcomeMonthYear(formattingIncomeOutcomeMonthYear)
+    dispatch({
+      type: ActionTypes.SUM_INCOME_OUTCOME,
+      payload: {
+        sumIncomeOutcomeMonthYear: formattingSumIncomeOutcomeMonthYear,
+      },
+    })
 
     const countingIncomeOutcomeMonthYear = Array.from(
       selectedDataToChart
@@ -90,10 +155,13 @@ export const useDataChart = () => {
         .values(),
     ) as Array<{ monthYear: string; income: number; outcome: number }>
 
-    setCountIncomeOutcomeMonthYear(countingIncomeOutcomeMonthYear)
+    dispatch({
+      type: ActionTypes.COUNT_INCOME_OUTCOME,
+      payload: {
+        countIncomeOutcomeMonthYear: countingIncomeOutcomeMonthYear,
+      },
+    })
   }, [data])
 
-  console.log(countIncomeOutcomeMonthYear)
-
-  return { sumIncomeOutcomeMonthYear, countIncomeOutcomeMonthYear }
+  return { countIncomeOutcomeMonthYear, sumIncomeOutcomeMonthYear }
 }

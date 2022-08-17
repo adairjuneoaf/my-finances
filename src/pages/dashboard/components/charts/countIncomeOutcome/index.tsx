@@ -7,13 +7,13 @@ import { Box, Text, theme } from '@chakra-ui/react'
 import { SkeletonComponent } from '../../../../../components/Skeleton'
 
 // Recharts Imports
-import { ResponsiveContainer, AreaChart, XAxis, YAxis, Tooltip, Area } from 'recharts'
+import { ResponsiveContainer, XAxis, YAxis, Tooltip, Bar, BarChart } from 'recharts'
 
 // Hooks Imports
 import { useDataChart } from '../../../../../hooks/useDataChart'
 
-const OutcomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) => {
-  const { sumIncomeOutcomeMonthYear } = useDataChart()
+const CountIncomeOutcomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) => {
+  const { countIncomeOutcomeMonthYear } = useDataChart()
 
   return (
     <Box
@@ -26,21 +26,22 @@ const OutcomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) 
       backgroundColor='gray.800'
     >
       <Text as='h1' fontSize='18px' fontWeight='semibold' lineHeight='1'>
-        Saídas X Mês(R$)
+        Entradas X Mês(UNIT)
       </Text>
       {isLoading ? (
         <ResponsiveContainer height='90%'>
           <SkeletonComponent isLoading={true} marginTop='4'>
-            <AreaChart width={500} height={300} />
+            <BarChart width={500} height={300} />
           </SkeletonComponent>
         </ResponsiveContainer>
       ) : (
         <ResponsiveContainer>
-          <AreaChart
+          <BarChart
             width={500}
             height={300}
-            data={sumIncomeOutcomeMonthYear}
+            data={countIncomeOutcomeMonthYear}
             margin={{ top: 20, right: 10, left: 0, bottom: 0 }}
+            barSize={36}
           >
             <XAxis
               dataKey='monthYear'
@@ -50,47 +51,38 @@ const OutcomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) 
               tickLine={{ stroke: theme.colors.gray[700], fill: theme.colors.gray[700] }}
             />
             <YAxis
-              type='number'
-              domain={['auto', 'dataMax + 50']}
               fontSize='11'
-              tickFormatter={(value) => {
-                return `R$ ${value}`
-              }}
               stroke={theme.colors.gray[700]}
+              tickFormatter={(value) => {
+                return `${value}`
+              }}
               tickLine={{ stroke: theme.colors.gray[700], fill: theme.colors.gray[700] }}
               tick={{ stroke: theme.colors.gray[600], fill: theme.colors.gray[800] }}
             />
             <Tooltip
               viewBox={{ x: 0, y: 0, width: 200, height: 200 }}
-              separator={'0'}
-              cursor={{ stroke: theme.colors.gray[700], strokeWidth: 1.5 }}
+              separator={' - '}
+              cursor={{ stroke: 'transparent', strokeWidth: 1.5, fill: 'transparent' }}
             />
-            <defs>
-              <linearGradient id='outcome' x1='0' y1='0' x2='0' y2='1'>
-                <stop offset='0%' stopColor={theme.colors.red[500]} stopOpacity={1} />
-                <stop offset='100%' stopColor={theme.colors.gray[900]} stopOpacity={0.5} />
-              </linearGradient>
-            </defs>
-            <Area
-              type='monotone'
+            <Bar
+              dataKey='income'
+              fill={theme.colors.green[600]}
+              background={false}
+              stroke={theme.colors.gray[700]}
+              radius={[3, 3, 0, 0]}
+            />
+            <Bar
               dataKey='outcome'
-              dot={{
-                stroke: theme.colors.red[400],
-                fill: theme.colors.red[400],
-                strokeWidth: 4,
-                r: 3,
-              }}
-              activeDot={{ stroke: theme.colors.red[400], fill: theme.colors.red[400] }}
-              stroke={theme.colors.red[400]}
-              strokeWidth={3}
-              fillOpacity={1}
-              fill='url(#outcome)'
+              fill={theme.colors.red[600]}
+              background={false}
+              stroke={theme.colors.gray[700]}
+              radius={[3, 3, 0, 0]}
             />
-          </AreaChart>
+          </BarChart>
         </ResponsiveContainer>
       )}
     </Box>
   )
 }
 
-export default OutcomeChart
+export default CountIncomeOutcomeChart

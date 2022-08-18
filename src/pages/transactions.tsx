@@ -3,7 +3,6 @@ import React, { Fragment, useContext } from 'react'
 
 // Imports Next
 import NextHead from 'next/head'
-import dynamic from 'next/dynamic'
 import { getServerSession } from 'next-auth'
 import { GetServerSideProps, NextPage } from 'next'
 import { authOptions } from './api/auth/[...nextauth]'
@@ -25,12 +24,9 @@ import {
 
 // Components Imports
 import HeaderComponent from '../components/Header'
+import DrawerComponent from '../components/Drawer'
 import TableTransactions from '../components/TableTransactions'
 import SideBarNavigationComponent from '../components/SideBarNavigation'
-const DrawerComponent = dynamic(() => import('../components/Drawer'), {
-  ssr: false,
-  suspense: false,
-})
 
 // Contexts Imports
 import { ContextDrawer } from '../contexts/contextDrawer'

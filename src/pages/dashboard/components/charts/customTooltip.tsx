@@ -3,6 +3,8 @@ import React from 'react'
 
 // Chakra Imports
 import { Box, Divider, Flex, Text, HStack } from '@chakra-ui/react'
+
+// Utils Imports
 import { formatValueToMoney } from '../../../../utils/formatValueToMoney'
 
 type AreaChartToolTipProps = {

@@ -1,7 +1,6 @@
 {
   "cSpell.language": "pt-BR,en-US,en,en-GB",
-  "cSpell.words": [
-    "camelcase"
-  ],
-  "editor.formatOnSave": true
+  "cSpell.words": ["camelcase"],
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }

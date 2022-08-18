@@ -1,16 +1,20 @@
 import React from 'react'
 
 // Chakra Imports
-import { Box, Text, theme } from '@chakra-ui/react'
+import { Box, HStack, IconButton, Popover, PopoverArrow, PopoverBody, PopoverContent, PopoverTrigger, Text, theme } from '@chakra-ui/react'
 
 // Components Imports
 import { SkeletonComponent } from '../../../../../components/Skeleton'
 
 // Recharts Imports
 import { ResponsiveContainer, AreaChart, XAxis, YAxis, Tooltip, Area } from 'recharts'
+import { AreaChartCustomTooltip } from '../customTooltip'
 
 // Hooks Imports
 import { useDataChart } from '../../../../../hooks/useDataChart'
+
+// Another Imports
+import { FiInfo } from 'react-icons/fi'
 
 const IncomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) => {
   const { sumIncomeOutcomeMonthYear } = useDataChart()
@@ -25,9 +29,29 @@ const IncomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) =
       borderRadius='10'
       backgroundColor='gray.800'
     >
-      <Text as='h1' fontSize='18px' fontWeight='semibold' lineHeight='1'>
-        Entradas X Mês(R$)
-      </Text>
+      <HStack justifyContent='space-between'>
+        <Text as='h1' fontSize='18px' fontWeight='semibold' lineHeight='1'>
+          Entradas X Mês(R$)
+        </Text>
+        <Popover isLazy trigger='hover' placement='left'>
+          <PopoverTrigger>
+            <IconButton
+              aria-label='info-about-income-chart-area'
+              title='Mais informações'
+              icon={<FiInfo size={18} color={theme.colors.gray[600]} />}
+              size='sm'
+              backgroundColor='transparent'
+              _hover={{ backgroundColor: theme.colors.gray[900] }}
+            />
+          </PopoverTrigger>
+          <PopoverContent backgroundColor='gray.800' width='fit-content' maxWidth='256px' borderColor='gray.700' pointerEvents='none'>
+            <PopoverArrow backgroundColor='gray.800' />
+            <PopoverBody fontSize='12'>
+              Gráfico que representa o somatório de todas as transações de entrada por mês.
+            </PopoverBody>
+          </PopoverContent>
+        </Popover>
+      </HStack>
       {isLoading ? (
         <ResponsiveContainer height='90%'>
           <SkeletonComponent isLoading={true} marginTop='4'>
@@ -40,7 +64,7 @@ const IncomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) =
             width={500}
             height={300}
             data={sumIncomeOutcomeMonthYear}
-            margin={{ top: 20, right: 10, left: 0, bottom: 0 }}
+            margin={{ top: 20, right: 10, left: 0, bottom: 5 }}
           >
             <XAxis
               dataKey='monthYear'
@@ -61,8 +85,9 @@ const IncomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) =
             />
             <Tooltip
               viewBox={{ x: 0, y: 0, width: 200, height: 200 }}
-              separator={'0'}
+              separator={': '}
               cursor={{ stroke: theme.colors.gray[700], strokeWidth: 1.5 }}
+              content={<AreaChartCustomTooltip />}
             />
             <defs>
               <linearGradient id='income' x1='0' y1='0' x2='0' y2='1'>

@@ -1,16 +1,19 @@
 import React from 'react'
 
 // Chakra Imports
-import { Box, Text, theme } from '@chakra-ui/react'
+import { Box, Text, theme, HStack, IconButton, Popover, PopoverArrow, PopoverBody, PopoverContent, PopoverTrigger } from '@chakra-ui/react';
 
 // Components Imports
 import { SkeletonComponent } from '../../../../../components/Skeleton'
 
 // Recharts Imports
-import { ResponsiveContainer, XAxis, YAxis, Tooltip, Bar, BarChart } from 'recharts'
+import { ResponsiveContainer, XAxis, YAxis, Bar, BarChart, LabelList } from 'recharts'
 
 // Hooks Imports
 import { useDataChart } from '../../../../../hooks/useDataChart'
+
+// Another Imports
+import { FiInfo } from 'react-icons/fi';
 
 const CountIncomeOutcomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) => {
   const { countIncomeOutcomeMonthYear } = useDataChart()
@@ -25,9 +28,37 @@ const CountIncomeOutcomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading 
       borderRadius='10'
       backgroundColor='gray.800'
     >
-      <Text as='h1' fontSize='18px' fontWeight='semibold' lineHeight='1'>
-        Entradas X Mês(UNIT)
-      </Text>
+      <HStack justifyContent='space-between'>
+        <Text as='h1' fontSize='18px' fontWeight='semibold' lineHeight='1'>
+          Entradas X Mês(UNIT)
+        </Text>
+        <Popover isLazy trigger='hover' placement='left'>
+          <PopoverTrigger>
+            <IconButton
+              aria-label='info-about-income-chart-area'
+              title='Mais informações'
+              icon={<FiInfo size={18} color={theme.colors.gray[600]} />}
+              size='sm'
+              backgroundColor='transparent'
+              outlineOffset={'0'}
+              _hover={{ backgroundColor: theme.colors.gray[900] }}
+            />
+          </PopoverTrigger>
+          <PopoverContent
+            backgroundColor='gray.800'
+            width='fit-content'
+            maxWidth='256px'
+            borderColor='gray.700'
+            pointerEvents='none'
+          >
+            <PopoverArrow backgroundColor='gray.800' />
+            <PopoverBody fontSize='12'>
+              Gráfico que representa a contagem comparativa de entradas e saídas por mês.
+            </PopoverBody>
+          </PopoverContent>
+        </Popover>
+
+      </HStack>
       {isLoading ? (
         <ResponsiveContainer height='90%'>
           <SkeletonComponent isLoading={true} marginTop='4'>
@@ -40,7 +71,7 @@ const CountIncomeOutcomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading 
             width={500}
             height={300}
             data={countIncomeOutcomeMonthYear}
-            margin={{ top: 20, right: 10, left: 0, bottom: 0 }}
+            margin={{ top: 20, right: 10, left: 0, bottom: 5 }}
             barSize={36}
           >
             <XAxis
@@ -59,25 +90,24 @@ const CountIncomeOutcomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading 
               tickLine={{ stroke: theme.colors.gray[700], fill: theme.colors.gray[700] }}
               tick={{ stroke: theme.colors.gray[600], fill: theme.colors.gray[800] }}
             />
-            <Tooltip
-              viewBox={{ x: 0, y: 0, width: 200, height: 200 }}
-              separator={' - '}
-              cursor={{ stroke: 'transparent', strokeWidth: 1.5, fill: 'transparent' }}
-            />
             <Bar
               dataKey='income'
               fill={theme.colors.green[600]}
               background={false}
               stroke={theme.colors.gray[700]}
               radius={[3, 3, 0, 0]}
-            />
+            >
+              <LabelList dataKey='income' position='top' fontSize='14' stroke={theme.colors.gray[600]} fill={theme.colors.gray[600]} />
+            </Bar>
             <Bar
               dataKey='outcome'
               fill={theme.colors.red[600]}
               background={false}
               stroke={theme.colors.gray[700]}
               radius={[3, 3, 0, 0]}
-            />
+            >
+              <LabelList dataKey='outcome' position='top' fontSize='14' stroke={theme.colors.gray[600]} fill={theme.colors.gray[600]} />
+            </Bar>
           </BarChart>
         </ResponsiveContainer>
       )}

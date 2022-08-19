@@ -23,7 +23,7 @@ import { ResponsiveContainer, XAxis, YAxis, Bar, BarChart, LabelList } from 'rec
 // Hooks Imports
 import { useDataChart } from '../../../../../hooks/useDataChart'
 
-const CountIncomeOutcomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) => {
+export const CountIncomeOutcomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) => {
   const { countIncomeOutcomeMonthYear } = useDataChart()
 
   return (
@@ -131,5 +131,3 @@ const CountIncomeOutcomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading 
     </Box>
   )
 }
-
-export default CountIncomeOutcomeChart

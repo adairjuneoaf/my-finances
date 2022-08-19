@@ -13,10 +13,8 @@ import { Box, Flex, Text, HStack, Spinner, SimpleGrid } from '@chakra-ui/react'
 // Components Imports
 import CardComponent from '../components/common/Card'
 import HeaderComponent from '../components/common/Header'
-import IncomeChart from '../components/pages/dashboard/Charts/incomeChart'
-import OutcomeChart from '../components/pages/dashboard/Charts/outcomeChart'
 import SideBarNavigationComponent from '../components/common/SideBarNavigation'
-import CountIncomeOutcomeChart from '../components/pages/dashboard/Charts/countIncomeOutcome'
+import { OutcomeChart, IncomeChart, CountIncomeOutcomeChart } from '../components/pages/dashboard'
 
 // Hooks Imports
 import { useReactQuery } from '../hooks/useReactQuery'

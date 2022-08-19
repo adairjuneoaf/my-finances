@@ -24,7 +24,7 @@ import { ResponsiveContainer, AreaChart, XAxis, YAxis, Tooltip, Area } from 'rec
 import { useDataChart } from '../../../../../hooks/useDataChart'
 import { AreaChartCustomTooltip } from '../customTooltip'
 
-const OutcomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) => {
+export const OutcomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) => {
   const { sumIncomeOutcomeMonthYear } = useDataChart()
 
   return (
@@ -131,5 +131,3 @@ const OutcomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) 
     </Box>
   )
 }
-
-export default OutcomeChart

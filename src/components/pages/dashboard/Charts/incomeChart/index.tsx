@@ -25,7 +25,7 @@ import { AreaChartCustomTooltip } from '../customTooltip'
 // Hooks Imports
 import { useDataChart } from '../../../../../hooks/useDataChart'
 
-const IncomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) => {
+export const IncomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) => {
   const { sumIncomeOutcomeMonthYear } = useDataChart()
 
   return (
@@ -133,5 +133,3 @@ const IncomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) =
     </Box>
   )
 }
-
-export default IncomeChart

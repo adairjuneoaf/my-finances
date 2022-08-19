@@ -24,7 +24,7 @@ import TableBody from './TableBody'
 import SkeletonBody from './SkeletonBody'
 
 // Hooks Imports
-import { useReactQuery } from '../../hooks/useReactQuery'
+import { useReactQuery } from '../../../../hooks/useReactQuery'
 
 // Another Imports
 import { FiZoomIn } from 'react-icons/fi'

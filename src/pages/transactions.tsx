@@ -23,10 +23,10 @@ import {
 } from '@chakra-ui/react'
 
 // Components Imports
-import HeaderComponent from '../components/Header'
-import DrawerComponent from '../components/Drawer'
-import TableTransactions from '../components/TableTransactions'
-import SideBarNavigationComponent from '../components/SideBarNavigation'
+import HeaderComponent from '../components/common/Header'
+import DrawerComponent from '../components/common/Drawer'
+import TableTransactions from '../components/common/TableTransactions'
+import SideBarNavigationComponent from '../components/common/SideBarNavigation'
 
 // Contexts Imports
 import { ContextDrawer } from '../contexts/contextDrawer'

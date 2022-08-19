@@ -7,7 +7,7 @@ import { UseDisclosureReturn } from '@chakra-ui/react'
 // Typings[TypeScript]
 import { DrawerTypes } from '../@types/DrawerTypes'
 
-export interface ContextDrawerProviderProps {
+export interface ContextProviderProps {
   children?: ReactNode
 }
 
@@ -29,4 +29,16 @@ export interface ContextDrawerValuesProps {
   handleDrawerEditTransaction: (transactionID: string) => void
   handleDrawerEditPaymentMethod: (paymentMethodID: string) => void
   handleDrawerEditCreditorDebtor: (creditorDebtorID: string) => void
+}
+
+export interface DashboardPageContextProps {
+  value: boolean
+}
+
+export interface TransactionsPageContextProps {
+  value: boolean
+}
+
+export interface RecordsPageContextProps {
+  value: boolean
 }

@@ -11,14 +11,12 @@ import { NextPage, GetServerSideProps } from 'next'
 import { Box, Flex, Text, HStack, Spinner, SimpleGrid } from '@chakra-ui/react'
 
 // Components Imports
-import CardComponent from '../components/Card'
-import HeaderComponent from '../components/Header'
-import IncomeChart from '../components/Charts/incomeChart'
-import OutcomeChart from '../components/Charts/outcomeChart'
-import CountIncomeOutcomeChart from '../components/Charts/countIncomeOutcome'
-
-
-import SideBarNavigationComponent from '../components/SideBarNavigation'
+import CardComponent from '../components/common/Card'
+import HeaderComponent from '../components/common/Header'
+import IncomeChart from '../components/pages/dashboard/Charts/incomeChart'
+import OutcomeChart from '../components/pages/dashboard/Charts/outcomeChart'
+import SideBarNavigationComponent from '../components/common/SideBarNavigation'
+import CountIncomeOutcomeChart from '../components/pages/dashboard/Charts/countIncomeOutcome'
 
 // Hooks Imports
 import { useReactQuery } from '../hooks/useReactQuery'

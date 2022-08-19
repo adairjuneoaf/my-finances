@@ -24,11 +24,11 @@ import {
 } from '@chakra-ui/react'
 
 // Components Imports
-import HeaderComponent from '../components/Header'
-import DrawerComponent from '../components/Drawer'
-import SideBarNavigation from '../components/SideBarNavigation'
-import TablePaymentMethods from '../components/TablePaymentMethods'
-import TableCreditorsDebtors from '../components/TableCreditorsDebtors'
+import HeaderComponent from '../components/common/Header'
+import DrawerComponent from '../components/common/Drawer'
+import SideBarNavigation from '../components/common/SideBarNavigation'
+import TablePaymentMethods from '../components/common/TablePaymentMethods'
+import TableCreditorsDebtors from '../components/common/TableCreditorsDebtors'
 
 
 // Contexts Imports

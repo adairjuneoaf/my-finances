@@ -3,8 +3,8 @@ import React from 'react'
 // Chakra Imports
 import {
   Box,
-  HStack,
   Icon,
+  HStack,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -15,16 +15,16 @@ import {
 } from '@chakra-ui/react'
 
 // Components Imports
-import { SkeletonComponent } from '../../../../../components/Skeleton'
+import { SkeletonComponent } from '../../Skeleton'
 
 // Recharts Imports
 import { ResponsiveContainer, AreaChart, XAxis, YAxis, Tooltip, Area } from 'recharts'
-import { AreaChartCustomTooltip } from '../customTooltip'
 
 // Hooks Imports
-import { useDataChart } from '../../../../../hooks/useDataChart'
+import { useDataChart } from '../../../hooks/useDataChart'
+import { AreaChartCustomTooltip } from '../customTooltip'
 
-const IncomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) => {
+const OutcomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) => {
   const { sumIncomeOutcomeMonthYear } = useDataChart()
 
   return (
@@ -39,7 +39,7 @@ const IncomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) =
     >
       <HStack justifyContent='space-between'>
         <Text as='h1' fontSize='18px' fontWeight='semibold' lineHeight='1'>
-          Entradas X Mês(R$)
+          Saídas X Mês(R$)
         </Text>
         <Popover isLazy trigger='hover' placement='left'>
           <PopoverTrigger>
@@ -60,7 +60,7 @@ const IncomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) =
           >
             <PopoverArrow backgroundColor='gray.800' />
             <PopoverBody fontSize='12'>
-              Gráfico que representa o somatório de todas as transações de entrada por mês.
+              Gráfico que representa o somatório de todas as transações de saída por mês.
             </PopoverBody>
           </PopoverContent>
         </Popover>
@@ -87,12 +87,13 @@ const IncomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) =
               tickLine={{ stroke: theme.colors.gray[700], fill: theme.colors.gray[700] }}
             />
             <YAxis
-              fontSize='11'
+              type='number'
               domain={['auto', 'dataMax + 50']}
-              stroke={theme.colors.gray[700]}
+              fontSize='11'
               tickFormatter={(value) => {
                 return `R$ ${value}`
               }}
+              stroke={theme.colors.gray[700]}
               tickLine={{ stroke: theme.colors.gray[700], fill: theme.colors.gray[700] }}
               tick={{ stroke: theme.colors.gray[600], fill: theme.colors.gray[800] }}
             />
@@ -103,29 +104,27 @@ const IncomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) =
               content={<AreaChartCustomTooltip />}
             />
             <defs>
-              <linearGradient id='income' x1='0' y1='0' x2='0' y2='1'>
-                <stop offset='0%' stopColor={theme.colors.green[500]} stopOpacity={1} />
+              <linearGradient id='outcome' x1='0' y1='0' x2='0' y2='1'>
+                <stop offset='0%' stopColor={theme.colors.red[500]} stopOpacity={1} />
                 <stop offset='100%' stopColor={theme.colors.gray[900]} stopOpacity={0.5} />
               </linearGradient>
             </defs>
             <Area
               type='monotone'
-              dataKey='income'
+              dataKey='outcome'
               dot={{
-                stroke: theme.colors.green[400],
-                fill: theme.colors.green[400],
+                stroke: theme.colors.red[400],
+                fill: theme.colors.red[400],
                 strokeWidth: 4,
                 r: 3,
               }}
-              activeDot={{
-                stroke: theme.colors.green[400],
-                fill: theme.colors.green[400],
-              }}
-              stroke={theme.colors.green[400]}
+              activeDot={{ stroke: theme.colors.red[400], fill: theme.colors.red[400] }}
+              stroke={theme.colors.red[400]}
               strokeWidth={3}
               fillOpacity={1}
-              fill='url(#income)'
-            />
+              fill='url(#outcome)'
+            >
+            </Area>
           </AreaChart>
         </ResponsiveContainer>
       )}
@@ -133,4 +132,4 @@ const IncomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) =
   )
 }
 
-export default IncomeChart
+export default OutcomeChart

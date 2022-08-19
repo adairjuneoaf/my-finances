@@ -15,13 +15,13 @@ import {
 } from '@chakra-ui/react'
 
 // Components Imports
-import { SkeletonComponent } from '../../../../../components/Skeleton'
+import { SkeletonComponent } from '../../Skeleton'
 
 // Recharts Imports
 import { ResponsiveContainer, XAxis, YAxis, Bar, BarChart, LabelList } from 'recharts'
 
 // Hooks Imports
-import { useDataChart } from '../../../../../hooks/useDataChart'
+import { useDataChart } from '../../../hooks/useDataChart'
 
 const CountIncomeOutcomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) => {
   const { countIncomeOutcomeMonthYear } = useDataChart()

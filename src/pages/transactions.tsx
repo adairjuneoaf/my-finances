@@ -68,35 +68,35 @@ const TransactionsPage: NextPage = () => {
           </Flex>
 
           <Flex flexDirection='column' width='100%' flex='1'>
-            <Box as='section'>
-              <HStack
-                spacing='4'
-                alignItems='center'
-                marginBottom='6'
-                flexDirection='row'
-                justifyContent='space-between'
-              >
-                <HStack spacing='4' alignItems='center'>
-                  <Text as='h1' fontSize='3xl' fontWeight='extrabold' lineHeight='0'>
-                    Lançamentos
-                  </Text>
-                  {isFetching && !isLoading && (
-                    <Spinner color='green.500' size='md' thickness='4px' speed='0.5s' />
-                  )}
-                </HStack>
 
-                <HStack spacing='4'>
-                  <Button
-                    type='button'
-                    colorScheme='green'
-                    leftIcon={<RiAddFill fontSize='24' />}
-                    onClick={handleDrawerNewTransaction}
-                  >
-                    Novo lançamento
-                  </Button>
-                </HStack>
+            <HStack
+              spacing='4'
+              alignItems='center'
+              marginBottom='6'
+              flexDirection='row'
+              justifyContent='space-between'
+            >
+              <HStack spacing='4' alignItems='center'>
+                <Text as='h1' fontSize='3xl' fontWeight='extrabold' lineHeight='1'>
+                  Lançamentos
+                </Text>
+                {isFetching && !isLoading && (
+                  <Spinner color='green.500' size='md' thickness='4px' speed='0.5s' />
+                )}
               </HStack>
-            </Box>
+
+              <HStack spacing='4'>
+                <Button
+                  type='button'
+                  colorScheme='green'
+                  leftIcon={<RiAddFill fontSize='24' />}
+                  onClick={handleDrawerNewTransaction}
+                >
+                  Novo lançamento
+                </Button>
+              </HStack>
+            </HStack>
+
 
             <Box as='section'>
               <Box as='div' paddingX='8' paddingBottom='4'>

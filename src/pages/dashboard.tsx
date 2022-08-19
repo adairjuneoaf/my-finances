@@ -4,25 +4,27 @@ import React, { Fragment, useMemo } from 'react'
 // Imports Next
 import NextHead from 'next/head'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '../api/auth/[...nextauth]'
+import { authOptions } from './api/auth/[...nextauth]'
 import { NextPage, GetServerSideProps } from 'next'
 
 // Chakra Imports
 import { Box, Flex, Text, HStack, Spinner, SimpleGrid } from '@chakra-ui/react'
 
 // Components Imports
-import CardComponent from '../../components/Card'
-import HeaderComponent from '../../components/Header'
-import IncomeChart from './components/charts/incomeChart'
-import OutcomeChart from './components/charts/outcomeChart'
-import SideBarNavigationComponent from '../../components/SideBarNavigation'
+import CardComponent from '../components/Card'
+import HeaderComponent from '../components/Header'
+import IncomeChart from '../components/Charts/incomeChart'
+import OutcomeChart from '../components/Charts/outcomeChart'
+import CountIncomeOutcomeChart from '../components/Charts/countIncomeOutcome'
+
+
+import SideBarNavigationComponent from '../components/SideBarNavigation'
 
 // Hooks Imports
-import { useReactQuery } from '../../hooks/useReactQuery'
+import { useReactQuery } from '../hooks/useReactQuery'
 
 // Another Imports
 import { FiActivity, FiTrendingUp, FiTrendingDown } from 'react-icons/fi'
-import CountIncomeOutcomeChart from './components/charts/countIncomeOutcome'
 
 const DashboardPage: NextPage = () => {
   const { transactions } = useReactQuery()

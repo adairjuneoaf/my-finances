@@ -1,7 +1,18 @@
 import React from 'react'
 
 // Chakra Imports
-import { Box, HStack, IconButton, Popover, PopoverArrow, PopoverBody, PopoverContent, PopoverTrigger, Text, theme } from '@chakra-ui/react'
+import {
+  Box,
+  HStack,
+  Icon,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
+  Text,
+  theme,
+} from '@chakra-ui/react'
 
 // Components Imports
 import { SkeletonComponent } from '../../../../../components/Skeleton'
@@ -12,9 +23,6 @@ import { AreaChartCustomTooltip } from '../customTooltip'
 
 // Hooks Imports
 import { useDataChart } from '../../../../../hooks/useDataChart'
-
-// Another Imports
-import { FiInfo } from 'react-icons/fi'
 
 const IncomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) => {
   const { sumIncomeOutcomeMonthYear } = useDataChart()
@@ -35,16 +43,21 @@ const IncomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) =
         </Text>
         <Popover isLazy trigger='hover' placement='left'>
           <PopoverTrigger>
-            <IconButton
+            <Icon
               aria-label='info-about-income-chart-area'
-              title='Mais informações'
-              icon={<FiInfo size={18} color={theme.colors.gray[600]} />}
-              size='sm'
-              backgroundColor='transparent'
-              _hover={{ backgroundColor: theme.colors.gray[900] }}
+              width={5}
+              height={5}
+              color='gray.600'
+              _hover={{ color: theme.colors.gray[500] }}
             />
           </PopoverTrigger>
-          <PopoverContent backgroundColor='gray.800' width='fit-content' maxWidth='256px' borderColor='gray.700' pointerEvents='none'>
+          <PopoverContent
+            backgroundColor='gray.800'
+            width='fit-content'
+            maxWidth='256px'
+            borderColor='gray.700'
+            pointerEvents='none'
+          >
             <PopoverArrow backgroundColor='gray.800' />
             <PopoverBody fontSize='12'>
               Gráfico que representa o somatório de todas as transações de entrada por mês.

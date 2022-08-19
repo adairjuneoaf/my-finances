@@ -1,7 +1,18 @@
 import React from 'react'
 
 // Chakra Imports
-import { Box, Text, theme, HStack, IconButton, Popover, PopoverArrow, PopoverBody, PopoverContent, PopoverTrigger } from '@chakra-ui/react';
+import {
+  Box,
+  Text,
+  theme,
+  HStack,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
+  Icon,
+} from '@chakra-ui/react'
 
 // Components Imports
 import { SkeletonComponent } from '../../../../../components/Skeleton'
@@ -11,9 +22,6 @@ import { ResponsiveContainer, XAxis, YAxis, Bar, BarChart, LabelList } from 'rec
 
 // Hooks Imports
 import { useDataChart } from '../../../../../hooks/useDataChart'
-
-// Another Imports
-import { FiInfo } from 'react-icons/fi';
 
 const CountIncomeOutcomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) => {
   const { countIncomeOutcomeMonthYear } = useDataChart()
@@ -30,18 +38,16 @@ const CountIncomeOutcomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading 
     >
       <HStack justifyContent='space-between'>
         <Text as='h1' fontSize='18px' fontWeight='semibold' lineHeight='1'>
-          Entradas X Mês(UNIT)
+          Entradas X Mês(UND)
         </Text>
         <Popover isLazy trigger='hover' placement='left'>
           <PopoverTrigger>
-            <IconButton
+            <Icon
               aria-label='info-about-income-chart-area'
-              title='Mais informações'
-              icon={<FiInfo size={18} color={theme.colors.gray[600]} />}
-              size='sm'
-              backgroundColor='transparent'
-              outlineOffset={'0'}
-              _hover={{ backgroundColor: theme.colors.gray[900] }}
+              width={5}
+              height={5}
+              color='gray.600'
+              _hover={{ color: theme.colors.gray[500] }}
             />
           </PopoverTrigger>
           <PopoverContent
@@ -57,7 +63,6 @@ const CountIncomeOutcomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading 
             </PopoverBody>
           </PopoverContent>
         </Popover>
-
       </HStack>
       {isLoading ? (
         <ResponsiveContainer height='90%'>
@@ -97,7 +102,13 @@ const CountIncomeOutcomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading 
               stroke={theme.colors.gray[700]}
               radius={[3, 3, 0, 0]}
             >
-              <LabelList dataKey='income' position='top' fontSize='14' stroke={theme.colors.gray[600]} fill={theme.colors.gray[600]} />
+              <LabelList
+                dataKey='income'
+                position='top'
+                fontSize='14'
+                stroke={theme.colors.gray[600]}
+                fill={theme.colors.gray[600]}
+              />
             </Bar>
             <Bar
               dataKey='outcome'
@@ -106,7 +117,13 @@ const CountIncomeOutcomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading 
               stroke={theme.colors.gray[700]}
               radius={[3, 3, 0, 0]}
             >
-              <LabelList dataKey='outcome' position='top' fontSize='14' stroke={theme.colors.gray[600]} fill={theme.colors.gray[600]} />
+              <LabelList
+                dataKey='outcome'
+                position='top'
+                fontSize='14'
+                stroke={theme.colors.gray[600]}
+                fill={theme.colors.gray[600]}
+              />
             </Bar>
           </BarChart>
         </ResponsiveContainer>

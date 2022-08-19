@@ -26,7 +26,7 @@ export const AreaChartCustomTooltip: React.FC<AreaChartToolTipProps> = ({
   if (active && payload && payload.length > 0) {
     return (
       <Box
-        padding='3'
+        padding='2'
         display='flex'
         flexWrap='wrap'
         borderRadius='6'
@@ -34,6 +34,8 @@ export const AreaChartCustomTooltip: React.FC<AreaChartToolTipProps> = ({
         backgroundColor='rgba(24, 27, 35, 0.75)'
         width='fit-content'
         maxWidth='256px'
+        borderWidth='1px'
+        borderColor='gray.700'
       >
         <Text fontSize='14px' fontWeight='semibold'>
           {payload[0].payload.monthYear}
@@ -41,7 +43,7 @@ export const AreaChartCustomTooltip: React.FC<AreaChartToolTipProps> = ({
         <Divider marginY='1' />
         <Flex flexDirection='column' gap='1'>
           <HStack>
-            <Text>
+            <Text fontSize='14px'>
               {payload[0].dataKey === 'income'
                 ? formatValueToMoney(payload[0].payload.income)
                 : formatValueToMoney(payload[0].payload.outcome)}

@@ -3,8 +3,8 @@ import React from 'react'
 // Chakra Imports
 import {
   Box,
+  Icon,
   HStack,
-  IconButton,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -23,9 +23,6 @@ import { ResponsiveContainer, AreaChart, XAxis, YAxis, Tooltip, Area } from 'rec
 // Hooks Imports
 import { useDataChart } from '../../../../../hooks/useDataChart'
 import { AreaChartCustomTooltip } from '../customTooltip'
-
-// Another Imports
-import { FiInfo } from 'react-icons/fi'
 
 const OutcomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) => {
   const { sumIncomeOutcomeMonthYear } = useDataChart()
@@ -46,14 +43,12 @@ const OutcomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = false }) 
         </Text>
         <Popover isLazy trigger='hover' placement='left'>
           <PopoverTrigger>
-            <IconButton
+            <Icon
               aria-label='info-about-income-chart-area'
-              title='Mais informações'
-              icon={<FiInfo size={18} color={theme.colors.gray[600]} />}
-              size='sm'
-              backgroundColor='transparent'
-              outlineOffset={'0'}
-              _hover={{ backgroundColor: theme.colors.gray[900] }}
+              width={5}
+              height={5}
+              color='gray.600'
+              _hover={{ color: theme.colors.gray[500] }}
             />
           </PopoverTrigger>
           <PopoverContent

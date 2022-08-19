@@ -11,8 +11,7 @@ import MenuItemNavigation from './MenuItemSection'
 // Contexts Imports
 
 // Another Imports
-import { FiSettings } from 'react-icons/fi'
-import { RiDashboardLine, RiFileListLine } from 'react-icons/ri'
+import { FiSettings, FiBarChart, FiList } from 'react-icons/fi'
 
 // Typings[TypeScript]
 
@@ -31,13 +30,13 @@ const SideBarNavigationComponent: React.FC = () => {
       <MenuSectionNavigation title='Geral'>
         <MenuItemNavigation
           title='Dashboard'
-          icon={RiDashboardLine}
+          icon={FiBarChart}
           route='/dashboard'
           description='Ir até a página de Dashboard'
         />
         <MenuItemNavigation
           title='Lançamentos'
-          icon={RiFileListLine}
+          icon={FiList}
           route='/transactions'
           description='Ir até a página de Lançamentos'
         />

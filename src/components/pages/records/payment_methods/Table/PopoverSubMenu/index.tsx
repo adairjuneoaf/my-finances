@@ -28,17 +28,17 @@ const ModalDetailsPaymentMethods = dynamic(() => import('../ModalDetailsPaymentM
 })
 
 // Contexts Imports
-import { ContextDrawer } from '../../../../contexts/contextDrawer'
+import { ContextDrawer } from '../../../../../../contexts/contextDrawer'
 
 // API Services
-import { patchStatusUniquePaymentMethod } from '../../../../services/api'
+import { patchStatusUniquePaymentMethod } from '../../../../../../services/api'
 
 // Another Imports
 import { FiEdit, FiEye, FiMoreVertical, FiPower } from 'react-icons/fi'
 
 // Typings[TypeScript]
 import { IPopoverSubMenu } from './types'
-import { PaymentMethodType } from '../../../../@types/PaymentMethodType'
+import { PaymentMethodType } from '../../../../../../@types/PaymentMethodType'
 
 const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ paymentMethodID, status }) => {
   const { handleDrawerEditPaymentMethod } = useContext(ContextDrawer)

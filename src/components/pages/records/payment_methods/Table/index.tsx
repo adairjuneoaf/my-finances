@@ -23,14 +23,14 @@ import TableBody from './TableBody'
 import SkeletonBody from './SkeletonBody'
 
 // Hooks Imports
-import { useReactQuery } from '../../../hooks/useReactQuery'
+import { useReactQuery } from '../../../../../hooks/useReactQuery'
 
 // Another Imports
 import { FiZoomIn } from 'react-icons/fi'
 
 const SIZE_PER_LOAD = 5
 
-const TablePaymentMethodsComponent: React.FC = () => {
+export const TablePaymentMethods: React.FC = () => {
   const { paymentMethods } = useReactQuery()
 
   const { data, isLoading } = paymentMethods
@@ -120,5 +120,3 @@ const TablePaymentMethodsComponent: React.FC = () => {
     </TableContainer>
   )
 }
-
-export default TablePaymentMethodsComponent

@@ -8,7 +8,7 @@ import PopoverSubMenuComponent from './PopoverSubMenu'
 import { Badge, Th, Tr } from '@chakra-ui/react'
 
 // Typings[TypeScript]
-import { CreditorDebtorType } from '../../../@types/CreditorDebtorType'
+import { CreditorDebtorType } from '../../../../../@types/CreditorDebtorType'
 interface TableBodyProps extends CreditorDebtorType {
   index: number
 }

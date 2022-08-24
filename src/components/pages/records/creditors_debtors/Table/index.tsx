@@ -23,14 +23,14 @@ import TableBody from './TableBody'
 import SkeletonBody from './SkeletonBody'
 
 // Hooks Imports
-import { useReactQuery } from '../../../hooks/useReactQuery'
+import { useReactQuery } from '../../../../../hooks/useReactQuery'
 
 // Another Imports
 import { FiZoomIn } from 'react-icons/fi'
 
 const SIZE_PER_LOAD = 5
 
-const TableCreditorsDebtorsComponent: React.FC = () => {
+export const TableCreditorsDebtors: React.FC = () => {
   const { creditorsDebtors } = useReactQuery()
 
   const { data, isLoading } = creditorsDebtors
@@ -120,5 +120,3 @@ const TableCreditorsDebtorsComponent: React.FC = () => {
     </TableContainer>
   )
 }
-
-export default TableCreditorsDebtorsComponent

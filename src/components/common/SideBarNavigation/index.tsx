@@ -11,7 +11,7 @@ import MenuItemNavigation from './MenuItemSection'
 // Contexts Imports
 
 // Another Imports
-import { FiSettings, FiBarChart, FiList } from 'react-icons/fi'
+import { FiBarChart, FiCreditCard, FiList, FiUserPlus } from 'react-icons/fi'
 
 // Typings[TypeScript]
 
@@ -32,19 +32,27 @@ const SideBarNavigationComponent: React.FC = () => {
           title='Dashboard'
           icon={FiBarChart}
           route='/dashboard'
-          description='Ir até a página de Dashboard'
+          description='Página de Dashboard'
         />
         <MenuItemNavigation
           title='Lançamentos'
           icon={FiList}
           route='/transactions'
-          description='Ir até a página de Lançamentos'
+          description='Página de Lançamentos'
+        />
+      </MenuSectionNavigation>
+      <MenuSectionNavigation title='Cadastros'>
+        <MenuItemNavigation
+          title='Métodos de Pagamento'
+          icon={FiCreditCard}
+          route='/records/payment_methods'
+          description='Página de Métodos de Pagamento'
         />
         <MenuItemNavigation
-          title='Cadastros'
-          icon={FiSettings}
-          route='/records'
-          description='Ir até a página de Cadastros'
+          title='Credores/Devedores'
+          icon={FiUserPlus}
+          route='/records/creditors_debtors'
+          description='Página de Credores/Devedores'
         />
       </MenuSectionNavigation>
     </Flex>

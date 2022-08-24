@@ -42,8 +42,8 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 // API Services
 import {
   getUniqueTransaction,
-  postUniqueTransaction,
   putUniqueTransaction,
+  postUniqueTransaction,
 } from '../../../../services/api'
 
 // Validation Imports
@@ -159,6 +159,9 @@ export const DrawerTransactions: React.FC = () => {
         })
         .catch((error) => {
           onClose()
+          toggleIsLoading()
+          toggleIsEditing()
+          resetTransactionIdForEdit()
           console.error('Error', error)
         })
         .finally(() => {
@@ -171,7 +174,7 @@ export const DrawerTransactions: React.FC = () => {
   return (
     <Drawer
       isOpen={isOpen}
-      onClose={onClose}
+      onClose={cancelSubmitTransaction}
       placement='right'
       size='md'
       colorScheme='gray'

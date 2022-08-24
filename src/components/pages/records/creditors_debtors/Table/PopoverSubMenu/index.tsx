@@ -28,7 +28,7 @@ const ModalDetailsCreditorsDebtors = dynamic(() => import('../ModalDetailsCredit
 })
 
 // Contexts Imports
-import { ContextDrawer } from '../../../../../../contexts/contextDrawer'
+import { CreditorsDebtorsPageContext } from '../../../../../../contexts/pages/records'
 
 // API Services
 import { patchStatusUniqueCreditorDebtor } from '../../../../../../services/api'
@@ -41,7 +41,8 @@ import { IPopoverSubMenu } from './types'
 import { CreditorDebtorType } from '../../../../../../@types/CreditorDebtorType'
 
 const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ creditorDebtorID, status }) => {
-  const { handleDrawerEditCreditorDebtor } = useContext(ContextDrawer)
+  const { disclosure, toggleIsEditing, toggleIsLoading, selectCreditorDebtorIdForEdit } =
+    useContext(CreditorsDebtorsPageContext)
 
   const creditorDebtorSelected = useRef<CreditorDebtorType | undefined>(undefined)
 
@@ -86,6 +87,13 @@ const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ creditorDebtorID, 
     onOpen()
   }
 
+  const handleEditCreditorDebtor = (id: string) => {
+    selectCreditorDebtorIdForEdit(id)
+    toggleIsEditing()
+    toggleIsLoading()
+    disclosure.onOpen()
+  }
+
   return (
     <Fragment>
       <ModalDetailsCreditorsDebtors
@@ -124,7 +132,7 @@ const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ creditorDebtorID, 
                   colorScheme='green'
                   disabled={isLoading}
                   onClick={() => {
-                    handleDrawerEditCreditorDebtor(creditorDebtorID)
+                    handleEditCreditorDebtor(creditorDebtorID)
                   }}
                 />
               </Tooltip>

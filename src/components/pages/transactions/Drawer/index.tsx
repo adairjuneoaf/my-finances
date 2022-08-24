@@ -23,11 +23,7 @@ import {
 } from '@chakra-ui/react'
 
 // Components Imports
-import { InputComponent } from '../../../common/Form/Input'
-import { SelectComponent } from '../../../common/Form/Select'
-import { SkeletonComponent } from '../../../common/Skeleton'
-import { InputValueComponent } from '../../../common/Form/InputValue'
-import { InputTextAreaComponent } from '../../../common/Form/InputTextArea'
+import { Input, Skeleton, InputValue, InputSelect, InputTextArea } from '../../../common'
 
 // Context Imports
 import { TransactionsPageContext } from '../../../../contexts/pages/transactions'
@@ -215,7 +211,7 @@ export const DrawerTransactions: React.FC = () => {
           }}
         >
           <VStack spacing='3'>
-            <InputComponent
+            <Input
               id='title'
               type='text'
               label='Título do lançamento'
@@ -224,7 +220,7 @@ export const DrawerTransactions: React.FC = () => {
               {...register('title')}
               errorInput={errors.title}
             />
-            <InputComponent
+            <Input
               id='description'
               type='text'
               isRequired
@@ -235,7 +231,7 @@ export const DrawerTransactions: React.FC = () => {
             />
           </VStack>
           <HStack alignItems='flex-start' spacing='3'>
-            <InputComponent
+            <Input
               id='dateEntriesTransaction'
               label='Data de lançamento'
               type='date'
@@ -244,7 +240,7 @@ export const DrawerTransactions: React.FC = () => {
               {...register('dateEntriesTransaction')}
               errorInput={errors.dateEntriesTransaction}
             />
-            <InputComponent
+            <Input
               id='dateDueTransaction'
               label='Data de vencimento'
               type='date'
@@ -271,7 +267,7 @@ export const DrawerTransactions: React.FC = () => {
                   name='type'
                   control={control}
                   render={({ field }) => (
-                    <SkeletonComponent isLoading={isLoading}>
+                    <Skeleton isLoading={isLoading}>
                       <RadioGroup {...field}>
                         <HStack spacing='3'>
                           <Radio value='0' colorScheme='red'>
@@ -282,7 +278,7 @@ export const DrawerTransactions: React.FC = () => {
                           </Radio>
                         </HStack>
                       </RadioGroup>
-                    </SkeletonComponent>
+                    </Skeleton>
                   )}
                 />
                 {errors.type && <FormErrorMessage>{errors?.type.message}</FormErrorMessage>}
@@ -303,7 +299,7 @@ export const DrawerTransactions: React.FC = () => {
                   name='status'
                   control={control}
                   render={({ field }) => (
-                    <SkeletonComponent isLoading={isLoading}>
+                    <Skeleton isLoading={isLoading}>
                       <RadioGroup {...field}>
                         <HStack spacing='3'>
                           <Radio value='0' colorScheme='yellow'>
@@ -314,7 +310,7 @@ export const DrawerTransactions: React.FC = () => {
                           </Radio>
                         </HStack>
                       </RadioGroup>
-                    </SkeletonComponent>
+                    </Skeleton>
                   )}
                 />
                 {errors.status && <FormErrorMessage>{errors?.status.message}</FormErrorMessage>}
@@ -323,7 +319,7 @@ export const DrawerTransactions: React.FC = () => {
           </HStack>
 
           <VStack alignItems='flex-start' spacing='3'>
-            <SelectComponent
+            <InputSelect
               isRequired
               isLoadingValue={isLoading}
               typeList='creditorsDebtors'
@@ -334,7 +330,7 @@ export const DrawerTransactions: React.FC = () => {
           </VStack>
 
           <VStack alignItems='flex-start' spacing='1'>
-            <SelectComponent
+            <InputSelect
               isRequired
               isLoadingValue={isLoading}
               typeList='paymentMethods'
@@ -342,7 +338,7 @@ export const DrawerTransactions: React.FC = () => {
               errorSelectOption={errors.paymentMethod}
               {...register('paymentMethod')}
             />
-            <InputComponent
+            <Input
               id='dataForPayment'
               label='Dados para pagamento'
               placeholder='Nº do boleto, código pix, dados do cartão de crédito...'
@@ -355,7 +351,7 @@ export const DrawerTransactions: React.FC = () => {
           </VStack>
 
           <VStack alignItems='flex-start' spacing='3'>
-            <InputValueComponent
+            <InputValue
               id='valueTransaction'
               isRequired
               label='Valor do lançamento'
@@ -365,7 +361,7 @@ export const DrawerTransactions: React.FC = () => {
                 valueAsNumber: true,
               })}
             />
-            <InputTextAreaComponent
+            <InputTextArea
               id='anotherInformation'
               label='Outras informações'
               placeholder='Outras informações relevantes sobre o lançamento...'
@@ -390,9 +386,9 @@ export const DrawerTransactions: React.FC = () => {
               type='submit'
               colorScheme='green'
               isLoading={isSubmitting}
-              leftIcon={isEditing ? <FiSave fontSize='18' /> : <FiEdit fontSize='18' />}
+              leftIcon={!isEditing ? <FiSave fontSize='18' /> : <FiEdit fontSize='18' />}
               onClick={
-                isEditing ? handleSubmit(submitNewTransaction) : handleSubmit(submitEditTransaction)
+                !isEditing ? handleSubmit(submitNewTransaction) : handleSubmit(submitEditTransaction)
               }
               disabled={isSubmitting || isLoading}
             >

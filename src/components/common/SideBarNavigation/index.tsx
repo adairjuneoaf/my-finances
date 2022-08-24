@@ -15,7 +15,7 @@ import { FiBarChart, FiCreditCard, FiList, FiUserPlus } from 'react-icons/fi'
 
 // Typings[TypeScript]
 
-const SideBarNavigationComponent: React.FC = () => {
+export const SideBarNavigation: React.FC = () => {
   return (
     <Flex
       gap='10'
@@ -58,5 +58,3 @@ const SideBarNavigationComponent: React.FC = () => {
     </Flex>
   )
 }
-
-export default SideBarNavigationComponent

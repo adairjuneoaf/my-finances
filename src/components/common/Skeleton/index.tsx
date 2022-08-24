@@ -2,25 +2,25 @@
 import React, { ReactNode } from 'react'
 
 // Chakra Imports
-import { Skeleton, SkeletonCircle, SkeletonProps } from '@chakra-ui/react'
+import {
+  Skeleton as SkeletonChakra,
+  SkeletonCircle as SkeletonCircleChakra,
+  SkeletonProps,
+} from '@chakra-ui/react'
 
 // Typings[TypeScript]
-interface ISkeletonComponentProps extends SkeletonProps {
+interface ISkeletonProps extends SkeletonProps {
   children: ReactNode
   isLoading?: boolean
 }
 
-interface ISkeletonCircleComponentProps extends SkeletonProps {
+interface ISkeletonCircleProps extends SkeletonProps {
   isLoading?: boolean
 }
 
-export const SkeletonComponent: React.FC<ISkeletonComponentProps> = ({
-  children,
-  isLoading = false,
-  ...props
-}) => {
+export const Skeleton: React.FC<ISkeletonProps> = ({ children, isLoading = false, ...props }) => {
   return (
-    <Skeleton
+    <SkeletonChakra
       {...props}
       speed={0.65}
       isLoaded={!isLoading}
@@ -30,16 +30,13 @@ export const SkeletonComponent: React.FC<ISkeletonComponentProps> = ({
       endColor='RGBA(255, 255, 255, 0.08)'
     >
       {children}
-    </Skeleton>
+    </SkeletonChakra>
   )
 }
 
-export const SkeletonCircleComponent: React.FC<ISkeletonCircleComponentProps> = ({
-  isLoading = false,
-  ...props
-}) => {
+export const SkeletonCircle: React.FC<ISkeletonCircleProps> = ({ isLoading = false, ...props }) => {
   return (
-    <SkeletonCircle
+    <SkeletonCircleChakra
       {...props}
       speed={0.65}
       isLoaded={isLoading}

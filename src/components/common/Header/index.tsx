@@ -5,11 +5,11 @@ import React from 'react'
 import { Box, Flex, Center, Divider } from '@chakra-ui/react'
 
 // Components Imports
-import LogoComponent from '../Logo'
-import ProfileComponent from '../Profile'
-import ActionBarComponent from '../ActionBar'
+import { Logo } from '../Logo'
+import { Profile } from '../Profile'
+import { ActionBar } from '../ActionBar'
 
-const HeaderComponent: React.FC = () => {
+export const Header: React.FC = () => {
   return (
     <Box
       as='header'
@@ -26,18 +26,16 @@ const HeaderComponent: React.FC = () => {
       justifyContent='space-between'
     >
       <Flex flex='2' paddingX='2'>
-        <LogoComponent />
+        <Logo />
       </Flex>
       <Flex alignItems='center' justifyContent='center' flex='8' paddingX='2' />
       <Flex alignItems='center' justifyContent='flex-end' flexDirection='row' flex='5' paddingX='2'>
-        <ActionBarComponent />
+        <ActionBar />
         <Center height='32px' paddingX='4'>
           <Divider orientation='vertical' color='gray.100' />
         </Center>
-        <ProfileComponent />
+        <Profile />
       </Flex>
     </Box>
   )
 }
-
-export default HeaderComponent

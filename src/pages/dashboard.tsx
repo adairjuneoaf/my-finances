@@ -11,9 +11,7 @@ import { NextPage, GetServerSideProps } from 'next'
 import { Box, Flex, Text, HStack, Spinner, SimpleGrid } from '@chakra-ui/react'
 
 // Components Imports
-import CardComponent from '../components/common/Card'
-import HeaderComponent from '../components/common/Header'
-import SideBarNavigationComponent from '../components/common/SideBarNavigation'
+import { Card, Header, SideBarNavigation } from '../components/common'
 import { OutcomeChart, IncomeChart, CountIncomeOutcomeChart } from '../components/pages/dashboard'
 
 // Hooks Imports
@@ -56,7 +54,7 @@ const DashboardPage: NextPage = () => {
         <title>my.finance$ | Dashboard</title>
       </NextHead>
       <Flex width={'calc(100vw - 1px)'} height='auto' flexDirection='column'>
-        <HeaderComponent />
+        <Header />
 
         <Flex
           gap='12'
@@ -68,7 +66,7 @@ const DashboardPage: NextPage = () => {
           paddingX='6'
         >
           <Flex>
-            <SideBarNavigationComponent />
+            <SideBarNavigation />
           </Flex>
 
           <Flex flexDirection='column' width='100%' flex='1'>
@@ -90,19 +88,19 @@ const DashboardPage: NextPage = () => {
                 paddingX='8'
                 aria-label='balance-values-section'
               >
-                <CardComponent
+                <Card
                   title='Balanço'
                   value={summary?.balance}
                   isLoading={isLoading}
                   icon={<FiActivity fontSize='28' color='yellow' />}
                 />
-                <CardComponent
+                <Card
                   title='Entradas'
                   value={summary?.income}
                   isLoading={isLoading}
                   icon={<FiTrendingDown fontSize='28' color='green' />}
                 />
-                <CardComponent
+                <Card
                   title='Saídas'
                   value={summary?.outcome}
                   isLoading={isLoading}

@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react'
 
 // Components Imports
-import { SkeletonComponent } from '../../../../common/Skeleton'
+import { Skeleton } from '../../../../common'
 
 // Recharts Imports
 import { ResponsiveContainer, AreaChart, XAxis, YAxis, Tooltip, Area } from 'recharts'
@@ -67,9 +67,9 @@ export const OutcomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = fa
       </HStack>
       {isLoading ? (
         <ResponsiveContainer height='90%'>
-          <SkeletonComponent isLoading={true} marginTop='4'>
+          <Skeleton isLoading={true} marginTop='4'>
             <AreaChart width={500} height={300} />
-          </SkeletonComponent>
+          </Skeleton>
         </ResponsiveContainer>
       ) : (
         <ResponsiveContainer>

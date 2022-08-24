@@ -3,22 +3,22 @@ import React, { ReactNode } from 'react'
 
 // Chakra Imports
 import { HStack, Box, VStack, Text, Heading } from '@chakra-ui/react'
-import { SkeletonComponent } from '../Skeleton'
-import { formatValueToMoney } from '../../../utils/formatValueToMoney'
 
 // Components Imports
+import { Skeleton } from '../Skeleton'
 
-// Another Imports
+// Utils Imports
+import { formatValueToMoney } from '../../../utils/formatValueToMoney'
 
 // Typings[TypeScript]
-type CardComponentProps = {
+type CardProps = {
   title: string
   icon?: ReactNode
   value?: number
   isLoading?: boolean
 }
 
-const CardComponent: React.FC<CardComponentProps> = ({ icon, title, value, isLoading }) => {
+export const Card: React.FC<CardProps> = ({ icon, title, value, isLoading }) => {
   return (
     <Box
       padding='8'
@@ -36,13 +36,11 @@ const CardComponent: React.FC<CardComponentProps> = ({ icon, title, value, isLoa
           {title}
         </Text>
       </HStack>
-      <SkeletonComponent isLoading={isLoading}>
+      <Skeleton isLoading={isLoading}>
         <VStack width='100%' height='auto' justifyContent='flex-start' alignItems='flex-start'>
           <Heading fontSize='28'>{formatValueToMoney(value)}</Heading>
         </VStack>
-      </SkeletonComponent>
+      </Skeleton>
     </Box>
   )
 }
-
-export default CardComponent

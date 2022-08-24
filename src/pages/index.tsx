@@ -27,7 +27,7 @@ import {
 } from '@chakra-ui/react'
 
 // Components Imports
-import { InputComponent } from '../components/common/Form/Input'
+import { Input } from '../components/common'
 
 // Another Imports
 import { RiGithubLine, RiGoogleFill } from 'react-icons/ri'
@@ -136,7 +136,7 @@ const HomePage: NextPage = ({ authorized }: QueryProps) => {
           </Flex>
 
           <VStack spacing='4' as='form' onSubmit={handleSubmit(handlerSubmitSignInForm)}>
-            <InputComponent
+            <Input
               id='email'
               type='email'
               placeholder='E-mail'
@@ -145,7 +145,7 @@ const HomePage: NextPage = ({ authorized }: QueryProps) => {
               errorInput={errors.email}
             />
 
-            <InputComponent
+            <Input
               id='password'
               type='password'
               placeholder='Senha'

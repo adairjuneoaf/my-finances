@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react'
 
 // Components Imports
-import { SkeletonComponent } from '../../../../common/Skeleton'
+import { Skeleton } from '../../../../common'
 
 // Recharts Imports
 import { ResponsiveContainer, XAxis, YAxis, Bar, BarChart, LabelList } from 'recharts'
@@ -68,9 +68,9 @@ export const CountIncomeOutcomeChart: React.FC<{ isLoading?: boolean }> = ({
       </HStack>
       {isLoading ? (
         <ResponsiveContainer height='90%'>
-          <SkeletonComponent isLoading={true} marginTop='4'>
+          <Skeleton isLoading={true} marginTop='4'>
             <BarChart width={500} height={300} />
-          </SkeletonComponent>
+          </Skeleton>
         </ResponsiveContainer>
       ) : (
         <ResponsiveContainer>

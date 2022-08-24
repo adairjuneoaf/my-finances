@@ -45,7 +45,7 @@ import { IPopoverSubMenu } from './types'
 import { TransactionDataType } from '../../../../../@types/TransactionDataType'
 
 const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ transactionID }) => {
-  const { disclosure, toggleIsEditing, selectTransactionIdForEdit } =
+  const { disclosure, toggleIsEditing, toggleIsLoading, selectTransactionIdForEdit } =
     useContext(TransactionsPageContext)
 
   const transactionSelected = useRef<TransactionDataType | undefined>(undefined)
@@ -98,6 +98,7 @@ const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ transactionID }) =
   const handleEditTransaction = (id: string) => {
     selectTransactionIdForEdit(id)
     toggleIsEditing()
+    toggleIsLoading()
     disclosure.onOpen()
   }
 

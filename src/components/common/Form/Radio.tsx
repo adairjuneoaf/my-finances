@@ -34,4 +34,4 @@ const Radio: ForwardRefRenderFunction<HTMLInputElement, IRadioComponentProps> = 
   )
 }
 
-export const RadioComponent = forwardRef(Radio)
+export const RadioButton = forwardRef(Radio)

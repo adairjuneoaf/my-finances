@@ -17,7 +17,7 @@ import {
 } from '@chakra-ui/react'
 
 // Components Imports
-import { SkeletonComponent } from '../Skeleton'
+import { Skeleton } from '../Skeleton'
 
 // Another Imports
 import { FieldError } from 'react-hook-form'
@@ -31,7 +31,7 @@ interface IInputComponentProps extends NumberInputFieldProps {
   isLoadingValue?: boolean
 }
 
-const InputValue: ForwardRefRenderFunction<HTMLInputElement, IInputComponentProps> = (
+const Input: ForwardRefRenderFunction<HTMLInputElement, IInputComponentProps> = (
   { id, label, errorInput = null, isRequired = false, isLoadingValue = false, ...props },
   ref,
 ) => {
@@ -60,7 +60,7 @@ const InputValue: ForwardRefRenderFunction<HTMLInputElement, IInputComponentProp
           variant='filled'
           focusBorderColor='green.500'
         >
-          <SkeletonComponent isLoading={isLoadingValue}>
+          <Skeleton isLoading={isLoadingValue}>
             <NumberInputField
               {...props}
               id={id}
@@ -77,7 +77,7 @@ const InputValue: ForwardRefRenderFunction<HTMLInputElement, IInputComponentProp
               <NumberIncrementStepper borderColor='gray.700' />
               <NumberDecrementStepper borderColor='gray.700' />
             </NumberInputStepper>
-          </SkeletonComponent>
+          </Skeleton>
         </NumberInput>
       </InputGroup>
       {errorInput && <FormErrorMessage>{errorInput?.message}</FormErrorMessage>}
@@ -85,4 +85,4 @@ const InputValue: ForwardRefRenderFunction<HTMLInputElement, IInputComponentProp
   )
 }
 
-export const InputValueComponent = forwardRef(InputValue)
+export const InputValue = forwardRef(Input)

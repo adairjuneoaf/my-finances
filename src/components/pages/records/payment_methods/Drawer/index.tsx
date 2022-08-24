@@ -23,9 +23,7 @@ import {
 } from '@chakra-ui/react'
 
 // Components Imports
-import { InputComponent } from '../../../../common/Form/Input'
-import { SkeletonComponent } from '../../../../common/Skeleton'
-import { InputTextAreaComponent } from '../../../../common/Form/InputTextArea'
+import { Input, Skeleton, InputTextArea } from '../../../../common'
 
 // Context Imports
 import { PaymentMethodsPageContext } from '../../../../../contexts/pages/records'
@@ -214,7 +212,7 @@ export const DrawerPaymentMethods: React.FC = () => {
           }}
         >
           <VStack spacing='3'>
-            <InputComponent
+            <Input
               id='title'
               type='text'
               label='Título do método de pagamento'
@@ -241,7 +239,7 @@ export const DrawerPaymentMethods: React.FC = () => {
                   name='status'
                   control={control}
                   render={({ field }) => (
-                    <SkeletonComponent isLoading={isLoading}>
+                    <Skeleton isLoading={isLoading}>
                       <RadioGroup {...field}>
                         <HStack spacing='3'>
                           <Radio value='0' colorScheme='red'>
@@ -252,7 +250,7 @@ export const DrawerPaymentMethods: React.FC = () => {
                           </Radio>
                         </HStack>
                       </RadioGroup>
-                    </SkeletonComponent>
+                    </Skeleton>
                   )}
                 />
                 {errors.status && <FormErrorMessage>{errors?.status.message}</FormErrorMessage>}
@@ -261,7 +259,7 @@ export const DrawerPaymentMethods: React.FC = () => {
           </HStack>
 
           <VStack alignItems='flex-start' spacing='3'>
-            <InputTextAreaComponent
+            <InputTextArea
               id='anotherInformation'
               label='Outras informações'
               isLoadingValue={isLoading}

@@ -7,7 +7,7 @@ import { Box, Flex, Text, Button, HStack, Spinner } from '@chakra-ui/react'
 // Components Imports
 import HeaderComponent from '../../../common/Header'
 import { TablePaymentMethods } from '../../../pages/records/payment_methods/Table'
-// import { DrawerTransactions } from '../../../pages/transactions/Drawer'
+import { DrawerPaymentMethods } from '../../../pages/records/payment_methods/Drawer'
 import SideBarNavigationComponent from '../../../common/SideBarNavigation'
 
 // Contexts Imports
@@ -30,7 +30,7 @@ export const Container: React.FC = () => {
   return (
     <Flex width={'calc(100vw - 1px)'} height='auto' flexDirection='column'>
       <HeaderComponent />
-      {/* <DrawerTransactions /> */}
+      <DrawerPaymentMethods />
 
       <Flex
         gap='12'

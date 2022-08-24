@@ -23,9 +23,9 @@ import {
 } from '@chakra-ui/react'
 
 // Components Imports
-import { SkeletonComponent } from '../../../common/Skeleton'
 import { InputComponent } from '../../../common/Form/Input'
 import { SelectComponent } from '../../../common/Form/Select'
+import { SkeletonComponent } from '../../../common/Skeleton'
 import { InputValueComponent } from '../../../common/Form/InputValue'
 import { InputTextAreaComponent } from '../../../common/Form/InputTextArea'
 

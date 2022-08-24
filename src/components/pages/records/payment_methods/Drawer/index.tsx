@@ -4,10 +4,10 @@ import React, { useContext, useEffect } from 'react'
 // Chakra Imports
 import {
   Text,
-  Drawer,
   Radio,
   HStack,
   VStack,
+  Drawer,
   Button,
   useToast,
   FormLabel,
@@ -22,41 +22,41 @@ import {
   DrawerCloseButton,
 } from '@chakra-ui/react'
 
-// Component Imports
+// Components Imports
 import { InputComponent } from '../../../../common/Form/Input'
 import { SkeletonComponent } from '../../../../common/Skeleton'
 import { InputTextAreaComponent } from '../../../../common/Form/InputTextArea'
 
 // Context Imports
-import { CreditorsDebtorsPageContext } from '../../../../../contexts/pages/records'
+import { PaymentMethodsPageContext } from '../../../../../contexts/pages/records'
 
 // ReactQuery Imports
 import { useMutation, useQueryClient } from 'react-query'
 
-// ReactHookForms Imports
+// ReactHookForm Imports
 import { yupResolver } from '@hookform/resolvers/yup'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 
-// Validation Imports
-import { formValidations } from './formValidations'
-
 // API Services
 import {
-  putUniqueCreditorDebtor,
-  getUniqueCreditorDebtor,
-  postUniqueCreditorDebtor,
+  getUniquePaymentMethod,
+  putUniquePaymentMethod,
+  postUniquePaymentMethod,
 } from '../../../../../services/api'
+
+// Validation Imports
+import { formValidations } from './formValidations'
 
 // Another Imports
 import { v4 as uuid } from 'uuid'
 import { FiEdit, FiSave, FiX } from 'react-icons/fi'
 
 // Typings[TypeScript]
-import { CreditorDebtorType } from '../../../../../@types/CreditorDebtorType'
+import { PaymentMethodType } from '../../../../../@types/PaymentMethodType'
 
-export const DrawerCreditorsDebtors: React.FC = () => {
+export const DrawerPaymentMethods: React.FC = () => {
   const { handleSubmit, register, formState, reset, control, setValue } =
-    useForm<CreditorDebtorType>({
+    useForm<PaymentMethodType>({
       resolver: yupResolver(formValidations),
       mode: 'onBlur',
       defaultValues: {
@@ -67,43 +67,43 @@ export const DrawerCreditorsDebtors: React.FC = () => {
     })
 
   const {
-    isLoading,
     isEditing,
+    isLoading,
     disclosure,
     toggleIsEditing,
     toggleIsLoading,
-    creditorDebtorIdForEdit,
-    resetCreditorDebtorIdForEdit,
-  } = useContext(CreditorsDebtorsPageContext)
-
-  const { onClose, isOpen } = disclosure
+    paymentMethodIdForEdit,
+    resetPaymentMethodIdForEdit,
+  } = useContext(PaymentMethodsPageContext)
 
   const toast = useToast({
     position: 'top',
     duration: 1000 * 3, // 3 Seconds
-    title: 'Credores/Devedores',
+    title: 'Métodos de Pagamento',
   })
+
+  const { onClose, isOpen } = disclosure
 
   const { errors, isSubmitting } = formState
 
   const queryClient = useQueryClient()
 
-  const { mutateAsync: mutateAsyncNewCreditorDebtor } = useMutation(postUniqueCreditorDebtor, {
+  const { mutateAsync: mutateAsyncNewPaymentMethod } = useMutation(postUniquePaymentMethod, {
     onSuccess: () => {
-      queryClient.refetchQueries(['creditors_debtors'])
+      queryClient.refetchQueries(['payment_methods'])
     },
   })
 
-  const { mutateAsync: mutateAsyncEditCreditorDebtor } = useMutation(putUniqueCreditorDebtor, {
+  const { mutateAsync: mutateAsyncEditPaymentMethod } = useMutation(putUniquePaymentMethod, {
     onSuccess: () => {
-      queryClient.refetchQueries(['creditors_debtors'])
+      queryClient.refetchQueries(['payment_methods'])
     },
   })
 
-  const submitNewCreditorDebtor: SubmitHandler<
-    Omit<CreditorDebtorType, 'id' | 'createdAt'>
-  > = async (data) => {
-    await mutateAsyncNewCreditorDebtor(
+  const submitNewPaymentMethod: SubmitHandler<Omit<PaymentMethodType, 'id' | 'createdAt'>> = async (
+    data,
+  ) => {
+    await mutateAsyncNewPaymentMethod(
       {
         id: uuid(),
         createdAt: new Date().getTime(),
@@ -111,60 +111,57 @@ export const DrawerCreditorsDebtors: React.FC = () => {
       },
       {
         onSuccess: () => {
-          toast({ description: 'Credor/Devedor criado com sucesso!', status: 'success' })
+          toast({ description: 'Método de Pagamento criado com sucesso!', status: 'success' })
           reset()
         },
         onError: () => {
-          toast({ description: 'Erro na criação do Credor/Devedor.', status: 'error' })
+          toast({ description: 'Erro na criação do Método de Pagamento.', status: 'error' })
         },
       },
     )
   }
 
-  const submitEditCreditorDebtor: SubmitHandler<CreditorDebtorType> = async (data) => {
-    await mutateAsyncEditCreditorDebtor(
-      {
-        id: data.id,
-        data,
-      },
+  const submitEditPaymentMethod: SubmitHandler<PaymentMethodType> = async (data) => {
+    await mutateAsyncEditPaymentMethod(
+      { id: data.id, data },
       {
         onSuccess: () => {
-          toast({ description: 'Credor/Devedor editado com sucesso!', status: 'success' })
+          toast({ description: 'Método de Pagamento editado com sucesso!', status: 'success' })
           onClose()
           reset()
           toggleIsEditing()
-          resetCreditorDebtorIdForEdit()
+          resetPaymentMethodIdForEdit()
         },
         onError: () => {
-          toast({ description: 'Erro na edição do Credor/Devedor.', status: 'error' })
+          toast({ description: 'Erro na edição do Método de Pagamento.', status: 'error' })
         },
       },
     )
   }
 
-  const cancelSubmitCreditorDebtor = () => {
+  const cancelSubmitPaymentMethod = () => {
     onClose()
     reset()
 
     if (isEditing) {
       toggleIsEditing()
-      resetCreditorDebtorIdForEdit()
+      resetPaymentMethodIdForEdit()
     }
   }
 
   useEffect(() => {
-    if (creditorDebtorIdForEdit !== null && isEditing) {
-      getUniqueCreditorDebtor(creditorDebtorIdForEdit)
+    if (paymentMethodIdForEdit !== null && isEditing) {
+      getUniquePaymentMethod(paymentMethodIdForEdit)
         .then((response) => {
           Object.entries(response).forEach(([name, value]) =>
-            setValue(name as keyof CreditorDebtorType, value),
+            setValue(name as keyof PaymentMethodType, value),
           )
         })
         .catch((error) => {
           onClose()
           toggleIsLoading()
           toggleIsEditing()
-          resetCreditorDebtorIdForEdit()
+          resetPaymentMethodIdForEdit()
           console.log('Error', error)
         })
         .finally(() => {
@@ -177,7 +174,7 @@ export const DrawerCreditorsDebtors: React.FC = () => {
   return (
     <Drawer
       isOpen={isOpen}
-      onClose={cancelSubmitCreditorDebtor}
+      onClose={cancelSubmitPaymentMethod}
       placement='right'
       size='md'
       colorScheme='gray'
@@ -190,14 +187,15 @@ export const DrawerCreditorsDebtors: React.FC = () => {
         <DrawerHeader borderBottom='2px' borderColor='gray.700'>
           {!isEditing ? (
             <Text as='h2' fontSize='24px'>
-              Novo credor/devedor
+              Novo método de pagamento
             </Text>
           ) : (
             <Text as='h2' fontSize='24px'>
-              Editar credor/devedor
+              Editar método de pagamento
             </Text>
           )}
         </DrawerHeader>
+
         <DrawerBody
           as='form'
           width='100%'
@@ -219,7 +217,7 @@ export const DrawerCreditorsDebtors: React.FC = () => {
             <InputComponent
               id='title'
               type='text'
-              label='Nome do Credor/Devedor'
+              label='Título do método de pagamento'
               isRequired
               isLoadingValue={isLoading}
               {...register('title')}
@@ -237,7 +235,7 @@ export const DrawerCreditorsDebtors: React.FC = () => {
                   marginY='2'
                   fontWeight='medium'
                 >
-                  Status do Credor/Devedor
+                  Status do método de pagamento
                 </FormLabel>
                 <Controller
                   name='status'
@@ -267,7 +265,7 @@ export const DrawerCreditorsDebtors: React.FC = () => {
               id='anotherInformation'
               label='Outras informações'
               isLoadingValue={isLoading}
-              placeholder='Outras informações relevantes sobre o Credor/Devedor...'
+              placeholder='Outras informações relevantes sobre o método de pagamento...'
               {...register('anotherInformation')}
               errorInput={errors.anotherInformation}
             />
@@ -279,7 +277,7 @@ export const DrawerCreditorsDebtors: React.FC = () => {
               type='button'
               leftIcon={<FiX fontSize='18' />}
               colorScheme='red'
-              onClick={cancelSubmitCreditorDebtor}
+              onClick={cancelSubmitPaymentMethod}
               disabled={isSubmitting || isLoading}
             >
               Cancelar
@@ -288,11 +286,11 @@ export const DrawerCreditorsDebtors: React.FC = () => {
               type='submit'
               colorScheme='green'
               isLoading={isSubmitting}
-              leftIcon={!isEditing ? <FiSave fontSize='18' /> : <FiEdit fontSize='18' />}
+              leftIcon={!isLoading ? <FiSave fontSize='18' /> : <FiEdit fontSize='18' />}
               onClick={
-                !isEditing
-                  ? handleSubmit(submitNewCreditorDebtor)
-                  : handleSubmit(submitEditCreditorDebtor)
+                !isLoading
+                  ? handleSubmit(submitNewPaymentMethod)
+                  : handleSubmit(submitEditPaymentMethod)
               }
               disabled={isSubmitting || isLoading}
             >

@@ -25,7 +25,9 @@
     "camelcase": "error",
     "spaced-comment": "error",
     "quotes": ["warn", "single"],
-    "no-duplicate-imports": "error"
+    "no-duplicate-imports": "error",
+    // "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   },
   "settings": {
     "react": {

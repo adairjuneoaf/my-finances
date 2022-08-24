@@ -42,6 +42,10 @@ export const theme = extendTheme({
         overflowX: 'hidden',
         color: 'gray.50',
       },
+      button: {
+        _active: { backgroundColor: 'gray.700 !important' },
+        // _focus: { boxShadow: '0 0 0 3px rgba(29, 200, 9, 0.6) !important' },
+      },
       '*::-webkit-scrollbar': {
         width: '8px',
       },

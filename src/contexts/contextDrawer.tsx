@@ -8,12 +8,12 @@ import { useRouter } from 'next/router'
 import { useDisclosure } from '@chakra-ui/react'
 
 // Typings[Typescript]
-import { ContextDrawerProviderProps, ContextDrawerValuesProps } from './types'
+import { ContextProviderProps, ContextDrawerValuesProps } from './types'
 import { DrawerTypes } from '../@types/DrawerTypes'
 
 const ContextDrawer = createContext({} as ContextDrawerValuesProps)
 
-const ContextDrawerProvider = ({ children }: ContextDrawerProviderProps) => {
+const ContextDrawerProvider = ({ children }: ContextProviderProps) => {
   const disclosure = useDisclosure()
   const [isEditing, setIsEditing] = useState(false)
   const [drawerType, setDrawerType] = useState<DrawerTypes>('default')

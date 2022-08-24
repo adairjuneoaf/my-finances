@@ -1,9 +1,8 @@
 // Imports React
-import React, { Fragment, useContext } from 'react'
+import React, { useContext } from 'react'
 
 // Imports Next
 import NextHead from 'next/head'
-import dynamic from 'next/dynamic'
 import { getServerSession } from 'next-auth'
 import { GetServerSideProps, NextPage } from 'next'
 import { authOptions } from './api/auth/[...nextauth]'
@@ -25,17 +24,14 @@ import {
 } from '@chakra-ui/react'
 
 // Components Imports
-import HeaderComponent from '../components/Header'
-import SideBarNavigation from '../components/SideBarNavigation'
-import TablePaymentMethods from '../components/TablePaymentMethods'
-import TableCreditorsDebtors from '../components/TableCreditorsDebtors'
-const DrawerComponent = dynamic(() => import('../components/Drawer'), {
-  ssr: false,
-  suspense: false,
-})
+import HeaderComponent from '../components/common/Header'
+import DrawerComponent from '../components/common/Drawer'
+import SideBarNavigation from '../components/common/SideBarNavigation'
+import TablePaymentMethods from '../components/common/TablePaymentMethods'
+import TableCreditorsDebtors from '../components/common/TableCreditorsDebtors'
 
 // Contexts Imports
-import { ContextDrawer } from '../contexts/contextDrawer'
+import { ContextDrawerProvider, ContextDrawer } from '../contexts/contextDrawer'
 
 // Hooks Imports
 import { useReactQuery } from '../hooks/useReactQuery'
@@ -52,7 +48,7 @@ const TransactionsPage: NextPage = () => {
   const { isFetching: isFetchingPaymentMethods } = paymentMethods
 
   return (
-    <Fragment>
+    <ContextDrawerProvider>
       <NextHead>
         <title>my.finance$ | Cadastros</title>
       </NextHead>
@@ -151,7 +147,7 @@ const TransactionsPage: NextPage = () => {
           </Flex>
         </Flex>
       </Flex>
-    </Fragment>
+    </ContextDrawerProvider>
   )
 }
 

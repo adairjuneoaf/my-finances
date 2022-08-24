@@ -27,7 +27,7 @@ import {
 } from '@chakra-ui/react'
 
 // Components Imports
-import { InputComponent } from '../components/Form/Input'
+import { InputComponent } from '../components/common/Form/Input'
 
 // Another Imports
 import { RiGithubLine, RiGoogleFill } from 'react-icons/ri'

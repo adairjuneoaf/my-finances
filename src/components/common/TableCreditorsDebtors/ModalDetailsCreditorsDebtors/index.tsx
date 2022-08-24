@@ -17,10 +17,10 @@ import {
 } from '@chakra-ui/react'
 
 // Utils Imports
-import { formatDateToNow } from '../../../utils/formatDate'
+import { formatDateToNow } from '../../../../utils/formatDate'
 
 // Typings[TypeScript]
-import { CreditorDebtorType } from '../../../@types/CreditorDebtorType'
+import { CreditorDebtorType } from '../../../../@types/CreditorDebtorType'
 
 interface IModalProps {
   isOpen: boolean

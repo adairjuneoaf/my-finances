@@ -8,7 +8,7 @@ import PopoverSubMenuComponent from './PopoverSubMenu'
 import { Badge, Th, Tr } from '@chakra-ui/react'
 
 // Typings[TypeScript]
-import { PaymentMethodType } from '../../@types/PaymentMethodType'
+import { PaymentMethodType } from '../../../@types/PaymentMethodType'
 interface TableBodyProps extends PaymentMethodType {
   index: number
 }

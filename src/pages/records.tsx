@@ -1,5 +1,5 @@
 // Imports React
-import React, { Fragment, useContext } from 'react'
+import React, { useContext } from 'react'
 
 // Imports Next
 import NextHead from 'next/head'
@@ -30,9 +30,8 @@ import SideBarNavigation from '../components/common/SideBarNavigation'
 import TablePaymentMethods from '../components/common/TablePaymentMethods'
 import TableCreditorsDebtors from '../components/common/TableCreditorsDebtors'
 
-
 // Contexts Imports
-import { ContextDrawer } from '../contexts/contextDrawer'
+import { ContextDrawerProvider, ContextDrawer } from '../contexts/contextDrawer'
 
 // Hooks Imports
 import { useReactQuery } from '../hooks/useReactQuery'
@@ -49,7 +48,7 @@ const TransactionsPage: NextPage = () => {
   const { isFetching: isFetchingPaymentMethods } = paymentMethods
 
   return (
-    <Fragment>
+    <ContextDrawerProvider>
       <NextHead>
         <title>my.finance$ | Cadastros</title>
       </NextHead>
@@ -148,7 +147,7 @@ const TransactionsPage: NextPage = () => {
           </Flex>
         </Flex>
       </Flex>
-    </Fragment>
+    </ContextDrawerProvider>
   )
 }
 

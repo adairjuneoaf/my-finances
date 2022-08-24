@@ -28,17 +28,17 @@ const ModalDetailsCreditorsDebtors = dynamic(() => import('../ModalDetailsCredit
 })
 
 // Contexts Imports
-import { ContextDrawer } from '../../../contexts/contextDrawer'
+import { ContextDrawer } from '../../../../contexts/contextDrawer'
 
 // API Services
-import { patchStatusUniqueCreditorDebtor } from '../../../services/api'
+import { patchStatusUniqueCreditorDebtor } from '../../../../services/api'
 
 // Another Imports
 import { FiEdit, FiEye, FiMoreVertical, FiPower } from 'react-icons/fi'
 
 // Typings[TypeScript]
 import { IPopoverSubMenu } from './types'
-import { CreditorDebtorType } from '../../../@types/CreditorDebtorType'
+import { CreditorDebtorType } from '../../../../@types/CreditorDebtorType'
 
 const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ creditorDebtorID, status }) => {
   const { handleDrawerEditCreditorDebtor } = useContext(ContextDrawer)

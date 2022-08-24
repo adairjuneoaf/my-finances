@@ -5,7 +5,7 @@ import React, { forwardRef, ForwardRefRenderFunction } from 'react'
 import { FormControl, FormErrorMessage, FormLabel, Select, SelectProps } from '@chakra-ui/react'
 
 // ReactQuery Imports
-import { useReactQuery } from '../../../hooks/useReactQuery'
+import { useReactQuery } from '../../../../hooks/useReactQuery'
 
 // Components Imports
 import { SkeletonComponent } from '../../Skeleton'

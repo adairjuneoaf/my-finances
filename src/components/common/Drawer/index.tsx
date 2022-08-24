@@ -13,12 +13,11 @@ import {
 } from '@chakra-ui/react'
 
 // Components Imports
-import { TransactionBody } from './transaction'
 import { PaymentMethodBody } from './paymentMethod'
 import { CreditorDebtorBody } from './creditorDebtor'
 
 // Context Imports
-import { ContextDrawer } from '../../contexts/contextDrawer'
+import { ContextDrawer } from '../../../contexts/contextDrawer'
 
 const DrawerComponent: React.FC = () => {
   const { disclosure, drawerType } = useContext(ContextDrawer)
@@ -60,26 +59,6 @@ const DrawerComponent: React.FC = () => {
           </>
         )}
 
-        {drawerType === 'new-transaction' && (
-          <>
-            <DrawerHeader borderBottom='2px' borderColor='gray.700'>
-              <Text as='h2' fontSize='24px'>
-                Novo lançamento
-              </Text>
-            </DrawerHeader>
-            <TransactionBody />
-          </>
-        )}
-        {drawerType === 'edit-transaction' && (
-          <>
-            <DrawerHeader borderBottom='2px' borderColor='gray.700'>
-              <Text as='h2' fontSize='24px'>
-                Editar lançamento
-              </Text>
-            </DrawerHeader>
-            <TransactionBody />
-          </>
-        )}
         {drawerType === 'new-payment-method' && (
           <>
             <DrawerHeader borderBottom='2px' borderColor='gray.700'>

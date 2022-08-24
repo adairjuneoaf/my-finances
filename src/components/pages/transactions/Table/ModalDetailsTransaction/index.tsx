@@ -23,13 +23,13 @@ import { useQueryClient } from 'react-query'
 import { fromUnixTime } from 'date-fns'
 
 // Utils Imports
-import { formatDateToNow, formatDetailedDate } from '../../../utils/formatDate'
-import { formatValueToMoney } from '../../../utils/formatValueToMoney'
+import { formatDateToNow, formatDetailedDate } from '../../../../../utils/formatDate'
+import { formatValueToMoney } from '../../../../../utils/formatValueToMoney'
 
 // Typings[TypeScript]
-import { TransactionDataType } from '../../../@types/TransactionDataType'
-import { CreditorDebtorType } from '../../../@types/CreditorDebtorType'
-import { PaymentMethodType } from '../../../@types/PaymentMethodType'
+import { TransactionDataType } from '../../../../../@types/TransactionDataType'
+import { CreditorDebtorType } from '../../../../../@types/CreditorDebtorType'
+import { PaymentMethodType } from '../../../../../@types/PaymentMethodType'
 
 interface IModalProps {
   isOpen: boolean

@@ -123,8 +123,7 @@ export const OutcomeChart: React.FC<{ isLoading?: boolean }> = ({ isLoading = fa
               strokeWidth={3}
               fillOpacity={1}
               fill='url(#outcome)'
-            >
-            </Area>
+            ></Area>
           </AreaChart>
         </ResponsiveContainer>
       )}

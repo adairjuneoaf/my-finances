@@ -22,7 +22,7 @@ import { InputComponent } from '../../Form/Input'
 import { InputTextAreaComponent } from '../../Form/InputTextArea'
 
 // Context Imports
-import { ContextDrawer } from '../../../contexts/contextDrawer'
+import { ContextDrawer } from '../../../../contexts/contextDrawer'
 
 // ReactQuery Imports
 import { useMutation, useQueryClient } from 'react-query'
@@ -39,14 +39,14 @@ import {
   getUniqueCreditorDebtor,
   postUniqueCreditorDebtor,
   putUniqueCreditorDebtor,
-} from '../../../services/api'
+} from '../../../../services/api'
 
 // Another Imports
 import { v4 as uuid } from 'uuid'
 import { FiEdit, FiSave, FiX } from 'react-icons/fi'
 
 // Typings[TypeScript]
-import { CreditorDebtorType } from '../../../@types/CreditorDebtorType'
+import { CreditorDebtorType } from '../../../../@types/CreditorDebtorType'
 
 export const GetFormFieldsCreditorDebtor = () => {
   const { handleSubmit, register, formState, reset, control, setValue } =

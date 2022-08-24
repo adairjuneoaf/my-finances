@@ -36,7 +36,14 @@ export interface DashboardPageContextProps {
 }
 
 export interface TransactionsPageContextProps {
-  value: boolean
+  isEditing: boolean
+  isLoading: boolean
+  disclosure: UseDisclosureReturn
+  toggleIsEditing: () => void
+  toggleIsLoading: () => void
+  transactionIdForEdit: string | null
+  resetTransactionIdForEdit: () => void
+  selectTransactionIdForEdit: (id: string) => void
 }
 
 export interface RecordsPageContextProps {

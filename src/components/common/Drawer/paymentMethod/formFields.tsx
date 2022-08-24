@@ -23,7 +23,7 @@ import { InputTextAreaComponent } from '../../Form/InputTextArea'
 
 // Context Imports
 import { yupResolver } from '@hookform/resolvers/yup'
-import { ContextDrawer } from '../../../contexts/contextDrawer'
+import { ContextDrawer } from '../../../../contexts/contextDrawer'
 
 // ReactQuery Imports
 import { useMutation, useQueryClient } from 'react-query'
@@ -36,7 +36,7 @@ import {
   getUniquePaymentMethod,
   postUniquePaymentMethod,
   putUniquePaymentMethod,
-} from '../../../services/api'
+} from '../../../../services/api'
 
 // Validation Imports
 import { formValidations } from './formValidations'
@@ -46,7 +46,7 @@ import { v4 as uuid } from 'uuid'
 import { FiEdit, FiSave, FiX } from 'react-icons/fi'
 
 // Typings[TypeScript]
-import { PaymentMethodType } from '../../../@types/PaymentMethodType'
+import { PaymentMethodType } from '../../../../@types/PaymentMethodType'
 
 export const GetFormFieldsPaymentMethod = () => {
   const { handleSubmit, register, formState, reset, control, setValue } =

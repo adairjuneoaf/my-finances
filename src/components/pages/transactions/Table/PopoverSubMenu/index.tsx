@@ -10,12 +10,12 @@ import {
   HStack,
   Popover,
   Tooltip,
+  useToast,
   IconButton,
   PopoverBody,
+  useDisclosure,
   PopoverContent,
   PopoverTrigger,
-  useToast,
-  useDisclosure,
 } from '@chakra-ui/react'
 
 // ReactQuery Imports
@@ -32,20 +32,21 @@ const ModalDetailsTransaction = dynamic(() => import('../ModalDetailsTransaction
 })
 
 // Contexts Imports
-import { ContextDrawer } from '../../../contexts/contextDrawer'
+import { TransactionsPageContext } from '../../../../../contexts/pages/transactions'
 
 // API Services
-import { deleteUniqueTransaction } from '../../../services/api'
+import { deleteUniqueTransaction } from '../../../../../services/api'
 
 // Another Imports
 import { FiEdit, FiTrash, FiEye, FiMoreVertical } from 'react-icons/fi'
 
 // Typings[TypeScript]
 import { IPopoverSubMenu } from './types'
-import { TransactionDataType } from '../../../@types/TransactionDataType'
+import { TransactionDataType } from '../../../../../@types/TransactionDataType'
 
 const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ transactionID }) => {
-  const { handleDrawerEditTransaction } = useContext(ContextDrawer)
+  const { disclosure, toggleIsEditing, selectTransactionIdForEdit } =
+    useContext(TransactionsPageContext)
 
   const transactionSelected = useRef<TransactionDataType | undefined>(undefined)
 
@@ -94,6 +95,12 @@ const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ transactionID }) =
     )
   }
 
+  const handleEditTransaction = (id: string) => {
+    selectTransactionIdForEdit(id)
+    toggleIsEditing()
+    disclosure.onOpen()
+  }
+
   return (
     <Fragment>
       <AlertDialogDeleteTransaction
@@ -138,7 +145,7 @@ const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ transactionID }) =
                   backgroundColor='green.500'
                   colorScheme='green'
                   onClick={() => {
-                    handleDrawerEditTransaction(transactionID)
+                    handleEditTransaction(transactionID)
                   }}
                 />
               </Tooltip>

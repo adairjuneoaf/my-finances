@@ -11,9 +11,6 @@ import { ChakraProvider } from '@chakra-ui/react'
 import '@fontsource/roboto'
 import '@fontsource/inter'
 
-// Contexts Imports
-import { ContextDrawerProvider } from '../contexts/contextDrawer'
-
 // Another Imports
 import { theme } from '../styles/theme'
 
@@ -25,11 +22,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
-        <ContextDrawerProvider>
-          <ChakraProvider theme={theme}>
-            <Component {...pageProps} />
-          </ChakraProvider>
-        </ContextDrawerProvider>
+        <ChakraProvider theme={theme}>
+          <Component {...pageProps} />
+        </ChakraProvider>
         {isDevelopment && <ReactQueryDevtools />}
       </QueryClientProvider>
     </SessionProvider>

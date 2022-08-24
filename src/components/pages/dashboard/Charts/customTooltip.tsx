@@ -7,7 +7,6 @@ import { Box, Divider, Flex, Text, HStack } from '@chakra-ui/react'
 // Utils Imports
 import { formatValueToMoney } from '../../../../utils/formatValueToMoney'
 
-
 type AreaChartToolTipProps = {
   active?: boolean
   payload?: Array<{

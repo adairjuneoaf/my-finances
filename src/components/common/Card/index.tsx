@@ -4,7 +4,7 @@ import React, { ReactNode } from 'react'
 // Chakra Imports
 import { HStack, Box, VStack, Text, Heading } from '@chakra-ui/react'
 import { SkeletonComponent } from '../Skeleton'
-import { formatValueToMoney } from '../../utils/formatValueToMoney'
+import { formatValueToMoney } from '../../../utils/formatValueToMoney'
 
 // Components Imports
 

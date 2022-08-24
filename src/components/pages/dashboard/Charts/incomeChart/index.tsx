@@ -17,7 +17,6 @@ import {
 // Components Imports
 import { SkeletonComponent } from '../../../../common/Skeleton'
 
-
 // Recharts Imports
 import { ResponsiveContainer, AreaChart, XAxis, YAxis, Tooltip, Area } from 'recharts'
 import { AreaChartCustomTooltip } from '../customTooltip'

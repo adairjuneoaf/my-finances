@@ -8,8 +8,8 @@ import PopoverSubMenuComponent from './PopoverSubMenu'
 import { Badge, Th, Tr } from '@chakra-ui/react'
 
 // Typings[TypeScript]
-import { TransactionDataType } from '../../@types/TransactionDataType'
-import { formatValueToMoney } from '../../utils/formatValueToMoney'
+import { TransactionDataType } from '../../../../@types/TransactionDataType'
+import { formatValueToMoney } from '../../../../utils/formatValueToMoney'
 interface TableBodyProps extends TransactionDataType {
   index: number
 }

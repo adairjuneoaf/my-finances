@@ -32,7 +32,7 @@ import _ from 'lodash'
 
 const SIZE_PER_LOAD = 5
 
-const TableTransactionsComponent: React.FC = () => {
+export const TableTransactions: React.FC = () => {
   const { asPath } = useRouter()
 
   const { transactions } = useReactQuery()
@@ -42,7 +42,7 @@ const TableTransactionsComponent: React.FC = () => {
   const [loadMore, setLoadMore] = useState(SIZE_PER_LOAD)
 
   const currentTransactions = useMemo(() => {
-    const dataOrdered = _.orderBy(data, ['dateEntriesTransaction'], ['desc'])
+    const dataOrdered = _.orderBy(data, ['createdAt'], ['desc'])
       ?.slice(0, loadMore)
       .map((transaction) => transaction)
 
@@ -93,24 +93,6 @@ const TableTransactionsComponent: React.FC = () => {
             </>
           )}
         </Tbody>
-
-        {asPath === '/dashboard' && (
-          <Tfoot>
-            <Tr>
-              <Th
-                colSpan={6}
-                width='100%'
-                paddingTop='8'
-                paddingBottom='0'
-                textTransform='none'
-                color='gray.300'
-              >
-                ** Apenas os últimos 5 lançamentos são exibidos aqui, veja todos acessando a página
-                de lançamentos no menu ao lado.
-              </Th>
-            </Tr>
-          </Tfoot>
-        )}
 
         {hasLoadMore && asPath === '/transactions' && (
           <Tfoot>
@@ -172,5 +154,3 @@ const TableTransactionsComponent: React.FC = () => {
     </TableContainer>
   )
 }
-
-export default TableTransactionsComponent

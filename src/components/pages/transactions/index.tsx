@@ -17,10 +17,9 @@ import {
 } from '@chakra-ui/react'
 
 // Components Imports
-import HeaderComponent from '../../common/Header'
+import { Header, SideBarNavigation } from '../../common'
 import { TableTransactions } from '../../pages/transactions/Table'
 import { DrawerTransactions } from '../../pages/transactions/Drawer'
-import SideBarNavigationComponent from '../../common/SideBarNavigation'
 
 // Contexts Imports
 import { TransactionsPageContext } from '../../../contexts/pages/transactions'
@@ -42,7 +41,7 @@ export const Container: React.FC = () => {
 
   return (
     <Flex width={'calc(100vw - 1px)'} height='auto' flexDirection='column'>
-      <HeaderComponent />
+      <Header />
       <DrawerTransactions />
 
       <Flex
@@ -55,7 +54,7 @@ export const Container: React.FC = () => {
         paddingX='6'
       >
         <Flex flexDirection='column'>
-          <SideBarNavigationComponent />
+          <SideBarNavigation />
         </Flex>
 
         <Flex flexDirection='column' width='100%' flex='1'>

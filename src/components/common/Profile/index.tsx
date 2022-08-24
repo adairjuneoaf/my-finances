@@ -6,28 +6,28 @@ import { useSession } from 'next-auth/react'
 
 // Chakra Imports
 import { Avatar, Text, Wrap, WrapItem } from '@chakra-ui/react'
-import { SkeletonComponent, SkeletonCircleComponent } from '../Skeleton'
+import { Skeleton, SkeletonCircle } from '../Skeleton'
 
-const ProfileComponent: React.FC = () => {
+export const Profile: React.FC = () => {
   const { data, status } = useSession()
 
   return (
     <Wrap spacing='3' alignItems='center' display='flex' flexDirection='row' paddingX='4'>
       <WrapItem>
         {status === 'loading' ? (
-          <SkeletonCircleComponent isLoaded={!!(status === 'loading')} size='12' />
+          <SkeletonCircle isLoaded={!!(status === 'loading')} size='12' />
         ) : (
           <Avatar name={String(data?.user?.name)} src={String(data?.user?.image)} size='md' />
         )}
       </WrapItem>
       {status === 'loading' ? (
         <WrapItem flexDirection='column' gap='1'>
-          <SkeletonComponent isLoading={!!(status === 'loading')} width='24'>
+          <Skeleton isLoading={!!(status === 'loading')} width='24'>
             -
-          </SkeletonComponent>
-          <SkeletonComponent isLoading={!!(status === 'loading')} width='32'>
+          </Skeleton>
+          <Skeleton isLoading={!!(status === 'loading')} width='32'>
             -
-          </SkeletonComponent>
+          </Skeleton>
         </WrapItem>
       ) : (
         <WrapItem flexDirection='column' gap='1'>
@@ -42,5 +42,3 @@ const ProfileComponent: React.FC = () => {
     </Wrap>
   )
 }
-
-export default ProfileComponent

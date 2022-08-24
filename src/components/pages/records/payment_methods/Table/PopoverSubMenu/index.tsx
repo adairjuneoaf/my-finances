@@ -28,20 +28,21 @@ const ModalDetailsPaymentMethods = dynamic(() => import('../ModalDetailsPaymentM
 })
 
 // Contexts Imports
-import { ContextDrawer } from '../../../../contexts/contextDrawer'
+import { PaymentMethodsPageContext } from '../../../../../../contexts/pages/records'
 
 // API Services
-import { patchStatusUniquePaymentMethod } from '../../../../services/api'
+import { patchStatusUniquePaymentMethod } from '../../../../../../services/api'
 
 // Another Imports
 import { FiEdit, FiEye, FiMoreVertical, FiPower } from 'react-icons/fi'
 
 // Typings[TypeScript]
 import { IPopoverSubMenu } from './types'
-import { PaymentMethodType } from '../../../../@types/PaymentMethodType'
+import { PaymentMethodType } from '../../../../../../@types/PaymentMethodType'
 
 const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ paymentMethodID, status }) => {
-  const { handleDrawerEditPaymentMethod } = useContext(ContextDrawer)
+  const { selectPaymentMethodIdForEdit, toggleIsEditing, toggleIsLoading, disclosure } =
+    useContext(PaymentMethodsPageContext)
 
   const paymentMethodSelected = useRef<PaymentMethodType | undefined>(undefined)
 
@@ -86,6 +87,13 @@ const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ paymentMethodID, s
     onOpen()
   }
 
+  const handleEditPaymentMethod = (id: string) => {
+    selectPaymentMethodIdForEdit(id)
+    toggleIsEditing()
+    toggleIsLoading()
+    disclosure.onOpen()
+  }
+
   return (
     <Fragment>
       <ModalDetailsPaymentMethods
@@ -124,7 +132,7 @@ const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ paymentMethodID, s
                   colorScheme='green'
                   disabled={isLoading}
                   onClick={() => {
-                    handleDrawerEditPaymentMethod(paymentMethodID)
+                    handleEditPaymentMethod(paymentMethodID)
                   }}
                 />
               </Tooltip>

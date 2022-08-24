@@ -11,7 +11,7 @@ import { Text, Flex, Image, HStack } from '@chakra-ui/react'
 
 // Another Imports
 
-const LogoComponent: React.FC = () => {
+export const Logo: React.FC = () => {
   return (
     <NextLink passHref href='/'>
       <Flex
@@ -33,5 +33,3 @@ const LogoComponent: React.FC = () => {
     </NextLink>
   )
 }
-
-export default LogoComponent

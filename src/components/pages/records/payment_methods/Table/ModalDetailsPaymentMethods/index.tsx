@@ -17,18 +17,18 @@ import {
 } from '@chakra-ui/react'
 
 // Utils Imports
-import { formatDateToNow } from '../../../../utils/formatDate'
+import { formatDateToNow } from '../../../../../../utils/formatDate'
 
 // Typings[TypeScript]
-import { CreditorDebtorType } from '../../../../@types/CreditorDebtorType'
+import { PaymentMethodType } from '../../../../../../@types/PaymentMethodType'
 
 interface IModalProps {
   isOpen: boolean
   onClose: () => void
-  data?: CreditorDebtorType
+  data?: PaymentMethodType
 }
 
-export default function ModalDetailsCreditorsDebtors({ isOpen, onClose, data }: IModalProps) {
+export default function ModalDetailsPaymentMethods({ isOpen, onClose, data }: IModalProps) {
   return (
     <Modal
       closeOnEsc
@@ -55,7 +55,7 @@ export default function ModalDetailsCreditorsDebtors({ isOpen, onClose, data }: 
         }}
       >
         <ModalHeader paddingTop='6' paddingX='8' fontSize='24px' color='gray.600' cursor='default'>
-          Detalhes do credor/devedor
+          Detalhes do método de pagamento
         </ModalHeader>
         <ModalCloseButton marginTop='3' marginX='2' padding='5' color='gray.600' />
         <ModalBody paddingX='8'>
@@ -78,7 +78,7 @@ export default function ModalDetailsCreditorsDebtors({ isOpen, onClose, data }: 
           </HStack>
           <VStack marginY='4' alignItems='flex-start'>
             <Text as='p' fontSize='16px' fontStyle='italic' fontWeight='semibold' color='gray.600'>
-              Outras informações do credor/devedor
+              Outras informações do método de pagamento
             </Text>
             {data?.anotherInformation ? (
               <Text

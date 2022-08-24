@@ -2,7 +2,7 @@
 import React, { Fragment } from 'react'
 
 // Components Imports
-import { SkeletonComponent } from '../../../common/Skeleton'
+import { Skeleton } from '../../../common'
 
 // Chakra Imports
 import { Th, Tr } from '@chakra-ui/react'
@@ -17,22 +17,22 @@ const SkeletonBody: React.FC<SkeletonBodyProps> = () => {
     <Fragment>
       <Tr>
         <Th width='100%'>
-          <SkeletonComponent isLoading>_</SkeletonComponent>
+          <Skeleton isLoading>_</Skeleton>
         </Th>
         <Th width='100%'>
-          <SkeletonComponent isLoading>_</SkeletonComponent>
+          <Skeleton isLoading>_</Skeleton>
         </Th>
         <Th width='100%'>
-          <SkeletonComponent isLoading>_</SkeletonComponent>
+          <Skeleton isLoading>_</Skeleton>
         </Th>
         <Th width='100%'>
-          <SkeletonComponent isLoading>_</SkeletonComponent>
+          <Skeleton isLoading>_</Skeleton>
         </Th>
         <Th width='100%'>
-          <SkeletonComponent isLoading>_</SkeletonComponent>
+          <Skeleton isLoading>_</Skeleton>
         </Th>
         <Th width='100%'>
-          <SkeletonComponent isLoading>_</SkeletonComponent>
+          <Skeleton isLoading>_</Skeleton>
         </Th>
       </Tr>
     </Fragment>

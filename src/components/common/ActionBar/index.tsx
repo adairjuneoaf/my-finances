@@ -12,7 +12,7 @@ import { IconButton, Flex, Tooltip } from '@chakra-ui/react'
 // Another Imports
 import { FiBell, FiLogOut } from 'react-icons/fi'
 
-const ActionBarComponent: React.FC = () => {
+export const ActionBar: React.FC = () => {
   const { status } = useSession()
   return (
     <Flex gap='3' alignItems='center' justifyContent='center' flexDirection='row'>
@@ -43,5 +43,3 @@ const ActionBarComponent: React.FC = () => {
     </Flex>
   )
 }
-
-export default ActionBarComponent

@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react'
 
 // Components Imports
-import { SkeletonComponent } from '../Skeleton'
+import { Skeleton } from '../Skeleton'
 
 // Another Imports
 import { FieldError } from 'react-hook-form'
@@ -25,7 +25,7 @@ interface IInputComponentProps extends InputPropsChakra {
   isLoadingValue?: boolean
 }
 
-const Input: ForwardRefRenderFunction<HTMLInputElement, IInputComponentProps> = (
+const InputDefault: ForwardRefRenderFunction<HTMLInputElement, IInputComponentProps> = (
   { id, label, errorInput = null, isRequired = false, isLoadingValue = false, ...props },
   ref,
 ) => {
@@ -36,7 +36,7 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, IInputComponentProps> = 
           {label}
         </FormLabel>
       )}
-      <SkeletonComponent isLoading={isLoadingValue}>
+      <Skeleton isLoading={isLoadingValue}>
         <InputChakra
           {...props}
           id={id}
@@ -47,10 +47,10 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, IInputComponentProps> = 
           focusBorderColor='green.500'
           _hover={{ backgroundColor: 'transparent', borderColor: 'gray.600' }}
         />
-      </SkeletonComponent>
+      </Skeleton>
       {errorInput && <FormErrorMessage>{errorInput?.message}</FormErrorMessage>}
     </FormControl>
   )
 }
 
-export const InputComponent = forwardRef(Input)
+export const Input = forwardRef(InputDefault)

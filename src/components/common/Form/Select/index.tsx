@@ -8,7 +8,7 @@ import { FormControl, FormErrorMessage, FormLabel, Select, SelectProps } from '@
 import { useReactQuery } from '../../../../hooks/useReactQuery'
 
 // Components Imports
-import { SkeletonComponent } from '../../Skeleton'
+import { Skeleton } from '../../Skeleton'
 
 // Another Imports
 import { FieldError } from 'react-hook-form'
@@ -25,7 +25,7 @@ interface SelectOptionsProps extends SelectProps {
   isLoadingValue?: boolean
 }
 
-const SelectOptionsComponent: ForwardRefRenderFunction<HTMLSelectElement, SelectOptionsProps> = (
+const SelectOptions: ForwardRefRenderFunction<HTMLSelectElement, SelectOptionsProps> = (
   { label, typeList, errorSelectOption, isRequired = false, isLoadingValue = true, ...props },
   ref,
 ) => {
@@ -38,7 +38,7 @@ const SelectOptionsComponent: ForwardRefRenderFunction<HTMLSelectElement, Select
           {label}
         </FormLabel>
       )}
-      <SkeletonComponent isLoading={isLoadingValue}>
+      <Skeleton isLoading={isLoadingValue}>
         <Select
           {...props}
           ref={ref}
@@ -67,10 +67,10 @@ const SelectOptionsComponent: ForwardRefRenderFunction<HTMLSelectElement, Select
             <option disabled>Não existem opções...</option>
           )}
         </Select>
-      </SkeletonComponent>
+      </Skeleton>
       {errorSelectOption && <FormErrorMessage>{errorSelectOption?.message}</FormErrorMessage>}
     </FormControl>
   )
 }
 
-export const SelectComponent = forwardRef(SelectOptionsComponent)
+export const InputSelect = forwardRef(SelectOptions)

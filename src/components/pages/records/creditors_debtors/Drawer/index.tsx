@@ -1,29 +1,29 @@
 // Imports React
-import React, { useContext, useEffect } from 'react'
+import React, { memo, useContext, useEffect } from 'react'
 
 // Chakra Imports
 import {
-  Text,
-  Drawer,
-  Radio,
-  HStack,
-  VStack,
   Button,
-  useToast,
-  FormLabel,
+  Drawer,
   DrawerBody,
-  RadioGroup,
-  FormControl,
+  DrawerCloseButton,
+  DrawerContent,
   DrawerFooter,
   DrawerHeader,
-  DrawerContent,
   DrawerOverlay,
+  FormControl,
   FormErrorMessage,
-  DrawerCloseButton,
+  FormLabel,
+  HStack,
+  Radio,
+  RadioGroup,
+  Text,
+  useToast,
+  VStack,
 } from '@chakra-ui/react'
 
 // Component Imports
-import { Input, Skeleton, InputTextArea } from '../../../../common'
+import { Input, InputTextArea, Skeleton } from '../../../../common'
 
 // Context Imports
 import { CreditorsDebtorsPageContext } from '../../../../../contexts/pages/records'
@@ -40,19 +40,19 @@ import { formValidations } from './formValidations'
 
 // API Services
 import {
-  putUniqueCreditorDebtor,
   getUniqueCreditorDebtor,
   postUniqueCreditorDebtor,
+  putUniqueCreditorDebtor,
 } from '../../../../../services/api'
 
 // Another Imports
-import { v4 as uuid } from 'uuid'
 import { FiEdit, FiSave, FiX } from 'react-icons/fi'
+import { v4 as uuid } from 'uuid'
 
 // Typings[TypeScript]
 import { CreditorDebtorType } from '../../../../../@types/CreditorDebtorType'
 
-export const DrawerCreditorsDebtors: React.FC = () => {
+const DrawerCreditorsDebtors: React.FC = () => {
   const { handleSubmit, register, formState, reset, control, setValue } =
     useForm<CreditorDebtorType>({
       resolver: yupResolver(formValidations),
@@ -302,3 +302,5 @@ export const DrawerCreditorsDebtors: React.FC = () => {
     </Drawer>
   )
 }
+
+export default memo(DrawerCreditorsDebtors)

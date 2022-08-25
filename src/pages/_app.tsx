@@ -1,6 +1,6 @@
 // Imports Next
-import type { AppProps } from 'next/app'
 import { SessionProvider } from 'next-auth/react'
+import type { AppProps } from 'next/app'
 
 // React-Query Imports
 import { QueryClient, QueryClientProvider } from 'react-query'
@@ -8,8 +8,8 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 
 // Chakra UI Imports
 import { ChakraProvider } from '@chakra-ui/react'
-import '@fontsource/roboto'
 import '@fontsource/inter'
+import '@fontsource/roboto'
 
 // Another Imports
 import { theme } from '../styles/theme'

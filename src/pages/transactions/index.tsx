@@ -1,27 +1,32 @@
 // Imports React
-import React from 'react'
 
 // Imports Next
-import NextHead from 'next/head'
-import { getServerSession } from 'next-auth'
 import { GetServerSideProps, NextPage } from 'next'
+import { getServerSession } from 'next-auth'
+import NextHead from 'next/head'
 import { authOptions } from '../api/auth/[...nextauth]'
 
 // Components Imports
 import { Container } from '../../components/pages/transactions'
+import DefaultLayout from '../../layouts/defaultLayout'
+const DrawerTransactions = dynamic(() => import('../../components/pages/transactions/Drawer'))
 
 // Contexts Imports
+import dynamic from 'next/dynamic'
 import { TransactionsPageContextProvider } from '../../contexts/pages/transactions'
 
 const TransactionsPage: NextPage = () => {
   return (
-    <TransactionsPageContextProvider>
-      <NextHead>
-        <title>my.finance$ | Lançamentos</title>
-      </NextHead>
+    <DefaultLayout>
+      <TransactionsPageContextProvider>
+        <NextHead>
+          <title>my.finance$ | Lançamentos</title>
+        </NextHead>
 
-      <Container />
-    </TransactionsPageContextProvider>
+        <DrawerTransactions />
+        <Container />
+      </TransactionsPageContextProvider>
+    </DefaultLayout>
   )
 }
 

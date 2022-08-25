@@ -3,27 +3,27 @@ import React, { useContext, useEffect } from 'react'
 
 // Chakra Imports
 import {
-  Text,
-  Radio,
-  HStack,
-  VStack,
-  Drawer,
   Button,
-  useToast,
-  FormLabel,
+  Drawer,
   DrawerBody,
-  RadioGroup,
-  FormControl,
+  DrawerCloseButton,
+  DrawerContent,
   DrawerFooter,
   DrawerHeader,
-  DrawerContent,
   DrawerOverlay,
+  FormControl,
   FormErrorMessage,
-  DrawerCloseButton,
+  FormLabel,
+  HStack,
+  Radio,
+  RadioGroup,
+  Text,
+  useToast,
+  VStack,
 } from '@chakra-ui/react'
 
 // Components Imports
-import { Input, Skeleton, InputTextArea } from '../../../../common'
+import { Input, InputTextArea, Skeleton } from '../../../../common'
 
 // Context Imports
 import { PaymentMethodsPageContext } from '../../../../../contexts/pages/records'
@@ -38,21 +38,21 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 // API Services
 import {
   getUniquePaymentMethod,
-  putUniquePaymentMethod,
   postUniquePaymentMethod,
+  putUniquePaymentMethod,
 } from '../../../../../services/api'
 
 // Validation Imports
 import { formValidations } from './formValidations'
 
 // Another Imports
-import { v4 as uuid } from 'uuid'
 import { FiEdit, FiSave, FiX } from 'react-icons/fi'
+import { v4 as uuid } from 'uuid'
 
 // Typings[TypeScript]
 import { PaymentMethodType } from '../../../../../@types/PaymentMethodType'
 
-export const DrawerPaymentMethods: React.FC = () => {
+const DrawerPaymentMethods: React.FC = () => {
   const { handleSubmit, register, formState, reset, control, setValue } =
     useForm<PaymentMethodType>({
       resolver: yupResolver(formValidations),
@@ -300,3 +300,5 @@ export const DrawerPaymentMethods: React.FC = () => {
     </Drawer>
   )
 }
+
+export default DrawerPaymentMethods

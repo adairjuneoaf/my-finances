@@ -8,14 +8,14 @@ import dynamic from 'next/dynamic'
 import {
   Button,
   HStack,
-  Popover,
-  Tooltip,
   IconButton,
+  Popover,
   PopoverBody,
   PopoverContent,
   PopoverTrigger,
-  useToast,
+  Tooltip,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/react'
 
 // ReactQuery Imports
@@ -37,10 +37,10 @@ import { patchStatusUniquePaymentMethod } from '../../../../../../services/api'
 import { FiEdit, FiEye, FiMoreVertical, FiPower } from 'react-icons/fi'
 
 // Typings[TypeScript]
-import { IPopoverSubMenu } from './types'
 import { PaymentMethodType } from '../../../../../../@types/PaymentMethodType'
+import { IPopoverSubMenu } from './types'
 
-const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ paymentMethodID, status }) => {
+const PopoverSubMenu: React.FC<IPopoverSubMenu> = ({ paymentMethodID, status }) => {
   const { selectPaymentMethodIdForEdit, toggleIsEditing, toggleIsLoading, disclosure } =
     useContext(PaymentMethodsPageContext)
 
@@ -173,4 +173,4 @@ const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ paymentMethodID, s
   )
 }
 
-export default PopoverSubMenuComponent
+export default PopoverSubMenu

@@ -3,30 +3,21 @@
 // Imports Next
 import { GetServerSideProps, NextPage } from 'next'
 import { getServerSession } from 'next-auth'
-import dynamic from 'next/dynamic'
 import NextHead from 'next/head'
 import { authOptions } from '../api/auth/[...nextauth]'
 
 // Components Imports
-import { Container } from '../../components/pages/records/payment_methods'
-const DrawerPaymentMethods = dynamic(
-  () => import('../../components/pages/records/payment_methods/Drawer'),
-)
-
-// Contexts Imports
-import { PaymentMethodsPageContextProvider } from '../../contexts/pages/records'
+import { Container } from '../../components/pages/dashboard'
 import DefaultLayout from '../../layouts/defaultLayout'
 
-const PaymentMethodPage: NextPage = () => {
+const DashboardPage: NextPage = () => {
   return (
     <DefaultLayout>
-      <PaymentMethodsPageContextProvider>
-        <NextHead>
-          <title>my.finance$ | Métodos de Pagamento</title>
-        </NextHead>
-        <DrawerPaymentMethods />
-        <Container />
-      </PaymentMethodsPageContextProvider>
+      <NextHead>
+        <title>my.finance$ | Dashboard</title>
+      </NextHead>
+
+      <Container />
     </DefaultLayout>
   )
 }
@@ -48,4 +39,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 }
 
-export default PaymentMethodPage
+export default DashboardPage

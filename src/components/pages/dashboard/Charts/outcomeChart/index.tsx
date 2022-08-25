@@ -3,8 +3,8 @@ import React from 'react'
 // Chakra Imports
 import {
   Box,
-  Icon,
   HStack,
+  Icon,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -18,7 +18,7 @@ import {
 import { Skeleton } from '../../../../common'
 
 // Recharts Imports
-import { ResponsiveContainer, AreaChart, XAxis, YAxis, Tooltip, Area } from 'recharts'
+import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 
 // Hooks Imports
 import { useDataChart } from '../../../../../hooks/useDataChart'

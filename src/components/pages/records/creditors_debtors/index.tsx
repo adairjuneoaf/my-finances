@@ -1,13 +1,11 @@
 // Imports React
-import React, { useContext } from 'react'
+import React, { Fragment, useContext } from 'react'
 
 // Chakra Imports
-import { Box, Flex, Text, Button, HStack, Spinner } from '@chakra-ui/react'
+import { Box, Button, HStack, Spinner, Text } from '@chakra-ui/react'
 
 // Components Imports
-import { Header, SideBarNavigation } from '../../../common'
 import { TableCreditorsDebtors } from '../../../pages/records/creditors_debtors/Table'
-import { DrawerCreditorsDebtors } from '../../../pages/records/creditors_debtors/Drawer'
 
 // Contexts Imports
 import { CreditorsDebtorsPageContext } from '../../../../contexts/pages/records'
@@ -27,57 +25,38 @@ export const Container: React.FC = () => {
   const { isFetching, isLoading } = creditorsDebtors
 
   return (
-    <Flex width={'calc(100vw - 1px)'} height='auto' flexDirection='column'>
-      <Header />
-      <DrawerCreditorsDebtors />
-
-      <Flex
-        gap='12'
-        width='100%'
-        marginTop='10'
+    <Fragment>
+      <HStack
+        spacing='4'
+        alignItems='center'
         marginBottom='6'
-        marginX='auto'
-        maxWidth={1480}
-        paddingX='6'
+        flexDirection='row'
+        justifyContent='space-between'
       >
-        <Flex flexDirection='column'>
-          <SideBarNavigation />
-        </Flex>
+        <HStack spacing='4' alignItems='center'>
+          <Text as='h1' fontSize='3xl' fontWeight='extrabold' lineHeight='1'>
+            Credores/Devedores
+          </Text>
+          {isFetching && !isLoading && (
+            <Spinner color='green.500' size='md' thickness='4px' speed='0.5s' />
+          )}
+        </HStack>
 
-        <Flex flexDirection='column' width='100%' flex='1'>
-          <HStack
-            spacing='4'
-            alignItems='center'
-            marginBottom='6'
-            flexDirection='row'
-            justifyContent='space-between'
+        <HStack spacing='4'>
+          <Button
+            type='button'
+            colorScheme='green'
+            leftIcon={<FiUserPlus fontSize='18' />}
+            onClick={onOpen}
           >
-            <HStack spacing='4' alignItems='center'>
-              <Text as='h1' fontSize='3xl' fontWeight='extrabold' lineHeight='1'>
-                Credores/Devedores
-              </Text>
-              {isFetching && !isLoading && (
-                <Spinner color='green.500' size='md' thickness='4px' speed='0.5s' />
-              )}
-            </HStack>
+            Novo Credor/Devedor
+          </Button>
+        </HStack>
+      </HStack>
 
-            <HStack spacing='4'>
-              <Button
-                type='button'
-                colorScheme='green'
-                leftIcon={<FiUserPlus fontSize='18' />}
-                onClick={onOpen}
-              >
-                Novo Credor/Devedor
-              </Button>
-            </HStack>
-          </HStack>
-
-          <Box as='div' paddingX='8'>
-            <TableCreditorsDebtors />
-          </Box>
-        </Flex>
-      </Flex>
-    </Flex>
+      <Box as='div' paddingX='8'>
+        <TableCreditorsDebtors />
+      </Box>
+    </Fragment>
   )
 }

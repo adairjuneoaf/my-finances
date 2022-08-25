@@ -1,8 +1,11 @@
 // Imports React
 import React, { Fragment } from 'react'
 
+// Next Imports
+import dynamic from 'next/dynamic'
+
 // Components Imports
-import PopoverSubMenuComponent from './PopoverSubMenu'
+const PopoverSubMenu = dynamic(() => import('./PopoverSubMenu'))
 
 // Chakra Imports
 import { Badge, Th, Tr } from '@chakra-ui/react'
@@ -36,7 +39,7 @@ const TableBody: React.FC<TableBodyProps> = ({ index, id, status, title }) => {
           {title}
         </Th>
         <Th fontSize='16px' color='gray.100'>
-          <PopoverSubMenuComponent paymentMethodID={id} status={status} />
+          <PopoverSubMenu paymentMethodID={id} status={status} />
         </Th>
       </Tr>
     </Fragment>

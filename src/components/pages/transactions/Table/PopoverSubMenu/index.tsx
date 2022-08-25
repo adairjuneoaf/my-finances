@@ -8,14 +8,14 @@ import dynamic from 'next/dynamic'
 import {
   Button,
   HStack,
-  Popover,
-  Tooltip,
-  useToast,
   IconButton,
+  Popover,
   PopoverBody,
-  useDisclosure,
   PopoverContent,
   PopoverTrigger,
+  Tooltip,
+  useDisclosure,
+  useToast,
 } from '@chakra-ui/react'
 
 // ReactQuery Imports
@@ -38,13 +38,13 @@ import { TransactionsPageContext } from '../../../../../contexts/pages/transacti
 import { deleteUniqueTransaction } from '../../../../../services/api'
 
 // Another Imports
-import { FiEdit, FiTrash, FiEye, FiMoreVertical } from 'react-icons/fi'
+import { FiEdit, FiEye, FiMoreVertical, FiTrash } from 'react-icons/fi'
 
 // Typings[TypeScript]
-import { IPopoverSubMenu } from './types'
 import { TransactionDataType } from '../../../../../@types/TransactionDataType'
+import { IPopoverSubMenu } from './types'
 
-const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ transactionID }) => {
+const PopoverSubMenu: React.FC<IPopoverSubMenu> = ({ transactionID }) => {
   const { disclosure, toggleIsEditing, toggleIsLoading, selectTransactionIdForEdit } =
     useContext(TransactionsPageContext)
 
@@ -167,4 +167,4 @@ const PopoverSubMenuComponent: React.FC<IPopoverSubMenu> = ({ transactionID }) =
   )
 }
 
-export default PopoverSubMenuComponent
+export default PopoverSubMenu

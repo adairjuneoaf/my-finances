@@ -2,12 +2,12 @@
 import React from 'react'
 
 // ChakraUI Imports
-import { Box, Flex, Center, Divider } from '@chakra-ui/react'
+import { Box, Center, Divider, Flex } from '@chakra-ui/react'
 
 // Components Imports
+import { ActionBar } from '../ActionBar'
 import { Logo } from '../Logo'
 import { Profile } from '../Profile'
-import { ActionBar } from '../ActionBar'
 
 export const Header: React.FC = () => {
   return (

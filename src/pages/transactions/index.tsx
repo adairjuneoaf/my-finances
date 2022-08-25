@@ -10,6 +10,9 @@ import { authOptions } from '../api/auth/[...nextauth]'
 import { Container } from '../../components/pages/transactions'
 import DefaultLayout from '../../layouts/defaultLayout'
 const DrawerTransactions = dynamic(() => import('../../components/pages/transactions/Drawer'))
+const DialogAlertDeleteTransaction = dynamic(
+  () => import('../../components/pages/transactions/DialogAlert'),
+)
 
 // Contexts Imports
 import dynamic from 'next/dynamic'
@@ -24,6 +27,7 @@ const TransactionsPage: NextPage = () => {
         </NextHead>
 
         <DrawerTransactions />
+        <DialogAlertDeleteTransaction />
         <Container />
       </TransactionsPageContextProvider>
     </DefaultLayout>

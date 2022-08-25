@@ -1,5 +1,5 @@
 // Imports React
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useCallback, useEffect, useState } from 'react'
 
 // Imports Next
 import { useRouter } from 'next/router'
@@ -15,10 +15,13 @@ export const TransactionsPageContext = createContext({} as TransactionsPageConte
 export const TransactionsPageContextProvider = ({ children }: ContextProviderProps) => {
   const { route } = useRouter()
   const disclosure = useDisclosure()
+  const modalDisclosure = useDisclosure()
+  const dialogDisclosure = useDisclosure()
 
   const [isEditing, setIsEditing] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [transactionIdForEdit, setTransactionIdForEdit] = useState<string | null>(null)
+  const [transactionIdForDelete, setTransactionIdForDelete] = useState<string | null>(null)
 
   useEffect(() => {
     if (disclosure.isOpen) {
@@ -27,21 +30,29 @@ export const TransactionsPageContextProvider = ({ children }: ContextProviderPro
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [route])
 
-  const toggleIsEditing = () => {
+  const toggleIsEditing = useCallback(() => {
     setIsEditing((prevState) => !prevState)
-  }
+  }, [])
 
-  const toggleIsLoading = () => {
+  const toggleIsLoading = useCallback(() => {
     setIsLoading((prevState) => !prevState)
-  }
+  }, [])
 
-  const selectTransactionIdForEdit = (id: string) => {
+  const selectTransactionIdForEdit = useCallback((id: string) => {
     setTransactionIdForEdit(id)
-  }
+  }, [])
 
-  const resetTransactionIdForEdit = () => {
+  const resetTransactionIdForEdit = useCallback(() => {
     setTransactionIdForEdit(null)
-  }
+  }, [])
+
+  const selectTransactionIdForDelete = useCallback((id: string) => {
+    setTransactionIdForDelete(id)
+  }, [])
+
+  const resetTransactionIdForDelete = useCallback(() => {
+    setTransactionIdForDelete(null)
+  }, [])
 
   return (
     <TransactionsPageContext.Provider
@@ -51,9 +62,14 @@ export const TransactionsPageContextProvider = ({ children }: ContextProviderPro
         disclosure,
         toggleIsEditing,
         toggleIsLoading,
+        modalDisclosure,
+        dialogDisclosure,
         transactionIdForEdit,
+        transactionIdForDelete,
         resetTransactionIdForEdit,
         selectTransactionIdForEdit,
+        selectTransactionIdForDelete,
+        resetTransactionIdForDelete,
       }}
     >
       {children}

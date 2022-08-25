@@ -1,18 +1,21 @@
 // Imports React
 import React, { Fragment } from 'react'
 
-// Next Imports
-import dynamic from 'next/dynamic'
-
 // Components Imports
-const PopoverSubMenu = dynamic(() => import('./PopoverSubMenu'))
+import PopoverActions from '../PopoverActions'
 
 // Chakra Imports
-import { Badge, Th, Tr } from '@chakra-ui/react'
+import { Badge, Button, Popover, PopoverTrigger, Th, Tooltip, Tr } from '@chakra-ui/react'
+
+// Utils Imports
+import { formatValueToMoney } from '../../../../utils/formatValueToMoney'
+
+// Another Imports
+import { FiMoreVertical } from 'react-icons/fi'
 
 // Typings[TypeScript]
 import { TransactionDataType } from '../../../../@types/TransactionDataType'
-import { formatValueToMoney } from '../../../../utils/formatValueToMoney'
+
 interface TableBodyProps extends TransactionDataType {
   index: number
 }
@@ -62,7 +65,16 @@ const TableBody: React.FC<TableBodyProps> = ({
           {formatValueToMoney(valueTransaction)}
         </Th>
         <Th fontSize='16px' color='gray.100'>
-          <PopoverSubMenu transactionID={id} />
+          <Popover isLazy trigger='hover'>
+            <Tooltip hasArrow label='Ações' shouldWrapChildren marginTop='3'>
+              <PopoverTrigger>
+                <Button backgroundColor='transparent' _hover={{ backgroundColor: 'gray.900' }}>
+                  <FiMoreVertical fontSize='24' color='white' />
+                </Button>
+              </PopoverTrigger>
+            </Tooltip>
+            <PopoverActions id={id} />
+          </Popover>
         </Th>
       </Tr>
     </Fragment>

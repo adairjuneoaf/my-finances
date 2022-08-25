@@ -1,37 +1,71 @@
 // Imports React
-import React, { useRef } from 'react'
+import { useContext, useRef } from 'react'
 
 // Chakra Imports
 import {
-  Button,
-  HStack,
   AlertDialog,
   AlertDialogBody,
+  AlertDialogContent,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogContent,
   AlertDialogOverlay,
   AlertDialogProps,
+  Button,
+  HStack,
+  useToast,
 } from '@chakra-ui/react'
+
+// Context Imports
+import { TransactionsPageContext } from '../../../../contexts/pages/transactions'
+
+// ReactQuery Imports
+import { useMutation, useQueryClient } from 'react-query'
+
+// API Imports
+import { deleteUniqueTransaction } from '../../../../services/api'
 
 // Another Imports
 import { FiCheck, FiX } from 'react-icons/fi'
 
-// Typings[TypeScript]
-interface IAlertDialogProps {
-  isOpen: boolean
-  onClose: () => void
-  isLoading?: boolean
-  onSuccess: () => void
-}
-
-export default function AlertDialogDeleteTransaction({
-  isOpen,
-  onClose,
-  onSuccess,
-  isLoading = false,
-}: IAlertDialogProps) {
+const DialogAlertDeleteTransaction = () => {
   const alertDialogRef = useRef() as AlertDialogProps['leastDestructiveRef']
+
+  const { dialogDisclosure, transactionIdForDelete, resetTransactionIdForDelete } =
+    useContext(TransactionsPageContext)
+
+  const { isOpen, onClose } = dialogDisclosure
+
+  const queryClient = useQueryClient()
+
+  const toast = useToast({
+    position: 'top',
+    duration: 1000 * 3, // 3 Seconds
+    title: 'Lançamentos',
+  })
+
+  const { mutateAsync, isLoading } = useMutation(deleteUniqueTransaction, {
+    onSuccess: () => {
+      queryClient.refetchQueries(['transactions'])
+    },
+  })
+
+  const handleDeleteTransaction = async () => {
+    await mutateAsync(
+      {
+        id: String(transactionIdForDelete),
+      },
+      {
+        onSuccess: () => {
+          onClose()
+          resetTransactionIdForDelete()
+          toast({ description: 'Lançamento excluído com sucesso!', status: 'success' })
+        },
+        onError: () => {
+          toast({ description: 'Erro na exclusão do lançamento.', status: 'error' })
+        },
+      },
+    )
+  }
 
   return (
     <AlertDialog
@@ -70,7 +104,7 @@ export default function AlertDialogDeleteTransaction({
                 colorScheme='red'
                 isLoading={isLoading}
                 leftIcon={<FiCheck fontSize='18' />}
-                onClick={onSuccess}
+                onClick={handleDeleteTransaction}
                 disabled={isLoading}
               >
                 Excluir
@@ -82,3 +116,5 @@ export default function AlertDialogDeleteTransaction({
     </AlertDialog>
   )
 }
+
+export default DialogAlertDeleteTransaction

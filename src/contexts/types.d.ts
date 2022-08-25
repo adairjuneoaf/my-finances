@@ -20,9 +20,14 @@ export interface TransactionsPageContextProps {
   disclosure: UseDisclosureReturn
   toggleIsEditing: () => void
   toggleIsLoading: () => void
+  modalDisclosure: UseDisclosureReturn
+  dialogDisclosure: UseDisclosureReturn
   transactionIdForEdit: string | null
+  transactionIdForDelete: string | null
   resetTransactionIdForEdit: () => void
   selectTransactionIdForEdit: (id: string) => void
+  resetTransactionIdForDelete: () => void
+  selectTransactionIdForDelete: (id: string) => void
 }
 
 export interface PaymentMethodsPageContextProps {

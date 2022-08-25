@@ -7,25 +7,17 @@ import NextHead from 'next/head'
 import { authOptions } from '../api/auth/[...nextauth]'
 
 // Components Imports
-import { Container } from '../../components/pages/transactions'
+import { Container } from '../../components/pages/dashboard'
 import DefaultLayout from '../../layouts/defaultLayout'
-const DrawerTransactions = dynamic(() => import('../../components/pages/transactions/Drawer'))
 
-// Contexts Imports
-import dynamic from 'next/dynamic'
-import { TransactionsPageContextProvider } from '../../contexts/pages/transactions'
-
-const TransactionsPage: NextPage = () => {
+const DashboardPage: NextPage = () => {
   return (
     <DefaultLayout>
-      <TransactionsPageContextProvider>
-        <NextHead>
-          <title>my.finance$ | Lançamentos</title>
-        </NextHead>
+      <NextHead>
+        <title>my.finance$ | Dashboard</title>
+      </NextHead>
 
-        <DrawerTransactions />
-        <Container />
-      </TransactionsPageContextProvider>
+      <Container />
     </DefaultLayout>
   )
 }
@@ -47,4 +39,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 }
 
-export default TransactionsPage
+export default DashboardPage

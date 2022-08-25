@@ -1,5 +1,5 @@
 // Imports React
-import React, { memo, useContext, useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 
 // Chakra Imports
 import {
@@ -303,4 +303,4 @@ const DrawerCreditorsDebtors: React.FC = () => {
   )
 }
 
-export default memo(DrawerCreditorsDebtors)
+export default DrawerCreditorsDebtors

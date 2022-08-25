@@ -3,22 +3,22 @@ import React from 'react'
 // Chakra Imports
 import {
   Box,
-  Text,
-  theme,
   HStack,
+  Icon,
   Popover,
   PopoverArrow,
   PopoverBody,
   PopoverContent,
   PopoverTrigger,
-  Icon,
+  Text,
+  theme,
 } from '@chakra-ui/react'
 
 // Components Imports
 import { Skeleton } from '../../../../common'
 
 // Recharts Imports
-import { ResponsiveContainer, XAxis, YAxis, Bar, BarChart, LabelList } from 'recharts'
+import { Bar, BarChart, LabelList, ResponsiveContainer, XAxis, YAxis } from 'recharts'
 
 // Hooks Imports
 import { useDataChart } from '../../../../../hooks/useDataChart'

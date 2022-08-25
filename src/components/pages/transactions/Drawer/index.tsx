@@ -3,27 +3,27 @@ import React, { useContext, useEffect } from 'react'
 
 // Chakra Imports
 import {
-  Text,
-  Radio,
-  HStack,
-  Drawer,
-  VStack,
   Button,
-  useToast,
-  FormLabel,
+  Drawer,
   DrawerBody,
-  RadioGroup,
-  FormControl,
+  DrawerCloseButton,
+  DrawerContent,
   DrawerFooter,
   DrawerHeader,
-  DrawerContent,
   DrawerOverlay,
+  FormControl,
   FormErrorMessage,
-  DrawerCloseButton,
+  FormLabel,
+  HStack,
+  Radio,
+  RadioGroup,
+  Text,
+  useToast,
+  VStack,
 } from '@chakra-ui/react'
 
 // Components Imports
-import { Input, Skeleton, InputValue, InputSelect, InputTextArea } from '../../../common'
+import { Input, InputSelect, InputTextArea, InputValue, Skeleton } from '../../../common'
 
 // Context Imports
 import { TransactionsPageContext } from '../../../../contexts/pages/transactions'
@@ -38,21 +38,21 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 // API Services
 import {
   getUniqueTransaction,
-  putUniqueTransaction,
   postUniqueTransaction,
+  putUniqueTransaction,
 } from '../../../../services/api'
 
 // Validation Imports
 import { formValidation } from './formValidations'
 
 // Another Imports
-import { v4 as uuid } from 'uuid'
 import { FiEdit, FiSave, FiX } from 'react-icons/fi'
+import { v4 as uuid } from 'uuid'
 
 // Typings[TypeScript]
 import { TransactionDataType } from '../../../../@types/TransactionDataType'
 
-export const DrawerTransactions: React.FC = () => {
+const DrawerTransactions: React.FC = () => {
   const { reset, control, setValue, register, formState, handleSubmit } =
     useForm<TransactionDataType>({
       resolver: yupResolver(formValidation),
@@ -388,7 +388,9 @@ export const DrawerTransactions: React.FC = () => {
               isLoading={isSubmitting}
               leftIcon={!isEditing ? <FiSave fontSize='18' /> : <FiEdit fontSize='18' />}
               onClick={
-                !isEditing ? handleSubmit(submitNewTransaction) : handleSubmit(submitEditTransaction)
+                !isEditing
+                  ? handleSubmit(submitNewTransaction)
+                  : handleSubmit(submitEditTransaction)
               }
               disabled={isSubmitting || isLoading}
             >
@@ -400,3 +402,5 @@ export const DrawerTransactions: React.FC = () => {
     </Drawer>
   )
 }
+
+export default DrawerTransactions

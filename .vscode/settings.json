@@ -1,6 +1,6 @@
 {
   "cSpell.language": "pt-BR,en-US,en,en-GB",
-  "cSpell.words": ["camelcase"],
+  "cSpell.words": ["camelcase", "fontsource", "hookform", "Juneo", "nextauth"],
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode"
 }

@@ -1,63 +1,48 @@
 // Imports React
-import React from 'react'
+import { useContextSelector } from 'use-context-selector'
 
 // Chakra Imports
 import {
-  Text,
   Badge,
-  Modal,
   HStack,
-  VStack,
+  Modal,
   ModalBody,
-  ModalHeader,
-  ModalFooter,
-  ModalContent,
-  ModalOverlay,
   ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+  VStack,
 } from '@chakra-ui/react'
 
-// React-Query Imports
-import { useQueryClient } from 'react-query'
+// Contexts Imports
+import { TransactionsPageContext } from '../../../../contexts/pages/transactions'
 
 // date-fns Imports
 import { fromUnixTime } from 'date-fns'
 
 // Utils Imports
-import { formatDateToNow, formatDetailedDate } from '../../../../../utils/formatDate'
-import { formatValueToMoney } from '../../../../../utils/formatValueToMoney'
+import { formatDateToNow, formatDetailedDate } from '../../../../utils/formatDate'
+import { formatValueToMoney } from '../../../../utils/formatValueToMoney'
+import { getDataTransaction } from './helpers'
 
-// Typings[TypeScript]
-import { TransactionDataType } from '../../../../../@types/TransactionDataType'
-import { CreditorDebtorType } from '../../../../../@types/CreditorDebtorType'
-import { PaymentMethodType } from '../../../../../@types/PaymentMethodType'
+export default function ModalDetailsTransaction() {
+  const modalDisclosure = useContextSelector(
+    TransactionsPageContext,
+    (values) => values.modalDisclosure,
+  )
+  const transactionIdForViewDetails = useContextSelector(
+    TransactionsPageContext,
+    (values) => values.transactionIdForViewDetails,
+  )
 
-interface IModalProps {
-  isOpen: boolean
-  onClose: () => void
-  data?: TransactionDataType
-}
+  const { isOpen, onClose } = modalDisclosure
 
-const getPaymentMethodDetails = (id: string | undefined) => {
-  const queryClient = useQueryClient()
+  const transactionData = getDataTransaction(transactionIdForViewDetails)
 
-  const data = queryClient.getQueryData<Array<PaymentMethodType>>(['payment_methods'])
+  const { transaction, creditorDebtor, paymentMethod } = transactionData
 
-  const paymentMethod = data?.find((paymentMethod) => paymentMethod.id === id)
-
-  return paymentMethod?.title
-}
-
-const getCreditorDebtorDetails = (id: string | undefined) => {
-  const queryClient = useQueryClient()
-
-  const data = queryClient.getQueryData<Array<CreditorDebtorType>>(['creditors_debtors'])
-
-  const creditorDebtor = data?.find((creditorDebtor) => creditorDebtor.id === id)
-
-  return creditorDebtor?.title
-}
-
-export default function ModalDetailsTransaction({ isOpen, onClose, data }: IModalProps) {
   return (
     <Modal
       closeOnEsc
@@ -90,29 +75,29 @@ export default function ModalDetailsTransaction({ isOpen, onClose, data }: IModa
         <ModalBody paddingX='8'>
           <VStack spacing='2' alignItems='flex-start'>
             <Text as='h2' fontSize='22px' fontWeight='semibold'>
-              {data?.title}
+              {transaction?.title}
             </Text>
             <Text as='p' fontSize='18px' fontStyle='italic'>
-              {data?.description}
+              {transaction?.description}
             </Text>
           </VStack>
           <HStack marginY='4' spacing='3'>
-            {data?.type === '1' && (
+            {transaction?.type === '1' && (
               <Badge variant='solid' colorScheme='green' padding='1'>
                 ENTRADA
               </Badge>
             )}
-            {data?.type === '0' && (
+            {transaction?.type === '0' && (
               <Badge variant='solid' colorScheme='red' padding='1'>
                 SAÍDA
               </Badge>
             )}
-            {data?.status === '1' && (
+            {transaction?.status === '1' && (
               <Badge variant='solid' colorScheme='green' padding='1'>
                 CONCLUÍDO
               </Badge>
             )}
-            {data?.status === '0' && (
+            {transaction?.status === '0' && (
               <Badge variant='solid' colorScheme='yellow' padding='1'>
                 EM ABERTO
               </Badge>
@@ -122,32 +107,32 @@ export default function ModalDetailsTransaction({ isOpen, onClose, data }: IModa
             <Text as='p' fontSize='16px'>
               Lançamento - &nbsp;
               <time
-                dateTime={`${fromUnixTime(Number(data?.dateEntriesTransaction) / 1000)}`}
+                dateTime={`${fromUnixTime(Number(transaction?.dateEntriesTransaction) / 1000)}`}
                 style={{ fontWeight: '600' }}
               >
-                {formatDetailedDate(data?.dateEntriesTransaction)}
+                {formatDetailedDate(transaction?.dateEntriesTransaction)}
               </time>
             </Text>
             <Text as='p' fontSize='16px'>
               Vencimento - &nbsp;
               <time
-                dateTime={`${fromUnixTime(Number(data?.dateDueTransaction) / 1000)}`}
+                dateTime={`${fromUnixTime(Number(transaction?.dateDueTransaction) / 1000)}`}
                 style={{ fontWeight: '600' }}
               >
-                {formatDetailedDate(data?.dateDueTransaction)}
+                {formatDetailedDate(transaction?.dateDueTransaction)}
               </time>
             </Text>
           </VStack>
           <VStack marginY='4' spacing='2' alignItems='flex-start'>
             <Text as='p' fontSize='22px' fontWeight='semibold'>
-              {formatValueToMoney(data?.valueTransaction)}
+              {formatValueToMoney(transaction?.valueTransaction)}
             </Text>
           </VStack>
           <VStack marginY='4' alignItems='flex-start'>
             <Text as='p' fontSize='16px' fontStyle='italic' fontWeight='semibold' color='gray.600'>
               Dados para pagamento
             </Text>
-            {data?.dataForPayment ? (
+            {transaction?.dataForPayment ? (
               <Text
                 as='p'
                 fontSize='16px'
@@ -157,7 +142,7 @@ export default function ModalDetailsTransaction({ isOpen, onClose, data }: IModa
                 backgroundColor='gray.900'
                 borderRadius='5'
               >
-                {data.dataForPayment}
+                {transaction.dataForPayment}
               </Text>
             ) : (
               <Text
@@ -179,7 +164,7 @@ export default function ModalDetailsTransaction({ isOpen, onClose, data }: IModa
                 Método de Pagamento
               </Text>
               <Text fontStyle='normal' fontWeight='normal' color='gray.50'>
-                {getPaymentMethodDetails(data?.paymentMethod)}
+                {paymentMethod}
               </Text>
             </VStack>
             <VStack alignItems='flex-start' spacing='1'>
@@ -187,7 +172,7 @@ export default function ModalDetailsTransaction({ isOpen, onClose, data }: IModa
                 Credor/Devedor
               </Text>
               <Text fontStyle='normal' fontWeight='normal' color='gray.50'>
-                {getCreditorDebtorDetails(data?.creditorDebtor)}
+                {creditorDebtor}
               </Text>
             </VStack>
           </HStack>
@@ -195,7 +180,7 @@ export default function ModalDetailsTransaction({ isOpen, onClose, data }: IModa
             <Text as='p' fontSize='16px' fontStyle='italic' fontWeight='semibold' color='gray.600'>
               Outras informações do lançamento
             </Text>
-            {data?.anotherInformation ? (
+            {transaction?.anotherInformation ? (
               <Text
                 as='p'
                 fontSize='16px'
@@ -205,7 +190,7 @@ export default function ModalDetailsTransaction({ isOpen, onClose, data }: IModa
                 backgroundColor='gray.900'
                 borderRadius='5'
               >
-                {data.anotherInformation}
+                {transaction.anotherInformation}
               </Text>
             ) : (
               <Text
@@ -230,7 +215,8 @@ export default function ModalDetailsTransaction({ isOpen, onClose, data }: IModa
           cursor='default'
           justifyContent='flex-start'
         >
-          {data?.id} {data?.createdAt && `- criado ${formatDateToNow(data?.createdAt)}`}
+          {transaction?.id}{' '}
+          {transaction?.createdAt && `- criado ${formatDateToNow(transaction?.createdAt)}`}
         </ModalFooter>
       </ModalContent>
     </Modal>

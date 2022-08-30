@@ -1,5 +1,6 @@
 // Imports React
-import { createContext, useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { createContext } from 'use-context-selector'
 
 // Imports Next
 import { useRouter } from 'next/router'
@@ -14,7 +15,7 @@ export const TransactionsPageContext = createContext({} as TransactionsPageConte
 
 export const TransactionsPageContextProvider = ({ children }: ContextProviderProps) => {
   const { route } = useRouter()
-  const disclosure = useDisclosure()
+  const drawerDisclosure = useDisclosure()
   const modalDisclosure = useDisclosure()
   const dialogDisclosure = useDisclosure()
 
@@ -22,10 +23,15 @@ export const TransactionsPageContextProvider = ({ children }: ContextProviderPro
   const [isLoading, setIsLoading] = useState(false)
   const [transactionIdForEdit, setTransactionIdForEdit] = useState<string | null>(null)
   const [transactionIdForDelete, setTransactionIdForDelete] = useState<string | null>(null)
+  const [transactionIdForViewDetails, setTransactionIdForViewDetails] = useState<string | null>(
+    null,
+  )
 
   useEffect(() => {
-    if (disclosure.isOpen) {
-      disclosure.onClose()
+    if (drawerDisclosure.isOpen || modalDisclosure.isOpen || dialogDisclosure.isOpen) {
+      drawerDisclosure.onClose()
+      modalDisclosure.onClose()
+      dialogDisclosure.onClose()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [route])
@@ -54,22 +60,33 @@ export const TransactionsPageContextProvider = ({ children }: ContextProviderPro
     setTransactionIdForDelete(null)
   }, [])
 
+  const selectTransactionIdForViewDetails = useCallback((id: string) => {
+    setTransactionIdForViewDetails(id)
+  }, [])
+
+  const resetTransactionIdForViewDetails = useCallback(() => {
+    setTransactionIdForViewDetails(null)
+  }, [])
+
   return (
     <TransactionsPageContext.Provider
       value={{
         isEditing,
         isLoading,
-        disclosure,
         toggleIsEditing,
         toggleIsLoading,
         modalDisclosure,
+        drawerDisclosure,
         dialogDisclosure,
         transactionIdForEdit,
         transactionIdForDelete,
+        transactionIdForViewDetails,
         resetTransactionIdForEdit,
         selectTransactionIdForEdit,
         selectTransactionIdForDelete,
         resetTransactionIdForDelete,
+        resetTransactionIdForViewDetails,
+        selectTransactionIdForViewDetails,
       }}
     >
       {children}

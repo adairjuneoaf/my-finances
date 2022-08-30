@@ -1,5 +1,6 @@
 // Imports React
-import React, { Fragment, useContext } from 'react'
+import React, { Fragment } from 'react'
+import { useContextSelector } from 'use-context-selector'
 
 // Chakra Imports
 import {
@@ -18,23 +19,23 @@ import {
 // Components Imports
 import { TableTransactions } from '../../pages/transactions/Table'
 
-// Contexts Imports
-import { TransactionsPageContext } from '../../../contexts/pages/transactions'
-
 // Hooks Imports
 import { useReactQuery } from '../../../hooks/useReactQuery'
 
 // Another Imports
 import { FiFilter } from 'react-icons/fi'
 import { RiAddFill } from 'react-icons/ri'
+import { TransactionsPageContext } from '../../../contexts/pages/transactions/index'
 
 export const Container: React.FC = () => {
-  const { disclosure } = useContext(TransactionsPageContext)
+  const drawerDisclosure = useContextSelector(
+    TransactionsPageContext,
+    (values) => values.drawerDisclosure,
+  )
   const { transactions } = useReactQuery()
 
-  const { onOpen } = disclosure
-
   const { isFetching, isLoading } = transactions
+  const { onOpen } = drawerDisclosure
 
   return (
     <Fragment>

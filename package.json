@@ -30,6 +30,8 @@
     "react-hook-form": "^7.31.2",
     "react-query": "^3.39.1",
     "recharts": "2.1.12",
+    "scheduler": "^0.23.0",
+    "use-context-selector": "^1.4.1",
     "uuid": "^8.3.2",
     "yup": "^0.32.11"
   },

@@ -3,6 +3,7 @@
 // Imports Next
 import { GetServerSideProps, NextPage } from 'next'
 import { getServerSession } from 'next-auth'
+import dynamic from 'next/dynamic'
 import NextHead from 'next/head'
 import { authOptions } from '../api/auth/[...nextauth]'
 
@@ -13,9 +14,11 @@ const DrawerTransactions = dynamic(() => import('../../components/pages/transact
 const DialogAlertDeleteTransaction = dynamic(
   () => import('../../components/pages/transactions/DialogAlert'),
 )
+const ModalDetailsTransaction = dynamic(
+  () => import('../../components/pages/transactions/ModalDetails'),
+)
 
 // Contexts Imports
-import dynamic from 'next/dynamic'
 import { TransactionsPageContextProvider } from '../../contexts/pages/transactions'
 
 const TransactionsPage: NextPage = () => {
@@ -27,6 +30,7 @@ const TransactionsPage: NextPage = () => {
         </NextHead>
 
         <DrawerTransactions />
+        <ModalDetailsTransaction />
         <DialogAlertDeleteTransaction />
         <Container />
       </TransactionsPageContextProvider>

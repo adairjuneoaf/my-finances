@@ -1,5 +1,6 @@
 // Imports React
-import { useContext, useRef } from 'react'
+import { useRef } from 'react'
+import { useContextSelector } from 'use-context-selector'
 
 // Chakra Imports
 import {
@@ -30,10 +31,20 @@ import { FiCheck, FiX } from 'react-icons/fi'
 const DialogAlertDeleteTransaction = () => {
   const alertDialogRef = useRef() as AlertDialogProps['leastDestructiveRef']
 
-  const { dialogDisclosure, transactionIdForDelete, resetTransactionIdForDelete } =
-    useContext(TransactionsPageContext)
+  const dialogDisclosure = useContextSelector(
+    TransactionsPageContext,
+    (values) => values.dialogDisclosure,
+  )
+  const transactionIdForDelete = useContextSelector(
+    TransactionsPageContext,
+    (values) => values.transactionIdForDelete,
+  )
+  const resetTransactionIdForDelete = useContextSelector(
+    TransactionsPageContext,
+    (values) => values.resetTransactionIdForDelete,
+  )
 
-  const { isOpen, onClose } = dialogDisclosure
+  const { onClose, isOpen } = dialogDisclosure
 
   const queryClient = useQueryClient()
 
@@ -49,7 +60,7 @@ const DialogAlertDeleteTransaction = () => {
     },
   })
 
-  const handleDeleteTransaction = async () => {
+  const confirmDeleteTransaction = async () => {
     await mutateAsync(
       {
         id: String(transactionIdForDelete),
@@ -104,7 +115,7 @@ const DialogAlertDeleteTransaction = () => {
                 colorScheme='red'
                 isLoading={isLoading}
                 leftIcon={<FiCheck fontSize='18' />}
-                onClick={handleDeleteTransaction}
+                onClick={confirmDeleteTransaction}
                 disabled={isLoading}
               >
                 Excluir

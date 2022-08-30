@@ -17,17 +17,20 @@ export interface DashboardPageContextProps {
 export interface TransactionsPageContextProps {
   isEditing: boolean
   isLoading: boolean
-  disclosure: UseDisclosureReturn
   toggleIsEditing: () => void
   toggleIsLoading: () => void
   modalDisclosure: UseDisclosureReturn
   dialogDisclosure: UseDisclosureReturn
+  drawerDisclosure: UseDisclosureReturn
   transactionIdForEdit: string | null
   transactionIdForDelete: string | null
+  transactionIdForViewDetails: string | null
   resetTransactionIdForEdit: () => void
   selectTransactionIdForEdit: (id: string) => void
   resetTransactionIdForDelete: () => void
   selectTransactionIdForDelete: (id: string) => void
+  resetTransactionIdForViewDetails: () => void
+  selectTransactionIdForViewDetails: (id: string) => void
 }
 
 export interface PaymentMethodsPageContextProps {

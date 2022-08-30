@@ -1,5 +1,6 @@
 // Imports React
-import React, { useContext } from 'react'
+import React from 'react'
+import { useContextSelector } from 'use-context-selector'
 
 // Chakra Imports
 import {
@@ -23,44 +24,54 @@ interface PopoverActionProps {
 }
 
 const PopoverSubMenu: React.FC<PopoverActionProps> = ({ id }) => {
-  const { dialogDisclosure, selectTransactionIdForDelete } = useContext(TransactionsPageContext)
-
-  const { onOpen } = dialogDisclosure
-
-  // const transactionSelected = useRef<TransactionDataType | undefined>(undefined)
-
-  // const alertDialogDisclosure = useDisclosure()
-  // const modalOverlayDisclosure = useDisclosure()
-
-  // const queryClient = useQueryClient()
-
-  // const toast = useToast({
-  //   position: 'top',
-  //   duration: 1000 * 3, // 3 Seconds
-  //   title: 'Lançamentos',
-  // })
-
-  // const getTransaction = (id: string) => {
-  //   const dataCache = queryClient.getQueryData<Array<TransactionDataType>>(['transactions'], {
-  //     active: true,
-  //     stale: false,
-  //   })
-
-  //   transactionSelected.current = dataCache?.find((transaction) => transaction.id === id)
-
-  //   modalOverlayDisclosure.onOpen()
-  // }
-
-  // const handleEditTransaction = (id: string) => {
-  //   selectTransactionIdForEdit(id)
-  //   toggleIsEditing()
-  //   toggleIsLoading()
-  //   disclosure.onOpen()
-  // }
+  const dialogDisclosure = useContextSelector(
+    TransactionsPageContext,
+    (values) => values.dialogDisclosure,
+  )
+  const modalDisclosure = useContextSelector(
+    TransactionsPageContext,
+    (values) => values.modalDisclosure,
+  )
+  const drawerDisclosure = useContextSelector(
+    TransactionsPageContext,
+    (values) => values.drawerDisclosure,
+  )
+  const toggleIsEditing = useContextSelector(
+    TransactionsPageContext,
+    (values) => values.toggleIsEditing,
+  )
+  const toggleIsLoading = useContextSelector(
+    TransactionsPageContext,
+    (values) => values.toggleIsLoading,
+  )
+  const selectTransactionIdForEdit = useContextSelector(
+    TransactionsPageContext,
+    (values) => values.selectTransactionIdForEdit,
+  )
+  const selectTransactionIdForDelete = useContextSelector(
+    TransactionsPageContext,
+    (values) => values.selectTransactionIdForDelete,
+  )
+  const selectTransactionIdForViewDetails = useContextSelector(
+    TransactionsPageContext,
+    (values) => values.selectTransactionIdForViewDetails,
+  )
 
   const handleDeleteTransaction = (id: string) => {
     selectTransactionIdForDelete(id)
-    onOpen()
+    dialogDisclosure.onOpen()
+  }
+
+  const handleEditTransaction = (id: string) => {
+    selectTransactionIdForEdit(id)
+    toggleIsEditing()
+    toggleIsLoading()
+    drawerDisclosure.onOpen()
+  }
+
+  const handleViewDetailsTransaction = (id: string) => {
+    selectTransactionIdForViewDetails(id)
+    modalDisclosure.onOpen()
   }
 
   return (
@@ -75,8 +86,7 @@ const PopoverSubMenu: React.FC<PopoverActionProps> = ({ id }) => {
               backgroundColor='blue.500'
               colorScheme='blue'
               onClick={() => {
-                // getTransaction(id)
-                console.log(id)
+                handleViewDetailsTransaction(id)
               }}
             />
           </Tooltip>
@@ -87,8 +97,7 @@ const PopoverSubMenu: React.FC<PopoverActionProps> = ({ id }) => {
               backgroundColor='green.500'
               colorScheme='green'
               onClick={() => {
-                // handleEditTransaction(id)
-                console.log(id)
+                handleEditTransaction(id)
               }}
             />
           </Tooltip>

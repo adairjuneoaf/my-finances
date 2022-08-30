@@ -1,5 +1,6 @@
 // Imports React
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect } from 'react'
+import { useContextSelector } from 'use-context-selector'
 
 // Chakra Imports
 import {
@@ -66,15 +67,28 @@ const DrawerTransactions: React.FC = () => {
       },
     })
 
-  const {
-    isEditing,
-    isLoading,
-    disclosure,
-    toggleIsEditing,
-    toggleIsLoading,
-    transactionIdForEdit,
-    resetTransactionIdForEdit,
-  } = useContext(TransactionsPageContext)
+  const isEditing = useContextSelector(TransactionsPageContext, (values) => values.isEditing)
+  const isLoading = useContextSelector(TransactionsPageContext, (values) => values.isLoading)
+  const toggleIsEditing = useContextSelector(
+    TransactionsPageContext,
+    (values) => values.toggleIsEditing,
+  )
+  const toggleIsLoading = useContextSelector(
+    TransactionsPageContext,
+    (values) => values.toggleIsLoading,
+  )
+  const drawerDisclosure = useContextSelector(
+    TransactionsPageContext,
+    (values) => values.drawerDisclosure,
+  )
+  const transactionIdForEdit = useContextSelector(
+    TransactionsPageContext,
+    (values) => values.transactionIdForEdit,
+  )
+  const resetTransactionIdForEdit = useContextSelector(
+    TransactionsPageContext,
+    (values) => values.resetTransactionIdForEdit,
+  )
 
   const toast = useToast({
     position: 'top',
@@ -82,7 +96,7 @@ const DrawerTransactions: React.FC = () => {
     title: 'Lançamentos',
   })
 
-  const { onClose, isOpen } = disclosure
+  const { isOpen, onClose } = drawerDisclosure
 
   const { errors, isSubmitting } = formState
 
@@ -122,11 +136,11 @@ const DrawerTransactions: React.FC = () => {
       { id: data.id, data },
       {
         onSuccess: () => {
-          toast({ description: 'Lançamento editado com sucesso!', status: 'success' })
           reset()
           onClose()
           toggleIsEditing()
           resetTransactionIdForEdit()
+          toast({ description: 'Lançamento editado com sucesso!', status: 'success' })
         },
         onError: () => {
           toast({ description: 'Erro na edição do lançamento.', status: 'error' })

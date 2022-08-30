@@ -77,13 +77,13 @@ export const useDataChart = () => {
 
   useEffect(() => {
     const selectedDataToChart = data?.map((value) => {
-      const dataFormated = {
+      const dataFormatted = {
         monthYear: formatDateForMonthYear(value.dateDueTransaction),
         value: value.valueTransaction,
         type: value.type,
       }
 
-      return dataFormated
+      return dataFormatted
     })
 
     if (!selectedDataToChart) {

@@ -16,9 +16,11 @@ const getDataTransaction = (id: string | null) => {
   ])
 
   const transaction = transactionData?.find((transaction) => transaction.id === id)
-  const paymentMethod = paymentMethodData?.find((paymentMethod) => paymentMethod.id === id)?.title
+  const paymentMethod = paymentMethodData?.find(
+    (paymentMethod) => paymentMethod.id === transaction?.paymentMethod,
+  )?.title
   const creditorDebtor = creditorDebtorData?.find(
-    (creditorDebtor) => creditorDebtor.id === id,
+    (creditorDebtor) => creditorDebtor.id === transaction?.creditorDebtor,
   )?.title
 
   return { transaction, paymentMethod, creditorDebtor }

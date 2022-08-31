@@ -5,7 +5,7 @@ import React, { Fragment } from 'react'
 import PopoverActions from '../PopoverActions'
 
 // Chakra Imports
-import { Badge, Button, Popover, PopoverTrigger, Th, Tooltip, Tr } from '@chakra-ui/react'
+import { Badge, Button, Popover, PopoverTrigger, Th, Tooltip, Tr, VStack } from '@chakra-ui/react'
 
 // Utils Imports
 import { formatValueToMoney } from '../../../../utils/formatValueToMoney'
@@ -35,28 +35,28 @@ const TableBody: React.FC<TableBodyProps> = ({
           {index}
         </Th>
         <Th fontSize='16px' color='gray.100'>
-          {type === '1' && (
-            <Badge variant='solid' colorScheme='green' padding='1'>
-              ENTRADA
-            </Badge>
-          )}
-          {type === '0' && (
-            <Badge variant='solid' colorScheme='red' padding='1'>
-              SAÍDA
-            </Badge>
-          )}
-        </Th>
-        <Th fontSize='16px' color='gray.100'>
-          {status === '1' && (
-            <Badge variant='solid' colorScheme='green' padding='1'>
-              CONCLUÍDO
-            </Badge>
-          )}
-          {status === '0' && (
-            <Badge variant='solid' colorScheme='yellow' padding='1'>
-              EM ABERTO
-            </Badge>
-          )}
+          <VStack alignItems={'flex-start'} spacing='0.5'>
+            {status === '1' && (
+              <Badge variant='solid' colorScheme='green' padding='3px' fontSize='10px'>
+                CONCLUÍDO
+              </Badge>
+            )}
+            {status === '0' && (
+              <Badge variant='solid' colorScheme='yellow' padding='3px' fontSize='10px'>
+                EM ABERTO
+              </Badge>
+            )}
+            {type === '1' && (
+              <Badge variant='solid' colorScheme='green' padding='3px' fontSize='10px'>
+                ENTRADA
+              </Badge>
+            )}
+            {type === '0' && (
+              <Badge variant='solid' colorScheme='red' padding='3px' fontSize='10px'>
+                SAÍDA
+              </Badge>
+            )}
+          </VStack>
         </Th>
         <Th fontSize='16px' color='gray.100' textTransform='initial'>
           {title}

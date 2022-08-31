@@ -11,19 +11,16 @@ const TableHead: React.FC = () => {
         <Th width='5%' fontSize='14px' color='gray.200' fontWeight='extrabold'>
           #
         </Th>
-        <Th width='8%' fontSize='14px' color='gray.200' fontWeight='extrabold'>
-          TIPO
-        </Th>
-        <Th width='8%' fontSize='14px' color='gray.200' fontWeight='extrabold'>
-          STATUS
+        <Th width='10%' fontSize='14px' color='gray.200' fontWeight='extrabold'>
+          STATUS/TIPO
         </Th>
         <Th fontSize='14px' color='gray.200' fontWeight='extrabold'>
           TÍTULO
         </Th>
-        <Th isNumeric width='8%' fontSize='14px' color='gray.200' fontWeight='extrabold'>
+        <Th isNumeric width='15%' fontSize='14px' color='gray.200' fontWeight='extrabold'>
           VALOR
         </Th>
-        <Th width='2%' fontSize='14px' color='gray.200' fontWeight='extrabold'></Th>
+        <Th width='5%' fontSize='14px' color='gray.200' fontWeight='extrabold'></Th>
       </Tr>
     </Fragment>
   )

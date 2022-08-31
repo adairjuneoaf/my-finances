@@ -3,22 +3,17 @@
 // Imports Next
 import { GetServerSideProps, NextPage } from 'next'
 import { getServerSession } from 'next-auth'
-import dynamic from 'next/dynamic'
 import NextHead from 'next/head'
 import { authOptions } from '../api/auth/[...nextauth]'
 
 // Components Imports
 import { Container } from '../../components/pages/transactions'
 import DefaultLayout from '../../layouts/defaultLayout'
-const DrawerTransactions = dynamic(() => import('../../components/pages/transactions/Drawer'))
-const DialogAlertDeleteTransaction = dynamic(
-  () => import('../../components/pages/transactions/DialogAlert'),
-)
-const ModalDetailsTransaction = dynamic(
-  () => import('../../components/pages/transactions/ModalDetails'),
-)
 
 // Contexts Imports
+import { DialogAlertDeleteTransaction } from '../../components/pages/transactions/DialogAlert'
+import { DrawerTransactions } from '../../components/pages/transactions/Drawer'
+import { ModalDetailsTransaction } from '../../components/pages/transactions/ModalDetails'
 import { TransactionsPageContextProvider } from '../../contexts/pages/transactions'
 
 const TransactionsPage: NextPage = () => {

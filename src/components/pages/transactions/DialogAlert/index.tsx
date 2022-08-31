@@ -28,7 +28,7 @@ import { deleteUniqueTransaction } from '../../../../services/api'
 // Another Imports
 import { FiCheck, FiX } from 'react-icons/fi'
 
-const DialogAlertDeleteTransaction = () => {
+export const DialogAlertDeleteTransaction = () => {
   const alertDialogRef = useRef() as AlertDialogProps['leastDestructiveRef']
 
   const dialogDisclosure = useContextSelector(
@@ -127,5 +127,3 @@ const DialogAlertDeleteTransaction = () => {
     </AlertDialog>
   )
 }
-
-export default DialogAlertDeleteTransaction

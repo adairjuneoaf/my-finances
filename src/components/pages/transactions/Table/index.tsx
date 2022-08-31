@@ -6,29 +6,29 @@ import { useRouter } from 'next/router'
 
 // Chakra Imports
 import {
-  Tr,
-  Th,
-  Text,
-  Flex,
-  Tfoot,
-  Table,
-  Tbody,
-  Thead,
   Button,
+  Flex,
+  Table,
   TableContainer,
+  Tbody,
+  Text,
+  Tfoot,
+  Th,
+  Thead,
+  Tr,
 } from '@chakra-ui/react'
 
 // Components Imports
-import TableHead from './TableHead'
-import TableBody from './TableBody'
 import SkeletonBody from './SkeletonBody'
+import TableBody from './TableBody'
+import TableHead from './TableHead'
 
 // Hooks Imports
 import { useReactQuery } from '../../../../hooks/useReactQuery'
 
 // Another Imports
-import { FiZoomIn } from 'react-icons/fi'
 import _ from 'lodash'
+import { FiZoomIn } from 'react-icons/fi'
 
 const SIZE_PER_LOAD = 5
 
@@ -77,21 +77,21 @@ export const TableTransactions: React.FC = () => {
             </Tr>
           )}
 
+          {!data && isLoading && (
+            <>
+              <SkeletonBody isLoading={isLoading} />
+              <SkeletonBody isLoading={isLoading} />
+              <SkeletonBody isLoading={isLoading} />
+              <SkeletonBody isLoading={isLoading} />
+              <SkeletonBody isLoading={isLoading} />
+            </>
+          )}
+
           {data &&
             !isLoading &&
             currentTransactions?.map((data, idx) => {
               return <TableBody key={data.id} {...data} index={idx + 1} />
             })}
-
-          {!data && isLoading && (
-            <>
-              <SkeletonBody />
-              <SkeletonBody />
-              <SkeletonBody />
-              <SkeletonBody />
-              <SkeletonBody />
-            </>
-          )}
         </Tbody>
 
         {hasLoadMore && asPath === '/transactions' && (

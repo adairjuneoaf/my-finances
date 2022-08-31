@@ -27,7 +27,7 @@ import { formatDateToNow, formatDetailedDate } from '../../../../utils/formatDat
 import { formatValueToMoney } from '../../../../utils/formatValueToMoney'
 import { getDataTransaction } from './helpers'
 
-export default function ModalDetailsTransaction() {
+export const ModalDetailsTransaction = () => {
   const modalDisclosure = useContextSelector(
     TransactionsPageContext,
     (values) => values.modalDisclosure,

@@ -53,7 +53,7 @@ import { v4 as uuid } from 'uuid'
 // Typings[TypeScript]
 import { TransactionDataType } from '../../../../@types/TransactionDataType'
 
-const DrawerTransactions: React.FC = () => {
+export const DrawerTransactions: React.FC = () => {
   const { reset, control, setValue, register, formState, handleSubmit } =
     useForm<TransactionDataType>({
       resolver: yupResolver(formValidation),
@@ -416,5 +416,3 @@ const DrawerTransactions: React.FC = () => {
     </Drawer>
   )
 }
-
-export default DrawerTransactions

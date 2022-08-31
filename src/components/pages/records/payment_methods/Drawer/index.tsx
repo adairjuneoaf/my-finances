@@ -104,7 +104,7 @@ const DrawerPaymentMethods: React.FC = () => {
     await mutateAsyncNewPaymentMethod(
       {
         id: uuid(),
-        createdAt: new Date().getTime(),
+        createdAt: new Date().toJSON(),
         ...data,
       },
       {

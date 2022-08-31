@@ -33,7 +33,7 @@ import { TransactionsPageContext } from '../../../../contexts/pages/transactions
 import { useMutation, useQueryClient } from 'react-query'
 
 // ReactHookForm Imports
-import { yupResolver } from '@hookform/resolvers/yup'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 
 // API Services
@@ -50,20 +50,26 @@ import { formValidation } from './formValidations'
 import { FiEdit, FiSave, FiX } from 'react-icons/fi'
 import { v4 as uuid } from 'uuid'
 
+// Utils Imports
+import { formatDate } from '../../../../utils/formatDate'
+
 // Typings[TypeScript]
 import { TransactionDataType } from '../../../../@types/TransactionDataType'
 
 export const DrawerTransactions: React.FC = () => {
   const { reset, control, setValue, register, formState, handleSubmit } =
     useForm<TransactionDataType>({
-      resolver: yupResolver(formValidation),
+      resolver: zodResolver(formValidation),
       mode: 'onBlur',
       defaultValues: {
         type: '',
         title: '',
         status: '',
         description: '',
+        valueTransaction: 0,
         anotherInformation: '',
+        dateDueTransaction: formatDate(new Date().toJSON()),
+        dateEntriesTransaction: formatDate(new Date().toJSON()),
       },
     })
 
@@ -118,7 +124,7 @@ export const DrawerTransactions: React.FC = () => {
     data,
   ) => {
     await mutateAsyncNewTransaction(
-      { id: uuid(), createdAt: new Date().getTime(), ...data },
+      { id: uuid(), createdAt: new Date().toJSON(), ...data },
       {
         onSuccess: () => {
           toast({ description: 'Lançamento criado com sucesso!', status: 'success' })

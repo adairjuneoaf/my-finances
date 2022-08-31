@@ -1,19 +1,19 @@
 // React Imports
-import React, { forwardRef, ForwardRefRenderFunction } from 'react'
+import { forwardRef, ForwardRefRenderFunction } from 'react'
 
 // Chakra Imports
 import {
+  FormControl,
+  FormErrorMessage,
   FormLabel,
   InputGroup,
-  FormControl,
-  NumberInput,
   InputLeftAddon,
-  FormErrorMessage,
-  NumberInputField,
-  NumberInputStepper,
-  NumberInputFieldProps,
-  NumberIncrementStepper,
   NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputFieldProps,
+  NumberInputStepper,
 } from '@chakra-ui/react'
 
 // Components Imports
@@ -55,7 +55,6 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, IInputComponentProps> = 
         <NumberInput
           min={0}
           precision={2}
-          defaultValue={0}
           width='100%'
           variant='filled'
           focusBorderColor='green.500'

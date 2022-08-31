@@ -3,13 +3,13 @@ export type TransactionDataType = {
   type: string
   title: string
   status: string
-  createdAt: number
+  createdAt: string
   description: string
   paymentMethod: string
   dataForPayment: string
   creditorDebtor: string
   valueTransaction: number
-  dateDueTransaction: number
+  dateDueTransaction: string
   anotherInformation: string
-  dateEntriesTransaction: number
+  dateEntriesTransaction: string
 }

@@ -5,10 +5,10 @@ import { apiRoute } from './axios'
 import { formatDate } from '../utils/formatDate'
 
 // Typings[TypeScript]
-import { TransactionDataType } from './../@types/TransactionDataType'
+import { DataResponseAPI } from '../@types/DataResponseAPI'
 import { CreditorDebtorType } from './../@types/CreditorDebtorType'
 import { PaymentMethodType } from './../@types/PaymentMethodType'
-import { DataResponseAPI } from '../@types/DataResponseAPI'
+import { TransactionDataType } from './../@types/TransactionDataType'
 
 interface DataPutType<DataType> {
   id: string

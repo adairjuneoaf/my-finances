@@ -2,49 +2,49 @@
 import { format, formatDistanceToNow } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
 
-export const formatDate = (dateValue: number) => {
+export const formatDate = (dateValue: string) => {
   const dateFormatted = new Intl.DateTimeFormat('fr-CA', {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
-  }).format(dateValue)
+  }).format(new Date(dateValue))
 
   return dateFormatted
 }
 
-export const formatDetailedDate = (dateValue: number | undefined) => {
+export const formatDetailedDate = (dateValue: string | undefined) => {
   if (!dateValue) {
     return ''
   }
 
-  const dateFormatted = format(dateValue, 'dd/MM/yyyy', {
+  const dateFormatted = format(new Date(dateValue), 'dd/MM/yyyy', {
     locale: ptBR,
   })
 
   return dateFormatted
 }
 
-export const formatDateForMonthYear = (dateValue: number | undefined) => {
+export const formatDateForMonthYear = (dateValue: string | undefined) => {
   if (!dateValue) {
     return ''
   }
 
-  const dateFormatted = format(dateValue, 'MM/yyyy', {
+  const dateFormatted = format(new Date(dateValue), 'MM/yyyy', {
     locale: ptBR,
   })
 
   return dateFormatted
 }
 
-export const formatDateToNow = (dateValue: number | undefined) => {
+export const formatDateToNow = (dateValue: string | undefined) => {
   if (!dateValue) {
     return ''
   }
 
-  const dateFormated = formatDistanceToNow(dateValue, {
+  const dateFormatted = formatDistanceToNow(new Date(dateValue), {
     addSuffix: true,
     locale: ptBR,
   })
 
-  return dateFormated
+  return dateFormatted
 }

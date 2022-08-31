@@ -104,7 +104,7 @@ const DrawerCreditorsDebtors: React.FC = () => {
     await mutateAsyncNewCreditorDebtor(
       {
         id: uuid(),
-        createdAt: new Date().getTime(),
+        createdAt: new Date().toJSON(),
         ...data,
       },
       {

@@ -2,6 +2,6 @@ export type PaymentMethodType = {
   id: string
   title: string
   status: string
-  createdAt: number
+  createdAt: string
   anotherInformation: string
 }

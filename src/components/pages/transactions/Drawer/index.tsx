@@ -1,5 +1,5 @@
 // Imports React
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useContextSelector } from 'use-context-selector'
 
 // Chakra Imports
@@ -73,6 +73,8 @@ export const DrawerTransactions: React.FC = () => {
       },
     })
 
+  const [transactionData, setTransactionData] = useState<TransactionDataType>()
+
   const isEditing = useContextSelector(TransactionsPageContext, (values) => values.isEditing)
   const isLoading = useContextSelector(TransactionsPageContext, (values) => values.isLoading)
   const toggleIsEditing = useContextSelector(
@@ -138,8 +140,19 @@ export const DrawerTransactions: React.FC = () => {
   }
 
   const submitEditTransaction: SubmitHandler<TransactionDataType> = async (data) => {
+    if (!transactionIdForEdit || !transactionData) {
+      return null
+    }
+
     await mutateAsyncEditTransaction(
-      { id: data.id, data },
+      {
+        id: transactionIdForEdit,
+        data: {
+          ...data,
+          id: transactionData.id,
+          createdAt: transactionData.createdAt,
+        },
+      },
       {
         onSuccess: () => {
           reset()
@@ -172,6 +185,7 @@ export const DrawerTransactions: React.FC = () => {
           Object.entries(response).forEach(([name, value]) =>
             setValue(name as keyof TransactionDataType, value),
           )
+          setTransactionData(response)
         })
         .catch((error) => {
           onClose()
@@ -184,6 +198,8 @@ export const DrawerTransactions: React.FC = () => {
           toggleIsLoading()
         })
     }
+
+    return () => setTransactionData(undefined)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEditing])
 

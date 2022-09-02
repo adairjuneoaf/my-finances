@@ -3,14 +3,7 @@ import React from 'react'
 import { useContextSelector } from 'use-context-selector'
 
 // Chakra Imports
-import {
-  HStack,
-  IconButton,
-  PopoverArrow,
-  PopoverBody,
-  PopoverContent,
-  Tooltip,
-} from '@chakra-ui/react'
+import { HStack, IconButton, Tooltip } from '@chakra-ui/react'
 
 // Contexts Imports
 import { TransactionsPageContext } from '../../../../contexts/pages/transactions'
@@ -75,46 +68,41 @@ const PopoverSubMenu: React.FC<PopoverActionProps> = ({ id }) => {
   }
 
   return (
-    <PopoverContent backgroundColor='gray.800' width='fit-content' borderColor='gray.700'>
-      <PopoverArrow backgroundColor='gray.800' />
-      <PopoverBody>
-        <HStack>
-          <Tooltip hasArrow label='Detalhes'>
-            <IconButton
-              aria-label='more-details-transaction'
-              icon={<FiEye fontSize='24' color='white' />}
-              backgroundColor='blue.500'
-              colorScheme='blue'
-              onClick={() => {
-                handleViewDetailsTransaction(id)
-              }}
-            />
-          </Tooltip>
-          <Tooltip hasArrow label='Editar'>
-            <IconButton
-              aria-label='edit-transaction'
-              icon={<FiEdit fontSize='24' color='white' />}
-              backgroundColor='green.500'
-              colorScheme='green'
-              onClick={() => {
-                handleEditTransaction(id)
-              }}
-            />
-          </Tooltip>
-          <Tooltip hasArrow label='Excluir'>
-            <IconButton
-              aria-label='delete-transaction'
-              icon={<FiTrash fontSize='24' color='white' />}
-              backgroundColor='red.500'
-              colorScheme='red'
-              onClick={() => {
-                handleDeleteTransaction(id)
-              }}
-            />
-          </Tooltip>
-        </HStack>
-      </PopoverBody>
-    </PopoverContent>
+    <HStack>
+      <Tooltip hasArrow label='Detalhes'>
+        <IconButton
+          aria-label='more-details-transaction'
+          icon={<FiEye fontSize='24' color='white' />}
+          backgroundColor='blue.500'
+          colorScheme='blue'
+          onClick={() => {
+            handleViewDetailsTransaction(id)
+          }}
+        />
+      </Tooltip>
+      <Tooltip hasArrow label='Editar'>
+        <IconButton
+          aria-label='edit-transaction'
+          icon={<FiEdit fontSize='24' color='white' />}
+          backgroundColor='green.500'
+          colorScheme='green'
+          onClick={() => {
+            handleEditTransaction(id)
+          }}
+        />
+      </Tooltip>
+      <Tooltip hasArrow label='Excluir'>
+        <IconButton
+          aria-label='delete-transaction'
+          icon={<FiTrash fontSize='24' color='white' />}
+          backgroundColor='red.500'
+          colorScheme='red'
+          onClick={() => {
+            handleDeleteTransaction(id)
+          }}
+        />
+      </Tooltip>
+    </HStack>
   )
 }
 

@@ -2,31 +2,32 @@
 import React, { Fragment } from 'react'
 
 // Components Imports
-import { Skeleton } from '../../../../common'
+import { SkeletonText } from '../../../../common'
 
 // Chakra Imports
 import { Th, Tr } from '@chakra-ui/react'
 
 // Typings[TypeScript]
 type SkeletonBodyProps = {
+  isLoading: boolean
   skeletonLines?: number
 }
 
-const SkeletonBody: React.FC<SkeletonBodyProps> = () => {
+const SkeletonBody: React.FC<SkeletonBodyProps> = ({ isLoading }) => {
   return (
     <Fragment>
       <Tr>
         <Th width='10%'>
-          <Skeleton isLoading>_</Skeleton>
+          <SkeletonText isLoading={isLoading}>_</SkeletonText>
         </Th>
         <Th width='20%'>
-          <Skeleton isLoading>_</Skeleton>
+          <SkeletonText isLoading={isLoading}>_</SkeletonText>
         </Th>
         <Th width='60%'>
-          <Skeleton isLoading>_</Skeleton>
+          <SkeletonText isLoading={isLoading}>_</SkeletonText>
         </Th>
         <Th width='10%'>
-          <Skeleton isLoading>_</Skeleton>
+          <SkeletonText isLoading={isLoading}>_</SkeletonText>
         </Th>
       </Tr>
     </Fragment>

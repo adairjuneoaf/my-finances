@@ -28,14 +28,13 @@ import { RiAddFill } from 'react-icons/ri'
 import { TransactionsPageContext } from '../../../contexts/pages/transactions/index'
 
 export const Container: React.FC = () => {
-  const drawerDisclosure = useContextSelector(
+  const { onOpen } = useContextSelector(
     TransactionsPageContext,
     (values) => values.drawerDisclosure,
   )
   const { transactions } = useReactQuery()
 
   const { isFetching, isLoading } = transactions
-  const { onOpen } = drawerDisclosure
 
   return (
     <Fragment>

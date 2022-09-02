@@ -1,5 +1,6 @@
 // Imports React
-import React, { useContext, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useContextSelector } from 'use-context-selector'
 
 // Chakra Imports
 import {
@@ -64,23 +65,36 @@ const DrawerPaymentMethods: React.FC = () => {
       },
     })
 
-  const {
-    isEditing,
-    isLoading,
-    disclosure,
-    toggleIsEditing,
-    toggleIsLoading,
-    paymentMethodIdForEdit,
-    resetPaymentMethodIdForEdit,
-  } = useContext(PaymentMethodsPageContext)
+  const [paymentMethodData, setPaymentMethodData] = useState<PaymentMethodType>()
+
+  const isEditing = useContextSelector(PaymentMethodsPageContext, (values) => values.isEditing)
+  const isLoading = useContextSelector(PaymentMethodsPageContext, (values) => values.isLoading)
+  const { onClose, isOpen } = useContextSelector(
+    PaymentMethodsPageContext,
+    (values) => values.drawerDisclosure,
+  )
+  const toggleIsEditing = useContextSelector(
+    PaymentMethodsPageContext,
+    (values) => values.toggleIsEditing,
+  )
+  const toggleIsLoading = useContextSelector(
+    PaymentMethodsPageContext,
+    (values) => values.toggleIsLoading,
+  )
+  const paymentMethodIdForEdit = useContextSelector(
+    PaymentMethodsPageContext,
+    (values) => values.paymentMethodIdForEdit,
+  )
+  const resetPaymentMethodIdForEdit = useContextSelector(
+    PaymentMethodsPageContext,
+    (values) => values.resetPaymentMethodIdForEdit,
+  )
 
   const toast = useToast({
     position: 'top',
     duration: 1000 * 3, // 3 Seconds
     title: 'Métodos de Pagamento',
   })
-
-  const { onClose, isOpen } = disclosure
 
   const { errors, isSubmitting } = formState
 
@@ -120,8 +134,18 @@ const DrawerPaymentMethods: React.FC = () => {
   }
 
   const submitEditPaymentMethod: SubmitHandler<PaymentMethodType> = async (data) => {
+    if (!paymentMethodIdForEdit || !paymentMethodData) {
+      return null
+    }
+
     await mutateAsyncEditPaymentMethod(
-      { id: data.id, data },
+      {
+        id: paymentMethodIdForEdit,
+        data: {
+          ...data,
+          createdAt: paymentMethodData.createdAt,
+        },
+      },
       {
         onSuccess: () => {
           toast({ description: 'Método de Pagamento editado com sucesso!', status: 'success' })
@@ -154,6 +178,7 @@ const DrawerPaymentMethods: React.FC = () => {
           Object.entries(response).forEach(([name, value]) =>
             setValue(name as keyof PaymentMethodType, value),
           )
+          setPaymentMethodData(response)
         })
         .catch((error) => {
           onClose()
@@ -166,6 +191,8 @@ const DrawerPaymentMethods: React.FC = () => {
           toggleIsLoading()
         })
     }
+
+    return () => setPaymentMethodData(undefined)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEditing])
 

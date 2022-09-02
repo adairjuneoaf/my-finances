@@ -5,22 +5,22 @@ import React, { useState } from 'react'
 
 // Chakra Imports
 import {
-  Tr,
-  Th,
-  Text,
-  Flex,
-  Tfoot,
-  Table,
-  Tbody,
-  Thead,
-  TableContainer,
   Button,
+  Flex,
+  Table,
+  TableContainer,
+  Tbody,
+  Text,
+  Tfoot,
+  Th,
+  Thead,
+  Tr,
 } from '@chakra-ui/react'
 
 // Components Imports
-import TableHead from './TableHead'
-import TableBody from './TableBody'
 import SkeletonBody from './SkeletonBody'
+import TableBody from './TableBody'
+import TableHead from './TableHead'
 
 // Hooks Imports
 import { useReactQuery } from '../../../../../hooks/useReactQuery'
@@ -67,19 +67,21 @@ export const TablePaymentMethods: React.FC = () => {
             </Tr>
           )}
 
+          {!data && isLoading && (
+            <>
+              <SkeletonBody isLoading={isLoading} />
+              <SkeletonBody isLoading={isLoading} />
+              <SkeletonBody isLoading={isLoading} />
+              <SkeletonBody isLoading={isLoading} />
+              <SkeletonBody isLoading={isLoading} />
+            </>
+          )}
+
           {data &&
             !isLoading &&
             currentPaymentMethods?.map((data, idx) => {
               return <TableBody key={data.id} {...data} index={idx + 1} />
             })}
-
-          {!data && isLoading && (
-            <>
-              <SkeletonBody />
-              <SkeletonBody />
-              <SkeletonBody />
-            </>
-          )}
         </Tbody>
         <Tfoot>
           <Tr>

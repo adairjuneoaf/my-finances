@@ -1,11 +1,23 @@
 // Imports React
-import React, { Fragment } from 'react'
+import React, { Fragment, lazy, Suspense } from 'react'
 
 // Components Imports
-import PopoverActions from '../PopoverActions'
+const PopoverActions = lazy(() => import('../PopoverActions'))
 
 // Chakra Imports
-import { Badge, Button, Popover, PopoverTrigger, Th, Tooltip, Tr, VStack } from '@chakra-ui/react'
+import {
+  Badge,
+  Button,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverContent,
+  PopoverTrigger,
+  Th,
+  Tooltip,
+  Tr,
+  VStack,
+} from '@chakra-ui/react'
 
 // Utils Imports
 import { formatValueToMoney } from '../../../../utils/formatValueToMoney'
@@ -73,7 +85,14 @@ const TableBody: React.FC<TableBodyProps> = ({
                 </Button>
               </PopoverTrigger>
             </Tooltip>
-            <PopoverActions id={id} />
+            <PopoverContent backgroundColor='gray.800' width='fit-content' borderColor='gray.700'>
+              <PopoverArrow backgroundColor='gray.800' />
+              <PopoverBody>
+                <Suspense key={id}>
+                  <PopoverActions id={id} />
+                </Suspense>
+              </PopoverBody>
+            </PopoverContent>
           </Popover>
         </Th>
       </Tr>

@@ -36,12 +36,17 @@ export interface TransactionsPageContextProps {
 export interface PaymentMethodsPageContextProps {
   isEditing: boolean
   isLoading: boolean
-  disclosure: UseDisclosureReturn
   toggleIsEditing: () => void
   toggleIsLoading: () => void
+  modalDisclosure: UseDisclosureReturn
+  dialogDisclosure: UseDisclosureReturn
+  drawerDisclosure: UseDisclosureReturn
   paymentMethodIdForEdit: string | null
   resetPaymentMethodIdForEdit: () => void
   selectPaymentMethodIdForEdit: (id: string) => void
+  paymentMethodIdForViewDetails: string | null
+  resetPaymentMethodIdForViewDetails: () => void
+  selectPaymentMethodIdForViewDetails: (id: string) => void
 }
 
 export interface CreditorsDebtorsPageContextProps {

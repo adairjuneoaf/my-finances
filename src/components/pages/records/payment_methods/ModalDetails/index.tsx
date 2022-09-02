@@ -1,34 +1,42 @@
 // Imports React
-import React from 'react'
+import { useContextSelector } from 'use-context-selector'
 
 // Chakra Imports
 import {
-  Text,
   Badge,
-  Modal,
   HStack,
-  VStack,
+  Modal,
   ModalBody,
-  ModalHeader,
-  ModalFooter,
-  ModalContent,
-  ModalOverlay,
   ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text,
+  VStack,
 } from '@chakra-ui/react'
 
 // Utils Imports
-import { formatDateToNow } from '../../../../../../utils/formatDate'
+import { PaymentMethodsPageContext } from '../../../../../contexts/pages/records'
+import { formatDateToNow } from '../../../../../utils/formatDate'
+import { getDataPaymentMethod } from './helpers'
 
-// Typings[TypeScript]
-import { PaymentMethodType } from '../../../../../../@types/PaymentMethodType'
+export const ModalDetailsPaymentMethods = () => {
+  const modalDisclosure = useContextSelector(
+    PaymentMethodsPageContext,
+    (values) => values.modalDisclosure,
+  )
+  const paymentMethodIdForViewDetails = useContextSelector(
+    PaymentMethodsPageContext,
+    (values) => values.paymentMethodIdForViewDetails,
+  )
 
-interface IModalProps {
-  isOpen: boolean
-  onClose: () => void
-  data?: PaymentMethodType
-}
+  const { isOpen, onClose } = modalDisclosure
 
-export default function ModalDetailsPaymentMethods({ isOpen, onClose, data }: IModalProps) {
+  const paymentMethodData = getDataPaymentMethod(paymentMethodIdForViewDetails)
+
+  const { paymentMethod } = paymentMethodData
+
   return (
     <Modal
       closeOnEsc
@@ -61,16 +69,16 @@ export default function ModalDetailsPaymentMethods({ isOpen, onClose, data }: IM
         <ModalBody paddingX='8'>
           <VStack spacing='2' alignItems='flex-start'>
             <Text as='h2' fontSize='22px' fontWeight='semibold'>
-              {data?.title}
+              {paymentMethod?.title}
             </Text>
           </VStack>
           <HStack marginY='4' spacing='3'>
-            {data?.status === '1' && (
+            {paymentMethod?.status === '1' && (
               <Badge variant='solid' colorScheme='green' padding='1'>
                 ATIVO
               </Badge>
             )}
-            {data?.status === '0' && (
+            {paymentMethod?.status === '0' && (
               <Badge variant='solid' colorScheme='red' padding='1'>
                 INATIVO
               </Badge>
@@ -80,7 +88,7 @@ export default function ModalDetailsPaymentMethods({ isOpen, onClose, data }: IM
             <Text as='p' fontSize='16px' fontStyle='italic' fontWeight='semibold' color='gray.600'>
               Outras informações do método de pagamento
             </Text>
-            {data?.anotherInformation ? (
+            {paymentMethod?.anotherInformation ? (
               <Text
                 as='p'
                 fontSize='16px'
@@ -90,7 +98,7 @@ export default function ModalDetailsPaymentMethods({ isOpen, onClose, data }: IM
                 backgroundColor='gray.900'
                 borderRadius='5'
               >
-                {data.anotherInformation}
+                {paymentMethod.anotherInformation}
               </Text>
             ) : (
               <Text
@@ -115,7 +123,8 @@ export default function ModalDetailsPaymentMethods({ isOpen, onClose, data }: IM
           cursor='default'
           justifyContent='flex-start'
         >
-          {data?.id} {data?.createdAt && `- criado ${formatDateToNow(data?.createdAt)}`}
+          {paymentMethod?.id}&nbsp;
+          {paymentMethod?.createdAt && `- criado ${formatDateToNow(paymentMethod?.createdAt)}`}
         </ModalFooter>
       </ModalContent>
     </Modal>

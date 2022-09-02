@@ -19,9 +19,6 @@ import {
 // Contexts Imports
 import { TransactionsPageContext } from '../../../../contexts/pages/transactions'
 
-// date-fns Imports
-import { fromUnixTime } from 'date-fns'
-
 // Utils Imports
 import { formatDateToNow, formatDetailedDate } from '../../../../utils/formatDate'
 import { formatValueToMoney } from '../../../../utils/formatValueToMoney'
@@ -106,19 +103,13 @@ export const ModalDetailsTransaction = () => {
           <VStack marginY='4' spacing='2' alignItems='flex-start'>
             <Text as='p' fontSize='16px'>
               Lançamento - &nbsp;
-              <time
-                dateTime={`${fromUnixTime(Number(transaction?.dateEntriesTransaction) / 1000)}`}
-                style={{ fontWeight: '600' }}
-              >
+              <time dateTime={transaction?.dateEntriesTransaction} style={{ fontWeight: '600' }}>
                 {formatDetailedDate(transaction?.dateEntriesTransaction)}
               </time>
             </Text>
             <Text as='p' fontSize='16px'>
               Vencimento - &nbsp;
-              <time
-                dateTime={`${fromUnixTime(Number(transaction?.dateDueTransaction) / 1000)}`}
-                style={{ fontWeight: '600' }}
-              >
+              <time dateTime={transaction?.dateDueTransaction} style={{ fontWeight: '600' }}>
                 {formatDetailedDate(transaction?.dateDueTransaction)}
               </time>
             </Text>

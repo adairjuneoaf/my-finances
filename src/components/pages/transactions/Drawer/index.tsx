@@ -77,6 +77,10 @@ export const DrawerTransactions: React.FC = () => {
 
   const isEditing = useContextSelector(TransactionsPageContext, (values) => values.isEditing)
   const isLoading = useContextSelector(TransactionsPageContext, (values) => values.isLoading)
+  const { isOpen, onClose } = useContextSelector(
+    TransactionsPageContext,
+    (values) => values.drawerDisclosure,
+  )
   const toggleIsEditing = useContextSelector(
     TransactionsPageContext,
     (values) => values.toggleIsEditing,
@@ -84,10 +88,6 @@ export const DrawerTransactions: React.FC = () => {
   const toggleIsLoading = useContextSelector(
     TransactionsPageContext,
     (values) => values.toggleIsLoading,
-  )
-  const drawerDisclosure = useContextSelector(
-    TransactionsPageContext,
-    (values) => values.drawerDisclosure,
   )
   const transactionIdForEdit = useContextSelector(
     TransactionsPageContext,
@@ -103,8 +103,6 @@ export const DrawerTransactions: React.FC = () => {
     duration: 1000 * 3, // 3 Seconds
     title: 'Lançamentos',
   })
-
-  const { isOpen, onClose } = drawerDisclosure
 
   const { errors, isSubmitting } = formState
 

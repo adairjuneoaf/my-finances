@@ -1,5 +1,6 @@
 // Imports React
-import React, { Fragment, useContext } from 'react'
+import React, { Fragment } from 'react'
+import { useContextSelector } from 'use-context-selector'
 
 // Chakra Imports
 import { Box, Button, HStack, Spinner, Text } from '@chakra-ui/react'
@@ -17,10 +18,11 @@ import { useReactQuery } from '../../../../hooks/useReactQuery'
 import { FiCreditCard } from 'react-icons/fi'
 
 export const Container: React.FC = () => {
-  const { disclosure } = useContext(PaymentMethodsPageContext)
+  const { onOpen } = useContextSelector(
+    PaymentMethodsPageContext,
+    (values) => values.drawerDisclosure,
+  )
   const { paymentMethods } = useReactQuery()
-
-  const { onOpen } = disclosure
 
   const { isFetching, isLoading } = paymentMethods
 

@@ -1,9 +1,6 @@
 // Imports React
 import React, { useMemo, useState } from 'react'
 
-// Imports Next
-import { useRouter } from 'next/router'
-
 // Chakra Imports
 import {
   Button,
@@ -33,8 +30,6 @@ import { FiZoomIn } from 'react-icons/fi'
 const SIZE_PER_LOAD = 5
 
 export const TableTransactions: React.FC = () => {
-  const { asPath } = useRouter()
-
   const { transactions } = useReactQuery()
 
   const { data, isLoading } = transactions
@@ -94,26 +89,26 @@ export const TableTransactions: React.FC = () => {
             })}
         </Tbody>
 
-        {hasLoadMore && asPath === '/transactions' && (
-          <Tfoot>
-            <Tr>
-              <Th
-                colSpan={6}
-                width='100%'
-                paddingTop='8'
-                paddingBottom='0'
-                textTransform='none'
-                color='gray.300'
+        <Tfoot>
+          <Tr>
+            <Th
+              colSpan={6}
+              width='100%'
+              paddingTop='8'
+              paddingBottom='0'
+              textTransform='none'
+              color='gray.300'
+            >
+              <Flex
+                alignItems='flex-end'
+                flexDirection='column'
+                justifyContent='space-between'
+                gap='4'
               >
-                <Flex
-                  alignItems='flex-end'
-                  flexDirection='column'
-                  justifyContent='space-between'
-                  gap='4'
-                >
-                  <Text fontSize='13px'>
-                    {currentTransactions?.length} lançamentos exibidos de {data?.length} no total
-                  </Text>
+                <Text fontSize='13px'>
+                  {currentTransactions?.length} lançamentos exibidos de {data?.length} no total
+                </Text>
+                {hasLoadMore && (
                   <Button
                     type='button'
                     width='100%'
@@ -123,33 +118,11 @@ export const TableTransactions: React.FC = () => {
                   >
                     Mostrar mais lançamentos
                   </Button>
-                </Flex>
-              </Th>
-            </Tr>
-          </Tfoot>
-        )}
-
-        {!hasLoadMore && asPath === '/transactions' && (
-          <Tfoot>
-            <Tr>
-              <Th
-                colSpan={6}
-                width='100%'
-                paddingTop='8'
-                paddingBottom='0'
-                textTransform='none'
-                color='gray.300'
-              >
-                <Flex alignItems='center' flexDirection='row' justifyContent='space-between'>
-                  <Text>** Fim da lista, não existem mais lançamentos há serem carregados.</Text>
-                  <Text fontSize='13px'>
-                    {currentTransactions?.length} lançamentos exibidos de {data?.length} no total
-                  </Text>
-                </Flex>
-              </Th>
-            </Tr>
-          </Tfoot>
-        )}
+                )}
+              </Flex>
+            </Th>
+          </Tr>
+        </Tfoot>
       </Table>
     </TableContainer>
   )
